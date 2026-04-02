@@ -157,13 +157,16 @@ export default function Header({
           <button key={i}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 5,
-              padding: '7px 13px', borderRadius: 20, flexShrink: 0,
-              background: 'rgba(255,255,255,0.11)',
-              border: '1px solid rgba(255,255,255,0.16)',
-              color: '#fff', cursor: 'pointer',
-              fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap',
+              padding: '6px 13px', borderRadius: 20, flexShrink: 0,
+              background: 'rgba(255,255,255,0.09)',
+              border: '1px solid rgba(255,255,255,0.15)',
+              color: 'rgba(255,255,255,0.92)', cursor: 'pointer',
+              fontSize: 11.5, fontWeight: 600, whiteSpace: 'nowrap',
               fontFamily: "'Tajawal',sans-serif",
+              transition: 'background 0.15s ease, border-color 0.15s ease',
             }}
+            onMouseEnter={e=>{e.currentTarget.style.background='rgba(255,255,255,0.18)';e.currentTarget.style.borderColor='rgba(255,255,255,0.28)';}}
+            onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.09)';e.currentTarget.style.borderColor='rgba(255,255,255,0.15)';}}
             onClick={() => { setActiveView('chat'); sendMessage(b.q); }}
           >
             <span style={{ fontSize: 14 }}>{b.icon}</span>

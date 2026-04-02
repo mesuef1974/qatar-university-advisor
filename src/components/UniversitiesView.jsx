@@ -120,32 +120,40 @@ export default function UniversitiesView({
             <button
               style={{
                 ...S.ib,
-                background: isFav ? 'rgba(197,165,90,0.15)' : 'rgba(138,21,56,0.06)',
+                background: isFav ? 'rgba(197,165,90,0.12)' : 'rgba(138,21,56,0.05)',
                 color: isFav ? '#C5A55A' : '#9CA3AF',
-                fontSize: 15,
+                transition: 'all 0.18s ease',
               }}
               onClick={(e) => { e.stopPropagation(); toggleFav(u.id); }}
               aria-label="مفضلة"
             >
-              {isFav ? '⭐' : '☆'}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill={isFav ? '#C5A55A' : 'none'} stroke={isFav ? '#C5A55A' : '#9CA3AF'} strokeWidth="1.8" strokeLinejoin="round">
+                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+              </svg>
             </button>
             <button
               style={{
                 ...S.ib,
-                background: isCmp ? 'rgba(16,185,129,0.1)' : 'rgba(138,21,56,0.06)',
+                background: isCmp ? 'rgba(5,150,105,0.08)' : 'rgba(138,21,56,0.05)',
                 color: isCmp ? '#059669' : '#9CA3AF',
-                fontSize: 14,
+                transition: 'all 0.18s ease',
               }}
               onClick={(e) => { e.stopPropagation(); toggleCmp(u.id); }}
               aria-label="مقارنة"
             >
-              {isCmp ? '✅' : '📊'}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={isCmp ? '#059669' : '#9CA3AF'} strokeWidth="1.8" strokeLinecap="round">
+                <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+              </svg>
             </button>
-            <span style={{
-              fontSize: 11, color: '#9CA3AF', paddingRight: 2,
+            <div style={{
+              width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: '#9CA3AF', transition: 'transform 0.22s ease',
               transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-              transition: 'transform 0.2s', display: 'inline-block',
-            }}>▼</span>
+            }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <polyline points="6,9 12,15 18,9"/>
+              </svg>
+            </div>
           </div>
         </div>
 
@@ -209,28 +217,57 @@ export default function UniversitiesView({
 
   return (
     <div style={S.vc}>
-      <div style={S.vh}>
-        <h2 style={S.vt}>🏛️ الجامعات في قطر</h2>
-        <p style={S.vs}>{allUnis.length} مؤسسة تعليمية — اضغط للتفاصيل</p>
+      {/* ── Header ── */}
+      <div style={{
+        marginBottom: 14, padding: '10px 0 16px',
+        borderBottom: '1px solid rgba(138,21,56,0.09)',
+      }}>
+        <h2 style={{ ...S.vt, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{
+            width: 36, height: 36, borderRadius: 10,
+            background: 'linear-gradient(135deg,#8A1538,#6B1030)',
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 18,
+          }}>🏛️</span>
+          الجامعات في قطر
+        </h2>
+        <p style={{ ...S.vs, marginTop: 6 }}>{allUnis.length} مؤسسة تعليمية — اضغط على أي بطاقة للتفاصيل</p>
       </div>
 
       {/* Search */}
-      <div style={{ marginBottom: 10 }}>
-        <input
-          type="text"
-          placeholder="🔍 ابحث عن جامعة أو تخصص..."
-          value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
-          style={{
-            width: '100%', padding: '11px 16px', borderRadius: 12,
-            border: '1.5px solid #E5DDD5', fontSize: 14, textAlign: 'right',
-            direction: 'rtl', outline: 'none', color: '#1C1C1E',
-            background: '#fff', fontFamily: "'Tajawal',sans-serif",
-            boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
-          }}
-          onFocus={e => e.target.style.borderColor = '#8A1538'}
-          onBlur={e => e.target.style.borderColor = '#E5DDD5'}
-        />
+      <div style={{ marginBottom: 12, position: 'relative' }}>
+        <div style={{
+          display: 'flex', alignItems: 'center',
+          background: '#fff', borderRadius: 14,
+          border: '1.5px solid rgba(138,21,56,0.15)',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+          padding: '3px 14px',
+          transition: 'all 0.2s ease',
+        }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A1538" strokeWidth="2" strokeLinecap="round" style={{ flexShrink: 0, opacity: 0.5 }}>
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input
+            type="text"
+            placeholder="ابحث عن جامعة أو تخصص..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            style={{
+              flex: 1, padding: '10px 10px', border: 'none',
+              fontSize: 14, textAlign: 'right', direction: 'rtl',
+              outline: 'none', color: '#1C1C1E', background: 'transparent',
+              fontFamily: "'Tajawal',sans-serif",
+            }}
+            onFocus={e => e.target.closest('div').style.borderColor = '#8A1538'}
+            onBlur={e => e.target.closest('div').style.borderColor = 'rgba(138,21,56,0.15)'}
+          />
+          {searchQuery && (
+            <button onClick={() => setSearchQuery('')} style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              color: '#9CA3AF', fontSize: 16, padding: '0 2px', flexShrink: 0,
+            }}>✕</button>
+          )}
+        </div>
       </div>
 
       {/* Category filter chips */}
@@ -243,7 +280,7 @@ export default function UniversitiesView({
             key={cat.key}
             onClick={() => setActiveCategory(cat.key)}
             style={{
-              padding: '7px 14px', borderRadius: 20, fontSize: 12,
+              padding: '7px 15px', borderRadius: 20, fontSize: 12,
               fontWeight: activeCategory === cat.key ? 700 : 500,
               fontFamily: "'Tajawal',sans-serif",
               background: activeCategory === cat.key
@@ -251,13 +288,13 @@ export default function UniversitiesView({
                 : '#fff',
               color: activeCategory === cat.key ? '#fff' : '#374151',
               border: activeCategory === cat.key
-                ? 'none'
+                ? '1.5px solid transparent'
                 : '1.5px solid #E5E7EB',
               cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
               boxShadow: activeCategory === cat.key
-                ? '0 3px 10px rgba(138,21,56,0.25)'
-                : 'none',
-              transition: 'all 0.18s',
+                ? '0 3px 12px rgba(138,21,56,0.28)'
+                : '0 1px 3px rgba(0,0,0,0.04)',
+              transition: 'all 0.2s cubic-bezier(0.34,1.56,0.64,1)',
             }}
           >
             {cat.icon} {cat.label}

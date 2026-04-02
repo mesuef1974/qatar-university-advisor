@@ -395,16 +395,17 @@ export default function QatarUniversityAdvisor() {
     return (
       <div style={{
         display:'flex', flexDirection:'column',
-        height:'100dvh',
-        maxWidth:typeof window!=='undefined'&&window.innerWidth>=1024?520:480,
-        width:'100%', margin:'0 auto',
+        height:'100dvh', width:'100%',
+        ...(()=>{
+          const vw = typeof window!=='undefined' ? window.innerWidth : 400;
+          if (vw>=1024) return {maxWidth:'100%',margin:0,borderRadius:0,boxShadow:'none'};
+          if (vw>=768)  return {maxWidth:520,margin:'0 auto',borderRadius:20,boxShadow:'0 24px 64px rgba(0,0,0,0.35)'};
+          return {maxWidth:'100%',margin:0,borderRadius:0,boxShadow:'none'};
+        })(),
         background:'linear-gradient(160deg,#8A1538 0%,#6B1030 52%,#4A0B22 100%)',
         direction:'rtl', overflow:'hidden',
         fontFamily:"'Tajawal','Segoe UI',sans-serif",
         position:'relative',
-        borderRadius:typeof window!=='undefined'&&window.innerWidth>=768?20:0,
-        boxShadow:typeof window!=='undefined'&&window.innerWidth>=768
-          ?'0 24px 64px rgba(0,0,0,0.35)':'none',
       }}>
         {/* Top gold bar */}
         <div style={{height:3,background:'linear-gradient(90deg,transparent,#C5A55A 40%,#C5A55A 60%,transparent)',flexShrink:0}}/>
@@ -468,26 +469,32 @@ export default function QatarUniversityAdvisor() {
           </p>
 
           {/* Selection cards */}
-          <div style={{display:'flex',gap:12,width:'100%',maxWidth:340}}>
+          <div style={{display:'flex',gap:14,width:'100%',maxWidth:360}}>
             {[
               {val:'qatari',     flag:'🇶🇦',title:'قطري / قطرية',   sub:'تعليم مجاني · ابتعاث أميري'},
               {val:'non_qatari', flag:'🌍', title:'مقيم في قطر', sub:'منح مؤسسة قطر · HBKU'},
             ].map(({val,flag,title,sub})=>(
               <button key={val}
                 onClick={()=>selectNationality(val)}
+                onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow='0 12px 32px rgba(0,0,0,0.25)';}}
+                onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='';}}
                 style={{
-                  flex:1, borderRadius:16, padding:'20px 10px',
+                  flex:1, borderRadius:18, padding:'22px 12px',
                   color:'#fff', cursor:'pointer', textAlign:'center',
                   fontFamily:"'Tajawal',sans-serif",
-                  background: val==='qatari' ? 'rgba(197,165,90,0.12)' : 'rgba(255,255,255,0.07)',
+                  background: val==='qatari'
+                    ? 'linear-gradient(145deg,rgba(197,165,90,0.18),rgba(197,165,90,0.06))'
+                    : 'rgba(255,255,255,0.07)',
                   border: val==='qatari'
-                    ? '1.5px solid rgba(197,165,90,0.5)'
-                    : '1.5px solid rgba(255,255,255,0.18)',
+                    ? '1.5px solid rgba(197,165,90,0.55)'
+                    : '1.5px solid rgba(255,255,255,0.2)',
+                  transition:'transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s ease',
+                  backdropFilter:'blur(8px)',
                 }}
               >
-                <div style={{fontSize:34,marginBottom:9}}>{flag}</div>
+                <div style={{fontSize:36,marginBottom:10}}>{flag}</div>
                 <div style={{fontSize:14,fontWeight:700,lineHeight:1.3}}>{title}</div>
-                <div style={{fontSize:11,color:'rgba(255,255,255,0.5)',marginTop:6,lineHeight:1.6}}>{sub}</div>
+                <div style={{fontSize:11,color:'rgba(255,255,255,0.5)',marginTop:7,lineHeight:1.6}}>{sub}</div>
               </button>
             ))}
           </div>
@@ -537,12 +544,13 @@ export default function QatarUniversityAdvisor() {
         {activeView==='chat'&&(
           <>
             {/* Messages scroll area */}
-            <div style={{flex:1,overflowY:'auto',padding:'16px 14px 8px',background:'#EDE5DA'}}>
+            <div style={{flex:1,overflowY:'auto',padding:'16px 14px 8px',background:'#EDE5DA',backgroundImage:'radial-gradient(circle,rgba(138,21,56,0.055) 1.5px,transparent 1.5px)',backgroundSize:'24px 24px'}}>
               {messages.map(msg=>(
                 <div key={msg.id} style={{
                   display:'flex', gap:8, marginBottom:16,
                   alignItems:'flex-end',
                   flexDirection: msg.type==='user' ? 'row-reverse' : 'row',
+                  animation:'msgIn 0.25s ease-out',
                 }}>
                   {/* Bot avatar */}
                   {msg.type==='bot'&&(
@@ -559,21 +567,21 @@ export default function QatarUniversityAdvisor() {
                   <div style={{maxWidth:'78%'}}>
                     {/* Bubble */}
                     <div style={{
-                      padding:'11px 15px',
+                      padding:'12px 16px',
                       borderRadius: msg.type==='user'
                         ? '18px 4px 18px 18px'
                         : '4px 18px 18px 18px',
-                      fontSize:13, wordBreak:'break-word', lineHeight:1.7,
+                      fontSize:13.5, wordBreak:'break-word', lineHeight:1.75,
                       ...(msg.type==='user'
                         ? {
                             background:'linear-gradient(135deg,#8A1538 0%,#6B1030 100%)',
                             color:'#fff',
-                            boxShadow:'0 3px 10px rgba(138,21,56,0.28)',
+                            boxShadow:'0 4px 14px rgba(138,21,56,0.22)',
                           }
                         : {
                             background:'#fff',
                             color:'#1C1C1E',
-                            boxShadow:'0 2px 8px rgba(0,0,0,0.08)',
+                            boxShadow:'0 1px 3px rgba(0,0,0,0.06),0 4px 14px rgba(0,0,0,0.06)',
                           }),
                     }}>
                       {renderText(msg.content.text)}
@@ -593,7 +601,10 @@ export default function QatarUniversityAdvisor() {
                         justifyContent: msg.type==='user' ? 'flex-end' : 'flex-start',
                       }}>
                         {msg.suggestions.map((s,si)=>(
-                          <button key={si} style={S.sugg} onClick={()=>sendMessage(s)}>{s}</button>
+                          <button key={si} style={S.sugg} onClick={()=>sendMessage(s)}
+                            onMouseEnter={e=>{e.currentTarget.style.background='rgba(138,21,56,0.1)';e.currentTarget.style.transform='translateY(-1px)';e.currentTarget.style.boxShadow='0 3px 8px rgba(138,21,56,0.12)';}}
+                            onMouseLeave={e=>{e.currentTarget.style.background='linear-gradient(135deg,rgba(138,21,56,0.03),rgba(138,21,56,0.06))';e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 1px 4px rgba(0,0,0,0.06)';}}
+                          >{s}</button>
                         ))}
                       </div>
                     )}
@@ -633,70 +644,82 @@ export default function QatarUniversityAdvisor() {
 
             {/* Quick topic chips */}
             <div style={{
-              display:'flex', gap:6, padding:'8px 14px',
-              background:'rgba(237,229,218,0.97)',
-              borderTop:'1px solid rgba(197,165,90,0.18)',
+              display:'flex', gap:6, padding:'7px 14px',
+              background:'#EDE5DA',
+              borderTop:'1px solid rgba(0,0,0,0.07)',
               overflowX:'auto', flexShrink:0, alignItems:'center',
               msOverflowStyle:'none', scrollbarWidth:'none',
             }}>
               {['هندسة البترول','الكليات العسكرية','وايل كورنيل','الابتعاث الأميري','SAT دليل'].map((q,qi)=>(
                 <button key={qi}
                   style={{
-                    padding:'6px 13px',
-                    background:'rgba(255,255,255,0.88)',
-                    border:'1px solid rgba(138,21,56,0.22)',
-                    borderRadius:14, fontSize:11, fontWeight:600,
-                    color:'#8A1538', cursor:'pointer', whiteSpace:'nowrap', flexShrink:0,
+                    padding:'5px 12px',
+                    background:'rgba(255,255,255,0.78)',
+                    border:'1px solid rgba(138,21,56,0.16)',
+                    borderRadius:12, fontSize:11, fontWeight:500,
+                    color:'#6B1030', cursor:'pointer', whiteSpace:'nowrap', flexShrink:0,
                     fontFamily:"'Tajawal',sans-serif",
+                    boxShadow:'0 1px 3px rgba(0,0,0,0.05)',
+                    transition:'all 0.15s ease',
                   }}
+                  onMouseEnter={e=>{e.currentTarget.style.background='rgba(138,21,56,0.08)';e.currentTarget.style.color='#8A1538';}}
+                  onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.78)';e.currentTarget.style.color='#6B1030';}}
                   onClick={()=>sendMessage(q)}>{q}</button>
               ))}
             </div>
 
             {/* Input area */}
             <div style={{
-              display:'flex', gap:8, padding:'10px 12px',
+              padding:'10px 14px',
               paddingBottom:'max(10px,env(safe-area-inset-bottom,10px))',
               background:'#fff',
               borderTop:'1px solid rgba(0,0,0,0.06)',
-              alignItems:'center', flexShrink:0,
-              boxShadow:'0 -2px 12px rgba(0,0,0,0.05)',
+              flexShrink:0,
+              boxShadow:'0 -2px 16px rgba(0,0,0,0.05)',
             }}>
-              <input
-                style={{
-                  flex:1, padding:'12px 16px',
-                  border:'1.5px solid #E5DDD5', borderRadius:24,
-                  fontSize:14, outline:'none',
-                  background:'#F8F5F2', color:'#1C1C1E',
-                  textAlign:'right',
-                  fontFamily:"'Tajawal',sans-serif",
-                }}
-                value={input}
-                onChange={e=>setInput(e.target.value)}
-                onKeyDown={e=>e.key==='Enter'&&sendMessage()}
-                onFocus={e=>e.target.style.borderColor='#8A1538'}
-                onBlur={e=>e.target.style.borderColor='#E5DDD5'}
-                placeholder="اسأل عن خطة دراسية، مواد، مقارنة..."
-              />
-              <button
-                style={{
-                  width:44, height:44, borderRadius:'50%', border:'none',
-                  color:'#fff', cursor:'pointer', flexShrink:0,
-                  display:'flex', alignItems:'center', justifyContent:'center',
-                  background: input.trim()
-                    ? 'linear-gradient(135deg,#8A1538,#6B1030)'
-                    : '#E5E7EB',
-                  boxShadow: input.trim()
-                    ? '0 4px 14px rgba(138,21,56,0.35)'
-                    : 'none',
-                  transition:'all 0.2s',
-                }}
-                onClick={()=>sendMessage()}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill={input.trim()?'#fff':'#9CA3AF'}>
-                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-                </svg>
-              </button>
+              <div style={{
+                display:'flex', alignItems:'center',
+                background:'#F5F0EB',
+                borderRadius:28,
+                border:'1.5px solid rgba(138,21,56,0.13)',
+                padding:'4px 4px 4px 8px',
+                transition:'all 0.2s ease',
+              }}>
+                <input
+                  style={{
+                    flex:1, padding:'9px 10px',
+                    border:'none', background:'transparent',
+                    fontSize:14, outline:'none',
+                    color:'#1C1C1E', textAlign:'right',
+                    fontFamily:"'Tajawal',sans-serif",
+                  }}
+                  value={input}
+                  onChange={e=>setInput(e.target.value)}
+                  onKeyDown={e=>e.key==='Enter'&&sendMessage()}
+                  onFocus={e=>{const p=e.target.parentElement;p.style.borderColor='#8A1538';p.style.background='#fff';p.style.boxShadow='0 0 0 3px rgba(138,21,56,0.08)';}}
+                  onBlur={e=>{const p=e.target.parentElement;p.style.borderColor='rgba(138,21,56,0.13)';p.style.background='#F5F0EB';p.style.boxShadow='none';}}
+                  placeholder="اسأل عن خطة دراسية، مواد، مقارنة..."
+                />
+                <button
+                  style={{
+                    width:42, height:42, borderRadius:'50%', border:'none',
+                    cursor:'pointer', flexShrink:0,
+                    display:'flex', alignItems:'center', justifyContent:'center',
+                    background: input.trim()
+                      ? 'linear-gradient(135deg,#8A1538,#6B1030)'
+                      : '#E5E7EB',
+                    boxShadow: input.trim()
+                      ? '0 3px 12px rgba(138,21,56,0.32)'
+                      : 'none',
+                    transition:'all 0.22s cubic-bezier(0.34,1.56,0.64,1)',
+                  }}
+                  onClick={()=>sendMessage()}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill={input.trim()?'#fff':'#9CA3AF'}>
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                  </svg>
+                </button>
+              </div>
             </div>
           </>
         )}
@@ -747,44 +770,54 @@ export default function QatarUniversityAdvisor() {
         display:'flex', background:'#fff',
         borderTop:'1px solid rgba(0,0,0,0.06)',
         flexShrink:0, zIndex:90,
-        boxShadow:'0 -4px 16px rgba(0,0,0,0.07)',
+        boxShadow:'0 -4px 20px rgba(0,0,0,0.07)',
         paddingBottom:'env(safe-area-inset-bottom,0)',
       }}>
         {[
-          {icon:'💬', label:'محادثة',  view:'chat'},
-          {icon:'🏛️', label:'جامعات', view:'universities'},
-          {icon:'📊', label:'مقارنة',  view:'compare'},
-          {icon:'⭐', label:'مفضلة',   view:'favorites'},
-        ].map((t,i)=>(
-          <button key={i}
-            style={{
-              flex:1, display:'flex', flexDirection:'column',
-              alignItems:'center', gap:3,
-              padding:'9px 0 7px', background:'none', border:'none',
-              cursor:'pointer', fontFamily:"'Tajawal',sans-serif",
-              fontSize:11, fontWeight: activeView===t.view ? 700 : 400,
-              color: activeView===t.view ? '#8A1538' : '#9CA3AF',
-              borderTop: activeView===t.view
-                ? '2.5px solid #C5A55A'
-                : '2.5px solid transparent',
-              transition:'all 0.18s',
-            }}
-            onClick={()=>setActiveView(t.view)}
-          >
-            <span style={{fontSize:21,lineHeight:1}}>{t.icon}</span>
-            <span>{t.label}</span>
-          </button>
-        ))}
+          {view:'chat',        label:'محادثة',  svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>},
+          {view:'universities',label:'جامعات', svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>},
+          {view:'compare',     label:'مقارنة',  svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>},
+          {view:'favorites',   label:'مفضلة',   svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill={a?'currentColor':'none'} stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>},
+        ].map((t,i)=>{
+          const isActive = activeView===t.view;
+          return (
+            <button key={i}
+              style={{
+                flex:1, display:'flex', flexDirection:'column',
+                alignItems:'center', gap:4,
+                padding:'9px 0 7px', background:'none', border:'none',
+                cursor:'pointer', fontFamily:"'Tajawal',sans-serif",
+                fontSize:11, fontWeight: isActive ? 700 : 400,
+                color: isActive ? '#8A1538' : '#9CA3AF',
+                position:'relative', transition:'color 0.18s',
+              }}
+              onMouseEnter={e=>{if(!isActive)e.currentTarget.style.background='rgba(138,21,56,0.04)';}}
+              onMouseLeave={e=>{e.currentTarget.style.background='none';}}
+              onClick={()=>setActiveView(t.view)}
+            >
+              {isActive && <div style={{
+                position:'absolute',top:0,left:'22%',right:'22%',
+                height:3,borderRadius:'0 0 4px 4px',
+                background:'linear-gradient(90deg,#8A1538,#C5A55A)',
+              }}/>}
+              {t.svg(isActive)}
+              <span>{t.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       <style>{`
         @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
+        @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
         *{box-sizing:border-box}
         ::-webkit-scrollbar{width:4px}
         ::-webkit-scrollbar-track{background:transparent}
-        ::-webkit-scrollbar-thumb{background:rgba(138,21,56,0.25);border-radius:2px}
-        p{margin:2px 0;line-height:1.7}
-        strong{font-weight:700}
+        ::-webkit-scrollbar-thumb{background:rgba(138,21,56,0.2);border-radius:2px}
+        ::-webkit-scrollbar-thumb:hover{background:rgba(138,21,56,0.38)}
+        p{margin:2px 0;line-height:1.75}
+        strong{font-weight:700;color:inherit}
+        input::placeholder{color:rgba(107,16,48,0.38);font-family:'Tajawal',sans-serif}
       `}</style>
     </div>
   );
@@ -911,12 +944,14 @@ const S={
   },
   // ── Suggestion chips ──
   sugg:{
-    padding:'8px 14px', background:'#fff',
-    border:'1.5px solid rgba(138,21,56,0.28)',
-    borderRadius:18, fontSize:12, color:'#8A1538',
+    padding:'8px 15px',
+    background:'linear-gradient(135deg,rgba(138,21,56,0.03),rgba(138,21,56,0.06))',
+    border:'1px solid rgba(138,21,56,0.2)',
+    borderRadius:20, fontSize:12, color:'#8A1538',
     cursor:'pointer', fontWeight:600,
     fontFamily:"'Tajawal',sans-serif",
     boxShadow:'0 1px 4px rgba(0,0,0,0.06)',
     whiteSpace:'nowrap',
+    transition:'all 0.15s ease',
   },
 };

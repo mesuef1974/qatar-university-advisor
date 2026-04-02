@@ -181,6 +181,39 @@ button { -webkit-tap-highlight-color: transparent; }
   100% { opacity: 1; transform: scale(1); }
 }
 
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
 .fade-in   { animation: fadeIn   0.3s ease-out; }
 .slide-up  { animation: slideUp  0.4s ease-out; }
 .bounce-in { animation: bounceIn 0.4s ease-out; }
+.msg-in    { animation: msgIn    0.25s ease-out; }
+
+/* ════════════════════════════════════════════════════
+   UTILITY CLASSES
+   ════════════════════════════════════════════════════ */
+
+/* Gold shimmer text effect */
+.gold-shimmer {
+  background: linear-gradient(90deg, #C5A55A 0%, #F5D78E 50%, #C5A55A 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2.5s linear infinite;
+}
+
+/* Hover lift effect */
+.lift-on-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.lift-on-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}

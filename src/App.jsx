@@ -97,21 +97,24 @@ function DesktopPanel() {
       {/* Stats grid */}
       <div style={{
         display: 'grid', gridTemplateColumns: '1fr 1fr',
-        gap: 12, marginBottom: 32,
+        gap: 10, marginBottom: 28,
       }}>
         {PANEL_STATS.map(({ n, l }) => (
           <div key={l} style={{
-            background: 'rgba(255,255,255,0.07)',
-            border: '1px solid rgba(197,165,90,0.22)',
-            borderRadius: 12, padding: '14px 12px', textAlign: 'center',
+            background: 'linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.04))',
+            border: '1px solid rgba(197,165,90,0.25)',
+            borderRadius: 14, padding: '16px 12px', textAlign: 'center',
+            backdropFilter: 'blur(4px)',
+            transition: 'transform 0.2s ease, border-color 0.2s ease',
           }}>
             <div style={{
-              fontSize: 26, fontWeight: 800, color: '#C5A55A',
+              fontSize: 28, fontWeight: 800, color: '#C5A55A',
               fontFamily: "'Cairo',sans-serif", lineHeight: 1,
+              textShadow: '0 0 20px rgba(197,165,90,0.3)',
             }}>{n}</div>
             <div style={{
-              fontSize: 11, color: 'rgba(255,255,255,0.55)',
-              marginTop: 5, lineHeight: 1.4,
+              fontSize: 11, color: 'rgba(255,255,255,0.58)',
+              marginTop: 6, lineHeight: 1.4,
               fontFamily: "'Tajawal',sans-serif",
             }}>{l}</div>
           </div>
@@ -121,8 +124,8 @@ function DesktopPanel() {
       {/* Feature list */}
       <div style={{ flex: 1 }}>
         <div style={{
-          fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.4)',
-          letterSpacing: 1, marginBottom: 14,
+          fontSize: 10, fontWeight: 700, color: 'rgba(197,165,90,0.6)',
+          letterSpacing: 1.5, marginBottom: 14,
           textTransform: 'uppercase', fontFamily: "'Tajawal',sans-serif",
         }}>
           ما يقدمه المستشار
@@ -130,18 +133,19 @@ function DesktopPanel() {
         {PANEL_FEATURES.map(({ icon, text }) => (
           <div key={text} style={{
             display: 'flex', alignItems: 'flex-start', gap: 10,
-            marginBottom: 12,
+            marginBottom: 12, padding: '6px 0',
           }}>
             <span style={{
-              fontSize: 16, width: 28, height: 28,
-              background: 'rgba(197,165,90,0.14)',
-              border: '1px solid rgba(197,165,90,0.3)',
-              borderRadius: 8, display: 'flex', alignItems: 'center',
+              fontSize: 15, width: 30, height: 30,
+              background: 'linear-gradient(145deg,rgba(197,165,90,0.18),rgba(197,165,90,0.08))',
+              border: '1px solid rgba(197,165,90,0.32)',
+              borderRadius: 9, display: 'flex', alignItems: 'center',
               justifyContent: 'center', flexShrink: 0,
+              boxShadow: '0 2px 8px rgba(197,165,90,0.08)',
             }}>{icon}</span>
             <span style={{
-              fontSize: 13, color: 'rgba(255,255,255,0.72)',
-              lineHeight: 1.6, paddingTop: 4,
+              fontSize: 13, color: 'rgba(255,255,255,0.75)',
+              lineHeight: 1.65, paddingTop: 5,
               fontFamily: "'Tajawal',sans-serif",
             }}>{text}</span>
           </div>
