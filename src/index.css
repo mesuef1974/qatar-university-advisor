@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@400;600;700&display=swap');
+
+:root {
+  --maroon: #8A1538;
+  --maroon-dark: #6B1030;
+  --maroon-light: #A52050;
+  --gold: #C5A55A;
+  --gold-light: #D4BC7C;
+  --text: #111827;
+  --text-secondary: #6B7280;
+  --bg: #F8F6F3;
+  --white: #FFFFFF;
+  --chat-bg: #F5F0EB;
+
+  font-family: 'Tajawal', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color-scheme: light;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Mobile viewport fix */
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  direction: rtl;
+  text-align: right;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+  background: linear-gradient(135deg, #F5F0EB 0%, #EDE4DB 100%);
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Desktop wrapper */
+@media (min-width: 769px) {
+  body {
+    background: linear-gradient(135deg, #8A1538 0%, #6B1030 50%, #4A0B22 100%);
+  }
+
+  #root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+}
+
+/* Safe area */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* Touch targets */
+button, a {
+  min-height: 44px;
+}
+
+/* Prevent zoom on input focus (iOS) */
+input, select, textarea {
+  font-size: 16px !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(138,21,56,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(138,21,56,0.4); }
+
+/* Selection */
+::selection { background: rgba(138,21,56,0.15); color: #111827; }
+
+/* Input focus */
+input:focus, textarea:focus { outline: 2px solid var(--maroon); outline-offset: -1px; }
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideInLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+
+.fade-in { animation: fadeIn 0.3s ease-out; }
+.slide-up { animation: slideUp 0.4s ease-out; }
+
+/* Active state for buttons */
+button:active {
+  opacity: 0.7;
+  transform: scale(0.97);
+}
+
+/* Smooth transitions for view switching */
+.view-transition {
+  animation: fadeIn 0.25s ease-out;
+}
