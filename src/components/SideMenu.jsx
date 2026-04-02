@@ -1,4 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PrivacyPolicy  from './PrivacyPolicy.jsx';
+import TermsOfService from './TermsOfService.jsx';
+import RefundPolicy   from './RefundPolicy.jsx';
+
+const LEGAL_ITEMS = [
+  { key: 'privacy', label: '🔒 سياسة الخصوصية' },
+  { key: 'terms',   label: '📋 شروط الاستخدام'  },
+  { key: 'refund',  label: '💰 سياسة الاسترجاع' },
+];
+
+const SECTIONS = [
+  { l: '💬 المحادثة',       v: 'chat'           },
+  { l: '🏛️ الجامعات',      v: 'universities'   },
+  { l: '📊 المقارنة',       v: 'compare'        },
+  { l: '⭐ المفضلة',         v: 'favorites'      },
+];
 
 export default function SideMenu({
   UNIVERSITIES_DB,
@@ -7,134 +23,86 @@ export default function SideMenu({
   setActiveView,
   sendMessage,
 }) {
+  const [legalPage, setLegalPage] = useState(null);
+
+  // ── عرض الصفحات القانونية فوق القائمة ──
+  if (legalPage === 'privacy') {
+    return <PrivacyPolicy  onBack={() => setLegalPage(null)} />;
+  }
+  if (legalPage === 'terms') {
+    return <TermsOfService onBack={() => setLegalPage(null)} />;
+  }
+  if (legalPage === 'refund') {
+    return <RefundPolicy   onBack={() => setLegalPage(null)} />;
+  }
+
   return (
     <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(0,0,0,0.5)',
-        zIndex: 200,
-        display: 'flex',
-      }}
+      style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 200, display: 'flex' }}
       onClick={() => setShowMenu(false)}
     >
       <div
-        style={{ width: 280, background: '#fff', height: '100%', overflowY: 'auto' }}
+        style={{ width: 280, background: '#fff', height: '100%', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div
-          style={{
-            display: 'flex',
-            gap: 12,
-            padding: 20,
-            background: '#075e54',
-            color: '#fff',
-            alignItems: 'center',
-          }}
-        >
+        {/* ── Header ── */}
+        <div style={{ display: 'flex', gap: 12, padding: 20, background: '#8A1538', color: '#fff', alignItems: 'center', flexShrink: 0 }}>
           <span style={{ fontSize: 30 }}>🎓</span>
           <div>
             <div style={{ fontWeight: 700, fontSize: 15 }}>المستشار الجامعي</div>
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.8)' }}>
-              v5.0 | قاعدة معرفة شاملة
-            </div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.8)' }}>v5.0 | قاعدة معرفة شاملة</div>
           </div>
         </div>
+
+        {/* ── أسئلة شائعة ── */}
         <div style={{ padding: '12px 16px', borderBottom: '1px solid #f0f0f0' }}>
-          <div style={{ fontWeight: 700, fontSize: 12, color: '#6b7280', marginBottom: 8 }}>
-            💡 أسئلة شائعة
-          </div>
+          <div style={{ fontWeight: 700, fontSize: 12, color: '#6b7280', marginBottom: 8 }}>💡 أسئلة شائعة</div>
           {topQuestions.map((q, i) => (
-            <button
-              key={i}
-              style={{
-                display: 'block',
-                width: '100%',
-                textAlign: 'right',
-                padding: '9px 10px',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: 12,
-                color: '#1a1a1a',
-                borderRadius: 8,
-                marginBottom: 2,
-              }}
-              onClick={() => {
-                sendMessage(q);
-                setActiveView('chat');
-                setShowMenu(false);
-              }}
-            >
-              {q}
-            </button>
+            <button key={i}
+              style={{ display: 'block', width: '100%', textAlign: 'right', padding: '9px 10px', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#1a1a1a', borderRadius: 8, marginBottom: 2 }}
+              onClick={() => { sendMessage(q); setActiveView('chat'); setShowMenu(false); }}
+            >{q}</button>
           ))}
         </div>
+
+        {/* ── الجامعات ── */}
         <div style={{ padding: '12px 16px', borderBottom: '1px solid #f0f0f0' }}>
-          <div style={{ fontWeight: 700, fontSize: 12, color: '#6b7280', marginBottom: 8 }}>
-            📚 الجامعات
-          </div>
+          <div style={{ fontWeight: 700, fontSize: 12, color: '#6b7280', marginBottom: 8 }}>📚 الجامعات</div>
           {Object.values(UNIVERSITIES_DB).map((u) => (
-            <button
-              key={u.id}
-              style={{
-                display: 'block',
-                width: '100%',
-                textAlign: 'right',
-                padding: '9px 10px',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: 12,
-                color: '#1a1a1a',
-                borderRadius: 8,
-                marginBottom: 2,
-              }}
-              onClick={() => {
-                sendMessage(`خطة دراسة ${u.name} والمواد والتخصصات وفرص العمل`);
-                setActiveView('chat');
-                setShowMenu(false);
-              }}
-            >
-              {u.icon} {u.name}
-            </button>
+            <button key={u.id}
+              style={{ display: 'block', width: '100%', textAlign: 'right', padding: '9px 10px', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#1a1a1a', borderRadius: 8, marginBottom: 2 }}
+              onClick={() => { sendMessage(`خطة دراسة ${u.name} والمواد والتخصصات وفرص العمل`); setActiveView('chat'); setShowMenu(false); }}
+            >{u.icon} {u.name}</button>
           ))}
         </div>
-        <div style={{ padding: '12px 16px' }}>
-          <div style={{ fontWeight: 700, fontSize: 12, color: '#6b7280', marginBottom: 8 }}>
-            🔗 الأقسام
+
+        {/* ── الأقسام ── */}
+        <div style={{ padding: '12px 16px', borderBottom: '1px solid #f0f0f0' }}>
+          <div style={{ fontWeight: 700, fontSize: 12, color: '#6b7280', marginBottom: 8 }}>🔗 الأقسام</div>
+          {SECTIONS.map((t, i) => (
+            <button key={i}
+              style={{ display: 'block', width: '100%', textAlign: 'right', padding: '9px 10px', background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: '#1a1a1a', borderRadius: 8, marginBottom: 2 }}
+              onClick={() => { setActiveView(t.v); setShowMenu(false); }}
+            >{t.l}</button>
+          ))}
+        </div>
+
+        {/* ── القانوني (للمستخدمين) ── */}
+        <div style={{ padding: '12px 16px', marginTop: 'auto', borderTop: '1px solid #f0f0f0' }}>
+          <div style={{ fontWeight: 700, fontSize: 11, color: '#9ca3af', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+            معلومات قانونية
           </div>
-          {[
-            { l: '💬 المحادثة', v: 'chat' },
-            { l: '🏛️ الجامعات', v: 'universities' },
-            { l: '📊 المقارنة', v: 'compare' },
-            { l: '⭐ المفضلة', v: 'favorites' },
-            { l: '🗺️ الخطة التنفيذية', v: 'execution-plan' },
-          ].map((t, i) => (
-            <button
-              key={i}
-              style={{
-                display: 'block',
-                width: '100%',
-                textAlign: 'right',
-                padding: '9px 10px',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: 13,
-                color: '#1a1a1a',
-                borderRadius: 8,
-                marginBottom: 2,
-              }}
-              onClick={() => {
-                setActiveView(t.v);
-                setShowMenu(false);
-              }}
-            >
-              {t.l}
-            </button>
+          {LEGAL_ITEMS.map(({ key, label }) => (
+            <button key={key}
+              style={{ display: 'block', width: '100%', textAlign: 'right', padding: '8px 10px', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#6b7280', borderRadius: 8, marginBottom: 2 }}
+              onClick={() => setLegalPage(key)}
+            >{label}</button>
           ))}
+          <div style={{ fontSize: 10, color: '#d1d5db', textAlign: 'center', marginTop: 12 }}>
+            © 2026 المستشار الجامعي الذكي
+          </div>
         </div>
+
       </div>
     </div>
   );
