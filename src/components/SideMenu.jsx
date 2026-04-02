@@ -19,6 +19,7 @@ const SECTIONS = [
 export default function SideMenu({
   UNIVERSITIES_DB,
   topQuestions,
+  quickBtns,
   setShowMenu,
   setActiveView,
   sendMessage,
@@ -53,6 +54,34 @@ export default function SideMenu({
             <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.8)' }}>v5.0 | قاعدة معرفة شاملة</div>
           </div>
         </div>
+
+        {/* ── وصول سريع ── */}
+        {quickBtns?.length > 0 && (
+          <div style={{ padding: '14px 16px', borderBottom: '1px solid #f0f0f0' }}>
+            <div style={{ fontWeight: 700, fontSize: 12, color: '#6b7280', marginBottom: 10 }}>⚡ وصول سريع</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+              {quickBtns.map((b, i) => (
+                <button key={i}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 5,
+                    padding: '8px 13px', borderRadius: 12,
+                    background: '#FEF2F2', color: '#8A1538',
+                    border: '1px solid rgba(138,21,56,0.15)',
+                    cursor: 'pointer', fontSize: 12, fontWeight: 600,
+                    fontFamily: "'Tajawal',sans-serif",
+                    transition: 'background 0.15s ease',
+                  }}
+                  onMouseEnter={e=>e.currentTarget.style.background='rgba(138,21,56,0.1)'}
+                  onMouseLeave={e=>e.currentTarget.style.background='#FEF2F2'}
+                  onClick={() => { sendMessage(b.q); setActiveView('chat'); setShowMenu(false); }}
+                >
+                  <span style={{ fontSize: 14 }}>{b.icon}</span>
+                  <span>{b.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* ── أسئلة شائعة ── */}
         <div style={{ padding: '12px 16px', borderBottom: '1px solid #f0f0f0' }}>

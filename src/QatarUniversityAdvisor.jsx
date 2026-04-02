@@ -418,58 +418,59 @@ export default function QatarUniversityAdvisor() {
         <div style={{
           flex:1, display:'flex', flexDirection:'column',
           alignItems:'center', justifyContent:'center',
-          padding:'24px 24px 20px', position:'relative', zIndex:1,
+          padding:'20px 24px 16px', position:'relative', zIndex:1,
+          overflowY:'auto', msOverflowStyle:'none', scrollbarWidth:'none',
         }}>
           {/* Logo circle */}
           <div style={{
-            width:88, height:88, borderRadius:'50%', marginBottom:22,
+            width:72, height:72, borderRadius:'50%', marginBottom:14,
             background:'rgba(197,165,90,0.12)',
             border:'2px solid rgba(197,165,90,0.35)',
             display:'flex', alignItems:'center', justifyContent:'center',
-            fontSize:44,
-            boxShadow:'0 0 48px rgba(197,165,90,0.15)',
+            fontSize:36, flexShrink:0,
+            boxShadow:'0 0 40px rgba(197,165,90,0.15)',
           }}>🎓</div>
 
           {/* Title */}
           <h1 style={{
-            fontSize:26, fontWeight:800, color:'#fff',
-            margin:'0 0 6px', textAlign:'center',
-            fontFamily:"'Cairo','Tajawal',sans-serif", lineHeight:1.3,
+            fontSize:22, fontWeight:800, color:'#fff',
+            margin:'0 0 4px', textAlign:'center',
+            fontFamily:"'Cairo','Tajawal',sans-serif", lineHeight:1.3, flexShrink:0,
           }}>المستشار الجامعي الذكي</h1>
 
           {/* Gold divider */}
-          <div style={{display:'flex',alignItems:'center',gap:8,margin:'10px 0 14px',width:220}}>
+          <div style={{display:'flex',alignItems:'center',gap:8,margin:'8px 0 10px',width:200,flexShrink:0}}>
             <div style={{flex:1,height:1,background:'rgba(197,165,90,0.3)'}}/>
-            <div style={{width:6,height:6,borderRadius:'50%',background:'#C5A55A'}}/>
+            <div style={{width:5,height:5,borderRadius:'50%',background:'#C5A55A'}}/>
             <div style={{flex:1,height:1,background:'rgba(197,165,90,0.3)'}}/>
           </div>
 
           <p style={{
-            fontSize:14, color:'rgba(255,255,255,0.72)',
-            textAlign:'center', margin:'0 0 4px', lineHeight:1.8,
+            fontSize:13, color:'rgba(255,255,255,0.68)',
+            textAlign:'center', margin:'0 0 2px', lineHeight:1.7, flexShrink:0,
           }}>
-            دليلك الشامل للجامعات والتخصصات<br/>والمنح الدراسية في قطر
+            دليلك الشامل للجامعات والتخصصات والمنح الدراسية في قطر
           </p>
 
           {/* Stats row */}
-          <div style={{display:'flex',gap:0,margin:'20px 0 28px',width:'100%',maxWidth:280}}>
+          <div style={{display:'flex',gap:0,margin:'14px 0 18px',width:'100%',maxWidth:260,flexShrink:0}}>
             {[['23','جامعة'],['100+','تخصص'],['10+','منحة']].map(([n,l],i)=>(
               <React.Fragment key={l}>
                 {i>0&&<div style={{width:1,background:'rgba(255,255,255,0.14)'}}/>}
                 <div style={{flex:1,textAlign:'center'}}>
-                  <div style={{fontSize:23,fontWeight:800,color:'#C5A55A',fontFamily:"'Cairo',sans-serif",lineHeight:1}}>{n}</div>
-                  <div style={{fontSize:11,color:'rgba(255,255,255,0.52)',marginTop:4}}>{l}</div>
+                  <div style={{fontSize:20,fontWeight:800,color:'#C5A55A',fontFamily:"'Cairo',sans-serif",lineHeight:1}}>{n}</div>
+                  <div style={{fontSize:10,color:'rgba(255,255,255,0.5)',marginTop:3}}>{l}</div>
                 </div>
               </React.Fragment>
             ))}
           </div>
 
-          <p style={{fontSize:16,fontWeight:600,color:'rgba(255,255,255,0.88)',margin:'0 0 16px',textAlign:'center'}}>
+          <p style={{fontSize:14,fontWeight:600,color:'rgba(255,255,255,0.86)',margin:'0 0 12px',textAlign:'center',flexShrink:0}}>
             اختر نوع إقامتك للمتابعة
           </p>
 
           {/* Selection cards */}
-          <div style={{display:'flex',gap:14,width:'100%',maxWidth:360}}>
+          <div style={{display:'flex',gap:12,width:'100%',maxWidth:340,flexShrink:0}}>
             {[
               {val:'qatari',     flag:'🇶🇦',title:'قطري / قطرية',   sub:'تعليم مجاني · ابتعاث أميري'},
               {val:'non_qatari', flag:'🌍', title:'مقيم في قطر', sub:'منح مؤسسة قطر · HBKU'},
@@ -479,7 +480,7 @@ export default function QatarUniversityAdvisor() {
                 onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow='0 12px 32px rgba(0,0,0,0.25)';}}
                 onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='';}}
                 style={{
-                  flex:1, borderRadius:18, padding:'22px 12px',
+                  flex:1, borderRadius:16, padding:'18px 10px',
                   color:'#fff', cursor:'pointer', textAlign:'center',
                   fontFamily:"'Tajawal',sans-serif",
                   background: val==='qatari'
@@ -492,14 +493,14 @@ export default function QatarUniversityAdvisor() {
                   backdropFilter:'blur(8px)',
                 }}
               >
-                <div style={{fontSize:36,marginBottom:10}}>{flag}</div>
-                <div style={{fontSize:14,fontWeight:700,lineHeight:1.3}}>{title}</div>
-                <div style={{fontSize:11,color:'rgba(255,255,255,0.5)',marginTop:7,lineHeight:1.6}}>{sub}</div>
+                <div style={{fontSize:32,marginBottom:8}}>{flag}</div>
+                <div style={{fontSize:13,fontWeight:700,lineHeight:1.3}}>{title}</div>
+                <div style={{fontSize:10,color:'rgba(255,255,255,0.5)',marginTop:5,lineHeight:1.5}}>{sub}</div>
               </button>
             ))}
           </div>
 
-          <p style={{marginTop:20,fontSize:11,color:'rgba(255,255,255,0.32)'}}>
+          <p style={{marginTop:14,fontSize:10,color:'rgba(255,255,255,0.3)',flexShrink:0}}>
             يمكنك تغيير اختيارك في أي وقت
           </p>
         </div>
@@ -521,8 +522,6 @@ export default function QatarUniversityAdvisor() {
         setActiveView={setActiveView}
         showMenu={showMenu}
         setShowMenu={setShowMenu}
-        quickBtns={quickBtns}
-        sendMessage={sendMessage}
         selectNationality={selectNationality}
       />
 
@@ -531,6 +530,7 @@ export default function QatarUniversityAdvisor() {
         <SideMenu
           UNIVERSITIES_DB={UNIVERSITIES_DB}
           topQuestions={topQuestions}
+          quickBtns={quickBtns}
           setShowMenu={setShowMenu}
           setActiveView={setActiveView}
           sendMessage={sendMessage}
@@ -640,32 +640,6 @@ export default function QatarUniversityAdvisor() {
                 </div>
               )}
               <div ref={messagesEndRef}/>
-            </div>
-
-            {/* Quick topic chips */}
-            <div style={{
-              display:'flex', gap:6, padding:'7px 14px',
-              background:'#EDE5DA',
-              borderTop:'1px solid rgba(0,0,0,0.07)',
-              overflowX:'auto', flexShrink:0, alignItems:'center',
-              msOverflowStyle:'none', scrollbarWidth:'none',
-            }}>
-              {['هندسة البترول','الكليات العسكرية','وايل كورنيل','الابتعاث الأميري','SAT دليل'].map((q,qi)=>(
-                <button key={qi}
-                  style={{
-                    padding:'5px 12px',
-                    background:'rgba(255,255,255,0.78)',
-                    border:'1px solid rgba(138,21,56,0.16)',
-                    borderRadius:12, fontSize:11, fontWeight:500,
-                    color:'#6B1030', cursor:'pointer', whiteSpace:'nowrap', flexShrink:0,
-                    fontFamily:"'Tajawal',sans-serif",
-                    boxShadow:'0 1px 3px rgba(0,0,0,0.05)',
-                    transition:'all 0.15s ease',
-                  }}
-                  onMouseEnter={e=>{e.currentTarget.style.background='rgba(138,21,56,0.08)';e.currentTarget.style.color='#8A1538';}}
-                  onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.78)';e.currentTarget.style.color='#6B1030';}}
-                  onClick={()=>sendMessage(q)}>{q}</button>
-              ))}
             </div>
 
             {/* Input area */}
@@ -810,14 +784,15 @@ export default function QatarUniversityAdvisor() {
       <style>{`
         @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
         @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes menuPulse{0%{box-shadow:0 0 0 0 rgba(197,165,90,0.6)}70%{box-shadow:0 0 0 6px rgba(197,165,90,0)}100%{box-shadow:0 0 0 0 rgba(197,165,90,0)}}
         *{box-sizing:border-box}
-        ::-webkit-scrollbar{width:4px}
+        ::-webkit-scrollbar{width:3px;height:3px}
         ::-webkit-scrollbar-track{background:transparent}
-        ::-webkit-scrollbar-thumb{background:rgba(138,21,56,0.2);border-radius:2px}
-        ::-webkit-scrollbar-thumb:hover{background:rgba(138,21,56,0.38)}
+        ::-webkit-scrollbar-thumb{background:rgba(138,21,56,0.18);border-radius:2px}
+        ::-webkit-scrollbar-thumb:hover{background:rgba(138,21,56,0.35)}
         p{margin:2px 0;line-height:1.75}
         strong{font-weight:700;color:inherit}
-        input::placeholder{color:rgba(107,16,48,0.38);font-family:'Tajawal',sans-serif}
+        input::placeholder{color:rgba(107,16,48,0.35);font-family:'Tajawal',sans-serif}
       `}</style>
     </div>
   );
@@ -856,9 +831,9 @@ const S={
   // ── Header ──
   hdr:{
     background:'linear-gradient(160deg,#8A1538 0%,#6B1030 100%)',
-    color:'#fff', padding:'10px 14px 0',
+    color:'#fff', padding:'8px 14px 0',
     flexShrink:0, zIndex:100,
-    boxShadow:'0 2px 16px rgba(107,16,48,0.32)',
+    boxShadow:'0 2px 14px rgba(107,16,48,0.3)',
   },
   hb:{
     background:'rgba(255,255,255,0.12)',

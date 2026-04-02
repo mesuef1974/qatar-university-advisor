@@ -7,8 +7,7 @@ export default function Header({
   setActiveView,
   showMenu,
   setShowMenu,
-  quickBtns,
-  sendMessage,
+  _sendMessage,
   selectNationality,
 }) {
   const [showNatPicker, setShowNatPicker] = useState(false);
@@ -17,18 +16,28 @@ export default function Header({
   return (
     <div style={S.hdr}>
 
-      {/* ══ Row 1: Brand bar ══ */}
+      {/* ══ Brand bar ══ */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingBottom: 10 }}>
 
-        {/* Hamburger */}
+        {/* Hamburger — opens quick-access menu */}
         <button
-          style={S.hb}
+          style={{ ...S.hb, position: 'relative' }}
           onClick={() => setShowMenu(!showMenu)}
           aria-label="القائمة الجانبية"
+          title="الوصول السريع والأقسام"
         >
           <svg width="17" height="13" viewBox="0 0 17 13" fill="none">
             <path d="M1 1h15M1 6.5h15M1 12h15" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"/>
           </svg>
+          {/* Pulse dot hinting at quick actions */}
+          <span style={{
+            position:'absolute', top:6, right:6,
+            width:6, height:6, borderRadius:'50%',
+            background:'#C5A55A',
+            boxShadow:'0 0 0 0 rgba(197,165,90,0.4)',
+            animation:'menuPulse 2.5s ease-out infinite',
+            pointerEvents:'none',
+          }}/>
         </button>
 
         {/* Logo + name */}
@@ -147,33 +156,6 @@ export default function Header({
           </div>
         </div>
       )}
-
-      {/* ══ Row 2: Quick-action chips ══ */}
-      <div style={{
-        display: 'flex', gap: 6, paddingBottom: 10,
-        overflowX: 'auto', msOverflowStyle: 'none', scrollbarWidth: 'none',
-      }}>
-        {quickBtns.map((b, i) => (
-          <button key={i}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 5,
-              padding: '6px 13px', borderRadius: 20, flexShrink: 0,
-              background: 'rgba(255,255,255,0.09)',
-              border: '1px solid rgba(255,255,255,0.15)',
-              color: 'rgba(255,255,255,0.92)', cursor: 'pointer',
-              fontSize: 11.5, fontWeight: 600, whiteSpace: 'nowrap',
-              fontFamily: "'Tajawal',sans-serif",
-              transition: 'background 0.15s ease, border-color 0.15s ease',
-            }}
-            onMouseEnter={e=>{e.currentTarget.style.background='rgba(255,255,255,0.18)';e.currentTarget.style.borderColor='rgba(255,255,255,0.28)';}}
-            onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.09)';e.currentTarget.style.borderColor='rgba(255,255,255,0.15)';}}
-            onClick={() => { setActiveView('chat'); sendMessage(b.q); }}
-          >
-            <span style={{ fontSize: 14 }}>{b.icon}</span>
-            <span>{b.label}</span>
-          </button>
-        ))}
-      </div>
 
       {/* ══ Gold accent underline ══ */}
       <div style={{
