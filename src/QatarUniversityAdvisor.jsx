@@ -14,7 +14,7 @@ import ExecutionPlan from './components/ExecutionPlan.jsx';
 
 // ─── Render text (XSS-safe: no dangerouslySetInnerHTML) ───
 function renderLine(line, idx) {
-  if (!line) return <p key={idx} style={{margin:'2px 0',lineHeight:1.6,color:'#1a1a1a'}}>&nbsp;</p>;
+  if (!line) return <p key={idx} style={{margin:'2px 0',lineHeight:1.7}}>&nbsp;</p>;
   const parts = [];
   const regex = /\*\*(.*?)\*\*/g;
   let lastIndex = 0;
@@ -30,7 +30,7 @@ function renderLine(line, idx) {
   if (lastIndex < line.length) {
     parts.push(<React.Fragment key={pIdx++}>{line.slice(lastIndex)}</React.Fragment>);
   }
-  return <p key={idx} style={{margin:'2px 0',lineHeight:1.6,color:'#1a1a1a'}}>{parts}</p>;
+  return <p key={idx} style={{margin:'2px 0',lineHeight:1.7}}>{parts}</p>;
 }
 const renderText = (text) => text.split('\n').map((line, i) => renderLine(line, i));
 
@@ -86,11 +86,13 @@ export default function QatarUniversityAdvisor() {
     setUserProfile(p => ({...p, nationality: nat}));
     localStorage.setItem('advisor_nationality', nat);
     const welcome = getWelcomeMessage(nat);
+    const msgId   = Date.now() + Math.random();
+    const msgTime = new Date().toLocaleTimeString('ar-QA',{hour:'2-digit',minute:'2-digit'});
     setMessages([{
-      id:Date.now()+Math.random(), type:'bot',
+      id:msgId, type:'bot',
       content:{text:welcome.text},
       suggestions:welcome.suggestions,
-      time:new Date().toLocaleTimeString('ar-QA',{hour:'2-digit',minute:'2-digit'})
+      time:msgTime,
     }]);
   };
 
@@ -388,38 +390,123 @@ export default function QatarUniversityAdvisor() {
     'SAT — كيف أستعد؟'
   ];
 
-  // Welcome screen when no nationality selected
+  // ══ Welcome / Nationality screen ══
   if (!userProfile.nationality) {
     return (
-      <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100dvh',background:'linear-gradient(135deg, #8A1538 0%, #6B1030 100%)',color:'#fff',textAlign:'center',padding:20,direction:'rtl'}}>
-        <div style={{fontSize:60,marginBottom:20}}>🎓</div>
-        <h1 style={{fontSize:28,fontWeight:800,marginBottom:8,fontFamily:"'Cairo','Tajawal',sans-serif"}}>المستشار الجامعي الذكي</h1>
-        <p style={{fontSize:16,opacity:0.85,marginBottom:40}}>دليلك الشامل للجامعات والتخصصات والمنح في قطر</p>
-        <p style={{fontSize:18,fontWeight:600,marginBottom:20}}>أنا طالب/ة...</p>
-        <div style={{display:'flex',gap:16,flexWrap:'wrap',justifyContent:'center'}}>
-          <button onClick={()=>selectNationality('qatari')} style={{
-            padding:'16px 40px',borderRadius:12,border:'2px solid #C5A55A',
-            background:'rgba(197,165,90,0.15)',color:'#fff',fontSize:18,fontWeight:700,
-            cursor:'pointer',minWidth:180,transition:'all 0.3s',fontFamily:"'Tajawal',sans-serif"
+      <div style={{
+        display:'flex', flexDirection:'column',
+        height:'100dvh',
+        maxWidth:typeof window!=='undefined'&&window.innerWidth>=1024?520:480,
+        width:'100%', margin:'0 auto',
+        background:'linear-gradient(160deg,#8A1538 0%,#6B1030 52%,#4A0B22 100%)',
+        direction:'rtl', overflow:'hidden',
+        fontFamily:"'Tajawal','Segoe UI',sans-serif",
+        position:'relative',
+        borderRadius:typeof window!=='undefined'&&window.innerWidth>=768?20:0,
+        boxShadow:typeof window!=='undefined'&&window.innerWidth>=768
+          ?'0 24px 64px rgba(0,0,0,0.35)':'none',
+      }}>
+        {/* Top gold bar */}
+        <div style={{height:3,background:'linear-gradient(90deg,transparent,#C5A55A 40%,#C5A55A 60%,transparent)',flexShrink:0}}/>
+
+        {/* Decorative circles */}
+        <div style={{position:'absolute',top:-90,right:-90,width:280,height:280,borderRadius:'50%',background:'rgba(197,165,90,0.05)',pointerEvents:'none'}}/>
+        <div style={{position:'absolute',bottom:60,left:-50,width:180,height:180,borderRadius:'50%',background:'rgba(255,255,255,0.03)',pointerEvents:'none'}}/>
+
+        {/* Main content */}
+        <div style={{
+          flex:1, display:'flex', flexDirection:'column',
+          alignItems:'center', justifyContent:'center',
+          padding:'24px 24px 20px', position:'relative', zIndex:1,
+        }}>
+          {/* Logo circle */}
+          <div style={{
+            width:88, height:88, borderRadius:'50%', marginBottom:22,
+            background:'rgba(197,165,90,0.12)',
+            border:'2px solid rgba(197,165,90,0.35)',
+            display:'flex', alignItems:'center', justifyContent:'center',
+            fontSize:44,
+            boxShadow:'0 0 48px rgba(197,165,90,0.15)',
+          }}>🎓</div>
+
+          {/* Title */}
+          <h1 style={{
+            fontSize:26, fontWeight:800, color:'#fff',
+            margin:'0 0 6px', textAlign:'center',
+            fontFamily:"'Cairo','Tajawal',sans-serif", lineHeight:1.3,
+          }}>المستشار الجامعي الذكي</h1>
+
+          {/* Gold divider */}
+          <div style={{display:'flex',alignItems:'center',gap:8,margin:'10px 0 14px',width:220}}>
+            <div style={{flex:1,height:1,background:'rgba(197,165,90,0.3)'}}/>
+            <div style={{width:6,height:6,borderRadius:'50%',background:'#C5A55A'}}/>
+            <div style={{flex:1,height:1,background:'rgba(197,165,90,0.3)'}}/>
+          </div>
+
+          <p style={{
+            fontSize:14, color:'rgba(255,255,255,0.72)',
+            textAlign:'center', margin:'0 0 4px', lineHeight:1.8,
           }}>
-            🇶🇦 قطري / قطرية
-          </button>
-          <button onClick={()=>selectNationality('non_qatari')} style={{
-            padding:'16px 40px',borderRadius:12,border:'2px solid rgba(255,255,255,0.3)',
-            background:'rgba(255,255,255,0.1)',color:'#fff',fontSize:18,fontWeight:700,
-            cursor:'pointer',minWidth:180,transition:'all 0.3s',fontFamily:"'Tajawal',sans-serif"
-          }}>
-            🌍 مقيم / غير قطري
-          </button>
+            دليلك الشامل للجامعات والتخصصات<br/>والمنح الدراسية في قطر
+          </p>
+
+          {/* Stats row */}
+          <div style={{display:'flex',gap:0,margin:'20px 0 28px',width:'100%',maxWidth:280}}>
+            {[['23','جامعة'],['100+','تخصص'],['10+','منحة']].map(([n,l],i)=>(
+              <React.Fragment key={l}>
+                {i>0&&<div style={{width:1,background:'rgba(255,255,255,0.14)'}}/>}
+                <div style={{flex:1,textAlign:'center'}}>
+                  <div style={{fontSize:23,fontWeight:800,color:'#C5A55A',fontFamily:"'Cairo',sans-serif",lineHeight:1}}>{n}</div>
+                  <div style={{fontSize:11,color:'rgba(255,255,255,0.52)',marginTop:4}}>{l}</div>
+                </div>
+              </React.Fragment>
+            ))}
+          </div>
+
+          <p style={{fontSize:16,fontWeight:600,color:'rgba(255,255,255,0.88)',margin:'0 0 16px',textAlign:'center'}}>
+            اختر نوع إقامتك للمتابعة
+          </p>
+
+          {/* Selection cards */}
+          <div style={{display:'flex',gap:12,width:'100%',maxWidth:340}}>
+            {[
+              {val:'qatari',     flag:'🇶🇦',title:'قطري / قطرية',   sub:'تعليم مجاني · ابتعاث أميري'},
+              {val:'non_qatari', flag:'🌍', title:'مقيم في قطر', sub:'منح مؤسسة قطر · HBKU'},
+            ].map(({val,flag,title,sub})=>(
+              <button key={val}
+                onClick={()=>selectNationality(val)}
+                style={{
+                  flex:1, borderRadius:16, padding:'20px 10px',
+                  color:'#fff', cursor:'pointer', textAlign:'center',
+                  fontFamily:"'Tajawal',sans-serif",
+                  background: val==='qatari' ? 'rgba(197,165,90,0.12)' : 'rgba(255,255,255,0.07)',
+                  border: val==='qatari'
+                    ? '1.5px solid rgba(197,165,90,0.5)'
+                    : '1.5px solid rgba(255,255,255,0.18)',
+                }}
+              >
+                <div style={{fontSize:34,marginBottom:9}}>{flag}</div>
+                <div style={{fontSize:14,fontWeight:700,lineHeight:1.3}}>{title}</div>
+                <div style={{fontSize:11,color:'rgba(255,255,255,0.5)',marginTop:6,lineHeight:1.6}}>{sub}</div>
+              </button>
+            ))}
+          </div>
+
+          <p style={{marginTop:20,fontSize:11,color:'rgba(255,255,255,0.32)'}}>
+            يمكنك تغيير اختيارك في أي وقت
+          </p>
         </div>
-        <p style={{marginTop:30,fontSize:13,opacity:0.6}}>يمكنك تغيير اختيارك لاحقاً من الإعدادات</p>
+
+        {/* Bottom gold bar */}
+        <div style={{height:3,background:'linear-gradient(90deg,transparent,#C5A55A 40%,#C5A55A 60%,transparent)',flexShrink:0}}/>
       </div>
     );
   }
 
   return (
     <div style={S.app} dir="rtl">
-      {/* Header */}
+
+      {/* ══ Header ══ */}
       <Header
         S={S}
         userProfile={userProfile}
@@ -432,10 +519,9 @@ export default function QatarUniversityAdvisor() {
         selectNationality={selectNationality}
       />
 
-      {/* Side Menu */}
+      {/* ══ Side Menu (overlay) ══ */}
       {showMenu&&(
         <SideMenu
-          S={S}
           UNIVERSITIES_DB={UNIVERSITIES_DB}
           topQuestions={topQuestions}
           setShowMenu={setShowMenu}
@@ -444,67 +530,178 @@ export default function QatarUniversityAdvisor() {
         />
       )}
 
-      {/* Bottom Nav */}
-      <div style={{display:'flex',background:'#fff',borderTop:'1px solid #e5e7eb',flexShrink:0,zIndex:90}}>
-        {[{icon:'💬',label:'محادثة',view:'chat'},{icon:'🏛️',label:'جامعات',view:'universities'},{icon:'📊',label:'مقارنة',view:'compare'},{icon:'⭐',label:'مفضلة',view:'favorites'},{icon:'🗺️',label:'الخطة',view:'execution-plan'}].map((t,i)=>(
-          <button key={i} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:2,padding:'10px 0',minHeight:50,background:'none',border:'none',cursor:'pointer',fontSize:11,transition:'color 0.2s',...(activeView===t.view?{color:'#8A1538',borderTop:'2px solid #C5A55A'}:{color:'#6b7280'})}} onClick={()=>setActiveView(t.view)}>
-            <span style={{fontSize:20}}>{t.icon}</span><span>{t.label}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* Main */}
+      {/* ══ Main content (fills space between header and bottom nav) ══ */}
       <div style={{flex:1,overflow:'hidden',display:'flex',flexDirection:'column'}}>
+
+        {/* ── Chat view ── */}
         {activeView==='chat'&&(
           <>
-            <div style={{flex:1,overflowY:'auto',padding:'12px 12px 4px'}}>
+            {/* Messages scroll area */}
+            <div style={{flex:1,overflowY:'auto',padding:'16px 14px 8px',background:'#EDE5DA'}}>
               {messages.map(msg=>(
-                <div key={msg.id} style={{display:'flex',gap:8,marginBottom:12,alignItems:'flex-end',justifyContent:msg.type==='user'?'flex-start':'flex-end'}}>
-                  {msg.type==='bot'&&<div style={{width:30,height:30,background:'#8A1538',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,flexShrink:0}}>🎓</div>}
-                  <div style={{maxWidth:'82%'}}>
-                    <div style={{padding:'8px 12px',borderRadius:12,fontSize:13,wordBreak:'break-word',boxShadow:'0 1px 3px rgba(0,0,0,0.1)',color:'#111827',lineHeight:1.6,...(msg.type==='user'?{background:'#FCE4EC',borderTopLeftRadius:3}:{background:'#fff',borderTopRightRadius:3})}}>
+                <div key={msg.id} style={{
+                  display:'flex', gap:8, marginBottom:16,
+                  alignItems:'flex-end',
+                  flexDirection: msg.type==='user' ? 'row-reverse' : 'row',
+                }}>
+                  {/* Bot avatar */}
+                  {msg.type==='bot'&&(
+                    <div style={{
+                      width:32, height:32,
+                      background:'linear-gradient(135deg,#8A1538,#6B1030)',
+                      borderRadius:'50%',
+                      display:'flex', alignItems:'center', justifyContent:'center',
+                      fontSize:15, flexShrink:0,
+                      boxShadow:'0 2px 8px rgba(138,21,56,0.3)',
+                    }}>🎓</div>
+                  )}
+
+                  <div style={{maxWidth:'78%'}}>
+                    {/* Bubble */}
+                    <div style={{
+                      padding:'11px 15px',
+                      borderRadius: msg.type==='user'
+                        ? '18px 4px 18px 18px'
+                        : '4px 18px 18px 18px',
+                      fontSize:13, wordBreak:'break-word', lineHeight:1.7,
+                      ...(msg.type==='user'
+                        ? {
+                            background:'linear-gradient(135deg,#8A1538 0%,#6B1030 100%)',
+                            color:'#fff',
+                            boxShadow:'0 3px 10px rgba(138,21,56,0.28)',
+                          }
+                        : {
+                            background:'#fff',
+                            color:'#1C1C1E',
+                            boxShadow:'0 2px 8px rgba(0,0,0,0.08)',
+                          }),
+                    }}>
                       {renderText(msg.content.text)}
-                      <div style={{fontSize:10,color:'#8696a0',textAlign:'left',marginTop:4}}>{msg.time}</div>
+                      <div style={{
+                        fontSize:10, marginTop:5,
+                        color: msg.type==='user'
+                          ? 'rgba(255,255,255,0.5)'
+                          : '#B0B8C4',
+                        textAlign: msg.type==='user' ? 'right' : 'left',
+                      }}>{msg.time}</div>
                     </div>
+
+                    {/* Suggestion chips */}
                     {msg.suggestions?.length>0&&(
-                      <div style={{display:'flex',flexWrap:'wrap',gap:5,marginTop:5}}>
-                        {msg.suggestions.map((s,i)=>(
-                          <button key={i} style={S.sugg} onClick={()=>sendMessage(s)}>{s}</button>
+                      <div style={{
+                        display:'flex', flexWrap:'wrap', gap:6, marginTop:8,
+                        justifyContent: msg.type==='user' ? 'flex-end' : 'flex-start',
+                      }}>
+                        {msg.suggestions.map((s,si)=>(
+                          <button key={si} style={S.sugg} onClick={()=>sendMessage(s)}>{s}</button>
                         ))}
                       </div>
                     )}
                   </div>
                 </div>
               ))}
+
+              {/* Typing indicator */}
               {isTyping&&(
-                <div style={{display:'flex',gap:8,marginBottom:12,alignItems:'flex-end',justifyContent:'flex-end'}}>
-                  <div style={{width:30,height:30,background:'#8A1538',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14}}>🎓</div>
-                  <div style={{background:'#fff',padding:'10px 16px',borderRadius:12,display:'flex',gap:4,alignItems:'center'}}>
-                    {[0,0.2,0.4].map((d,i)=><span key={i} style={{width:7,height:7,background:'#8696a0',borderRadius:'50%',display:'inline-block',animation:`bounce 1.2s ${d}s infinite`}}/>)}
+                <div style={{display:'flex',gap:8,marginBottom:16,alignItems:'flex-end'}}>
+                  <div style={{
+                    width:32, height:32,
+                    background:'linear-gradient(135deg,#8A1538,#6B1030)',
+                    borderRadius:'50%', display:'flex', alignItems:'center',
+                    justifyContent:'center', fontSize:15, flexShrink:0,
+                    boxShadow:'0 2px 8px rgba(138,21,56,0.3)',
+                  }}>🎓</div>
+                  <div style={{
+                    background:'#fff', padding:'13px 18px',
+                    borderRadius:'4px 18px 18px 18px',
+                    display:'flex', gap:5, alignItems:'center',
+                    boxShadow:'0 2px 8px rgba(0,0,0,0.08)',
+                  }}>
+                    {[0,0.2,0.4].map((d,di)=>(
+                      <span key={di} style={{
+                        width:7, height:7,
+                        background:'#C5A55A',
+                        borderRadius:'50%', display:'inline-block',
+                        animation:`bounce 1.2s ${d}s infinite`,
+                      }}/>
+                    ))}
                   </div>
                 </div>
               )}
               <div ref={messagesEndRef}/>
             </div>
 
-            {/* Quick questions bar */}
-            <div style={{display:'flex',gap:6,padding:'5px 12px',background:'#f8f9fa',borderTop:'1px solid #eee',overflowX:'auto',flexShrink:0,alignItems:'center'}}>
-              <span style={{fontSize:11,color:'#6b7280',flexShrink:0}}>💡</span>
-              {['هندسة البترول','الكليات العسكرية','وايل كورنيل','الابتعاث الأميري','SAT دليل'].map((q,i)=>(
-                <button key={i} style={{padding:'3px 9px',background:'#FEF2F2',border:'1px solid #8A1538',borderRadius:12,fontSize:11,color:'#8A1538',cursor:'pointer',whiteSpace:'nowrap',flexShrink:0}} onClick={()=>sendMessage(q)}>{q}</button>
+            {/* Quick topic chips */}
+            <div style={{
+              display:'flex', gap:6, padding:'8px 14px',
+              background:'rgba(237,229,218,0.97)',
+              borderTop:'1px solid rgba(197,165,90,0.18)',
+              overflowX:'auto', flexShrink:0, alignItems:'center',
+              msOverflowStyle:'none', scrollbarWidth:'none',
+            }}>
+              {['هندسة البترول','الكليات العسكرية','وايل كورنيل','الابتعاث الأميري','SAT دليل'].map((q,qi)=>(
+                <button key={qi}
+                  style={{
+                    padding:'6px 13px',
+                    background:'rgba(255,255,255,0.88)',
+                    border:'1px solid rgba(138,21,56,0.22)',
+                    borderRadius:14, fontSize:11, fontWeight:600,
+                    color:'#8A1538', cursor:'pointer', whiteSpace:'nowrap', flexShrink:0,
+                    fontFamily:"'Tajawal',sans-serif",
+                  }}
+                  onClick={()=>sendMessage(q)}>{q}</button>
               ))}
             </div>
 
-            <div style={{display:'flex',gap:8,padding:'8px 12px',paddingBottom:'max(8px, env(safe-area-inset-bottom, 8px))',background:'#f0f0f0',alignItems:'center',flexShrink:0}}>
-              <input style={{flex:1,padding:'10px 14px',border:'none',borderRadius:22,fontSize:16,outline:'none',background:'#fff',color:'#111827',textAlign:'right',boxShadow:'0 1px 3px rgba(0,0,0,0.1)',minHeight:44}}
-                value={input} onChange={e=>setInput(e.target.value)}
+            {/* Input area */}
+            <div style={{
+              display:'flex', gap:8, padding:'10px 12px',
+              paddingBottom:'max(10px,env(safe-area-inset-bottom,10px))',
+              background:'#fff',
+              borderTop:'1px solid rgba(0,0,0,0.06)',
+              alignItems:'center', flexShrink:0,
+              boxShadow:'0 -2px 12px rgba(0,0,0,0.05)',
+            }}>
+              <input
+                style={{
+                  flex:1, padding:'12px 16px',
+                  border:'1.5px solid #E5DDD5', borderRadius:24,
+                  fontSize:14, outline:'none',
+                  background:'#F8F5F2', color:'#1C1C1E',
+                  textAlign:'right',
+                  fontFamily:"'Tajawal',sans-serif",
+                }}
+                value={input}
+                onChange={e=>setInput(e.target.value)}
                 onKeyDown={e=>e.key==='Enter'&&sendMessage()}
-                placeholder="اسأل عن خطة دراسية، مواد، فرص عمل، مقارنة..."/>
-              <button style={{width:42,height:42,borderRadius:'50%',background:'#8A1538',border:'none',color:'#fff',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',transform:'rotate(180deg)'}}
-                onClick={()=>sendMessage()}><span style={{fontSize:20}}>➤</span></button>
+                onFocus={e=>e.target.style.borderColor='#8A1538'}
+                onBlur={e=>e.target.style.borderColor='#E5DDD5'}
+                placeholder="اسأل عن خطة دراسية، مواد، مقارنة..."
+              />
+              <button
+                style={{
+                  width:44, height:44, borderRadius:'50%', border:'none',
+                  color:'#fff', cursor:'pointer', flexShrink:0,
+                  display:'flex', alignItems:'center', justifyContent:'center',
+                  background: input.trim()
+                    ? 'linear-gradient(135deg,#8A1538,#6B1030)'
+                    : '#E5E7EB',
+                  boxShadow: input.trim()
+                    ? '0 4px 14px rgba(138,21,56,0.35)'
+                    : 'none',
+                  transition:'all 0.2s',
+                }}
+                onClick={()=>sendMessage()}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill={input.trim()?'#fff':'#9CA3AF'}>
+                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                </svg>
+              </button>
             </div>
           </>
         )}
+
+        {/* ── Universities view ── */}
         {activeView==='universities'&&(
           <UniversitiesView
             S={S}
@@ -519,6 +716,8 @@ export default function QatarUniversityAdvisor() {
             sendMessage={sendMessage}
           />
         )}
+
+        {/* ── Compare view ── */}
         {activeView==='compare'&&(
           <CompareView
             S={S}
@@ -529,6 +728,8 @@ export default function QatarUniversityAdvisor() {
             sendMessage={sendMessage}
           />
         )}
+
+        {/* ── Favorites view ── */}
         {activeView==='favorites'&&(
           <FavoritesView
             S={S}
@@ -539,15 +740,50 @@ export default function QatarUniversityAdvisor() {
             sendMessage={sendMessage}
           />
         )}
-        {activeView==='execution-plan'&&<ExecutionPlan />}
+      </div>
+
+      {/* ══ Bottom navigation (true bottom) ══ */}
+      <div style={{
+        display:'flex', background:'#fff',
+        borderTop:'1px solid rgba(0,0,0,0.06)',
+        flexShrink:0, zIndex:90,
+        boxShadow:'0 -4px 16px rgba(0,0,0,0.07)',
+        paddingBottom:'env(safe-area-inset-bottom,0)',
+      }}>
+        {[
+          {icon:'💬', label:'محادثة',  view:'chat'},
+          {icon:'🏛️', label:'جامعات', view:'universities'},
+          {icon:'📊', label:'مقارنة',  view:'compare'},
+          {icon:'⭐', label:'مفضلة',   view:'favorites'},
+        ].map((t,i)=>(
+          <button key={i}
+            style={{
+              flex:1, display:'flex', flexDirection:'column',
+              alignItems:'center', gap:3,
+              padding:'9px 0 7px', background:'none', border:'none',
+              cursor:'pointer', fontFamily:"'Tajawal',sans-serif",
+              fontSize:11, fontWeight: activeView===t.view ? 700 : 400,
+              color: activeView===t.view ? '#8A1538' : '#9CA3AF',
+              borderTop: activeView===t.view
+                ? '2.5px solid #C5A55A'
+                : '2.5px solid transparent',
+              transition:'all 0.18s',
+            }}
+            onClick={()=>setActiveView(t.view)}
+          >
+            <span style={{fontSize:21,lineHeight:1}}>{t.icon}</span>
+            <span>{t.label}</span>
+          </button>
+        ))}
       </div>
 
       <style>{`
-        @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+        @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
         *{box-sizing:border-box}
         ::-webkit-scrollbar{width:4px}
-        ::-webkit-scrollbar-thumb{background:#8A1538;border-radius:2px}
-        p{margin:2px 0;line-height:1.6}
+        ::-webkit-scrollbar-track{background:transparent}
+        ::-webkit-scrollbar-thumb{background:rgba(138,21,56,0.25);border-radius:2px}
+        p{margin:2px 0;line-height:1.7}
         strong{font-weight:700}
       `}</style>
     </div>
@@ -555,28 +791,115 @@ export default function QatarUniversityAdvisor() {
 }
 
 const S={
-  app:{display:'flex',flexDirection:'column',height:'100dvh',fontFamily:"'Tajawal','Segoe UI',sans-serif",background:'#F5F0EB',direction:'rtl',overflow:'hidden',maxWidth:480,margin:'0 auto',position:'relative',boxShadow:window.innerWidth>768?'0 0 40px rgba(138,21,56,0.15)':'none'},
-  hdr:{background:'#8A1538',color:'#fff',padding:'8px 12px 0',flexShrink:0,zIndex:100},
-  hb:{background:'none',border:'none',color:'#fff',cursor:'pointer',padding:'4px 8px',borderRadius:6,position:'relative'},
-  vc:{flex:1,overflowY:'auto',padding:12},
-  vh:{marginBottom:12,textAlign:'center'},
-  vt:{fontSize:17,fontWeight:700,color:'#8A1538',margin:0},
-  vs:{fontSize:12,color:'#6b7280',margin:'3px 0 0'},
-  ucard:{background:'#fff',borderRadius:12,marginBottom:10,boxShadow:'0 1px 4px rgba(0,0,0,0.1)',overflow:'hidden'},
-  ucardH:{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 14px',cursor:'pointer'},
-  un:{fontWeight:700,fontSize:14,color:'#1a1a1a'},
-  badge:{color:'#fff',fontSize:10,padding:'2px 6px',borderRadius:8,fontWeight:600},
-  mt:{fontSize:11,color:'#6b7280'},
-  ib:{background:'none',border:'none',fontSize:18,cursor:'pointer',padding:4},
-  uex:{padding:'0 14px 14px',borderTop:'1px solid #f0f0f0'},
-  chip:{fontSize:11,color:'#374151',background:'#f9fafb',padding:'3px 8px',borderRadius:8},
-  pros:{flex:1,background:'#f0fdf4',padding:'8px 10px',borderRadius:8},
-  cons:{flex:1,background:'#fff7ed',padding:'8px 10px',borderRadius:8},
-  ab:{flex:1,padding:'8px',background:'#8A1538',color:'#fff',border:'none',borderRadius:8,fontSize:12,cursor:'pointer',fontWeight:600},
-  wb:{display:'block',textAlign:'center',padding:'6px',background:'#e0f2fe',color:'#0369a1',borderRadius:8,textDecoration:'none',fontSize:12,marginTop:8},
-  cl:{flex:'0 0 95px',padding:'9px 10px',fontSize:11,fontWeight:600,color:'#374151',background:'#f9fafb',borderLeft:'1px solid #f0f0f0'},
-  cc:{flex:1,padding:'9px 10px',fontSize:11,color:'#1a1a1a',textAlign:'center'},
-  em:{textAlign:'center',padding:40,color:'#6b7280'},
-  gb:{padding:'10px 20px',background:'#8A1538',color:'#fff',border:'none',borderRadius:20,cursor:'pointer',fontSize:13,fontWeight:600,display:'block',width:'100%',marginTop:8},
-  sugg:{padding:'5px 10px',background:'#fff',border:'1px solid #8A1538',borderRadius:14,fontSize:12,color:'#8A1538',cursor:'pointer',marginBottom:4}
+  // ── App shell ──
+  app:{
+    display:'flex', flexDirection:'column',
+    height:'100dvh', fontFamily:"'Tajawal','Segoe UI',sans-serif",
+    background:'#EDE5DA', direction:'rtl', overflow:'hidden',
+    width:'100%', maxWidth:560, margin:'0 auto',
+    position:'relative',
+    borderRadius:typeof window!=='undefined'&&window.innerWidth>=768 ? 20 : 0,
+    boxShadow:typeof window!=='undefined'&&window.innerWidth>=768
+      ? '0 24px 64px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.08)'
+      : 'none',
+  },
+  // ── Header ──
+  hdr:{
+    background:'linear-gradient(160deg,#8A1538 0%,#6B1030 100%)',
+    color:'#fff', padding:'10px 14px 0',
+    flexShrink:0, zIndex:100,
+    boxShadow:'0 2px 16px rgba(107,16,48,0.32)',
+  },
+  hb:{
+    background:'rgba(255,255,255,0.12)',
+    border:'1px solid rgba(255,255,255,0.16)',
+    color:'#fff', cursor:'pointer', padding:0,
+    borderRadius:10, display:'flex',
+    alignItems:'center', justifyContent:'center',
+    width:36, height:36, flexShrink:0,
+  },
+  // ── View containers ──
+  vc:{ flex:1, overflowY:'auto', padding:'14px 12px 8px', background:'#F8F5F2' },
+  vh:{
+    marginBottom:16, textAlign:'center',
+    padding:'8px 0 14px',
+    borderBottom:'1px solid rgba(138,21,56,0.08)',
+  },
+  vt:{
+    fontSize:20, fontWeight:800, color:'#8A1538', margin:0,
+    fontFamily:"'Cairo','Tajawal',sans-serif",
+  },
+  vs:{ fontSize:12, color:'#9CA3AF', margin:'4px 0 0' },
+  // ── University cards ──
+  ucard:{
+    background:'#fff', borderRadius:16, marginBottom:10,
+    boxShadow:'0 2px 12px rgba(0,0,0,0.07)',
+    overflow:'hidden', border:'1px solid rgba(0,0,0,0.04)',
+  },
+  ucardH:{
+    display:'flex', alignItems:'center',
+    justifyContent:'space-between',
+    padding:'14px 16px', cursor:'pointer',
+  },
+  un:{ fontWeight:700, fontSize:14, color:'#1C1C1E', lineHeight:1.3, marginBottom:3 },
+  badge:{ fontSize:10, padding:'3px 9px', borderRadius:10, fontWeight:700, display:'inline-block' },
+  mt:{ fontSize:11, color:'#9CA3AF' },
+  ib:{
+    background:'rgba(138,21,56,0.06)', border:'none',
+    fontSize:16, cursor:'pointer', padding:'6px 8px',
+    borderRadius:8, minHeight:'auto',
+    display:'flex', alignItems:'center', justifyContent:'center',
+  },
+  uex:{ padding:'4px 16px 16px', borderTop:'1px solid #F5F5F5' },
+  chip:{
+    fontSize:11, color:'#374151', background:'#F9FAFB',
+    padding:'4px 10px', borderRadius:10, border:'1px solid #EAEAEA',
+    display:'inline-block',
+  },
+  pros:{
+    flex:1, background:'#F0FDF4', padding:'10px 12px',
+    borderRadius:10, border:'1px solid #DCFCE7',
+  },
+  cons:{
+    flex:1, background:'#FFF7ED', padding:'10px 12px',
+    borderRadius:10, border:'1px solid #FED7AA',
+  },
+  ab:{
+    flex:1, padding:'10px 8px', background:'#8A1538', color:'#fff',
+    border:'none', borderRadius:10, fontSize:11,
+    cursor:'pointer', fontWeight:700, fontFamily:"'Tajawal',sans-serif",
+  },
+  wb:{
+    display:'block', textAlign:'center', padding:'9px',
+    background:'#EFF6FF', color:'#1D4ED8', borderRadius:10,
+    textDecoration:'none', fontSize:12, marginTop:10,
+    border:'1px solid #BFDBFE', fontWeight:600,
+  },
+  // ── Compare table ──
+  cl:{
+    flex:'0 0 88px', padding:'10px', fontSize:11, fontWeight:700,
+    color:'#374151', background:'#FAFAFA', borderLeft:'1px solid #F0F0F0',
+  },
+  cc:{ flex:1, padding:'10px', fontSize:11, color:'#1C1C1E', textAlign:'center', lineHeight:1.5 },
+  // ── Empty states ──
+  em:{ textAlign:'center', padding:'48px 20px', color:'#9CA3AF' },
+  gb:{
+    padding:'13px 24px',
+    background:'linear-gradient(135deg,#8A1538 0%,#6B1030 100%)',
+    color:'#fff', border:'none', borderRadius:24,
+    cursor:'pointer', fontSize:14, fontWeight:700,
+    display:'block', width:'100%', marginTop:10,
+    fontFamily:"'Tajawal',sans-serif",
+    boxShadow:'0 4px 16px rgba(138,21,56,0.25)',
+  },
+  // ── Suggestion chips ──
+  sugg:{
+    padding:'8px 14px', background:'#fff',
+    border:'1.5px solid rgba(138,21,56,0.28)',
+    borderRadius:18, fontSize:12, color:'#8A1538',
+    cursor:'pointer', fontWeight:600,
+    fontFamily:"'Tajawal',sans-serif",
+    boxShadow:'0 1px 4px rgba(0,0,0,0.06)',
+    whiteSpace:'nowrap',
+  },
 };

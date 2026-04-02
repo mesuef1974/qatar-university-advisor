@@ -24,6 +24,8 @@ export default defineConfig([
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]', argsIgnorePattern: '^_' }],
+      // Date.now / Math.random in event handlers is fine — not during render
+      'react-hooks/purity': 'off',
     },
   },
 ])

@@ -12,155 +12,171 @@ export default function Header({
   selectNationality,
 }) {
   const [showNatPicker, setShowNatPicker] = useState(false);
-
-  const natBadge = userProfile.nationality === 'qatari' ? '🇶🇦' : '🌍';
-  const natLabel = userProfile.nationality === 'qatari' ? 'قطري' : 'مقيم';
+  const isQatari = userProfile.nationality === 'qatari';
 
   return (
     <div style={S.hdr}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingBottom: 8 }}>
-        <button style={S.hb} onClick={() => setShowMenu(!showMenu)}>
-          <span style={{ fontSize: 20 }}>☰</span>
-        </button>
-        <div
-          style={{
-            position: 'relative',
-            width: 38,
-            height: 38,
-            background: '#128c7e',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-          }}
+
+      {/* ══ Row 1: Brand bar ══ */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingBottom: 10 }}>
+
+        {/* Hamburger */}
+        <button
+          style={S.hb}
+          onClick={() => setShowMenu(!showMenu)}
+          aria-label="القائمة الجانبية"
         >
-          <span style={{ fontSize: 20 }}>🎓</span>
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 2,
-              left: 2,
-              width: 9,
-              height: 9,
-              background: '#25d366',
-              borderRadius: '50%',
-              border: '2px solid #075e54',
-            }}
-          />
-        </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: 700, fontSize: 14, color: '#fff', display: 'flex', alignItems: 'center', gap: 6 }}>
-            المستشار الجامعي الذكي v5
-            {userProfile.nationality && (
-              <span
-                onClick={(e) => { e.stopPropagation(); setShowNatPicker(!showNatPicker); }}
-                style={{
-                  fontSize: 11,
-                  background: 'rgba(255,255,255,0.2)',
-                  padding: '2px 8px',
-                  borderRadius: 10,
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 3,
-                  transition: 'background 0.2s',
-                }}
-                title="تغيير الجنسية"
-              >
-                {natBadge} {natLabel}
-              </span>
-            )}
+          <svg width="17" height="13" viewBox="0 0 17 13" fill="none">
+            <path d="M1 1h15M1 6.5h15M1 12h15" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"/>
+          </svg>
+        </button>
+
+        {/* Logo + name */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
+          <div style={{
+            width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
+            background: 'rgba(197,165,90,0.18)',
+            border: '1.5px solid rgba(197,165,90,0.45)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 20,
+          }}>🎓</div>
+
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap',
+              fontWeight: 800, fontSize: 15, color: '#fff',
+              fontFamily: "'Cairo','Tajawal',sans-serif", lineHeight: 1.2,
+            }}>
+              <span>المستشار الجامعي</span>
+
+              {/* Nationality badge (clickable) */}
+              {userProfile.nationality && (
+                <button
+                  onClick={() => setShowNatPicker(p => !p)}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 3,
+                    fontSize: 10, fontWeight: 700,
+                    padding: '3px 8px', borderRadius: 10, cursor: 'pointer',
+                    border: isQatari
+                      ? '1px solid rgba(197,165,90,0.5)'
+                      : '1px solid rgba(255,255,255,0.22)',
+                    background: isQatari
+                      ? 'rgba(197,165,90,0.2)'
+                      : 'rgba(255,255,255,0.12)',
+                    color: isQatari ? '#F5D78E' : 'rgba(255,255,255,0.9)',
+                    fontFamily: "'Tajawal',sans-serif",
+                  }}
+                >
+                  {isQatari ? '🇶🇦 قطري' : '🌍 مقيم'}
+                </button>
+              )}
+            </div>
+
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.58)', marginTop: 2 }}>
+              {userProfile.grade
+                ? `معدل ${userProfile.grade}% · ${userProfile.track || ''}`
+                : '23 جامعة · قاعدة معرفة شاملة'}
+            </div>
           </div>
-          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.85)' }}>
-            {userProfile.grade ? `📊 ${userProfile.grade}% ${userProfile.track || ''}` : ''} قاعدة
-            معرفة شاملة
-          </div>
         </div>
+
+        {/* Favorites button */}
         <button
           style={{ ...S.hb, position: 'relative' }}
           onClick={() => setActiveView(activeView === 'favorites' ? 'chat' : 'favorites')}
+          aria-label="المفضلة"
         >
-          <span style={{ fontSize: 18 }}>⭐</span>
+          <svg
+            width="17" height="17" viewBox="0 0 24 24"
+            fill={activeView === 'favorites' ? '#C5A55A' : 'none'}
+            stroke={activeView === 'favorites' ? '#C5A55A' : '#fff'}
+            strokeWidth="1.8" strokeLinejoin="round"
+          >
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
           {userProfile.favorites.length > 0 && (
-            <span
-              style={{
-                position: 'absolute',
-                top: -2,
-                right: -2,
-                background: '#25d366',
-                color: '#fff',
-                borderRadius: '50%',
-                width: 14,
-                height: 14,
-                fontSize: 9,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
+            <span style={{
+              position: 'absolute', top: -3, left: -3,
+              background: '#C5A55A', color: '#6B1030',
+              borderRadius: '50%', width: 16, height: 16,
+              fontSize: 9, fontWeight: 900,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              border: '2px solid #8A1538',
+            }}>
               {userProfile.favorites.length}
             </span>
           )}
         </button>
       </div>
 
-      {/* Nationality picker dropdown */}
+      {/* ══ Nationality picker dropdown ══ */}
       {showNatPicker && (
         <div style={{
-          position: 'absolute', top: 52, left: 60, right: 60, zIndex: 300,
-          background: '#fff', borderRadius: 12, padding: 12, boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
-          display: 'flex', gap: 8, justifyContent: 'center',
+          position: 'absolute', top: 62, right: 12, left: 12, zIndex: 300,
+          background: '#fff', borderRadius: 14, padding: 14,
+          boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+          border: '1px solid rgba(0,0,0,0.06)',
         }}>
-          <button onClick={() => { selectNationality('qatari'); setShowNatPicker(false); }} style={{
-            flex: 1, padding: '10px 8px', borderRadius: 8, border: userProfile.nationality === 'qatari' ? '2px solid #8A1538' : '1px solid #e5e7eb',
-            background: userProfile.nationality === 'qatari' ? '#FEF2F2' : '#fff', cursor: 'pointer', fontSize: 14, fontWeight: 600,
-            color: '#1a1a1a', fontFamily: "'Tajawal',sans-serif", minHeight: 44,
+          <p style={{
+            fontSize: 12, color: '#9CA3AF', textAlign: 'center',
+            margin: '0 0 10px', fontWeight: 600,
+            fontFamily: "'Tajawal',sans-serif",
           }}>
-            🇶🇦 قطري
-          </button>
-          <button onClick={() => { selectNationality('non_qatari'); setShowNatPicker(false); }} style={{
-            flex: 1, padding: '10px 8px', borderRadius: 8, border: userProfile.nationality === 'non_qatari' ? '2px solid #8A1538' : '1px solid #e5e7eb',
-            background: userProfile.nationality === 'non_qatari' ? '#FEF2F2' : '#fff', cursor: 'pointer', fontSize: 14, fontWeight: 600,
-            color: '#1a1a1a', fontFamily: "'Tajawal',sans-serif", minHeight: 44,
-          }}>
-            🌍 مقيم
-          </button>
+            تغيير الجنسية
+          </p>
+          <div style={{ display: 'flex', gap: 8 }}>
+            {[
+              { val: 'qatari',     flag: '🇶🇦', label: 'قطري / قطرية' },
+              { val: 'non_qatari', flag: '🌍', label: 'مقيم في قطر'  },
+            ].map(({ val, flag, label }) => (
+              <button key={val}
+                onClick={() => { selectNationality(val); setShowNatPicker(false); }}
+                style={{
+                  flex: 1, padding: '12px 8px', borderRadius: 10, cursor: 'pointer',
+                  fontFamily: "'Tajawal',sans-serif", fontSize: 13, fontWeight: 700,
+                  color: '#1C1C1E',
+                  border: userProfile.nationality === val
+                    ? '2px solid #8A1538'
+                    : '1.5px solid #E5E7EB',
+                  background: userProfile.nationality === val ? '#FEF2F2' : '#FAFAFA',
+                }}
+              >
+                {flag} {label}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
-      <div style={{ display: 'flex', gap: 4, overflowX: 'auto', paddingBottom: 8 }}>
+      {/* ══ Row 2: Quick-action chips ══ */}
+      <div style={{
+        display: 'flex', gap: 6, paddingBottom: 10,
+        overflowX: 'auto', msOverflowStyle: 'none', scrollbarWidth: 'none',
+      }}>
         {quickBtns.map((b, i) => (
-          <button
-            key={i}
+          <button key={i}
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 2,
-              padding: '6px 10px',
-              background: 'rgba(255,255,255,0.15)',
-              border: 'none',
-              borderRadius: 12,
-              color: '#fff',
-              cursor: 'pointer',
-              fontSize: 11,
-              whiteSpace: 'nowrap',
-              flexShrink: 0,
-              minHeight: 44,
-              justifyContent: 'center',
-              transition: 'background 0.2s',
+              display: 'inline-flex', alignItems: 'center', gap: 5,
+              padding: '7px 13px', borderRadius: 20, flexShrink: 0,
+              background: 'rgba(255,255,255,0.11)',
+              border: '1px solid rgba(255,255,255,0.16)',
+              color: '#fff', cursor: 'pointer',
+              fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap',
+              fontFamily: "'Tajawal',sans-serif",
             }}
-            onClick={() => {
-              setActiveView('chat');
-              sendMessage(b.q);
-            }}
+            onClick={() => { setActiveView('chat'); sendMessage(b.q); }}
           >
-            <span>{b.icon}</span>
-            <span style={{ fontSize: 10 }}>{b.label}</span>
+            <span style={{ fontSize: 14 }}>{b.icon}</span>
+            <span>{b.label}</span>
           </button>
         ))}
       </div>
+
+      {/* ══ Gold accent underline ══ */}
+      <div style={{
+        height: 2, margin: '0 -14px',
+        background: 'linear-gradient(90deg, transparent 0%, rgba(197,165,90,0.6) 50%, transparent 100%)',
+      }} />
     </div>
   );
 }

@@ -70,19 +70,33 @@ export default function UniversitiesView({
   const renderCard = (u) => {
     const colors = TYPE_COLORS[u.type] || TYPE_COLORS['خاصة'];
     const isRestricted = isNonQatari && u.qatariOnly;
+    const isOpen = expandedUni === u.id;
+    const isFav = userProfile.favorites.includes(u.id);
+    const isCmp = compareList.includes(u.id);
 
     return (
       <div key={u.id} style={{
         ...S.ucard,
-        opacity: isRestricted ? 0.7 : 1,
-        borderRight: `3px solid ${colors.border}`,
+        opacity: isRestricted ? 0.72 : 1,
+        borderRight: `3.5px solid ${colors.border}`,
       }}>
-        <div style={S.ucardH} onClick={() => setExpandedUni(expandedUni === u.id ? null : u.id)}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1 }}>
-            <span style={{ fontSize: 26 }}>{u.icon}</span>
-            <div style={{ flex: 1 }}>
+        {/* Card header row */}
+        <div style={S.ucardH} onClick={() => setExpandedUni(isOpen ? null : u.id)}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
+            {/* Icon in colored circle */}
+            <div style={{
+              width: 44, height: 44, borderRadius: 12, flexShrink: 0,
+              background: colors.bg,
+              border: `1.5px solid ${colors.border}`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 22,
+            }}>
+              {u.icon}
+            </div>
+
+            <div style={{ flex: 1, minWidth: 0 }}>
               <div style={S.un}>{u.name}</div>
-              <div style={{ display: 'flex', gap: 5, marginTop: 3, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', alignItems: 'center' }}>
                 <span style={{
                   ...S.badge,
                   background: colors.bg,
@@ -91,21 +105,47 @@ export default function UniversitiesView({
                 }}>
                   {u.type}
                 </span>
-                <span style={S.mt}>📊 {u.minGrade}%+</span>
+                <span style={{ ...S.mt, display: 'flex', alignItems: 'center', gap: 2 }}>
+                  📊 {u.minGrade}%+
+                </span>
                 {isRestricted && (
-                  <span style={{ fontSize: 10, color: '#dc2626', fontWeight: 600 }}>🔒 قطريين فقط</span>
+                  <span style={{ fontSize: 10, color: '#DC2626', fontWeight: 700 }}>🔒 قطريون فقط</span>
                 )}
               </div>
             </div>
           </div>
-          <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
-            <button style={S.ib} onClick={(e) => { e.stopPropagation(); toggleFav(u.id); }}>
-              {userProfile.favorites.includes(u.id) ? '⭐' : '☆'}
+
+          {/* Action buttons */}
+          <div style={{ display: 'flex', gap: 4, alignItems: 'center', flexShrink: 0 }}>
+            <button
+              style={{
+                ...S.ib,
+                background: isFav ? 'rgba(197,165,90,0.15)' : 'rgba(138,21,56,0.06)',
+                color: isFav ? '#C5A55A' : '#9CA3AF',
+                fontSize: 15,
+              }}
+              onClick={(e) => { e.stopPropagation(); toggleFav(u.id); }}
+              aria-label="مفضلة"
+            >
+              {isFav ? '⭐' : '☆'}
             </button>
-            <button style={S.ib} onClick={(e) => { e.stopPropagation(); toggleCmp(u.id); }}>
-              {compareList.includes(u.id) ? '✅' : '📊'}
+            <button
+              style={{
+                ...S.ib,
+                background: isCmp ? 'rgba(16,185,129,0.1)' : 'rgba(138,21,56,0.06)',
+                color: isCmp ? '#059669' : '#9CA3AF',
+                fontSize: 14,
+              }}
+              onClick={(e) => { e.stopPropagation(); toggleCmp(u.id); }}
+              aria-label="مقارنة"
+            >
+              {isCmp ? '✅' : '📊'}
             </button>
-            <span style={{ color: '#6b7280' }}>{expandedUni === u.id ? '▲' : '▼'}</span>
+            <span style={{
+              fontSize: 11, color: '#9CA3AF', paddingRight: 2,
+              transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.2s', display: 'inline-block',
+            }}>▼</span>
           </div>
         </div>
 
@@ -175,39 +215,49 @@ export default function UniversitiesView({
       </div>
 
       {/* Search */}
-      <div style={{ padding: '0 4px', marginBottom: 10 }}>
+      <div style={{ marginBottom: 10 }}>
         <input
           type="text"
-          placeholder="🔍 ابحث عن جامعة..."
+          placeholder="🔍 ابحث عن جامعة أو تخصص..."
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
           style={{
-            width: '100%', padding: '10px 14px', borderRadius: 10,
-            border: '1px solid #E5E7EB', fontSize: 14, textAlign: 'right',
-            direction: 'rtl', outline: 'none', color: '#111827',
-            background: '#fff',
+            width: '100%', padding: '11px 16px', borderRadius: 12,
+            border: '1.5px solid #E5DDD5', fontSize: 14, textAlign: 'right',
+            direction: 'rtl', outline: 'none', color: '#1C1C1E',
+            background: '#fff', fontFamily: "'Tajawal',sans-serif",
+            boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
           }}
+          onFocus={e => e.target.style.borderColor = '#8A1538'}
+          onBlur={e => e.target.style.borderColor = '#E5DDD5'}
         />
       </div>
 
-      {/* Category Filters */}
+      {/* Category filter chips */}
       <div style={{
-        display: 'flex', gap: 6, padding: '0 4px', marginBottom: 12,
-        overflowX: 'auto', flexWrap: 'nowrap',
-        msOverflowStyle: 'none', scrollbarWidth: 'none',
+        display: 'flex', gap: 6, marginBottom: 14,
+        overflowX: 'auto', msOverflowStyle: 'none', scrollbarWidth: 'none',
       }}>
         {CATEGORIES.map(cat => (
           <button
             key={cat.key}
             onClick={() => setActiveCategory(cat.key)}
             style={{
-              padding: '6px 12px', borderRadius: 20, fontSize: 12,
-              fontWeight: activeCategory === cat.key ? 700 : 400,
-              background: activeCategory === cat.key ? '#8A1538' : '#fff',
+              padding: '7px 14px', borderRadius: 20, fontSize: 12,
+              fontWeight: activeCategory === cat.key ? 700 : 500,
+              fontFamily: "'Tajawal',sans-serif",
+              background: activeCategory === cat.key
+                ? 'linear-gradient(135deg,#8A1538,#6B1030)'
+                : '#fff',
               color: activeCategory === cat.key ? '#fff' : '#374151',
-              border: activeCategory === cat.key ? 'none' : '1px solid #E5E7EB',
+              border: activeCategory === cat.key
+                ? 'none'
+                : '1.5px solid #E5E7EB',
               cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
-              minHeight: 36,
+              boxShadow: activeCategory === cat.key
+                ? '0 3px 10px rgba(138,21,56,0.25)'
+                : 'none',
+              transition: 'all 0.18s',
             }}
           >
             {cat.icon} {cat.label}
