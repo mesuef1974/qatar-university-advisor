@@ -792,17 +792,34 @@ export default function QatarUniversityAdvisor() {
 
 const S={
   // ── App shell ──
-  app:{
-    display:'flex', flexDirection:'column',
-    height:'100dvh', fontFamily:"'Tajawal','Segoe UI',sans-serif",
-    background:'#EDE5DA', direction:'rtl', overflow:'hidden',
-    width:'100%', maxWidth:560, margin:'0 auto',
-    position:'relative',
-    borderRadius:typeof window!=='undefined'&&window.innerWidth>=768 ? 20 : 0,
-    boxShadow:typeof window!=='undefined'&&window.innerWidth>=768
-      ? '0 24px 64px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.08)'
-      : 'none',
-  },
+  app:(()=>{
+    const w = typeof window!=='undefined' ? window.innerWidth : 400;
+    // desktop (≥1024): fill the right panel — no max-width, no card chrome
+    if (w >= 1024) return {
+      display:'flex', flexDirection:'column',
+      height:'100dvh', fontFamily:"'Tajawal','Segoe UI',sans-serif",
+      background:'#EDE5DA', direction:'rtl', overflow:'hidden',
+      width:'100%', maxWidth:'100%', margin:0,
+      position:'relative', borderRadius:0, boxShadow:'none',
+    };
+    // tablet (≥768): centred card
+    if (w >= 768) return {
+      display:'flex', flexDirection:'column',
+      height:'100dvh', fontFamily:"'Tajawal','Segoe UI',sans-serif",
+      background:'#EDE5DA', direction:'rtl', overflow:'hidden',
+      width:'100%', maxWidth:520, margin:'0 auto',
+      position:'relative', borderRadius:20,
+      boxShadow:'0 24px 64px rgba(0,0,0,0.35)',
+    };
+    // mobile: full screen
+    return {
+      display:'flex', flexDirection:'column',
+      height:'100dvh', fontFamily:"'Tajawal','Segoe UI',sans-serif",
+      background:'#EDE5DA', direction:'rtl', overflow:'hidden',
+      width:'100%', maxWidth:'100%', margin:0,
+      position:'relative', borderRadius:0, boxShadow:'none',
+    };
+  })(),
   // ── Header ──
   hdr:{
     background:'linear-gradient(160deg,#8A1538 0%,#6B1030 100%)',

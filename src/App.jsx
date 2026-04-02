@@ -220,35 +220,9 @@ export default function App() {
           {/* Left branding panel */}
           <DesktopPanel />
 
-          {/* Right: app + decorative fill */}
-          <div style={{
-            flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: 'linear-gradient(135deg,#F5EFE8 0%,#EDE5DA 100%)',
-            padding: '24px 32px',
-            position: 'relative', overflow: 'hidden',
-          }}>
-            {/* Subtle background circles */}
-            <div style={{
-              position: 'absolute', top: '-10%', right: '-5%',
-              width: 300, height: 300, borderRadius: '50%',
-              background: 'rgba(138,21,56,0.04)', pointerEvents: 'none',
-            }}/>
-            <div style={{
-              position: 'absolute', bottom: '-10%', left: '-5%',
-              width: 240, height: 240, borderRadius: '50%',
-              background: 'rgba(197,165,90,0.06)', pointerEvents: 'none',
-            }}/>
-
-            {/* App card */}
-            <div style={{
-              width: '100%', maxWidth: 560, height: '100%',
-              maxHeight: 'calc(100vh - 48px)',
-              borderRadius: 20, overflow: 'hidden',
-              boxShadow: '0 24px 64px rgba(0,0,0,0.18), 0 0 0 1px rgba(138,21,56,0.1)',
-              position: 'relative',
-            }}>
-              {view === 'app' ? <QatarUniversityAdvisor /> : <ExecutionPlan />}
-            </div>
+          {/* Right: app fills the full panel */}
+          <div style={{ flex: 1, overflow: 'hidden', position: 'relative' }}>
+            {view === 'app' ? <QatarUniversityAdvisor /> : <ExecutionPlan />}
           </div>
         </div>
       ) : (
