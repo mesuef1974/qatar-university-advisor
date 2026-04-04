@@ -5,16 +5,17 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    // ENG-002: Code splitting — فصل المكتبات الكبيرة لتحسين التحميل
     rollupOptions: {
+      // ENG-002: تجاهل استيرادات jspdf الاختيارية
+      external: ['canvg', 'html2canvas', 'dompurify'],
       output: {
-        manualChunks: {
-          vendor:   ['react', 'react-dom'],
-          supabase: ['@supabase/supabase-js'],
+        // ENG-002: Code splitting — فصل المكتبات الكبيرة لتحسين التحميل
+        manualChunks(id) {
+          if (id.includes('react-dom') || id.includes('react')) return 'vendor';
+          if (id.includes('@supabase/supabase-js')) return 'supabase';
         },
       },
     },
-    // تحذير عند تجاوز 500 KB لأي chunk
     chunkSizeWarningLimit: 500,
   },
 })
