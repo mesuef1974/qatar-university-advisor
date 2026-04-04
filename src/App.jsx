@@ -1,11 +1,23 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Suspense, lazy } from "react";
 import QatarUniversityAdvisor from "./QatarUniversityAdvisor.jsx";
-import ExecutionPlan from "./components/ExecutionPlan.jsx";
 import PrivacyConsent from "./components/PrivacyConsent.jsx";
-import AdminDashboard from "./pages/AdminDashboard.jsx";
-import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
-import TermsOfService from "./pages/TermsOfService.jsx";
 import AcademicDisclaimer from "./components/AcademicDisclaimer.jsx";
+
+// UX-A1: Lazy Loading — الصفحات الثانوية تُحمَّل عند الحاجة فقط
+const ExecutionPlan = lazy(() => import("./components/ExecutionPlan.jsx"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard.jsx"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy.jsx"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService.jsx"));
+
+// UX-A1: Loading fallback component
+const LoadingFallback = () => (
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', direction: 'rtl', fontFamily: "'Cairo', sans-serif" }}>
+    <div style={{ textAlign: 'center' }}>
+      <div style={{ fontSize: 32, marginBottom: 12 }}>⏳</div>
+      <div style={{ color: '#666' }}>جارٍ التحميل...</div>
+    </div>
+  </div>
+);
 
 // ── Secret admin unlock (5 taps / 3 s on bottom-left corner) ──
 const ADMIN_TAPS   = 5;
@@ -214,15 +226,15 @@ export default function App() {
 
   // ── Admin route ──
   if (window.location.pathname === '/admin') {
-    return <AdminDashboard />;
+    return <Suspense fallback={<LoadingFallback />}><AdminDashboard /></Suspense>;
   }
 
   // ── Legal pages routes ──
   if (window.location.pathname === '/privacy') {
-    return <PrivacyPolicy onBack={() => window.history.back()} />;
+    return <Suspense fallback={<LoadingFallback />}><PrivacyPolicy onBack={() => window.history.back()} /></Suspense>;
   }
   if (window.location.pathname === '/terms') {
-    return <TermsOfService onBack={() => window.history.back()} />;
+    return <Suspense fallback={<LoadingFallback />}><TermsOfService onBack={() => window.history.back()} /></Suspense>;
   }
 
   // ── Privacy consent screen ──
@@ -233,7 +245,7 @@ export default function App() {
   // ── The main app content ──
   const AppContent = view === 'app'
     ? <QatarUniversityAdvisor />
-    : <ExecutionPlan />;
+    : <Suspense fallback={<LoadingFallback />}><ExecutionPlan /></Suspense>;
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', width: '100%' }}>
@@ -249,7 +261,7 @@ export default function App() {
 
           {/* Right: app fills the full panel */}
           <div style={{ flex: 1, overflow: 'hidden', position: 'relative' }}>
-            {view === 'app' ? <QatarUniversityAdvisor /> : <ExecutionPlan />}
+            {view === 'app' ? <QatarUniversityAdvisor /> : <Suspense fallback={<LoadingFallback />}><ExecutionPlan /></Suspense>}
           </div>
         </div>
       ) : (
