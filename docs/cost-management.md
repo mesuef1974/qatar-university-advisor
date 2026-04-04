@@ -52,7 +52,7 @@
 | Metric | الهدف | الحالي (تقديري) |
 |--------|-------|----------------|
 | LCP (Largest Contentful Paint) | < 2.5s | ~2.0s |
-| FID (First Input Delay) | < 100ms | ~50ms |
+| INP (Interaction to Next Paint) | < 200ms | ~100ms |
 | CLS (Cumulative Layout Shift) | < 0.1 | ~0.05 |
 | FCP (First Contentful Paint) | < 2.0s | ~1.5s |
 | TTI (Time to Interactive) | < 3.5s | ~3.0s |
@@ -83,3 +83,38 @@
 - Accessibility: 90+
 - Best Practices: 95+
 - SEO: 85+
+
+---
+
+## 📉 Usage Baselines (Measure Monthly)
+
+Track actual usage against free tier limits to predict when paid plans become necessary.
+
+| Service | Metric | Baseline (Month 1) | Free Tier Limit | % Used |
+|---------|--------|---------------------|-----------------|--------|
+| Vercel | Bandwidth | ___ GB | 100 GB | ___% |
+| Vercel | Serverless Invocations | ___ K | 100K / month | ___% |
+| Supabase | Database Size | ___ MB | 500 MB | ___% |
+| Supabase | Storage | ___ MB | 1 GB | ___% |
+| Supabase | Edge Function Invocations | ___ K | 500K / month | ___% |
+| Gemini API | Tokens consumed | ___ K | 1M / month | ___% |
+| Upstash Redis | Daily requests | ___ | 10K / day | ___% |
+
+> **Action:** Fill in baselines after the first full month of production traffic. Re-measure monthly and set alerts at 70% of each limit.
+
+---
+
+## 💰 Vercel Spend Management
+
+Vercel offers a **Spend Management** feature (available on Pro and Enterprise plans) that lets you set hard spending caps so you are never billed beyond a defined amount.
+
+### How to enable:
+1. Go to **Vercel Dashboard -> Settings -> Billing -> Spend Management**
+2. Set a **monthly spend cap** (e.g., $50/month)
+3. When the cap is reached, Vercel will pause non-essential compute rather than charge overages
+
+### Recommendations:
+- Enable Spend Management **before** switching to Vercel Pro to avoid surprise bills
+- Set the cap conservatively ($20-50) during early growth; raise it as traffic patterns stabilize
+- Combine with **Usage Alerts** (Settings -> Notifications) to get email warnings at 50%, 75%, and 90% of the cap
+- Review the Spend Management dashboard weekly during the first month after launch

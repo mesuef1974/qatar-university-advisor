@@ -29,6 +29,11 @@ dist-ssr
 .env*.local
 /محاضر الاجتماعات
 
+# Visual Studio artifacts
+.vs/
+*.slnx
+ConsoleApp1/
+
 # Playwright
 playwright-report/
 test-results/

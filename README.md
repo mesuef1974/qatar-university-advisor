@@ -201,7 +201,7 @@ curl "https://your-project.vercel.app/api/webhook?hub.mode=subscribe&hub.verify_
 2. تحقق من logs Vercel: **Dashboard → Deployments → Functions → Logs**
 3. يجب أن يرد البوت خلال ثوانٍ
 
-> للمزيد من التفاصيل حول رقم +97455296286، انظر [WHATSAPP_SETUP.md](./WHATSAPP_SETUP.md).
+> للمزيد من التفاصيل حول رقم +97455296286، انظر [WHATSAPP_SETUP.md](محاضر الاجتماعات/WHATSAPP_SETUP.md).
 
 ---
 
@@ -283,7 +283,7 @@ vercel --prod
 
 ## Contributing
 
-نرحب بالمساهمات! اقرأ [CONTRIBUTING.md](./CONTRIBUTING.md) لمعرفة معايير الكود وطريقة رفع PR.
+نرحب بالمساهمات! اقرأ [CONTRIBUTING.md](محاضر الاجتماعات/CONTRIBUTING.md) لمعرفة معايير الكود وطريقة رفع PR.
 
 ---
 
