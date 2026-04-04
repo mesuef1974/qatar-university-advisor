@@ -50,7 +50,7 @@ export default async function handler(req, res) {
       } else {
         services.supabase = { status: 'healthy', latency };
       }
-    } catch (err) {
+    } catch { // eslint-disable-line no-empty
       services.supabase = { status: 'unhealthy', error: 'Connection failed', latency: Date.now() - t0 };
       overallStatus = 'degraded';
     }

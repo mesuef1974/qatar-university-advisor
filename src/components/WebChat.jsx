@@ -337,8 +337,11 @@ export default function WebChat() {
   }, [isOpen]);
 
   // Show welcome message when opened for the first time
+  const welcomeShown = useRef(false);
   useEffect(() => {
-    if (isOpen && messages.length === 0) {
+    if (isOpen && messages.length === 0 && !welcomeShown.current) {
+      welcomeShown.current = true;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMessages([
         {
           id: Date.now(),

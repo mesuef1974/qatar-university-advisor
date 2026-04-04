@@ -11,7 +11,7 @@ vi.mock('../../lib/supabase.js', () => ({
 
 // Mock fetch للـ Gemini API
 const mockFetch = vi.fn();
-global.fetch = mockFetch;
+globalThis.fetch = mockFetch;
 
 describe('Semantic Search — generateEmbedding', () => {
   beforeEach(() => {

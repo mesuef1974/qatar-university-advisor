@@ -34,8 +34,8 @@ describe('AI Fallback System', () => {
   let getAIResponse;
   let findResponse;
   let getAIResponseWithFallback;
-  let tryGemini;
-  let tryStaticResponse;
+  let tryGemini; // eslint-disable-line no-unused-vars
+  let tryStaticResponse; // eslint-disable-line no-unused-vars
   let geminiCircuit;
   let FALLBACK_LEVELS;
   let GRACEFUL_ERROR_MESSAGE;

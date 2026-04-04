@@ -1,4 +1,4 @@
-/* global process */
+/* global process, Buffer */
 /**
  * Admin Dashboard API — Qatar University Advisor
  * محمي بـ Basic Auth (password بسيط)
