@@ -36,7 +36,7 @@ jobs:
 
       # الخطوة 3: تثبيت الحزم مع الاستفادة من الـ cache
       - name: Install dependencies
-        run: npm ci
+        run: npm install --prefer-offline
 
       # الخطوة 4: فحص جودة الكود باستخدام ESLint
       - name: Lint code

@@ -56,11 +56,11 @@ jobs:
 
       # الخطوة 3: تثبيت الحزم
       - name: Install dependencies
-        run: npm ci
+        run: npm install --prefer-offline
 
       # الخطوة 4: فحص الثغرات الأمنية باستخدام npm audit
       - name: Run npm audit
-        run: npm audit --audit-level=moderate
+        run: npm audit --audit-level=high
         continue-on-error: false
 
       # الخطوة 5: تقرير مفصّل بالثغرات (للمعلومات فقط)
