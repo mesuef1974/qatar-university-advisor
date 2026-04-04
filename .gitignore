@@ -36,4 +36,4 @@ ConsoleApp1/
 
 # Playwright
 playwright-report/
-test-results/
+test-results/coverage/
