@@ -7,6 +7,7 @@ import FavoritesView from './components/FavoritesView.jsx';
 import Header from './components/Header.jsx';
 import SideMenu from './components/SideMenu.jsx';
 import ExecutionPlan from './components/ExecutionPlan.jsx';
+import { generateStudentPDF } from './utils/generatePDF.js';
 
 // ════════════════════════════════════════════════════════════════════
 // المستشار الجامعي الذكي v5.0 — محلي بالكامل، سريع، موثوق
@@ -585,6 +586,42 @@ export default function QatarUniversityAdvisor() {
                           }),
                     }}>
                       {renderText(msg.content.text)}
+                      {msg.type === 'bot' && msg.content.text.includes('تقريرك الأكاديمي الشخصي') && (
+                        <button
+                          onClick={() => generateStudentPDF(
+                            {
+                              nationality: userProfile.nationality,
+                              gpa: userProfile.grade,
+                              track: userProfile.track,
+                              preferredMajor: userProfile.preferredMajor || null,
+                              userType: userProfile.type,
+                            },
+                            null,
+                            ''
+                          )}
+                          style={{
+                            marginTop: '10px',
+                            padding: '9px 18px',
+                            background: 'linear-gradient(135deg, #8A1538, #C5A55A)',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '10px',
+                            cursor: 'pointer',
+                            fontSize: '13px',
+                            fontWeight: 'bold',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '7px',
+                            fontFamily: "'Tajawal','Segoe UI',sans-serif",
+                            boxShadow: '0 4px 14px rgba(138,21,56,0.28)',
+                            transition: 'transform 0.18s ease, box-shadow 0.18s ease',
+                          }}
+                          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(138,21,56,0.38)'; }}
+                          onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 14px rgba(138,21,56,0.28)'; }}
+                        >
+                          📄 تنزيل تقريري PDF
+                        </button>
+                      )}
                       <div style={{
                         fontSize:10, marginTop:5,
                         color: msg.type==='user'
