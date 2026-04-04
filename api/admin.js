@@ -3,14 +3,19 @@
  * Admin Dashboard API — Qatar University Advisor
  * محمي بـ Basic Auth (password بسيط)
  * SEC-001: استخدام crypto.timingSafeEqual لمنع timing attacks
+ * SEC-A4: validateEnv عند البدء
  */
 
 import crypto from 'crypto';
 import { getStats, getTopQueries } from '../lib/supabase.js';
 import { getCircuitStatus } from '../lib/circuit-breaker.js';
 import { rateLimitMiddleware } from '../lib/rate-limiter.js';
+import { requireEnv } from '../lib/validateEnv.js';
 
 export default async function handler(req, res) {
+  // SEC-A4: التحقق من متغيرات البيئة
+  if (!requireEnv('admin', res)) return;
+
   // CORS — restricted to allowed origin only
   const allowedOrigin = process.env.ADMIN_ORIGIN
     || 'https://qatar-university-advisor.vercel.app';
