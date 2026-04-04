@@ -1,0 +1,69 @@
+{
+  "app": {
+    "title": "Smart University Advisor",
+    "subtitle": "Qatar University Advisor",
+    "tagline": "Your comprehensive guide to choosing the right university, major, scholarships, and career opportunities in Qatar.",
+    "loading": "Loading...",
+    "madeForQatar": "Designed for students in Qatar",
+    "version": "Version"
+  },
+  "consent": {
+    "title": "Smart University Advisor",
+    "intro": "Hello! Before we begin, we want to be transparent about how we use your data.",
+    "phoneNotStored": "Your phone number is not stored — it's only used to send replies",
+    "localStorageOnly": "Your preferences are stored locally on your device only",
+    "noDataSelling": "We do not sell or share your data with commercial parties",
+    "verifyInfo": "Information is advisory — always verify with official sources",
+    "agreeText": "By continuing, you agree to the",
+    "termsOfService": "Terms of Service",
+    "and": "and",
+    "privacyPolicy": "Privacy Policy",
+    "qatarLaw": "under Qatar law",
+    "acceptButton": "I Agree & Start",
+    "rejectButton": "Decline",
+    "rejectTitle": "Cannot Proceed",
+    "rejectMessage": "Sorry, you must accept the Privacy Policy and Terms of Service to continue, in compliance with Qatar's Personal Data Protection and Privacy Law (PDPPL).",
+    "retryButton": "Try Again",
+    "licensedUnder": "Licensed under the laws of the State of Qatar"
+  },
+  "header": {
+    "menu": "Side Menu",
+    "favorites": "Favorites",
+    "changeNationality": "Change Nationality",
+    "qatari": "Qatari",
+    "resident": "Resident",
+    "qatariLabel": "Qatari",
+    "residentLabel": "Resident in Qatar",
+    "universities": "Universities & Institutes",
+    "majors": "Academic Majors",
+    "scholarships": "Scholarships & Programs",
+    "militaryColleges": "Military Colleges",
+    "knowledgeBase": "Comprehensive Knowledge Base"
+  },
+  "chat": {
+    "placeholder": "Type your question here...",
+    "send": "Send",
+    "thinking": "Thinking...",
+    "errorMessage": "Sorry, an error occurred. Please try again.",
+    "newChat": "New Chat"
+  },
+  "panel": {
+    "features": "What the Advisor Offers",
+    "majorTest": "Find the right major for you",
+    "compare": "Comprehensive university comparison",
+    "scholarshipGuide": "Scholarship & Amiri grant guide",
+    "salaryExpectations": "Salary expectations & job opportunities",
+    "deadlines": "Application deadlines & admission dates"
+  },
+  "language": {
+    "toggle": "العربية",
+    "current": "English",
+    "ar": "العربية",
+    "en": "English"
+  },
+  "legal": {
+    "disclaimer": "Disclaimer: Information is advisory and not official",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  }
+}

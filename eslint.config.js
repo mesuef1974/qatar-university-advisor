@@ -28,4 +28,28 @@ export default defineConfig([
       'react-hooks/purity': 'off',
     },
   },
+  // Node.js globals for server-side code
+  {
+    files: ['lib/**/*.js', 'api/**/*.js'],
+    languageOptions: {
+      globals: globals.node,
+    },
+    rules: {
+      'no-redeclare': 'off',
+    },
+  },
+  // Test files: Node.js + vitest globals + relaxed rules
+  {
+    files: ['tests/**/*.{js,jsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.vitest,
+      },
+    },
+    rules: {
+      'no-redeclare': 'off',
+      'no-unused-vars': 'off',
+    },
+  },
 ])

@@ -8,7 +8,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { rateLimitMiddleware } from '../lib/rate-limiter.js';
-import { validateEnv } from '../lib/validateEnv.js';
+import { requireEnv } from '../lib/validateEnv.js';
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -18,6 +18,12 @@ const pkg = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf8'))
 const START_TIME = Date.now();
 
 export default async function handler(req, res) {
+  // SEC-A4: التحقق من متغيرات البيئة
+  const envCheck = requireEnv('health');
+  if (!envCheck.ok) {
+    return res.status(503).json({ status: 'unhealthy', reason: 'missing env vars', missing: envCheck.missing });
+  }
+
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -51,7 +57,7 @@ export default async function handler(req, res) {
       } else {
         services.supabase = { status: 'healthy', latency };
       }
-    } catch { // eslint-disable-line no-empty
+    } catch {  
       services.supabase = { status: 'unhealthy', error: 'Connection failed', latency: Date.now() - t0 };
       overallStatus = 'degraded';
     }

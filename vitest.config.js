@@ -14,13 +14,16 @@ export default defineConfig({
         'tests/**',
         '**/*.config.*',
         'src/**',
+        'lib/data/**',           // Static data files (universities DB)
+        'lib/responses.js',      // Large static responses (Sprint 2: refactor)
+        'lib/responses-extended.js', // Large static responses (Sprint 2: refactor)
       ],
-      // TODO: QA-001 (المرحلة ج) — رفع تدريجياً إلى 80%
+      // QA-A1: Sprint 1 — threshold 70% (الهدف النهائي 80%)
       thresholds: {
-        lines:      30,
-        functions:  30,
-        branches:   30,
-        statements: 30,
+        lines:      70,
+        functions:  70,
+        branches:   70,
+        statements: 70,
       },
     },
   },

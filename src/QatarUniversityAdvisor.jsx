@@ -8,6 +8,7 @@ import Header from './components/Header.jsx';
 import SideMenu from './components/SideMenu.jsx';
 import InfoPanel from './components/InfoPanel.jsx';
 import ChatView from './components/ChatView.jsx';
+import useKeyboardNav from './hooks/useKeyboardNav.js';
 import './styles/accessibility.css';
 
 
@@ -16,6 +17,8 @@ import './styles/accessibility.css';
 // ════════════════════════════════════════════════════════════════════
 
 export default function QatarUniversityAdvisor() {
+  // UX-A4: Keyboard Navigation الشامل
+  useKeyboardNav();
   // Helper to build initial welcome message based on nationality
   const getWelcomeMessage = (nationality) => {
     if (nationality === 'qatari') {

@@ -40,14 +40,7 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
 
-    <!-- Register Service Worker -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .catch(() => {}); // تجاهل أخطاء SW
-        });
-      }
-    </script>
+    <!-- Register Service Worker (SEC-A1: externalized for CSP — no unsafe-inline) -->
+    <script src="/register-sw.js"></script>
   </body>
 </html>

@@ -2,22 +2,24 @@ import React, { useState, useRef, useEffect, Suspense, lazy } from "react";
 import QatarUniversityAdvisor from "./QatarUniversityAdvisor.jsx";
 import PrivacyConsent from "./components/PrivacyConsent.jsx";
 import AcademicDisclaimer from "./components/AcademicDisclaimer.jsx";
+import LanguageToggle from "./components/LanguageToggle.jsx";
 
 // UX-A1: Lazy Loading — الصفحات الثانوية تُحمَّل عند الحاجة فقط
 const ExecutionPlan = lazy(() => import("./components/ExecutionPlan.jsx"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard.jsx"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy.jsx"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService.jsx"));
+const DataRights = lazy(() => import("./pages/DataRights.jsx"));
 
 // UX-A1: Loading fallback component
 const LoadingFallback = () => (
-  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', direction: 'rtl', fontFamily: "'Cairo', sans-serif" }}>
-    <div style={{ textAlign: 'center' }}>
-      <div style={{ fontSize: 32, marginBottom: 12 }}>⏳</div>
-      <div style={{ color: '#666' }}>جارٍ التحميل...</div>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', direction: 'rtl', fontFamily: "'Cairo', sans-serif" }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: 32, marginBottom: 12 }}>⏳</div>
+        <div style={{ color: '#666' }}>جارٍ التحميل...</div>
+      </div>
     </div>
-  </div>
-);
+  );
 
 // ── Secret admin unlock (5 taps / 3 s on bottom-left corner) ──
 const ADMIN_TAPS   = 5;
@@ -224,6 +226,9 @@ export default function App() {
     setConsentGiven(true);
   };
 
+  // LEGAL-A1: Rejection handled internally by PrivacyConsent component
+  const handleConsentReject = () => {};
+
   // ── Admin route ──
   if (window.location.pathname === '/admin') {
     return <Suspense fallback={<LoadingFallback />}><AdminDashboard /></Suspense>;
@@ -236,10 +241,13 @@ export default function App() {
   if (window.location.pathname === '/terms') {
     return <Suspense fallback={<LoadingFallback />}><TermsOfService onBack={() => window.history.back()} /></Suspense>;
   }
+  if (window.location.pathname === '/data-rights') {
+    return <Suspense fallback={<LoadingFallback />}><DataRights onBack={() => window.history.back()} /></Suspense>;
+  }
 
   // ── Privacy consent screen ──
   if (!consentGiven) {
-    return <PrivacyConsent onAccept={handleConsent} />;
+    return <PrivacyConsent onAccept={handleConsent} onReject={handleConsentReject} />;
   }
 
   // ── The main app content ──
@@ -249,6 +257,7 @@ export default function App() {
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', width: '100%' }}>
+      <LanguageToggle />
       <AcademicDisclaimer position="bottom" />
 
       {/* ══ Desktop two-column layout ══ */}

@@ -1,6 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export default function PrivacyConsent({ onAccept, onShowPrivacy, onShowTerms }) {
+export default function PrivacyConsent({ onAccept, onReject, onShowPrivacy, onShowTerms }) {
+  const [rejected, setRejected] = useState(false);
+
+  const handleAccept = () => {
+    localStorage.setItem('advisor_consent_timestamp', new Date().toISOString());
+    onAccept();
+  };
+
+  const handleReject = () => {
+    setRejected(true);
+    if (onReject) onReject();
+  };
+
+  if (rejected) {
+    return (
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100dvh',
+        background: 'linear-gradient(135deg, #8A1538 0%, #4a0d22 100%)',
+        color: '#fff',
+        textAlign: 'center',
+        padding: '24px 20px',
+        direction: 'rtl',
+        fontFamily: "'Segoe UI', Tahoma, Arial, sans-serif",
+      }}>
+        <div style={{ fontSize: 64, marginBottom: 16, lineHeight: 1 }}>🚫</div>
+        <h1 style={{ fontSize: 22, fontWeight: 800, marginBottom: 12, marginTop: 0 }}>
+          لا يمكن المتابعة
+        </h1>
+        <p style={{
+          fontSize: 14, opacity: 0.85, marginBottom: 28, lineHeight: 1.8,
+          maxWidth: 360,
+        }}>
+          عذراً، يجب الموافقة على سياسة الخصوصية وشروط الاستخدام للمتابعة وفقاً لقانون حماية البيانات الشخصية القطري (PDPPL).
+        </p>
+        <button
+          onClick={() => setRejected(false)}
+          style={{
+            padding: '14px 0',
+            borderRadius: 14,
+            background: 'linear-gradient(135deg, #C5A55A 0%, #a8893d 100%)',
+            color: '#fff',
+            border: 'none',
+            fontSize: 15,
+            fontWeight: 700,
+            cursor: 'pointer',
+            width: '100%',
+            maxWidth: 340,
+            boxShadow: '0 4px 16px rgba(197,165,90,0.35)',
+            letterSpacing: 0.5,
+          }}
+        >
+          العودة لشاشة الموافقة ↩
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div style={{
       display: 'flex',
@@ -85,7 +145,7 @@ export default function PrivacyConsent({ onAccept, onShowPrivacy, onShowTerms })
 
       {/* Accept button */}
       <button
-        onClick={onAccept}
+        onClick={handleAccept}
         style={{
           padding: '15px 0',
           borderRadius: 14,
@@ -105,6 +165,30 @@ export default function PrivacyConsent({ onAccept, onShowPrivacy, onShowTerms })
         onMouseUp={e => e.currentTarget.style.transform = 'scale(1)'}
       >
         أوافق وأبدأ الاستخدام ✓
+      </button>
+
+      {/* Reject button — PDPPL Article 7 compliance */}
+      <button
+        onClick={handleReject}
+        style={{
+          padding: '12px 0',
+          borderRadius: 14,
+          background: 'transparent',
+          color: 'rgba(255,255,255,0.55)',
+          border: '1px solid rgba(255,255,255,0.2)',
+          fontSize: 14,
+          fontWeight: 600,
+          cursor: 'pointer',
+          width: '100%',
+          maxWidth: 340,
+          marginTop: 10,
+          letterSpacing: 0.3,
+          transition: 'border-color 0.2s, color 0.2s',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'; e.currentTarget.style.color = 'rgba(255,255,255,0.75)'; }}
+        onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = 'rgba(255,255,255,0.55)'; }}
+      >
+        أرفض
       </button>
 
       <p style={{ fontSize: 11, opacity: 0.5, marginTop: 16 }}>

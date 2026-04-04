@@ -23,6 +23,12 @@ vi.mock('@supabase/supabase-js', () => {
   };
 });
 
+// ── Mock validateEnv ──
+vi.mock('../../lib/validateEnv.js', () => ({
+  requireEnv: vi.fn(() => ({ ok: true, missing: [] })),
+  validateEnv: vi.fn(),
+}));
+
 // ── Mock fs for package.json ──
 vi.mock('fs', () => ({
   readFileSync: vi.fn(() => JSON.stringify({ version: '1.0.0-test' })),
