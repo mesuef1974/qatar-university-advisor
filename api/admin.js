@@ -6,6 +6,7 @@
 
 import { getStats, getTopQueries } from '../lib/supabase.js';
 import { getCircuitStatus } from '../lib/circuit-breaker.js';
+import { rateLimitMiddleware } from '../lib/rate-limiter.js';
 
 export default async function handler(req, res) {
   // CORS — restricted to allowed origin only
@@ -17,21 +18,13 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
-  // Simple admin rate limiting (5 requests per minute per IP)
-  const clientIP = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown';
-  const rateLimitKey = `admin:${clientIP}`;
-  const store = globalThis;
-  if (!store._adminRateLimit) store._adminRateLimit = new Map();
-  const now = Date.now();
-  const windowMs = 60_000;
-  const maxRequests = 5;
-  const entry = store._adminRateLimit.get(rateLimitKey) || { count: 0, resetAt: now + windowMs };
-  if (now > entry.resetAt) { entry.count = 0; entry.resetAt = now + windowMs; }
-  entry.count++;
-  store._adminRateLimit.set(rateLimitKey, entry);
-  if (entry.count > maxRequests) {
-    return res.status(429).json({ error: 'Too many requests. Try again in a minute.' });
-  }
+  // Distributed Rate Limiting (Redis → In-Memory fallback)
+  const rateLimited = await rateLimitMiddleware(req, res, {
+    maxRequests: 5,
+    windowMs:    60_000,
+    prefix:      'admin',
+  });
+  if (rateLimited) return; // تم الرد بـ 429
 
   // Basic Auth — password من environment variable فقط، بدون قيمة افتراضية
   const adminPassword = process.env.ADMIN_PASSWORD;

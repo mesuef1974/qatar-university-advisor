@@ -3,6 +3,9 @@ import QatarUniversityAdvisor from "./QatarUniversityAdvisor.jsx";
 import ExecutionPlan from "./components/ExecutionPlan.jsx";
 import PrivacyConsent from "./components/PrivacyConsent.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
+import TermsOfService from "./pages/TermsOfService.jsx";
+import AcademicDisclaimer from "./components/AcademicDisclaimer.jsx";
 
 // ── Secret admin unlock (5 taps / 3 s on bottom-left corner) ──
 const ADMIN_TAPS   = 5;
@@ -209,6 +212,14 @@ export default function App() {
     return <AdminDashboard />;
   }
 
+  // ── Legal pages routes ──
+  if (window.location.pathname === '/privacy') {
+    return <PrivacyPolicy onBack={() => window.history.back()} />;
+  }
+  if (window.location.pathname === '/terms') {
+    return <TermsOfService onBack={() => window.history.back()} />;
+  }
+
   // ── Privacy consent screen ──
   if (!consentGiven) {
     return <PrivacyConsent onAccept={handleConsent} />;
@@ -221,6 +232,7 @@ export default function App() {
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', width: '100%' }}>
+      <AcademicDisclaimer position="bottom" />
 
       {/* ══ Desktop two-column layout ══ */}
       {isWide ? (

@@ -27,4 +27,8 @@ dist-ssr
 
 .vercel
 .env*.local
-/Docs
+/محاضر الاجتماعات
+
+# Playwright
+playwright-report/
+test-results/

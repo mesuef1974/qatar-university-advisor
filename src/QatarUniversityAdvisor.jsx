@@ -7,6 +7,7 @@ import FavoritesView from './components/FavoritesView.jsx';
 import Header from './components/Header.jsx';
 import SideMenu from './components/SideMenu.jsx';
 import ExecutionPlan from './components/ExecutionPlan.jsx';
+import './styles/accessibility.css';
 
 
 // ════════════════════════════════════════════════════════════════════
@@ -514,7 +515,11 @@ export default function QatarUniversityAdvisor() {
   }
 
   return (
-    <div style={S.app} dir="rtl">
+    <div style={S.app} dir="rtl" id="main-content" role="main">
+      {/* Skip Navigation — WCAG 2.4.1 */}
+      <a href="#chat-messages" className="skip-nav">
+        تخطى إلى المحتوى الرئيسي | Skip to main content
+      </a>
 
       {/* ══ Header ══ */}
       <Header
@@ -546,7 +551,13 @@ export default function QatarUniversityAdvisor() {
         {activeView==='chat'&&(
           <>
             {/* Messages scroll area */}
-            <div style={{flex:1,overflowY:'auto',padding:'16px 14px 8px',background:'#EDE5DA',backgroundImage:'radial-gradient(circle,rgba(138,21,56,0.055) 1.5px,transparent 1.5px)',backgroundSize:'24px 24px'}}>
+            <div
+              id="chat-messages"
+              role="log"
+              aria-live="polite"
+              aria-label="سجل المحادثة"
+              style={{flex:1,overflowY:'auto',padding:'16px 14px 8px',background:'#EDE5DA',backgroundImage:'radial-gradient(circle,rgba(138,21,56,0.055) 1.5px,transparent 1.5px)',backgroundSize:'24px 24px'}}
+            >
               {messages.map(msg=>(
                 <div key={msg.id} style={{
                   display:'flex', gap:8, marginBottom:16,
@@ -651,7 +662,9 @@ export default function QatarUniversityAdvisor() {
                         justifyContent: msg.type==='user' ? 'flex-end' : 'flex-start',
                       }}>
                         {msg.suggestions.map((s,si)=>(
-                          <button key={si} style={S.sugg} onClick={()=>sendMessage(s)}
+                          <button key={si} style={S.sugg}
+                            aria-label={`اقتراح: ${s}`}
+                            onClick={()=>sendMessage(s)}
                             onMouseEnter={e=>{e.currentTarget.style.background='rgba(138,21,56,0.1)';e.currentTarget.style.transform='translateY(-1px)';e.currentTarget.style.boxShadow='0 3px 8px rgba(138,21,56,0.12)';}}
                             onMouseLeave={e=>{e.currentTarget.style.background='linear-gradient(135deg,rgba(138,21,56,0.03),rgba(138,21,56,0.06))';e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 1px 4px rgba(0,0,0,0.06)';}}
                           >{s}</button>
@@ -710,6 +723,9 @@ export default function QatarUniversityAdvisor() {
                 transition:'all 0.2s ease',
               }}>
                 <input
+                  type="text"
+                  aria-label="اكتب سؤالك هنا"
+                  aria-required="true"
                   style={{
                     flex:1, padding:'9px 10px',
                     border:'none', background:'transparent',
@@ -725,6 +741,9 @@ export default function QatarUniversityAdvisor() {
                   placeholder="اسأل عن خطة دراسية، مواد، مقارنة..."
                 />
                 <button
+                  type="submit"
+                  aria-label="إرسال الرسالة"
+                  title="إرسال"
                   style={{
                     width:42, height:42, borderRadius:'50%', border:'none',
                     cursor:'pointer', flexShrink:0,
@@ -739,7 +758,7 @@ export default function QatarUniversityAdvisor() {
                   }}
                   onClick={()=>sendMessage()}
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill={input.trim()?'#fff':'#9CA3AF'}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill={input.trim()?'#fff':'#9CA3AF'} aria-hidden="true" focusable="false">
                     <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
                   </svg>
                 </button>
@@ -790,13 +809,16 @@ export default function QatarUniversityAdvisor() {
       </div>
 
       {/* ══ Bottom navigation (true bottom) ══ */}
-      <div style={{
-        display:'flex', background:'#fff',
-        borderTop:'1px solid rgba(0,0,0,0.06)',
-        flexShrink:0, zIndex:90,
-        boxShadow:'0 -4px 20px rgba(0,0,0,0.07)',
-        paddingBottom:'env(safe-area-inset-bottom,0)',
-      }}>
+      <nav
+        aria-label="التنقل الرئيسي"
+        style={{
+          display:'flex', background:'#fff',
+          borderTop:'1px solid rgba(0,0,0,0.06)',
+          flexShrink:0, zIndex:90,
+          boxShadow:'0 -4px 20px rgba(0,0,0,0.07)',
+          paddingBottom:'env(safe-area-inset-bottom,0)',
+        }}
+      >
         {[
           {view:'chat',        label:'محادثة',  svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>},
           {view:'universities',label:'جامعات', svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>},
@@ -806,6 +828,8 @@ export default function QatarUniversityAdvisor() {
           const isActive = activeView===t.view;
           return (
             <button key={i}
+              aria-label={t.label}
+              aria-current={isActive ? 'page' : undefined}
               style={{
                 flex:1, display:'flex', flexDirection:'column',
                 alignItems:'center', gap:4,
@@ -829,6 +853,32 @@ export default function QatarUniversityAdvisor() {
             </button>
           );
         })}
+      </nav>
+
+      {/* ══ Footer links (Privacy & Terms) ══ */}
+      <div style={{
+        display:'flex', alignItems:'center', justifyContent:'center',
+        gap:16, padding:'6px 16px 8px',
+        background:'#fff', borderTop:'1px solid rgba(0,0,0,0.05)',
+        flexShrink:0,
+      }}>
+        <a href="/privacy" style={{
+          fontSize:11, color:'#9CA3AF', textDecoration:'none',
+          fontFamily:"'Tajawal',sans-serif", direction:'rtl',
+          transition:'color 0.15s',
+        }}
+          onMouseEnter={e=>e.target.style.color='#8A1538'}
+          onMouseLeave={e=>e.target.style.color='#9CA3AF'}
+        >سياسة الخصوصية</a>
+        <span style={{ fontSize:10, color:'#D1D5DB' }}>·</span>
+        <a href="/terms" style={{
+          fontSize:11, color:'#9CA3AF', textDecoration:'none',
+          fontFamily:"'Tajawal',sans-serif", direction:'rtl',
+          transition:'color 0.15s',
+        }}
+          onMouseEnter={e=>e.target.style.color='#8A1538'}
+          onMouseLeave={e=>e.target.style.color='#9CA3AF'}
+        >شروط الاستخدام</a>
       </div>
 
       <style>{`

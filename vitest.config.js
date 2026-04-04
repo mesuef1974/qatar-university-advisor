@@ -7,9 +7,20 @@ export default defineConfig({
     include: ['tests/**/*.test.js'],
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      reporter: ['text', 'html', 'lcov'],
       include: ['lib/**/*.js', 'api/**/*.js'],
-      exclude: ['node_modules', 'tests'],
+      exclude: [
+        'node_modules/**',
+        'tests/**',
+        '**/*.config.*',
+        'src/**',
+      ],
+      thresholds: {
+        lines:      80,
+        functions:  80,
+        branches:   70,
+        statements: 80,
+      },
     },
   },
 });
