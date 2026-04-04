@@ -167,10 +167,7 @@ export default async function handler(req, res) {
     }
 
     try {
-      // Mark as read
-      await markAsRead(message.id);
-
-      // Extract user text
+      // Extract user text — قبل markAsRead لتوازي العمليات لاحقاً
       let userText = '';
 
       if (message.type === 'text') {
@@ -184,11 +181,15 @@ export default async function handler(req, res) {
         }
       } else {
         // Unsupported message type (image, audio, etc.)
-        await sendResponseWithSuggestions(
-          from,
-          '📝 أرسل لي رسالة نصية وسأساعدك!\n\nيمكنك سؤالي عن الجامعات، التخصصات، شروط القبول، أو أرسل معدلك.',
-          ['جميع الجامعات', 'الرواتب والوظائف', 'الكليات العسكرية']
-        );
+        // markAsRead + reply بالتوازي
+        await Promise.all([
+          markAsRead(message.id),
+          sendResponseWithSuggestions(
+            from,
+            '📝 أرسل لي رسالة نصية وسأساعدك!\n\nيمكنك سؤالي عن الجامعات، التخصصات، شروط القبول، أو أرسل معدلك.',
+            ['جميع الجامعات', 'الرواتب والوظائف', 'الكليات العسكرية']
+          ),
+        ]);
         return res.status(200).send('OK');
       }
 
@@ -203,8 +204,12 @@ export default async function handler(req, res) {
 
       console.log(`Message from ${maskPhone(from)}: ${userText.slice(0, 100)}`);
 
-      // Process and respond
-      const response = await processMessage(userText);
+      // ⚡ تشغيل markAsRead + processMessage بالتوازي لتقليل زمن الاستجابة
+      const [, response] = await Promise.all([
+        markAsRead(message.id),
+        processMessage(userText),
+      ]);
+
       await sendResponseWithSuggestions(from, response.text, response.suggestions);
 
     } catch (error) {
