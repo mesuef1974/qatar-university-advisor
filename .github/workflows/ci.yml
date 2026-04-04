@@ -42,6 +42,29 @@ jobs:
       - name: Lint code
         run: npm run lint
 
-      # الخطوة 5: بناء المشروع للتأكد من عدم وجود أخطاء
+      # الخطوة 5: تشغيل الاختبارات الآلية
+      - name: Run Tests
+        run: npm test -- --reporter=verbose
+        env:
+          NODE_ENV: test
+          GEMINI_API_KEY: test-key-placeholder
+          SUPABASE_URL: https://placeholder.supabase.co
+          SUPABASE_ANON_KEY: test-anon-key
+          WHATSAPP_TOKEN: test-token
+          WEBHOOK_SECRET: test-secret
+
+      # الخطوة 6: التحقق من تغطية الاختبارات
+      - name: Check Test Coverage
+        run: npm run test:coverage 2>/dev/null || echo "Coverage report skipped (no config)"
+        continue-on-error: true
+        env:
+          NODE_ENV: test
+          GEMINI_API_KEY: test-key-placeholder
+          SUPABASE_URL: https://placeholder.supabase.co
+          SUPABASE_ANON_KEY: test-anon-key
+          WHATSAPP_TOKEN: test-token
+          WEBHOOK_SECRET: test-secret
+
+      # الخطوة 7: بناء المشروع للتأكد من عدم وجود أخطاء
       - name: Build project
         run: npm run build

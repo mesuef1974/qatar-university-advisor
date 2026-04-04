@@ -40,18 +40,20 @@ export function generateStudentPDF(profile, report, phone = '') {
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
-  doc.text('Qatar University Academic Report', PAGE_W / 2, 18, { align: 'center' });
+  doc.text('Qatar University Academic Report', PAGE_W / 2, 15, { align: 'center' });
+  doc.setFontSize(11);
+  doc.text('Al-Taqrir Al-Akademi | التقرير الاكاديمي - جامعات قطر', PAGE_W / 2, 22, { align: 'center' });
 
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...GOLD);
-  doc.text('Al-Nakhbawiya Software Company | FAANG Standards', PAGE_W / 2, 26, { align: 'center' });
+  doc.text('Al-Nakhbawiya Software Company | FAANG Standards', PAGE_W / 2, 29, { align: 'center' });
 
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(8);
   const dateStr = new Date().toLocaleDateString('en-GB');
   const phoneStr = phone ? `Student: ***${phone.slice(-4)}` : '';
-  doc.text(`Generated: ${dateStr}  ${phoneStr}`, PAGE_W / 2, 33, { align: 'center' });
+  doc.text(`Generated: ${dateStr}  ${phoneStr}`, PAGE_W / 2, 37, { align: 'center' });
 
   // الشعار (emoji بديل — نجمة ذهبية)
   doc.setFontSize(24);
@@ -76,9 +78,12 @@ export function generateStudentPDF(profile, report, phone = '') {
   doc.setFontSize(9);
   doc.setTextColor(...TEXT);
 
-  const nationalityLabel = profile.nationality === 'qatari' ? 'Qatari' : 'Resident';
+  const nationalityAR = profile.nationality === 'qatari' ? 'قطري' : 'مقيم';
+  const nationalityLabel = profile.nationality === 'qatari' ? `Qatari (${nationalityAR})` : `Resident (${nationalityAR})`;
   const gpaLabel = profile.gpa ? `${profile.gpa}%` : 'Not specified';
-  const trackLabel = profile.track || 'Not specified';
+  const trackMap = { scientific: 'علمي', literary: 'أدبي', commercial: 'تجاري', technical: 'تقني' };
+  const trackAR = trackMap[profile.track] || profile.track || 'غير محدد';
+  const trackLabel = profile.track ? `${profile.track} (${trackAR})` : `Not specified (${trackAR})`;
   const majorLabel = profile.preferredMajor || 'Not specified';
 
   const col1X = MARGIN + 5;
@@ -104,7 +109,7 @@ export function generateStudentPDF(profile, report, phone = '') {
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...MAROON);
-  doc.text('Recommended Universities', MARGIN, y);
+  doc.text('Recommended Universities | Al-Jamiaat Al-Muqtaraha', MARGIN, y);
   // خط تحت العنوان
   doc.setDrawColor(...GOLD);
   doc.setLineWidth(0.8);
@@ -133,7 +138,7 @@ export function generateStudentPDF(profile, report, phone = '') {
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...MAROON);
-  doc.text('Available Scholarships', MARGIN, y);
+  doc.text('Available Scholarships | Al-Minah Al-Mutaha', MARGIN, y);
   doc.setDrawColor(...GOLD);
   doc.line(MARGIN, y + 2, MARGIN + 80, y + 2);
   y += 8;
@@ -157,7 +162,7 @@ export function generateStudentPDF(profile, report, phone = '') {
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...MAROON);
-  doc.text('Action Plan', MARGIN, y);
+  doc.text('Action Plan | Khattat Al-Amal', MARGIN, y);
   doc.setDrawColor(...GOLD);
   doc.line(MARGIN, y + 2, MARGIN + 80, y + 2);
   y += 8;
@@ -193,7 +198,7 @@ export function generateStudentPDF(profile, report, phone = '') {
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(...MAROON);
-    doc.text('Important Dates', MARGIN, y);
+    doc.text('Important Dates | Al-Mawaeid Al-Muhimma', MARGIN, y);
     doc.setDrawColor(...GOLD);
     doc.line(MARGIN, y + 2, MARGIN + 80, y + 2);
     y += 8;
@@ -233,7 +238,8 @@ export function generateStudentPDF(profile, report, phone = '') {
   doc.text('Qatar University Academic Advisor | FAANG Standards | Confidential', PAGE_W / 2, PAGE_H - 5, { align: 'center' });
 
   // حفظ الملف
-  const filename = `Qatar-Academic-Report-${dateStr.replace(/\//g, '-')}.pdf`;
+  const studentId = phone ? phone.slice(-4) : 'student';
+  const filename = `Qatar-Academic-Advisor-Report-${studentId}-${dateStr.replace(/\//g, '-')}.pdf`;
   doc.save(filename);
 }
 

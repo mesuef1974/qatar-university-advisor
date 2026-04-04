@@ -7,7 +7,7 @@ import FavoritesView from './components/FavoritesView.jsx';
 import Header from './components/Header.jsx';
 import SideMenu from './components/SideMenu.jsx';
 import ExecutionPlan from './components/ExecutionPlan.jsx';
-import { generateStudentPDF } from './utils/generatePDF.js';
+
 
 // ════════════════════════════════════════════════════════════════════
 // المستشار الجامعي الذكي v5.0 — محلي بالكامل، سريع، موثوق
@@ -75,6 +75,7 @@ export default function QatarUniversityAdvisor() {
   const [compareList, setCompareList] = useState([]);
   const [expandedUni, setExpandedUni] = useState(null);
   const [testState, setTestState] = useState({active:false,currentQuestion:0,answers:[],traits:{}});
+  const [pdfLoading, setPdfLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
   // Persist favorites to localStorage
@@ -588,17 +589,28 @@ export default function QatarUniversityAdvisor() {
                       {renderText(msg.content.text)}
                       {msg.type === 'bot' && msg.content.text.includes('تقريرك الأكاديمي الشخصي') && (
                         <button
-                          onClick={() => generateStudentPDF(
-                            {
-                              nationality: userProfile.nationality,
-                              gpa: userProfile.grade,
-                              track: userProfile.track,
-                              preferredMajor: userProfile.preferredMajor || null,
-                              userType: userProfile.type,
-                            },
-                            null,
-                            ''
-                          )}
+                          onClick={async () => {
+                            try {
+                              setPdfLoading(true);
+                              const { generateStudentPDF } = await import('./utils/generatePDF.js');
+                              generateStudentPDF(
+                                {
+                                  nationality: userProfile.nationality,
+                                  gpa: userProfile.grade,
+                                  track: userProfile.track,
+                                  preferredMajor: userProfile.preferredMajor || null,
+                                  userType: userProfile.type,
+                                },
+                                null,
+                                ''
+                              );
+                            } catch (err) {
+                              console.error('PDF generation failed:', err);
+                            } finally {
+                              setPdfLoading(false);
+                            }
+                          }}
+                          disabled={pdfLoading}
                           style={{
                             marginTop: '10px',
                             padding: '9px 18px',
@@ -606,7 +618,7 @@ export default function QatarUniversityAdvisor() {
                             color: 'white',
                             border: 'none',
                             borderRadius: '10px',
-                            cursor: 'pointer',
+                            cursor: pdfLoading ? 'not-allowed' : 'pointer',
                             fontSize: '13px',
                             fontWeight: 'bold',
                             display: 'flex',
@@ -615,11 +627,12 @@ export default function QatarUniversityAdvisor() {
                             fontFamily: "'Tajawal','Segoe UI',sans-serif",
                             boxShadow: '0 4px 14px rgba(138,21,56,0.28)',
                             transition: 'transform 0.18s ease, box-shadow 0.18s ease',
+                            opacity: pdfLoading ? 0.75 : 1,
                           }}
-                          onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(138,21,56,0.38)'; }}
+                          onMouseEnter={e => { if (!pdfLoading) { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(138,21,56,0.38)'; } }}
                           onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 14px rgba(138,21,56,0.28)'; }}
                         >
-                          📄 تنزيل تقريري PDF
+                          {pdfLoading ? '⏳ جارٍ التحضير...' : '📄 تنزيل تقريري PDF'}
                         </button>
                       )}
                       <div style={{
