@@ -3,6 +3,27 @@ import crypto from 'crypto';
 import { processMessage } from '../lib/findResponse.js';
 import { sendResponseWithSuggestions, markAsRead } from '../lib/whatsapp.js';
 
+// Disable Vercel's automatic body parser so we can read the raw bytes
+// for HMAC-SHA256 signature verification (Meta signs the original raw body)
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+/**
+ * Reads the raw request body as a Buffer.
+ * Must be called before any body parsing so the stream is intact.
+ */
+async function getRawBody(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on('data', chunk => chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)));
+    req.on('end', () => resolve(Buffer.concat(chunks)));
+    req.on('error', reject);
+  });
+}
+
 // Simple in-memory dedup to avoid processing duplicate webhooks
 const processed = new Set();
 const MAX_PROCESSED = 1000;
@@ -106,15 +127,25 @@ export default async function handler(req, res) {
       return res.status(415).send('Unsupported Media Type');
     }
 
+    // ── Read raw body buffer (stream is unconsumed because bodyParser: false) ──
+    const rawBodyBuffer = await getRawBody(req);
+    const rawBodyStr = rawBodyBuffer.toString('utf8');
+
     // ── Signature verification (X-Hub-Signature-256) ──
+    // Meta signs the original raw bytes — must NOT use JSON.stringify(parsedBody)
     const signature = req.headers['x-hub-signature-256'];
-    const rawBody = JSON.stringify(req.body);
-    if (!verifySignature(rawBody, signature)) {
+    if (!verifySignature(rawBodyStr, signature)) {
       console.warn('[webhook] Signature verification failed — request rejected');
       return res.status(403).send('Forbidden');
     }
 
-    const body = req.body;
+    let body;
+    try {
+      body = JSON.parse(rawBodyStr);
+    } catch {
+      console.warn('[webhook] Failed to parse JSON body');
+      return res.status(400).send('Bad Request');
+    }
 
     // WhatsApp sends a verification ping
     if (!body?.entry?.[0]?.changes?.[0]?.value?.messages) {
