@@ -99,6 +99,13 @@ export default async function handler(req, res) {
 
   // --- POST: Incoming messages ---
   if (req.method === 'POST') {
+    // ── Content-Type validation ──
+    const contentType = req.headers['content-type'] || '';
+    if (!contentType.includes('application/json')) {
+      console.warn('[webhook] Rejected POST with invalid Content-Type:', contentType);
+      return res.status(415).send('Unsupported Media Type');
+    }
+
     // ── Signature verification (X-Hub-Signature-256) ──
     const signature = req.headers['x-hub-signature-256'];
     const rawBody = JSON.stringify(req.body);
@@ -158,14 +165,19 @@ export default async function handler(req, res) {
         return res.status(200).send('OK');
       }
 
-      console.log(`Message from ${maskPhone(from)}: ${userText}`);
+      // Input length validation — prevent DoS via oversized messages
+      if (userText.length > 4000) {
+        userText = userText.slice(0, 4000);
+      }
+
+      console.log(`Message from ${maskPhone(from)}: ${userText.slice(0, 100)}`);
 
       // Process and respond
       const response = await processMessage(userText);
       await sendResponseWithSuggestions(from, response.text, response.suggestions);
 
     } catch (error) {
-      console.error('Error processing message:', error);
+      console.error('Error processing message:', error.message);
       // Still return 200 to avoid WhatsApp retries
     }
 

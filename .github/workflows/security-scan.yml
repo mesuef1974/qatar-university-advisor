@@ -1,0 +1,77 @@
+# ======================================================
+# خط أنابيب الفحص الأمني (Security Scan Pipeline)
+# المشروع: Qatar University Advisor
+# الوصف: يفحص الثغرات الأمنية أسبوعياً وعند كل push
+# ======================================================
+
+name: Security Scan - فحص أمني
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    # يعمل كل يوم اثنين الساعة 08:00 UTC (أسبوعياً)
+    - cron: '0 8 * * 1'
+
+jobs:
+  # ---------------------------------------------------
+  # وظيفة مراجعة الاعتماديات للـ Pull Requests
+  # ---------------------------------------------------
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Dependency Review Action
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+
+  # ---------------------------------------------------
+  # وظيفة فحص الثغرات الأمنية في الحزم
+  # ---------------------------------------------------
+  npm-audit:
+    name: NPM Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      # الخطوة 1: استنساخ الكود
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # الخطوة 2: إعداد Node.js
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # الخطوة 3: تثبيت الحزم
+      - name: Install dependencies
+        run: npm ci
+
+      # الخطوة 4: فحص الثغرات الأمنية باستخدام npm audit
+      - name: Run npm audit
+        run: npm audit --audit-level=moderate
+        continue-on-error: false
+
+      # الخطوة 5: تقرير مفصّل بالثغرات (للمعلومات فقط)
+      - name: Generate detailed audit report
+        run: npm audit --json > audit-report.json || true
+
+      # الخطوة 6: رفع تقرير الفحص كـ artifact
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: npm-audit-report
+          path: audit-report.json
+          retention-days: 30

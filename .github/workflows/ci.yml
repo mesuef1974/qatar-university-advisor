@@ -1,0 +1,47 @@
+# ======================================================
+# خط أنابيب التكامل المستمر (CI Pipeline)
+# المشروع: Qatar University Advisor
+# الوصف: يتحقق من جودة الكود عند كل push أو pull request
+# ======================================================
+
+name: CI - تكامل مستمر
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # ---------------------------------------------------
+  # وظيفة البناء والتحقق من الجودة
+  # ---------------------------------------------------
+  build-and-lint:
+    name: Build & Lint Check
+    runs-on: ubuntu-latest
+
+    steps:
+      # الخطوة 1: استنساخ الكود من المستودع
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # الخطوة 2: إعداد بيئة Node.js الإصدار 20
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # الخطوة 3: تثبيت الحزم مع الاستفادة من الـ cache
+      - name: Install dependencies
+        run: npm ci
+
+      # الخطوة 4: فحص جودة الكود باستخدام ESLint
+      - name: Lint code
+        run: npm run lint
+
+      # الخطوة 5: بناء المشروع للتأكد من عدم وجود أخطاء
+      - name: Build project
+        run: npm run build
