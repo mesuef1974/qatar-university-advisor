@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import QatarUniversityAdvisor from "./QatarUniversityAdvisor.jsx";
 import ExecutionPlan from "./components/ExecutionPlan.jsx";
 import PrivacyConsent from "./components/PrivacyConsent.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
 
 // ── Secret admin unlock (5 taps / 3 s on bottom-left corner) ──
 const ADMIN_TAPS   = 5;
@@ -202,6 +203,11 @@ export default function App() {
     localStorage.setItem('advisor_privacy_consent', 'true');
     setConsentGiven(true);
   };
+
+  // ── Admin route ──
+  if (window.location.pathname === '/admin') {
+    return <AdminDashboard />;
+  }
 
   // ── Privacy consent screen ──
   if (!consentGiven) {
