@@ -197,6 +197,11 @@ export default function App() {
     if (tapCount.current >= ADMIN_TAPS) {
       tapCount.current = 0;
       clearTimeout(tapTimer.current);
+      // ENG-001: طلب كلمة المرور قبل منح الوصول — منع الدخول غير المصرح به
+      const entered = window.prompt('Admin Password:');
+      if (!entered) return;
+      const adminPass = import.meta.env.VITE_ADMIN_UI_PASSWORD;
+      if (!adminPass || entered !== adminPass) return;
       sessionStorage.setItem('admin_unlocked', 'true');
       setAdminUnlocked(true);
     }

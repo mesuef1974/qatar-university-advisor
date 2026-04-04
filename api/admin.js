@@ -2,8 +2,10 @@
 /**
  * Admin Dashboard API — Qatar University Advisor
  * محمي بـ Basic Auth (password بسيط)
+ * SEC-001: استخدام crypto.timingSafeEqual لمنع timing attacks
  */
 
+import crypto from 'crypto';
 import { getStats, getTopQueries } from '../lib/supabase.js';
 import { getCircuitStatus } from '../lib/circuit-breaker.js';
 import { rateLimitMiddleware } from '../lib/rate-limiter.js';
@@ -36,7 +38,18 @@ export default async function handler(req, res) {
   const authHeader = req.headers.authorization || '';
   const providedPassword = authHeader.replace('Bearer ', '').trim();
 
-  if (providedPassword !== adminPassword) {
+  // SEC-001: timing-safe comparison لمنع timing attacks
+  // نستخدم crypto.timingSafeEqual بدلاً من !== العادي
+  let passwordMatch = false;
+  try {
+    const a = Buffer.from(providedPassword);
+    const b = Buffer.from(adminPassword);
+    passwordMatch = a.length === b.length && crypto.timingSafeEqual(a, b);
+  } catch {
+    passwordMatch = false;
+  }
+
+  if (!passwordMatch) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 

@@ -172,7 +172,7 @@ const S = {
     color: '#6B1030',
     textAlign: 'center',
     margin: '0 0 20px',
-    fontFamily: "'Segoe UI",Arial,sans-serif",
+    fontFamily: "'Segoe UI', Arial, sans-serif",
     direction: 'ltr',
   },
   footer: {

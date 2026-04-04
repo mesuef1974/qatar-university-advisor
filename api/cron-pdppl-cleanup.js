@@ -16,6 +16,7 @@
  *   - جدول analytics: query، matched_key، source (لا يوجد event_type أو response_source)
  */
 
+import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 
 export default async function handler(req, res) {
@@ -104,7 +105,7 @@ export default async function handler(req, res) {
         const { error: anonErr } = await supabase
           .from('users')
           .update({
-            phone: `ANON_${user.id.slice(0, 8)}_${Date.now()}`,
+            phone: `ANON_${crypto.randomBytes(16).toString('hex')}`,
             profile_data: {},
             user_type: 'GENERAL',
             track: null,
