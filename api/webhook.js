@@ -205,9 +205,10 @@ export default async function handler(req, res) {
       console.log(`Message from ${maskPhone(from)}: ${userText.slice(0, 100)}`);
 
       // ⚡ تشغيل markAsRead + processMessage بالتوازي لتقليل زمن الاستجابة
+      // نمرر رقم الهاتف لتفعيل الملف الشخصي وذاكرة المحادثة
       const [, response] = await Promise.all([
         markAsRead(message.id),
-        processMessage(userText),
+        processMessage(userText, from),
       ]);
 
       await sendResponseWithSuggestions(from, response.text, response.suggestions);
