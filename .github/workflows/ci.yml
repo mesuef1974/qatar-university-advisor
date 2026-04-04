@@ -1,48 +1,70 @@
 # ======================================================
-# خط أنابيب التكامل المستمر (CI Pipeline)
+# CI-001: خط أنابيب التكامل المستمر المُحسَّن
 # المشروع: Qatar University Advisor
-# الوصف: يتحقق من جودة الكود عند كل push أو pull request
+# التغييرات: + npm audit | + develop branch | - continue-on-error
+# شركة النخبوية للبرمجيات | 2026-04-04
 # ======================================================
 
-name: CI - تكامل مستمر
+name: CI — تكامل مستمر
 
 on:
   push:
     branches:
       - main
+      - develop
   pull_request:
     branches:
       - main
+      - develop
 
 jobs:
   # ---------------------------------------------------
-  # وظيفة البناء والتحقق من الجودة
+  # 1. الفحص الأمني — يجب أن ينجح أولاً
   # ---------------------------------------------------
-  build-and-lint:
-    name: Build & Lint Check
+  security-audit:
+    name: Security Audit
     runs-on: ubuntu-latest
-
     steps:
-      # الخطوة 1: استنساخ الكود من المستودع
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # الخطوة 2: إعداد بيئة Node.js الإصدار 20
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      # الخطوة 3: تثبيت الحزم مع الاستفادة من الـ cache
       - name: Install dependencies
-        run: npm install --prefer-offline
+        run: npm ci
 
-      # الخطوة 4: فحص جودة الكود باستخدام ESLint
+      - name: npm audit — فحص الثغرات الأمنية
+        run: npm audit --audit-level=moderate
+        # أي ثغرة moderate فأعلى تُوقف البناء — INC-2026-001 لن يتكرر
+
+  # ---------------------------------------------------
+  # 2. البناء والجودة — بعد نجاح الأمان
+  # ---------------------------------------------------
+  build-and-test:
+    name: Build, Lint & Test
+    runs-on: ubuntu-latest
+    needs: security-audit
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Lint code
         run: npm run lint
 
-      # الخطوة 5: تشغيل الاختبارات الآلية
       - name: Run Tests
         run: npm test -- --reporter=verbose
         env:
@@ -53,10 +75,8 @@ jobs:
           WHATSAPP_TOKEN: test-token
           WEBHOOK_SECRET: test-secret
 
-      # الخطوة 6: التحقق من تغطية الاختبارات
       - name: Check Test Coverage
-        run: npm run test:coverage 2>/dev/null || echo "Coverage report skipped (no config)"
-        continue-on-error: true
+        run: npm run test:coverage
         env:
           NODE_ENV: test
           GEMINI_API_KEY: test-key-placeholder
@@ -64,7 +84,7 @@ jobs:
           SUPABASE_ANON_KEY: test-anon-key
           WHATSAPP_TOKEN: test-token
           WEBHOOK_SECRET: test-secret
+        # CI-001: حُذف continue-on-error — فشل Coverage يوقف البناء
 
-      # الخطوة 7: بناء المشروع للتأكد من عدم وجود أخطاء
       - name: Build project
         run: npm run build
