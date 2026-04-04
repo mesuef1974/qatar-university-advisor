@@ -2,6 +2,7 @@
 import crypto from 'crypto';
 import { processMessage } from '../lib/findResponse.js';
 import { sendResponseWithSuggestions, markAsRead } from '../lib/whatsapp.js';
+import { requireEnv } from '../lib/validateEnv.js';
 
 // Disable Vercel's automatic body parser so we can read the raw bytes
 // for HMAC-SHA256 signature verification (Meta signs the original raw body)
@@ -95,6 +96,9 @@ function verifySignature(rawBody, signature) {
 }
 
 export default async function handler(req, res) {
+  // SEC-A4: التحقق من متغيرات البيئة
+  if (!requireEnv('webhook', res)) return;
+
   // ── Rate limiting — check before any processing ───────────────────
   const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim()
     || req.socket?.remoteAddress

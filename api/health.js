@@ -8,6 +8,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { rateLimitMiddleware } from '../lib/rate-limiter.js';
+import { validateEnv } from '../lib/validateEnv.js';
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
