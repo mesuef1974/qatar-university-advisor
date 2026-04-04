@@ -107,14 +107,34 @@ vi.mock('../lib/nationality-advisor.js', () => ({
 }));
 
 // ─── Import the module under test AFTER mocks ──────────────────────────────────
-import { processMessage } from '../lib/findResponse.js';
+import { findResponse, gradeResponse } from '../lib/findResponse.js';
+import { ALL_RESPONSES } from '../lib/responses.js';
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
 async function getKey(text) {
-  // We inspect the real findResponse logic through processMessage's output.
-  // Since ALL_RESPONSES values have unique text, we map back to key.
-  const result = await processMessage(text);
-  return result;
+  // Use findResponse() directly to bypass the isFirstMessage / welcome logic
+  // in processMessage(). This tests keyword matching in isolation.
+  const result = findResponse(text);
+
+  switch (result.type) {
+    case 'response': {
+      const resp = ALL_RESPONSES[result.key];
+      if (!resp) return { text: '', suggestions: [] };
+      return { text: resp.text, suggestions: resp.suggestions || [] };
+    }
+    case 'grade': {
+      return gradeResponse(result.grade, result.track);
+    }
+    case 'greeting': {
+      return { text: 'مرحباً', suggestions: [] };
+    }
+    default: {
+      // unknown — fall through to AI mock
+      const { getAIResponse } = await import('../lib/ai-handler.js');
+      const ai = await getAIResponse(text, []);
+      return ai || { text: '', suggestions: [] };
+    }
+  }
 }
 
 // ─── Test Suites ──────────────────────────────────────────────────────────────
