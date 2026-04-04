@@ -5,7 +5,8 @@
  * Framework: Vitest
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+/* global Buffer */
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import crypto from 'crypto';
 
 // ─── Inline implementations under test ────────────────────────────────────────

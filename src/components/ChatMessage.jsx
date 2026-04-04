@@ -42,6 +42,7 @@ function renderLine(line, idx) {
 }
 
 // ─── renderText: split by newlines and render each line ─────────────
+// eslint-disable-next-line react-refresh/only-export-components
 export function renderText(text) {
   return text.split('\n').map((line, i) => renderLine(line, i));
 }

@@ -4,7 +4,7 @@
  * Framework: Vitest
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 
 // ─── Mock all external dependencies ───────────────────────────────────────────
 vi.mock('../lib/responses.js', () => ({
