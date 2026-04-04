@@ -35,7 +35,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --prefer-offline
 
       - name: npm audit — فحص الثغرات الأمنية
         run: npm audit --audit-level=moderate
@@ -60,7 +60,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --prefer-offline
 
       - name: Lint code
         run: npm run lint
