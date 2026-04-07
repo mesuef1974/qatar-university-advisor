@@ -20,7 +20,7 @@
   font-family: 'Tajawal', 'Segoe UI', 'Arial', sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  color-scheme: light;
+  color-scheme: light dark;
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -216,4 +216,296 @@ button { -webkit-tap-highlight-color: transparent; }
 .lift-on-hover:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+/* ════════════════════════════════════════════════════
+   DARK MODE
+   Activated automatically via OS / browser preference.
+   All maroon branding is preserved — shifted lighter
+   for readability on dark surfaces.
+   Gold (#C5A55A → #D4BA7A) is brightened slightly so
+   it stays prominent against dark backgrounds.
+   ════════════════════════════════════════════════════ */
+@media (prefers-color-scheme: dark) {
+
+  /* ── CSS custom property overrides ── */
+  :root {
+    --maroon:        #C4254E;
+    --maroon-dark:   #A01E3F;
+    --maroon-light:  #D94068;
+    --maroon-bg:     #2D1B22;
+    --gold:          #D4BA7A;
+    --gold-light:    #E8D09A;
+    --gold-bg:       #2A2010;
+    --text:          #F5F0EB;
+    --text-muted:    #BDB0A8;
+    --bg:            #1A1014;
+    --surface:       #2D1B22;
+    --border:        #4A3540;
+
+    /* Extra tokens used by dark variants below */
+    --surface-elevated: #3D2830;
+    --text-secondary:   #BDB0A8;
+    --input-bg:         #2D1B22;
+    --card-bg:          #2D1B22;
+    --shadow-color:     rgba(0,0,0,0.35);
+  }
+
+  /* ── Base document ── */
+  body {
+    background: var(--bg) !important;
+    color: var(--text);
+  }
+
+  /* ── Desktop / tablet body gradient — keep maroon, darken it ── */
+  @media (min-width: 768px) {
+    body {
+      background: linear-gradient(
+        160deg,
+        #3D0A1C 0%,
+        #2A0814 50%,
+        #1A0510 100%
+      ) !important;
+    }
+  }
+
+  /* ── Desktop decorative overlay — tone down the gold glow ── */
+  @media (min-width: 1024px) {
+    body::before {
+      background:
+        radial-gradient(circle at 15% 50%, rgba(212,186,122,0.06) 0%, transparent 50%),
+        radial-gradient(circle at 85% 20%, rgba(255,255,255,0.02) 0%, transparent 40%);
+    }
+  }
+
+  /* ── Focus ring uses lighter maroon ── */
+  button:focus-visible,
+  input:focus-visible,
+  a:focus-visible {
+    outline-color: var(--maroon);
+  }
+
+  /* ── Scrollbar thumb ── */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(196,37,78,0.28);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(196,37,78,0.48);
+  }
+
+  /* ── Text selection ── */
+  ::selection {
+    background: rgba(196,37,78,0.22);
+    color: var(--text);
+  }
+
+  /* ── Gold shimmer — brighter stops ── */
+  .gold-shimmer {
+    background: linear-gradient(90deg, #D4BA7A 0%, #F0DC9E 50%, #D4BA7A 100%);
+    background-size: 200% auto;
+  }
+
+  /* ── Lift hover shadow adapts to dark ── */
+  .lift-on-hover:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+
+  /* ════════════════════════════════════════
+     STRUCTURAL ELEMENTS WITH STABLE IDs
+     ════════════════════════════════════════ */
+
+  /* Chat messages scroll area (id="chat-messages") */
+  #chat-messages {
+    background: var(--bg) !important;
+    background-image: radial-gradient(
+      circle,
+      rgba(196,37,78,0.07) 1.5px,
+      transparent 1.5px
+    ) !important;
+    background-size: 24px 24px !important;
+  }
+
+  /* ── Bot message bubbles ──
+     These use white bg / dark text in inline styles.
+     We target the [role="log"] descendant structure.
+     Bot bubbles are the first <div> inside a flex row
+     that does NOT have row-reverse direction.        */
+  #chat-messages [style*="background:#fff"],
+  #chat-messages [style*='background: #fff'],
+  #chat-messages [style*="background: rgb(255, 255, 255)"] {
+    background: var(--surface) !important;
+    color: var(--text) !important;
+  }
+
+  /* Typing indicator bubble */
+  #chat-messages [style*="background:'#fff'"] {
+    background: var(--surface) !important;
+  }
+
+  /* ── Input toolbar (white bar at bottom of chat) ── */
+  /* Target elements with explicit white background in the input area */
+  [style*="background:'#fff'"],
+  [style*='background: #fff'],
+  [style*="background:#fff"] {
+    background: var(--surface) !important;
+  }
+
+  /* Input field wrapper — warm off-white #F5F0EB */
+  [style*="background:'#F5F0EB'"],
+  [style*='background: #F5F0EB'],
+  [style*="background:#F5F0EB"] {
+    background: var(--input-bg) !important;
+  }
+
+  /* Input text colour */
+  [style*="color:'#1C1C1E'"],
+  [style*="color: #1C1C1E"],
+  [style*="color:#1C1C1E"] {
+    color: var(--text) !important;
+  }
+
+  /* ── Side menu panel ──
+     The drawer is position:fixed with a white inner panel.
+     We target the outer overlay's child.             */
+  [style*="background: '#fff'"],
+  [style*='width: 280px'][style*='background'],
+  [style*="width:280px"][style*="background"] {
+    background: var(--surface) !important;
+    color: var(--text) !important;
+  }
+
+  /* ── Card / list backgrounds ── */
+  [style*="background: '#FAFAFA'"],
+  [style*='background: #FAFAFA'],
+  [style*="background:#FAFAFA"] {
+    background: var(--surface-elevated) !important;
+  }
+
+  [style*="background: '#FEF2F2'"],
+  [style*='background: #FEF2F2'],
+  [style*="background:#FEF2F2"] {
+    background: rgba(196,37,78,0.14) !important;
+  }
+
+  /* Nationality picker dropdown */
+  [style*="boxShadow: '0 8px 32px rgba(0,0,0,0.18)'"] {
+    background: var(--surface-elevated) !important;
+    border-color: var(--border) !important;
+  }
+
+  /* ── University / compare / favourites card shells ──
+     The component passes S.ucard which sets background: '#fff'.
+     Target white-background cards inside #root generically.  */
+  #root [style*="borderRadius"][style*="background:'#fff'"],
+  #root [style*="borderRadius"][style*='background: #fff'],
+  #root [style*="borderRadius"][style*="background:#fff"] {
+    background: var(--card-bg) !important;
+    border-color: var(--border) !important;
+    color: var(--text) !important;
+  }
+
+  /* ── Muted / secondary text ── */
+  [style*="color:'#6B7280'"],
+  [style*="color: #6B7280"],
+  [style*="color:#6B7280"],
+  [style*="color:'#9CA3AF'"],
+  [style*="color: #9CA3AF"],
+  [style*="color:#9CA3AF"],
+  [style*="color:'#6b7280'"],
+  [style*="color:'#9ca3af'"] {
+    color: var(--text-secondary) !important;
+  }
+
+  /* ── Borders ── */
+  [style*="borderBottom: '1px solid #f0f0f0'"],
+  [style*='borderBottom: 1px solid #f0f0f0'],
+  [style*='border-bottom: 1px solid #f0f0f0'] {
+    border-bottom-color: var(--border) !important;
+  }
+  [style*="borderTop: '1px solid #f0f0f0'"],
+  [style*='borderTop: 1px solid #f0f0f0'] {
+    border-top-color: var(--border) !important;
+  }
+
+  /* ── Inactive send button ── */
+  [style*="background: '#E5E7EB'"],
+  [style*='background: #E5E7EB'],
+  [style*="background:#E5E7EB"] {
+    background: #3D2830 !important;
+  }
+
+  /* ── Suggestion chips default bg ── */
+  [style*="rgba(138,21,56,0.03)"],
+  [style*="rgba(138,21,56,0.06)"] {
+    background: rgba(196,37,78,0.08) !important;
+    border-color: rgba(196,37,78,0.22) !important;
+    color: var(--text) !important;
+  }
+
+  /* ── Quick access buttons in SideMenu ── */
+  [style*="background: '#FEF2F2'"],
+  [style*="background:'#FEF2F2'"] {
+    background: rgba(196,37,78,0.14) !important;
+    color: var(--maroon-light) !important;
+  }
+
+  /* ── PrivacyConsent & InfoPanel share maroon gradient background —
+     those are intentionally dark and need minimal adjustment.
+     We only soften the inner glass card.                         ── */
+  [style*="rgba(255,255,255,0.1)"][style*="backdropFilter"] {
+    background: rgba(255,255,255,0.06) !important;
+    border-color: rgba(255,255,255,0.1) !important;
+  }
+
+  /* ── UniversitiesView type-badge overrides ── */
+  /* Government (maroon) badge */
+  [style*="background: '#FEF2F2'"][style*="color: '#8A1538'"],
+  [style*="background:'#FEF2F2'"][style*="color:'#8A1538'"] {
+    background: rgba(196,37,78,0.18) !important;
+    color: #E57C96 !important;
+    border-color: #E57C96 !important;
+  }
+  /* International (blue) badge */
+  [style*="background: '#EFF6FF'"],
+  [style*="background:'#EFF6FF'"] {
+    background: rgba(29,78,216,0.18) !important;
+    color: #93B4F5 !important;
+    border-color: #93B4F5 !important;
+  }
+  /* Private (green) badge */
+  [style*="background: '#F0FDF4'"],
+  [style*="background:'#F0FDF4'"] {
+    background: rgba(5,150,105,0.18) !important;
+    color: #6EE7B7 !important;
+    border-color: #6EE7B7 !important;
+  }
+  /* Military / security (grey) badge */
+  [style*="background: '#F3F4F6'"],
+  [style*="background:'#F3F4F6'"] {
+    background: rgba(55,65,81,0.35) !important;
+    color: #D1D5DB !important;
+    border-color: #6B7280 !important;
+  }
+  /* Specialist (orange) badge */
+  [style*="background: '#FFF7ED'"],
+  [style*="background:'#FFF7ED'"] {
+    background: rgba(194,65,12,0.18) !important;
+    color: #FBA07A !important;
+    border-color: #FBA07A !important;
+  }
+
+  /* ── Error boundary recovery screen ── */
+  [style*="color: '#8A1538'"],
+  [style*="color:'#8A1538'"] {
+    color: var(--maroon) !important;
+  }
+
+  /* ── Admin / loading screens ── */
+  [style*="color: '#666'"],
+  [style*="color:'#666'"],
+  [style*="color: #666"],
+  [style*="color:#666"] {
+    color: var(--text-secondary) !important;
+  }
+
 }
