@@ -5,7 +5,7 @@
  */
 
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { supabaseCircuit, STATES } from './circuit-breaker.js';
+import { supabaseCircuit, STATES } from './circuit-breaker';
 
 // ──────────────────────────────────────────────────────────
 // Types

@@ -1,7 +1,7 @@
 /* global process, Buffer */
 import crypto from 'crypto';
 import { processMessage } from '../lib/findResponse.js';
-import { sendResponseWithSuggestions, markAsRead } from '../lib/whatsapp.js';
+import { sendResponseWithSuggestions, markAsRead } from '../lib/whatsapp';
 import { requireEnv } from '../lib/validateEnv.js';
 
 // Disable Vercel's automatic body parser so we can read the raw bytes

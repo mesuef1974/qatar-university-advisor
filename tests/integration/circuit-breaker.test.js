@@ -7,7 +7,7 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import { CircuitBreaker, STATES } from '../../lib/circuit-breaker.js';
+import { CircuitBreaker, STATES } from '../../lib/circuit-breaker';
 
 describe('CircuitBreaker — Integration Tests', () => {
   let cb;

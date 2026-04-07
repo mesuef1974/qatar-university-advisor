@@ -12,6 +12,8 @@
  * شركة النخبوية للبرمجيات | FAANG Standards
  */
 
+import { logger } from './logger.js';
+
 // ══════════════════════════════════════════
 // Types & Interfaces
 // ══════════════════════════════════════════
@@ -54,6 +56,36 @@ const CONFIG: CircuitBreakerOptions = {
   successThreshold:  2,
   logPrefix:         '[CircuitBreaker]',
 };
+
+// ══════════════════════════════════════════
+// Q-15-03: Alerting — SWOT recommendation
+// ══════════════════════════════════════════
+
+interface AlertData {
+  event: string;
+  service: string;
+  failureCount: number;
+  threshold: number;
+  timestamp: string;
+}
+
+async function sendAlert(alertData: AlertData): Promise<void> {
+  const webhookUrl = process.env.ALERT_WEBHOOK_URL;
+  if (!webhookUrl) return;
+  try {
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'circuit_breaker_open',
+        ...alertData,
+        timestamp: new Date().toISOString(),
+      }),
+    });
+  } catch {
+    // Alert delivery is best-effort — don't crash the circuit breaker
+  }
+}
 
 // ══════════════════════════════════════════
 // CircuitBreaker class
@@ -109,7 +141,7 @@ class CircuitBreaker {
       this.successCount++;
       if (this.successCount >= CONFIG.successThreshold) {
         this._transitionTo(STATES.CLOSED);
-        console.log(`${CONFIG.logPrefix} [${this.name}] ✅ Circuit CLOSED — Supabase عاد للعمل`);
+        logger.info(`${CONFIG.logPrefix} [${this.name}] ✅ Circuit CLOSED — Supabase عاد للعمل`);
       }
     }
   }
@@ -124,17 +156,17 @@ class CircuitBreaker {
     if (this.state === STATES.HALF_OPEN) {
       // فشل في الاختبار التجريبي → أعد الفتح
       this._transitionTo(STATES.OPEN);
-      console.warn(`${CONFIG.logPrefix} [${this.name}] 🔄 اختبار فاشل → Circuit OPEN من جديد`);
+      logger.warn(`${CONFIG.logPrefix} [${this.name}] 🔄 اختبار فاشل → Circuit OPEN من جديد`);
       return;
     }
 
     if (this.state === STATES.CLOSED) {
       this.failureCount++;
-      console.warn(`${CONFIG.logPrefix} [${this.name}] ⚠️  فشل ${this.failureCount}/${CONFIG.failureThreshold}: ${error}`);
+      logger.warn(`${CONFIG.logPrefix} [${this.name}] ⚠️  فشل ${this.failureCount}/${CONFIG.failureThreshold}: ${error}`);
 
       if (this.failureCount >= CONFIG.failureThreshold) {
         this._transitionTo(STATES.OPEN);
-        console.error(`${CONFIG.logPrefix} [${this.name}] 🔴 Circuit OPEN — يتحول للـ In-Memory`);
+        logger.error(`${CONFIG.logPrefix} [${this.name}] 🔴 Circuit OPEN — يتحول للـ In-Memory`);
       }
     }
   }
@@ -178,7 +210,19 @@ class CircuitBreaker {
   _transitionTo(newState: string): void {
     const prev    = this.state;
     this.state    = newState;
-    if (newState === STATES.OPEN) this.openedAt = Date.now();
+    if (newState === STATES.OPEN) {
+      this.openedAt = Date.now();
+      // Q-15-03: Alerting — SWOT recommendation
+      const alertData: AlertData = {
+        event:        'CIRCUIT_OPEN',
+        service:      this.name,
+        failureCount: this.failureCount,
+        threshold:    CONFIG.failureThreshold,
+        timestamp:    new Date().toISOString(),
+      };
+      logger.error('Circuit breaker opened', alertData);
+      void sendAlert(alertData);
+    }
     if (newState === STATES.CLOSED) {
       this.failureCount  = 0;
       this.successCount  = 0;
@@ -187,7 +231,7 @@ class CircuitBreaker {
     if (newState === STATES.HALF_OPEN) {
       this.successCount = 0;
     }
-    console.log(`${CONFIG.logPrefix} [${this.name}] ${prev} → ${newState}`);
+    logger.info(`${CONFIG.logPrefix} [${this.name}] ${prev} → ${newState}`);
   }
 }
 

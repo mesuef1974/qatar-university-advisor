@@ -8,7 +8,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // ── Mock Supabase — factory must not reference outer variables ────────
-vi.mock('../../lib/supabase.js', () => {
+vi.mock('../../lib/supabase', () => {
   const _mockSingle = vi.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } });
   const _mockEq = vi.fn().mockReturnValue({ single: _mockSingle, eq: vi.fn().mockResolvedValue({ error: null }) });
   const _mockSelect = vi.fn().mockReturnValue({ eq: _mockEq });
@@ -35,7 +35,7 @@ vi.mock('../../lib/supabase.js', () => {
 });
 
 // Import after mock is set up
-import { supabase } from '../../lib/supabase.js';
+import { supabase } from '../../lib/supabase';
 import {
   checkConsent,
   recordConsent,

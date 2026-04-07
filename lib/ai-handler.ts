@@ -181,6 +181,25 @@ const SYSTEM_PROMPT: string = `أنت "المرشد" — مستشار أكادي
 ${getDialectSystemPromptAddition()}`;
 
 // ────────────────────────────────────────────────────────────────────────────
+// PII Anonymization — PDPPL Article 8 (Qatar Personal Data Protection Law)
+// Strips sensitive identifiers before any text leaves this server.
+// ────────────────────────────────────────────────────────────────────────────
+function sanitizePII(text: string): string {
+  return text
+    // Qatar phone numbers: +974XXXXXXXX | 974XXXXXXXX | 0XXXXXXXX | 8-digit local
+    .replace(/(?:\+974|974|0)\d{8}/g, '[PHONE]')
+    .replace(/\b\d{8}\b/g, '[PHONE]')
+    // Email addresses
+    .replace(/[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/g, '[EMAIL]')
+    // Qatar National ID (QID): exactly 11 digits
+    .replace(/\b\d{11}\b/g, '[QID]')
+    // Credit card numbers: 16 digits (optionally separated by spaces/dashes)
+    .replace(/\b(?:\d[\s\-]?){15}\d\b/g, '[CARD]')
+    // Arabic name patterns: "اسمي X" | "أنا X" | "انا X" followed by a word
+    .replace(/(اسمي|أنا|انا)\s+\S+/g, '$1 [STUDENT]');
+}
+
+// ────────────────────────────────────────────────────────────────────────────
 // Timeout wrapper — يمنع تجاوز Vercel 10s limit
 // ────────────────────────────────────────────────────────────────────────────
 function withTimeout<T>(promise: Promise<T>, ms: number = 8000, label: string = 'operation'): Promise<T> {
@@ -203,8 +222,11 @@ async function callGemini(userMessage: string, conversationHistory: Conversation
     parts: [{ text: msg.content }],
   }));
 
+  // Strip PII before sending to external API (PDPPL Art. 8)
+  const sanitizedMessage: string = sanitizePII(userMessage);
+
   // Normalize Qatari dialect to MSA for better comprehension
-  const normalizedMessage: string = normalizeDialect(userMessage);
+  const normalizedMessage: string = normalizeDialect(sanitizedMessage);
 
   const contents: GeminiContent[] = [
     ...recentHistory,

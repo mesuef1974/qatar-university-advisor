@@ -7,8 +7,8 @@
  */
 
 import crypto from 'crypto';
-import { getStats, getTopQueries } from '../lib/supabase.js';
-import { getCircuitStatus } from '../lib/circuit-breaker.js';
+import { getStats, getTopQueries } from '../lib/supabase';
+import { getCircuitStatus } from '../lib/circuit-breaker';
 import { rateLimitMiddleware } from '../lib/rate-limiter.js';
 import { requireEnv } from '../lib/validateEnv.js';
 

@@ -31,7 +31,7 @@ import {
   sendResponseWithSuggestions,
   markAsRead,
   formatForWhatsApp,
-} from '../../lib/whatsapp.js';
+} from '../../lib/whatsapp';
 
 // ══════════════════════════════════════════════════════
 describe('formatForWhatsApp — تنسيق النص لواتساب', () => {

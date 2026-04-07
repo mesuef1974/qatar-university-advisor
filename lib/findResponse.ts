@@ -7,22 +7,15 @@
 import type { BotResponse } from '../types/index.js';
 
 // ──────────────────────────────────────────────────────────
-// External JS module imports (typed locally until they migrate)
+// External JS module imports — typed via companion .d.ts files
 // ──────────────────────────────────────────────────────────
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore — JS module, will be migrated in a later sprint
 import { ALL_RESPONSES, CAREER_TEST } from './responses.js';
-// @ts-ignore — JS module
-import { getAIResponse } from './ai-handler.js';
+import { getAIResponse } from './ai-handler';
 import { sanitizeInput, getInjectionResponse } from './sanitizer';
-// @ts-ignore — JS module
 import { addNationalityContext } from './nationality-advisor.js';
-// @ts-ignore — JS module
 import { getFromKnowledgeBase, saveToKnowledgeCache, semanticSearch } from './knowledge-base.js';
-// @ts-ignore — JS module
 import { STAGES, getNextStage, getStagePrompt, generateFinalReport, isConversationComplete } from './conversation-state.js';
-// @ts-ignore — JS module
 import {
   buildUserProfile,
   buildProfileContext,
@@ -40,7 +33,7 @@ import {
   updateUserProfile,
   saveUserProfileData,
   getUserProfileData,
-} from './supabase.js';
+} from './supabase';
 
 // ──────────────────────────────────────────────────────────
 // Internal Types
