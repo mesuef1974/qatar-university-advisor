@@ -26,7 +26,7 @@ export default function PrivacyConsent({ onAccept, onReject, onShowPrivacy, onSh
         textAlign: 'center',
         padding: '24px 20px',
         direction: 'rtl',
-        fontFamily: "'Segoe UI', Tahoma, Arial, sans-serif",
+        fontFamily: "'Tajawal', 'Cairo', 'Segoe UI', sans-serif",
       }}>
         <div style={{ fontSize: 64, marginBottom: 16, lineHeight: 1 }}>🚫</div>
         <h1 style={{ fontSize: 22, fontWeight: 800, marginBottom: 12, marginTop: 0 }}>
@@ -73,7 +73,7 @@ export default function PrivacyConsent({ onAccept, onReject, onShowPrivacy, onSh
       textAlign: 'center',
       padding: '24px 20px',
       direction: 'rtl',
-      fontFamily: "'Segoe UI', Tahoma, Arial, sans-serif",
+      fontFamily: "'Tajawal', 'Cairo', 'Segoe UI', sans-serif",
     }}>
       {/* Icon */}
       <div style={{ fontSize: 64, marginBottom: 16, lineHeight: 1 }}>🎓</div>
