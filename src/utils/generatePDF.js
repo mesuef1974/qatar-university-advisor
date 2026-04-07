@@ -7,6 +7,21 @@
 import { jsPDF } from 'jspdf';
 
 /**
+ * reverseArabic — يعكس ترتيب كلمات النص العربي لتصحيح اتجاه الرسم في jsPDF.
+ * jsPDF يرسم النص من اليسار إلى اليمين بشكل افتراضي، لذا نعكس ترتيب الكلمات
+ * لتظهر بشكل صحيح في ملف الـ PDF.
+ * @param {string} text
+ * @returns {string}
+ */
+function reverseArabic(text) {
+  if (!text) return text;
+  if (/[\u0600-\u06FF]/.test(text)) {
+    return text.split(' ').reverse().join(' ');
+  }
+  return text;
+}
+
+/**
  * @param {object} profile - ملف الطالب (nationality, gpa, track, preferredMajor)
  * @param {object} report - ناتج generateFinalReport() من conversation-state.js
  * @param {string} phone - رقم هاتف الطالب (آخر 4 أرقام فقط في التقرير)
@@ -17,6 +32,10 @@ export function generateStudentPDF(profile, report, phone = '') {
     unit: 'mm',
     format: 'a4',
   });
+
+  // دعم العربية: RTL + تفعيل اللغة
+  doc.setLanguage('ar');
+  doc.setR2L(true);
 
   const PAGE_W = 210;
   const MARGIN = 20;
@@ -36,13 +55,13 @@ export function generateStudentPDF(profile, report, phone = '') {
   doc.setFillColor(...MAROON);
   doc.rect(0, 0, PAGE_W, 45, 'F');
 
-  // نص العنوان باللغة الإنجليزية (jsPDF لا يدعم العربية مباشرة)
+  // عنوان التقرير بالعربية
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
-  doc.text('Qatar University Academic Report', PAGE_W / 2, 15, { align: 'center' });
+  doc.text(reverseArabic('تقرير التوصيات الجامعية'), PAGE_W / 2, 15, { align: 'center' });
   doc.setFontSize(11);
-  doc.text('Al-Taqrir Al-Akademi | التقرير الاكاديمي - جامعات قطر', PAGE_W / 2, 22, { align: 'center' });
+  doc.text(reverseArabic('التقرير الأكاديمي | Qatar University Academic Report'), PAGE_W / 2, 22, { align: 'center' });
 
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
@@ -72,17 +91,22 @@ export function generateStudentPDF(profile, report, phone = '') {
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...MAROON);
-  doc.text('Student Profile', MARGIN + 5, y + 8);
+  doc.text(reverseArabic('الملف الشخصي (Student Profile)'), MARGIN + 5, y + 8);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
   doc.setTextColor(...TEXT);
 
-  const nationalityAR = profile.nationality === 'qatari' ? 'قطري' : 'مقيم';
+  const nationalityAR = profile.nationality === 'qatari' ? reverseArabic('قطري') : reverseArabic('مقيم');
   const nationalityLabel = profile.nationality === 'qatari' ? `Qatari (${nationalityAR})` : `Resident (${nationalityAR})`;
   const gpaLabel = profile.gpa ? `${profile.gpa}%` : 'Not specified';
-  const trackMap = { scientific: 'علمي', literary: 'أدبي', commercial: 'تجاري', technical: 'تقني' };
-  const trackAR = trackMap[profile.track] || profile.track || 'غير محدد';
+  const trackMap = {
+    scientific: reverseArabic('علمي'),
+    literary:   reverseArabic('أدبي'),
+    commercial: reverseArabic('تجاري'),
+    technical:  reverseArabic('تقني'),
+  };
+  const trackAR = trackMap[profile.track] || profile.track || reverseArabic('غير محدد');
   const trackLabel = profile.track ? `${profile.track} (${trackAR})` : `Not specified (${trackAR})`;
   const majorLabel = profile.preferredMajor || 'Not specified';
 
@@ -109,7 +133,7 @@ export function generateStudentPDF(profile, report, phone = '') {
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...MAROON);
-  doc.text('Recommended Universities | Al-Jamiaat Al-Muqtaraha', MARGIN, y);
+  doc.text(reverseArabic('الجامعات الموصى بها (Recommended Universities)'), MARGIN, y);
   // خط تحت العنوان
   doc.setDrawColor(...GOLD);
   doc.setLineWidth(0.8);
@@ -138,7 +162,7 @@ export function generateStudentPDF(profile, report, phone = '') {
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...MAROON);
-  doc.text('Available Scholarships | Al-Minah Al-Mutaha', MARGIN, y);
+  doc.text(reverseArabic('المنح المتاحة (Available Scholarships)'), MARGIN, y);
   doc.setDrawColor(...GOLD);
   doc.line(MARGIN, y + 2, MARGIN + 80, y + 2);
   y += 8;
@@ -162,7 +186,7 @@ export function generateStudentPDF(profile, report, phone = '') {
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...MAROON);
-  doc.text('Action Plan | Khattat Al-Amal', MARGIN, y);
+  doc.text(reverseArabic('خطة العمل (Action Plan)'), MARGIN, y);
   doc.setDrawColor(...GOLD);
   doc.line(MARGIN, y + 2, MARGIN + 80, y + 2);
   y += 8;
@@ -198,7 +222,7 @@ export function generateStudentPDF(profile, report, phone = '') {
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(...MAROON);
-    doc.text('Important Dates | Al-Mawaeid Al-Muhimma', MARGIN, y);
+    doc.text(reverseArabic('المواعيد المهمة (Important Dates)'), MARGIN, y);
     doc.setDrawColor(...GOLD);
     doc.line(MARGIN, y + 2, MARGIN + 80, y + 2);
     y += 8;
