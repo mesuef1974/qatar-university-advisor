@@ -56,7 +56,7 @@ export default function AcademicDisclaimer({ position = 'bottom' }) {
     borderRadius: 6,
     padding: '3px 8px',
     cursor: 'pointer',
-    fontSize: 11,
+    fontSize: 12,
     color: '#92400E',
     fontFamily: "'Tajawal',sans-serif",
     flexShrink: 0,

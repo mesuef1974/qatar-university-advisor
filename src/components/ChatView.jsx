@@ -1,31 +1,143 @@
 import React from 'react';
 import SuggestionBar from './SuggestionBar.jsx';
+import theme from '../styles/theme.js';
 
 // ════════════════════════════════════════════════════════════════════
 // ChatView — Chat messages area + input + send button
 // ════════════════════════════════════════════════════════════════════
 
+
 // ─── Render text (XSS-safe: no dangerouslySetInnerHTML) ───
-function renderLine(line, idx) {
-  if (!line) return <p key={idx} style={{margin:'2px 0',lineHeight:1.7}}>&nbsp;</p>;
+
+// Apply inline markdown: **bold** and [link](url)
+function applyInline(line, baseIdx) {
   const parts = [];
-  const regex = /\*\*(.*?)\*\*/g;
-  let lastIndex = 0;
-  let match;
-  let pIdx = 0;
-  while ((match = regex.exec(line)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(<React.Fragment key={pIdx++}>{line.slice(lastIndex, match.index)}</React.Fragment>);
+  const inlineRe = /\*\*(.*?)\*\*|\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
+  let last = 0, pIdx = baseIdx * 1000;
+  let m;
+  while ((m = inlineRe.exec(line)) !== null) {
+    if (m.index > last) {
+      parts.push(<React.Fragment key={pIdx++}>{line.slice(last, m.index)}</React.Fragment>);
     }
-    parts.push(<strong key={pIdx++}>{match[1]}</strong>);
-    lastIndex = regex.lastIndex;
+    if (m[1] !== undefined) {
+      parts.push(<strong key={pIdx++}>{m[1]}</strong>);
+    } else {
+      parts.push(
+        <a key={pIdx++} href={m[3]} target="_blank" rel="noopener noreferrer"
+           style={{color:'var(--gold,#C5A55A)',textDecoration:'underline'}}>
+          {m[2]}
+        </a>
+      );
+    }
+    last = inlineRe.lastIndex;
   }
-  if (lastIndex < line.length) {
-    parts.push(<React.Fragment key={pIdx++}>{line.slice(lastIndex)}</React.Fragment>);
+  if (last < line.length) {
+    parts.push(<React.Fragment key={pIdx++}>{line.slice(last)}</React.Fragment>);
   }
-  return <p key={idx} style={{margin:'2px 0',lineHeight:1.7}}>{parts}</p>;
+  return parts;
 }
-const renderText = (text) => text.split('\n').map((line, i) => renderLine(line, i));
+
+// Parse a table block: array of raw lines → <table> element
+function renderTable(lines, idx) {
+  const rows = lines
+    .filter(l => l.trim() !== '' && !/^\s*\|[-| :]+\|\s*$/.test(l))
+    .map(l =>
+      l.replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim())
+    );
+  if (rows.length === 0) return null;
+  const [header, ...body] = rows;
+  return (
+    <div key={idx} style={{overflowX:'auto',margin:'6px 0'}}>
+      <table style={{borderCollapse:'collapse',width:'100%',fontSize:12.5,fontFamily:"'Tajawal',sans-serif"}}>
+        <thead>
+          <tr>
+            {header.map((cell, ci) => (
+              <th key={ci} style={{
+                padding:'6px 10px', background:'rgba(138,21,56,0.08)',
+                borderBottom:'2px solid rgba(138,21,56,0.25)',
+                textAlign:'right', fontWeight:700, whiteSpace:'nowrap',
+              }}>{cell}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {body.map((row, ri) => (
+            <tr key={ri} style={{background: ri%2===0 ? 'transparent' : 'rgba(0,0,0,0.02)'}}>
+              {row.map((cell, ci) => (
+                <td key={ci} style={{
+                  padding:'5px 10px',
+                  borderBottom:'1px solid rgba(0,0,0,0.06)',
+                  textAlign:'right',
+                }}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function renderLine(line, idx) {
+  if (!line || line.trim() === '') {
+    return <p key={idx} style={{margin:'2px 0',lineHeight:1.7}}>&nbsp;</p>;
+  }
+  // ## Heading (h1-h3)
+  if (/^#{1,3}\s/.test(line)) {
+    const text = line.replace(/^#{1,3}\s+/, '');
+    return (
+      <p key={idx} style={{margin:'6px 0 2px',lineHeight:1.5}}>
+        <span style={{fontSize:'1.1em',fontWeight:700}}>{applyInline(text, idx)}</span>
+      </p>
+    );
+  }
+  // --- horizontal separator
+  if (/^---+$/.test(line.trim())) {
+    return (
+      <hr key={idx} style={{
+        border:'none', borderTop:'1px solid rgba(138,21,56,0.18)',
+        margin:'8px 0',
+      }} />
+    );
+  }
+  // - item or • item (list)
+  if (/^[-•]\s/.test(line.trim())) {
+    const text = line.trim().replace(/^[-•]\s+/, '');
+    return (
+      <p key={idx} style={{margin:'2px 0',lineHeight:1.7,paddingRight:16,display:'flex',alignItems:'flex-start',gap:6}}>
+        <span style={{color:'#8A1538',flexShrink:0,marginTop:2}}>•</span>
+        <span>{applyInline(text, idx)}</span>
+      </p>
+    );
+  }
+  // Default: inline formatting only
+  return (
+    <p key={idx} style={{margin:'2px 0',lineHeight:1.7}}>
+      {applyInline(line, idx)}
+    </p>
+  );
+}
+
+const renderText = (text) => {
+  const rawLines = text.split('\n');
+  const result = [];
+  let i = 0;
+  while (i < rawLines.length) {
+    // Detect table block (lines starting with |)
+    if (/^\|.+\|/.test(rawLines[i].trim())) {
+      const tableLines = [];
+      while (i < rawLines.length && /^\|/.test(rawLines[i].trim())) {
+        tableLines.push(rawLines[i]);
+        i++;
+      }
+      result.push(renderTable(tableLines, result.length));
+    } else {
+      result.push(renderLine(rawLines[i], result.length));
+      i++;
+    }
+  }
+  return result;
+};
 
 export default function ChatView({
   messages,
@@ -47,7 +159,7 @@ export default function ChatView({
         role="log"
         aria-live="polite"
         aria-label="سجل المحادثة"
-        style={{flex:1,overflowY:'auto',padding:'16px 14px 8px',background:'#EDE5DA',backgroundImage:'radial-gradient(circle,rgba(138,21,56,0.055) 1.5px,transparent 1.5px)',backgroundSize:'24px 24px'}}
+        style={{flex:1,overflowY:'auto',padding:'16px 14px 8px',background:'#EDE5DA',backgroundImage:`radial-gradient(circle,rgba(138,21,56,0.055) 1.5px,transparent 1.5px)`,backgroundSize:'24px 24px'}}
       >
         {messages.map(msg=>(
           <div key={msg.id} style={{
@@ -60,7 +172,7 @@ export default function ChatView({
             {msg.type==='bot'&&(
               <div style={{
                 width:32, height:32,
-                background:'linear-gradient(135deg,#8A1538,#6B1030)',
+                background:`linear-gradient(135deg,${theme.colors.maroon},${theme.colors.maroonDark})`,
                 borderRadius:'50%',
                 display:'flex', alignItems:'center', justifyContent:'center',
                 fontSize:15, flexShrink:0,
@@ -78,12 +190,12 @@ export default function ChatView({
                 fontSize:13.5, wordBreak:'break-word', lineHeight:1.75,
                 ...(msg.type==='user'
                   ? {
-                      background:'linear-gradient(135deg,#8A1538 0%,#6B1030 100%)',
-                      color:'#fff',
+                      background:`linear-gradient(135deg,${theme.colors.maroon} 0%,${theme.colors.maroonDark} 100%)`,
+                      color:theme.colors.white,
                       boxShadow:'0 4px 14px rgba(138,21,56,0.22)',
                     }
                   : {
-                      background:'#fff',
+                      background:theme.colors.botBubble,
                       color:'#1C1C1E',
                       boxShadow:'0 1px 3px rgba(0,0,0,0.06),0 4px 14px rgba(0,0,0,0.06)',
                     }),
@@ -116,8 +228,8 @@ export default function ChatView({
                     style={{
                       marginTop: '10px',
                       padding: '9px 18px',
-                      background: 'linear-gradient(135deg, #8A1538, #C5A55A)',
-                      color: 'white',
+                      background: `linear-gradient(135deg, ${theme.colors.maroon}, ${theme.colors.gold})`,
+                      color: theme.colors.white,
                       border: 'none',
                       borderRadius: '10px',
                       cursor: pdfLoading ? 'not-allowed' : 'pointer',
@@ -138,7 +250,7 @@ export default function ChatView({
                   </button>
                 )}
                 <div style={{
-                  fontSize:10, marginTop:5,
+                  fontSize:12, marginTop:5,
                   color: msg.type==='user'
                     ? 'rgba(255,255,255,0.5)'
                     : '#B0B8C4',
@@ -162,13 +274,13 @@ export default function ChatView({
           <div style={{display:'flex',gap:8,marginBottom:16,alignItems:'flex-end'}}>
             <div style={{
               width:32, height:32,
-              background:'linear-gradient(135deg,#8A1538,#6B1030)',
+              background:`linear-gradient(135deg,${theme.colors.maroon},${theme.colors.maroonDark})`,
               borderRadius:'50%', display:'flex', alignItems:'center',
               justifyContent:'center', fontSize:15, flexShrink:0,
               boxShadow:'0 2px 8px rgba(138,21,56,0.3)',
             }}>🎓</div>
             <div style={{
-              background:'#fff', padding:'13px 18px',
+              background:theme.colors.botBubble, padding:'13px 18px',
               borderRadius:'4px 18px 18px 18px',
               display:'flex', gap:5, alignItems:'center',
               boxShadow:'0 2px 8px rgba(0,0,0,0.08)',
@@ -176,7 +288,7 @@ export default function ChatView({
               {[0,0.2,0.4].map((d,di)=>(
                 <span key={di} style={{
                   width:7, height:7,
-                  background:'#C5A55A',
+                  background:theme.colors.gold,
                   borderRadius:'50%', display:'inline-block',
                   animation:`bounce 1.2s ${d}s infinite`,
                 }}/>
@@ -191,14 +303,14 @@ export default function ChatView({
       <div style={{
         padding:'10px 14px',
         paddingBottom:'max(10px,env(safe-area-inset-bottom,10px))',
-        background:'#fff',
+        background:theme.colors.white,
         borderTop:'1px solid rgba(0,0,0,0.06)',
         flexShrink:0,
         boxShadow:'0 -2px 16px rgba(0,0,0,0.05)',
       }}>
         <div style={{
           display:'flex', alignItems:'center',
-          background:'#F5F0EB',
+          background:theme.colors.chatBg,
           borderRadius:28,
           border:'1.5px solid rgba(138,21,56,0.13)',
           padding:'4px 4px 4px 8px',
@@ -218,8 +330,8 @@ export default function ChatView({
             value={input}
             onChange={e=>setInput(e.target.value)}
             onKeyDown={e=>e.key==='Enter'&&sendMessage()}
-            onFocus={e=>{const p=e.target.parentElement;p.style.borderColor='#8A1538';p.style.background='#fff';p.style.boxShadow='0 0 0 3px rgba(138,21,56,0.08)';}}
-            onBlur={e=>{const p=e.target.parentElement;p.style.borderColor='rgba(138,21,56,0.13)';p.style.background='#F5F0EB';p.style.boxShadow='none';}}
+            onFocus={e=>{const p=e.target.parentElement;p.style.borderColor=theme.colors.maroon;p.style.background=theme.colors.white;p.style.boxShadow='0 0 0 3px rgba(138,21,56,0.08)';}}
+            onBlur={e=>{const p=e.target.parentElement;p.style.borderColor='rgba(138,21,56,0.13)';p.style.background=theme.colors.chatBg;p.style.boxShadow='none';}}
             placeholder="اسأل عن خطة دراسية، مواد، مقارنة..."
           />
           <button
@@ -227,12 +339,12 @@ export default function ChatView({
             aria-label="إرسال الرسالة"
             title="إرسال"
             style={{
-              width:42, height:42, borderRadius:'50%', border:'none',
+              width:44, height:44, borderRadius:'50%', border:'none',
               cursor:'pointer', flexShrink:0,
               display:'flex', alignItems:'center', justifyContent:'center',
               background: input.trim()
-                ? 'linear-gradient(135deg,#8A1538,#6B1030)'
-                : '#E5E7EB',
+                ? `linear-gradient(135deg,${theme.colors.maroon},${theme.colors.maroonDark})`
+                : theme.colors.gray200,
               boxShadow: input.trim()
                 ? '0 3px 12px rgba(138,21,56,0.32)'
                 : 'none',
@@ -249,3 +361,4 @@ export default function ChatView({
     </>
   );
 }
+

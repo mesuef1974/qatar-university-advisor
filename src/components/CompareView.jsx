@@ -56,7 +56,7 @@ export default function CompareView({
               {unis.map((u) => (
                 <div key={u.id} style={S.cc}>
                   <div style={{ fontSize: 22 }}>{u.icon}</div>
-                  <strong style={{ fontSize: 10 }}>{u.name}</strong>
+                  <strong style={{ fontSize: 12 }}>{u.name}</strong>
                 </div>
               ))}
             </div>

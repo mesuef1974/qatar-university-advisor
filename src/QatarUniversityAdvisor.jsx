@@ -457,7 +457,7 @@ export default function QatarUniversityAdvisor() {
                 alignItems:'center', gap:4,
                 padding:'9px 0 7px', background:'none', border:'none',
                 cursor:'pointer', fontFamily:"'Tajawal',sans-serif",
-                fontSize:11, fontWeight: isActive ? 700 : 400,
+                fontSize:12, fontWeight: isActive ? 700 : 400,
                 color: isActive ? '#8A1538' : '#9CA3AF',
                 position:'relative', transition:'color 0.18s',
               }}
@@ -484,16 +484,16 @@ export default function QatarUniversityAdvisor() {
         flexShrink:0,
       }}>
         <a href="/privacy" style={{
-          fontSize:11, color:'#9CA3AF', textDecoration:'none',
+          fontSize:12, color:'#9CA3AF', textDecoration:'none',
           fontFamily:"'Tajawal',sans-serif", direction:'rtl',
           transition:'color 0.15s',
         }}
           onMouseEnter={e=>e.target.style.color='#8A1538'}
           onMouseLeave={e=>e.target.style.color='#9CA3AF'}
         >سياسة الخصوصية</a>
-        <span style={{ fontSize:10, color:'#D1D5DB' }}>·</span>
+        <span style={{ fontSize:12, color:'#D1D5DB' }}>·</span>
         <a href="/terms" style={{
-          fontSize:11, color:'#9CA3AF', textDecoration:'none',
+          fontSize:12, color:'#9CA3AF', textDecoration:'none',
           fontFamily:"'Tajawal',sans-serif", direction:'rtl',
           transition:'color 0.15s',
         }}
@@ -581,8 +581,8 @@ const S={
     padding:'14px 16px', cursor:'pointer',
   },
   un:{ fontWeight:700, fontSize:14, color:'#1C1C1E', lineHeight:1.3, marginBottom:3 },
-  badge:{ fontSize:10, padding:'3px 9px', borderRadius:10, fontWeight:700, display:'inline-block' },
-  mt:{ fontSize:11, color:'#9CA3AF' },
+  badge:{ fontSize:12, padding:'3px 9px', borderRadius:10, fontWeight:700, display:'inline-block' },
+  mt:{ fontSize:12, color:'#9CA3AF' },
   ib:{
     background:'rgba(138,21,56,0.06)', border:'none',
     fontSize:16, cursor:'pointer', padding:'6px 8px',
@@ -591,7 +591,7 @@ const S={
   },
   uex:{ padding:'4px 16px 16px', borderTop:'1px solid #F5F5F5' },
   chip:{
-    fontSize:11, color:'#374151', background:'#F9FAFB',
+    fontSize:12, color:'#374151', background:'#F9FAFB',
     padding:'4px 10px', borderRadius:10, border:'1px solid #EAEAEA',
     display:'inline-block',
   },
@@ -605,7 +605,7 @@ const S={
   },
   ab:{
     flex:1, padding:'10px 8px', background:'#8A1538', color:'#fff',
-    border:'none', borderRadius:10, fontSize:11,
+    border:'none', borderRadius:10, fontSize:12,
     cursor:'pointer', fontWeight:700, fontFamily:"'Tajawal',sans-serif",
   },
   wb:{
@@ -615,10 +615,10 @@ const S={
     border:'1px solid #BFDBFE', fontWeight:600,
   },
   cl:{
-    flex:'0 0 88px', padding:'10px', fontSize:11, fontWeight:700,
+    flex:'0 0 88px', padding:'10px', fontSize:12, fontWeight:700,
     color:'#374151', background:'#FAFAFA', borderLeft:'1px solid #F0F0F0',
   },
-  cc:{ flex:1, padding:'10px', fontSize:11, color:'#1C1C1E', textAlign:'center', lineHeight:1.5 },
+  cc:{ flex:1, padding:'10px', fontSize:12, color:'#1C1C1E', textAlign:'center', lineHeight:1.5 },
   em:{ textAlign:'center', padding:'48px 20px', color:'#9CA3AF' },
   gb:{
     padding:'13px 24px',

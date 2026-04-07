@@ -40,15 +40,16 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy.jsx"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService.jsx"));
 const DataRights = lazy(() => import("./pages/DataRights.jsx"));
 
-// UX-A1: Loading fallback component
+// UX-A1: Skeleton loading component — matches app layout
 const LoadingFallback = () => (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', direction: 'rtl', fontFamily: "'Cairo', sans-serif" }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 32, marginBottom: 12 }}>⏳</div>
-        <div style={{ color: '#666' }}>جارٍ التحميل...</div>
-      </div>
-    </div>
-  );
+  <div style={{ padding: 20, direction: 'rtl' }}>
+    <div style={{ height: 60, background: '#8A1538', borderRadius: 12, marginBottom: 16 }} />
+    <div style={{ height: 20, background: '#E0D5CC', borderRadius: 8, width: '70%', marginBottom: 12 }} />
+    <div style={{ height: 20, background: '#E0D5CC', borderRadius: 8, width: '50%', marginBottom: 12 }} />
+    <div style={{ height: 200, background: '#F5F0EB', borderRadius: 16, marginBottom: 16 }} />
+    <div style={{ height: 48, background: '#E0D5CC', borderRadius: 24 }} />
+  </div>
+);
 
 // ── Secret admin unlock (5 taps / 3 s on bottom-left corner) ──
 const ADMIN_TAPS   = 5;
@@ -160,7 +161,7 @@ function DesktopPanel() {
               textShadow: '0 0 20px rgba(197,165,90,0.3)',
             }}>{n}</div>
             <div style={{
-              fontSize: 11, color: 'rgba(255,255,255,0.58)',
+              fontSize: 12, color: 'rgba(255,255,255,0.58)',
               marginTop: 6, lineHeight: 1.4,
               fontFamily: "'Tajawal',sans-serif",
             }}>{l}</div>
@@ -171,7 +172,7 @@ function DesktopPanel() {
       {/* Feature list */}
       <div style={{ flex: 1 }}>
         <div style={{
-          fontSize: 10, fontWeight: 700, color: 'rgba(197,165,90,0.6)',
+          fontSize: 12, fontWeight: 700, color: 'rgba(197,165,90,0.6)',
           letterSpacing: 1.5, marginBottom: 14,
           textTransform: 'uppercase', fontFamily: "'Tajawal',sans-serif",
         }}>
@@ -364,7 +365,7 @@ function AppRoot() {
               padding: '4px 10px',
               background: 'rgba(220,38,38,0.88)',
               color: '#fff', border: 'none', borderRadius: 6,
-              cursor: 'pointer', fontSize: 11,
+              cursor: 'pointer', fontSize: 12,
             }}
           >
             ✕ إخفاء

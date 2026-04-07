@@ -15,7 +15,7 @@ export default function StatsBanner() {
           {i>0&&<div style={{width:1,background:'rgba(255,255,255,0.14)'}}/>}
           <div style={{flex:1,textAlign:'center'}}>
             <div style={{fontSize:20,fontWeight:800,color:'#C5A55A',fontFamily:"'Cairo',sans-serif",lineHeight:1}}>{n}</div>
-            <div style={{fontSize:10,color:'rgba(255,255,255,0.5)',marginTop:3}}>{l}</div>
+            <div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:3}}>{l}</div>
           </div>
         </React.Fragment>
       ))}

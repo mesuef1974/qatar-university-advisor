@@ -191,7 +191,7 @@ export default function PrivacyConsent({ onAccept, onReject, onShowPrivacy, onSh
         أرفض
       </button>
 
-      <p style={{ fontSize: 11, opacity: 0.5, marginTop: 16 }}>
+      <p style={{ fontSize: 12, opacity: 0.5, marginTop: 16 }}>
         مرخَّص وفق قوانين دولة قطر
       </p>
     </div>

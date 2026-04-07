@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import theme from '../styles/theme.js';
 
 export default function Header({
   S,
@@ -33,7 +34,7 @@ export default function Header({
           <span style={{
             position:'absolute', top:6, right:6,
             width:6, height:6, borderRadius:'50%',
-            background:'#C5A55A',
+            background:theme.colors.gold,
             boxShadow:'0 0 0 0 rgba(197,165,90,0.4)',
             animation:'menuPulse 2.5s ease-out infinite',
             pointerEvents:'none',
@@ -62,9 +63,11 @@ export default function Header({
               {userProfile.nationality && (
                 <button
                   onClick={() => setShowNatPicker(p => !p)}
+                  aria-label={isQatari ? 'الجنسية: قطري — انقر للتغيير' : 'الجنسية: مقيم — انقر للتغيير'}
+                  aria-expanded={false}
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: 3,
-                    fontSize: 10, fontWeight: 700,
+                    fontSize: 12, fontWeight: 700,
                     padding: '3px 8px', borderRadius: 10, cursor: 'pointer',
                     border: isQatari
                       ? '1px solid rgba(197,165,90,0.5)'
@@ -76,12 +79,13 @@ export default function Header({
                     fontFamily: "'Tajawal',sans-serif",
                   }}
                 >
-                  {isQatari ? '🇶🇦 قطري' : '🌍 مقيم'}
+                  <span role="img" aria-label={isQatari ? 'علم قطر' : 'كرة الأرض'}>{isQatari ? '🇶🇦' : '🌍'}</span>
+                  {isQatari ? ' قطري' : ' مقيم'}
                 </button>
               )}
             </div>
 
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.58)', marginTop: 2 }}>
+            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.58)', marginTop: 2 }}>
               {userProfile.grade
                 ? `معدل ${userProfile.grade}% · ${userProfile.track || ''}`
                 : '23 جامعة · قاعدة معرفة شاملة'}
@@ -97,22 +101,24 @@ export default function Header({
         >
           <svg
             width="17" height="17" viewBox="0 0 24 24"
-            fill={activeView === 'favorites' ? '#C5A55A' : 'none'}
-            stroke={activeView === 'favorites' ? '#C5A55A' : '#fff'}
+            fill={activeView === 'favorites' ? theme.colors.gold : 'none'}
+            stroke={activeView === 'favorites' ? theme.colors.gold : theme.colors.white}
             strokeWidth="1.8" strokeLinejoin="round"
           >
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
           </svg>
           {userProfile.favorites.length > 0 && (
-            <span style={{
-              position: 'absolute', top: -3, left: -3,
-              background: '#C5A55A', color: '#6B1030',
-              borderRadius: '50%', width: 16, height: 16,
-              fontSize: 9, fontWeight: 900,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              border: '2px solid #8A1538',
-            }}>
-              {userProfile.favorites.length}
+            <span
+              aria-label={`${userProfile.favorites.length} مفضلة`}
+              style={{
+                position: 'absolute', top: -3, left: -3,
+                background: theme.colors.gold, color: theme.colors.maroonDark,
+                borderRadius: '50%', width: 16, height: 16,
+                fontSize: 12, fontWeight: 900,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: `2px solid ${theme.colors.maroon}`,
+              }}>
+              <span aria-hidden="true">{userProfile.favorites.length}</span>
             </span>
           )}
         </button>
@@ -122,7 +128,7 @@ export default function Header({
       {showNatPicker && (
         <div style={{
           position: 'absolute', top: 62, right: 12, left: 12, zIndex: 300,
-          background: '#fff', borderRadius: 14, padding: 14,
+          background: theme.colors.white, borderRadius: 14, padding: 14,
           boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
           border: '1px solid rgba(0,0,0,0.06)',
         }}>
@@ -145,9 +151,9 @@ export default function Header({
                   fontFamily: "'Tajawal',sans-serif", fontSize: 13, fontWeight: 700,
                   color: '#1C1C1E',
                   border: userProfile.nationality === val
-                    ? '2px solid #8A1538'
-                    : '1.5px solid #E5E7EB',
-                  background: userProfile.nationality === val ? '#FEF2F2' : '#FAFAFA',
+                    ? `2px solid ${theme.colors.maroon}`
+                    : `1.5px solid ${theme.colors.gray200}`,
+                  background: userProfile.nationality === val ? '#FEF2F2' : theme.colors.gray50,
                 }}
               >
                 {flag} {label}

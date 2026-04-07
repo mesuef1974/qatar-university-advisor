@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
 const CATEGORIES = [
-  { key: 'all', label: 'الكل', icon: '🏛️' },
-  { key: 'gov', label: 'حكومية', icon: '🇶🇦', filter: u => u.type.includes('حكومية') },
-  { key: 'intl', label: 'دولية', icon: '🌍', filter: u => u.type === 'دولية' },
-  { key: 'private', label: 'خاصة', icon: '🏫', filter: u => u.type.includes('خاصة') },
-  { key: 'military', label: 'عسكرية', icon: '⚔️', filter: u => u.type === 'عسكرية' || u.type === 'أمنية' },
-  { key: 'special', label: 'تخصصية', icon: '✈️', filter: u => u.type === 'تخصصية' },
+  { key: 'all',     label: 'الكل',     icon: '🏛️', iconLabel: 'مبنى' },
+  { key: 'gov',     label: 'حكومية',   icon: '🇶🇦', iconLabel: 'علم قطر',  filter: u => u.type.includes('حكومية') },
+  { key: 'intl',    label: 'دولية',    icon: '🌍', iconLabel: 'كرة الأرض', filter: u => u.type === 'دولية' },
+  { key: 'private', label: 'خاصة',     icon: '🏫', iconLabel: 'مبنى مدرسة', filter: u => u.type.includes('خاصة') },
+  { key: 'military',label: 'عسكرية',   icon: '⚔️', iconLabel: 'سيوف',      filter: u => u.type === 'عسكرية' || u.type === 'أمنية' },
+  { key: 'special', label: 'تخصصية',   icon: '✈️', iconLabel: 'طائرة',     filter: u => u.type === 'تخصصية' },
 ];
 
 const TYPE_COLORS = {
@@ -109,7 +109,7 @@ export default function UniversitiesView({
                   📊 {u.minGrade}%+
                 </span>
                 {isRestricted && (
-                  <span style={{ fontSize: 10, color: '#DC2626', fontWeight: 700 }}>🔒 قطريون فقط</span>
+                  <span style={{ fontSize: 12, color: '#DC2626', fontWeight: 700 }}>🔒 قطريون فقط</span>
                 )}
               </div>
             </div>
@@ -178,12 +178,12 @@ export default function UniversitiesView({
 
             <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
               <div style={S.pros}>
-                <div style={{ fontWeight: 700, fontSize: 11, color: '#16a34a', marginBottom: 3 }}>✅ المميزات</div>
-                {u.pros.map((p, i) => <div key={i} style={{ fontSize: 11, color: '#15803d' }}>• {p}</div>)}
+                <div style={{ fontWeight: 700, fontSize: 12, color: '#16a34a', marginBottom: 3 }}>✅ المميزات</div>
+                {u.pros.map((p, i) => <div key={i} style={{ fontSize: 12, color: '#15803d' }}>• {p}</div>)}
               </div>
               <div style={S.cons}>
-                <div style={{ fontWeight: 700, fontSize: 11, color: '#ea580c', marginBottom: 3 }}>⚠️ التحديات</div>
-                {u.cons.map((c, i) => <div key={i} style={{ fontSize: 11, color: '#c2410c' }}>• {c}</div>)}
+                <div style={{ fontWeight: 700, fontSize: 12, color: '#ea580c', marginBottom: 3 }}>⚠️ التحديات</div>
+                {u.cons.map((c, i) => <div key={i} style={{ fontSize: 12, color: '#c2410c' }}>• {c}</div>)}
               </div>
             </div>
 
@@ -279,6 +279,8 @@ export default function UniversitiesView({
           <button
             key={cat.key}
             onClick={() => setActiveCategory(cat.key)}
+            aria-label={cat.label}
+            aria-pressed={activeCategory === cat.key}
             style={{
               padding: '7px 15px', borderRadius: 20, fontSize: 12,
               fontWeight: activeCategory === cat.key ? 700 : 500,
@@ -297,7 +299,7 @@ export default function UniversitiesView({
               transition: 'all 0.2s cubic-bezier(0.34,1.56,0.64,1)',
             }}
           >
-            {cat.icon} {cat.label}
+            <span role="img" aria-label={cat.iconLabel}>{cat.icon}</span> {cat.label}
           </button>
         ))}
       </div>

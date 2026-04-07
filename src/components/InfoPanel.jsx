@@ -100,12 +100,12 @@ export default function InfoPanel({ selectNationality }) {
             >
               <div style={{fontSize:32,marginBottom:8}}>{flag}</div>
               <div style={{fontSize:13,fontWeight:700,lineHeight:1.3}}>{title}</div>
-              <div style={{fontSize:10,color:'rgba(255,255,255,0.5)',marginTop:5,lineHeight:1.5}}>{sub}</div>
+              <div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:5,lineHeight:1.5}}>{sub}</div>
             </button>
           ))}
         </div>
 
-        <p style={{marginTop:14,fontSize:10,color:'rgba(255,255,255,0.3)',flexShrink:0}}>
+        <p style={{marginTop:14,fontSize:12,color:'rgba(255,255,255,0.3)',flexShrink:0}}>
           يمكنك تغيير اختيارك في أي وقت
         </p>
       </div>

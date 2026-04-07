@@ -49,7 +49,7 @@ export default function FavoritesView({
                 ⭐
               </button>
               <button
-                style={{ ...S.ab, padding: '4px 8px', fontSize: 10, flex: 'unset' }}
+                style={{ ...S.ab, padding: '4px 8px', fontSize: 12, flex: 'unset' }}
                 onClick={() => {
                   setActiveView('chat');
                   sendMessage(`خطة دراسة ${u.name} والمواد والتخصصات`);
