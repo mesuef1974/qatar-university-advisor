@@ -29,7 +29,7 @@ vi.mock('../../lib/ai-handler.js', () => ({
   getAIResponse: vi.fn().mockResolvedValue(null),
 }));
 
-vi.mock('../../lib/sanitizer.js', () => ({
+vi.mock('../../lib/sanitizer', () => ({
   sanitizeInput: vi.fn((text) => ({ safe: true, sanitized: text, reason: null })),
   getInjectionResponse: vi.fn(() => ({
     text: 'محتوى محظور',

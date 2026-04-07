@@ -8,7 +8,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { sanitizeInput, getInjectionResponse } from '../../lib/sanitizer.js';
+import { sanitizeInput, getInjectionResponse } from '../../lib/sanitizer';
 
 describe('Sanitizer — المدخلات الطبيعية', () => {
   it('يسمح بسؤال عادي عن الجامعات', () => {

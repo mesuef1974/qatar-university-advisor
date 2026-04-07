@@ -15,7 +15,7 @@ import type { BotResponse } from '../types/index.js';
 import { ALL_RESPONSES, CAREER_TEST } from './responses.js';
 // @ts-ignore — JS module
 import { getAIResponse } from './ai-handler.js';
-import { sanitizeInput, getInjectionResponse } from './sanitizer.js';
+import { sanitizeInput, getInjectionResponse } from './sanitizer';
 // @ts-ignore — JS module
 import { addNationalityContext } from './nationality-advisor.js';
 // @ts-ignore — JS module
