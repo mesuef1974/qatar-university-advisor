@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SWOT Analysis — Qatar University Advisor | 2026-04-07</title>
+<style>
+  :root {
+    --maroon: #8A1538;
+    --maroon-dark: #6B1030;
+    --gold: #C5A55A;
+    --gold-light: #D4BA7A;
+    --strength: #0D6E3F;
+    --strength-bg: #E8F5E9;
+    --strength-border: #4CAF50;
+    --weakness: #C62828;
+    --weakness-bg: #FFEBEE;
+    --weakness-border: #EF5350;
+    --opportunity: #1565C0;
+    --opportunity-bg: #E3F2FD;
+    --opportunity-border: #42A5F5;
+    --threat: #E65100;
+    --threat-bg: #FFF3E0;
+    --threat-border: #FF9800;
+    --bg: #FAFAFA;
+    --card-bg: #FFFFFF;
+    --text: #212121;
+    --text-secondary: #616161;
+    --border: #E0E0E0;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --radius: 12px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', 'Tajawal', 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    direction: rtl;
+  }
+
+  /* ─── Hero Header ─── */
+  .hero {
+    background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-dark) 60%, #3D0A1A 100%);
+    color: white;
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(197,165,90,0.12) 0%, transparent 50%);
+  }
+  .hero h1 {
+    font-size: 2.4em;
+    font-weight: 800;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .hero .subtitle {
+    font-size: 1.2em;
+    color: var(--gold-light);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .hero .meta {
+    font-size: 0.9em;
+    opacity: 0.8;
+    margin-top: 15px;
+  }
+  .hero .badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--maroon-dark);
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.85em;
+    margin: 0 4px;
+  }
+
+  /* ─── Container ─── */
+  .container { max-width: 1340px; margin: 0 auto; padding: 30px 24px; }
+
+  /* ─── Executive Summary ─── */
+  .exec-summary {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 35px 40px;
+    margin-bottom: 35px;
+    border-right: 5px solid var(--gold);
+  }
+  .exec-summary h2 {
+    color: var(--maroon);
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .exec-summary p { color: var(--text-secondary); font-size: 1.05em; margin-bottom: 12px; }
+  .exec-summary .highlight { color: var(--maroon); font-weight: 700; }
+
+  /* ─── Stats Row ─── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 35px;
+  }
+  .stat-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .stat-card .number { font-size: 2.2em; font-weight: 800; }
+  .stat-card .label { font-size: 0.9em; color: var(--text-secondary); margin-top: 4px; }
+  .stat-card.s .number { color: var(--strength); }
+  .stat-card.w .number { color: var(--weakness); }
+  .stat-card.o .number { color: var(--opportunity); }
+  .stat-card.t .number { color: var(--threat); }
+
+  /* ─── Section Headers ─── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 40px 0 20px;
+  }
+  .section-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    font-weight: 800;
+    color: white;
+    flex-shrink: 0;
+  }
+  .section-icon.s { background: var(--strength); }
+  .section-icon.w { background: var(--weakness); }
+  .section-icon.o { background: var(--opportunity); }
+  .section-icon.t { background: var(--threat); }
+  .section-title { font-size: 1.6em; font-weight: 800; }
+  .section-title.s { color: var(--strength); }
+  .section-title.w { color: var(--weakness); }
+  .section-title.o { color: var(--opportunity); }
+  .section-title.t { color: var(--threat); }
+  .section-subtitle { font-size: 0.95em; color: var(--text-secondary); }
+
+  /* ─── Department Tabs ─── */
+  .dept-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .dept-tab {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    border: 2px solid var(--border);
+    background: white;
+    color: var(--text-secondary);
+  }
+  .dept-tab.active { border-color: var(--maroon); background: var(--maroon); color: white; }
+
+  /* ─── SWOT Cards ─── */
+  .swot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .swot-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 22px 24px;
+    border-right: 4px solid transparent;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .swot-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+  .swot-card.s { border-right-color: var(--strength-border); }
+  .swot-card.w { border-right-color: var(--weakness-border); }
+  .swot-card.o { border-right-color: var(--opportunity-border); }
+  .swot-card.t { border-right-color: var(--threat-border); }
+  .swot-card .card-dept {
+    font-size: 0.75em;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+  .swot-card.s .card-dept { background: var(--strength-bg); color: var(--strength); }
+  .swot-card.w .card-dept { background: var(--weakness-bg); color: var(--weakness); }
+  .swot-card.o .card-dept { background: var(--opportunity-bg); color: var(--opportunity); }
+  .swot-card.t .card-dept { background: var(--threat-bg); color: var(--threat); }
+  .swot-card h4 { font-size: 1.05em; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+  .swot-card p { font-size: 0.9em; color: var(--text-secondary); line-height: 1.65; }
+
+  /* ─── Cross Matrix ─── */
+  .matrix-section {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 35px;
+    margin: 40px 0;
+  }
+  .matrix-section h2 { color: var(--maroon); font-size: 1.4em; margin-bottom: 25px; }
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .matrix-cell {
+    padding: 22px;
+    border-radius: 10px;
+    border: 2px solid;
+  }
+  .matrix-cell h4 { font-size: 1em; font-weight: 700; margin-bottom: 12px; }
+  .matrix-cell ul { padding-right: 20px; }
+  .matrix-cell li { font-size: 0.88em; margin-bottom: 6px; color: var(--text-secondary); }
+  .matrix-cell.so { border-color: #4CAF50; background: #F1F8E9; }
+  .matrix-cell.so h4 { color: #2E7D32; }
+  .matrix-cell.wo { border-color: #FF9800; background: #FFF8E1; }
+  .matrix-cell.wo h4 { color: #E65100; }
+  .matrix-cell.st { border-color: #2196F3; background: #E8EAF6; }
+  .matrix-cell.st h4 { color: #1565C0; }
+  .matrix-cell.wt { border-color: #F44336; background: #FCE4EC; }
+  .matrix-cell.wt h4 { color: #C62828; }
+
+  /* ─── Recommendations ─── */
+  .reco-section {
+    background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-dark) 100%);
+    color: white;
+    border-radius: var(--radius);
+    padding: 40px;
+    margin: 35px 0;
+  }
+  .reco-section h2 { color: var(--gold); font-size: 1.5em; margin-bottom: 25px; }
+  .reco-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .reco-card {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 22px;
+  }
+  .reco-card .priority {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-size: 0.78em;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .reco-card .priority.critical { background: #F44336; }
+  .reco-card .priority.high { background: #FF9800; color: #333; }
+  .reco-card .priority.medium { background: #2196F3; }
+  .reco-card h4 { font-size: 1em; margin-bottom: 8px; }
+  .reco-card p { font-size: 0.88em; opacity: 0.85; line-height: 1.6; }
+
+  /* ─── Footer ─── */
+  .footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--text-secondary);
+    font-size: 0.85em;
+    border-top: 1px solid var(--border);
+    margin-top: 30px;
+  }
+  .footer .brand { color: var(--maroon); font-weight: 700; }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 768px) {
+    .hero { padding: 40px 20px 35px; }
+    .hero h1 { font-size: 1.6em; }
+    .container { padding: 16px; }
+    .swot-grid { grid-template-columns: 1fr; }
+    .matrix-grid { grid-template-columns: 1fr; }
+    .reco-grid { grid-template-columns: 1fr; }
+    .exec-summary { padding: 24px; }
+  }
+
+  /* Print */
+  @media print {
+    .hero { background: var(--maroon) !important; -webkit-print-color-adjust: exact; }
+    .swot-card:hover { transform: none; box-shadow: var(--shadow); }
+    body { font-size: 11pt; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- HERO -->
+<!-- ════════════════════════════════════════════════════ -->
+<header class="hero">
+  <h1>SWOT Analysis</h1>
+  <div class="subtitle">Qatar University Advisor - المستشار الجامعي القطري</div>
+  <div class="meta">
+    <span class="badge">v1.2.0</span>
+    <span class="badge">2026-04-07</span>
+    <span class="badge">6 Departments</span>
+  </div>
+  <div class="meta" style="margin-top: 10px;">
+    Elite Software Company | Leading with Vision, Executing with Precision
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- EXECUTIVE SUMMARY -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="exec-summary">
+  <h2>&#x1F4CB; الملخص التنفيذي</h2>
+  <p>
+    تم إجراء تحليل SWOT شامل لتطبيق <span class="highlight">المستشار الجامعي القطري</span> (الإصدار 1.2.0) بمشاركة
+    <span class="highlight">6 أقسام متخصصة</span>: التخطيط الاستراتيجي، الهندسة، الأمن السيبراني، تجربة المستخدم/المنتج، التسويق/المبيعات، ضمان الجودة/العمليات.
+  </p>
+  <p>
+    المشروع يمتلك <span class="highlight">أساساً تقنياً متيناً</span> مع بنية Fallback ثلاثية وCircuit Breaker وأمان متعدد الطبقات.
+    يتموضع كـ <span class="highlight">أول محرك أولى</span> في سوق غير مخدوم رقمياً (40,000+ طالب سنوياً في قطر).
+    التحديات الرئيسية: غياب نموذج الإيرادات، هجرة TypeScript منقوصة، امتثال PDPPL غير مكتمل (موعد نهائي: 2026-05-01)، وتحديث البيانات اليدوي.
+  </p>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- STATS -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="stats-row">
+  <div class="stat-card s"><div class="number">39</div><div class="label">نقطة قوة</div></div>
+  <div class="stat-card w"><div class="number">33</div><div class="label">نقطة ضعف</div></div>
+  <div class="stat-card o"><div class="number">37</div><div class="label">فرصة</div></div>
+  <div class="stat-card t"><div class="number">31</div><div class="label">تهديد</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- STRENGTHS -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-icon s">S</div>
+  <div>
+    <div class="section-title s">Strengths - نقاط القوة</div>
+    <div class="section-subtitle">39 نقطة قوة من 6 أقسام متخصصة</div>
+  </div>
+</div>
+
+<div class="dept-tabs">
+  <span class="dept-tab active">الاستراتيجي</span>
+  <span class="dept-tab">الهندسة</span>
+  <span class="dept-tab">الأمن</span>
+  <span class="dept-tab">UX/المنتج</span>
+  <span class="dept-tab">السوق</span>
+  <span class="dept-tab">الجودة</span>
+</div>
+
+<div class="swot-grid">
+  <!-- Strategic -->
+  <div class="swot-card s">
+    <span class="card-dept">التخطيط الاستراتيجي</span>
+    <h4>واتساب كقناة رئيسية + اختراق 98%</h4>
+    <p>القرار المعماري الأذكى — يلغي حاجز التحميل ويضع المنتج حيث يتواجد الجمهور فعلاً. لا منافس محلي يفعل ذلك.</p>
+  </div>
+  <div class="swot-card s">
+    <span class="card-dept">التخطيط الاستراتيجي</span>
+    <h4>تكلفة تشغيلية صفرية حتى 10K مستخدم/شهر</h4>
+    <p>Vercel + Supabase + Upstash + Gemini Free Tier = $0/شهر في المرحلة الأولى. هذا يُزيل ضغط Burn Rate.</p>
+  </div>
+  <div class="swot-card s">
+    <span class="card-dept">التخطيط الاستراتيجي</span>
+    <h4>امتثال PDPPL كميزة تنافسية</h4>
+    <p>Consent Manager + Privacy Policy + Cron Cleanup يومي + Data Rights = حاجز دفاعي أمام أي منافس مستقبلي.</p>
+  </div>
+
+  <!-- Engineering -->
+  <div class="swot-card s">
+    <span class="card-dept">الهندسة</span>
+    <h4>بنية Fallback ثلاثية الطبقات</h4>
+    <p>Gemini AI &#8594; Knowledge Base &#8594; رسالة ودية. البوت لا يصمت أبداً أمام المستخدم — مستوى إنتاجي حقيقي.</p>
+  </div>
+  <div class="swot-card s">
+    <span class="card-dept">الهندسة</span>
+    <h4>Circuit Breaker + Rate Limiter مزدوج</h4>
+    <p>حالات CLOSED/OPEN/HALF_OPEN مع Redis موزع + In-Memory Fallback. يمنع Cascading Failures بمعيار FAANG.</p>
+  </div>
+  <div class="swot-card s">
+    <span class="card-dept">الهندسة</span>
+    <h4>دعم اللهجة القطرية/الخليجية</h4>
+    <p>30+ تعبير قطري يُحوَّل تلقائياً للفصحى قبل Gemini. تخصيص ثقافي نادر يرفع دقة الفهم جذرياً.</p>
+  </div>
+  <div class="swot-card s">
+    <span class="card-dept">الهندسة</span>
+    <h4>Hybrid Search Pipeline: 4 مستويات</h4>
+    <p>Jaccard &#8594; pgvector Semantic &#8594; Keyword &#8594; Gemini. بنية RAG حقيقية مع HNSW Index.</p>
+  </div>
+
+  <!-- Security -->
+  <div class="swot-card s">
+    <span class="card-dept">الأمن السيبراني</span>
+    <h4>9 Security Headers شاملة</h4>
+    <p>CSP + X-Frame DENY + COOP + CORP + COEP مُطبقة على مستويين (Vercel + كود). حماية OWASP A05:2021.</p>
+  </div>
+  <div class="swot-card s">
+    <span class="card-dept">الأمن السيبراني</span>
+    <h4>HMAC-SHA256 مع Timing-Safe</h4>
+    <p>crypto.timingSafeEqual يمنع Timing Attacks. Raw Bytes parsing قبل المعالجة — الأسلوب الصحيح الوحيد.</p>
+  </div>
+  <div class="swot-card s">
+    <span class="card-dept">الأمن السيبراني</span>
+    <h4>حماية Prompt Injection ثنائية اللغة</h4>
+    <p>37 نمطاً تشمل Base64, Unicode, ROT13, hex-decode. OWASP LLM01:2025 مُعالَج صراحةً.</p>
+  </div>
+
+  <!-- UX/Product -->
+  <div class="swot-card s">
+    <span class="card-dept">UX / المنتج</span>
+    <h4>هوية بصرية قطرية أصيلة</h4>
+    <p>الكستنائي #8A1538 + الذهبي #C5A55A مع خطوط Tajawal/Cairo. انتماء بصري فوري يُعزز الثقة.</p>
+  </div>
+  <div class="swot-card s">
+    <span class="card-dept">UX / المنتج</span>
+    <h4>دورة قرار متكاملة داخل التطبيق</h4>
+    <p>استكشاف &#8594; مفضلة &#8594; مقارنة &#8594; دردشة &#8594; PDF. دورة كاملة تُنافس منصات متخصصة.</p>
+  </div>
+  <div class="swot-card s">
+    <span class="card-dept">UX / المنتج</span>
+    <h4>Accessibility مُضمّنة (WCAG 2.2 AA)</h4>
+    <p>aria-live + Focus Trap + Keyboard Navigation + RTL. مستوى نادر في التطبيقات العربية.</p>
+  </div>
+
+  <!-- Market -->
+  <div class="swot-card s">
+    <span class="card-dept">السوق والأعمال</span>
+    <h4>ريادة السوق — المحرك الأول بلا منافس</h4>
+    <p>لا يوجد منافس AI في الإرشاد الجامعي بقطر. تكلفة اكتساب العميل (CAC) تكاد تكون صفراً.</p>
+  </div>
+  <div class="swot-card s">
+    <span class="card-dept">السوق والأعمال</span>
+    <h4>توافق مع رؤية قطر 2030</h4>
+    <p>التعليم والتطوير البشري = أولويات وطنية. يفتح أبواب الشراكات الحكومية والتمويل المؤسسي.</p>
+  </div>
+
+  <!-- QA -->
+  <div class="swot-card s">
+    <span class="card-dept">ضمان الجودة</span>
+    <h4>30+ ملف اختبار على 3 طبقات</h4>
+    <p>Unit (17) + Integration (3) + E2E Playwright (7) + Performance k6. هرم اختبار مكتمل.</p>
+  </div>
+  <div class="swot-card s">
+    <span class="card-dept">ضمان الجودة</span>
+    <h4>CI/CD محكم غير قابل للتجاوز</h4>
+    <p>Security audit &#8594; Build &#8594; Test. فشل التغطية يوقف النشر. continue-on-error محذوف عمداً.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- WEAKNESSES -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-icon w">W</div>
+  <div>
+    <div class="section-title w">Weaknesses - نقاط الضعف</div>
+    <div class="section-subtitle">33 نقطة ضعف مُحددة بدقة من 6 أقسام</div>
+  </div>
+</div>
+
+<div class="swot-grid">
+  <div class="swot-card w">
+    <span class="card-dept">الاستراتيجي</span>
+    <h4>بيانات الجامعات ثابتة بدون تحقق تلقائي</h4>
+    <p>ملفات JSON تُحدَّث يدوياً. أي تأخر في التحديث = معلومات خاطئة في الموسم الأكثر حساسية.</p>
+  </div>
+  <div class="swot-card w">
+    <span class="card-dept">الاستراتيجي</span>
+    <h4>غياب نموذج الإيرادات في v1.2.0</h4>
+    <p>المنتج مجاني كلياً. لا مسار تحقيق إيراد محدد. الاستدامة المالية غير مبنية معمارياً بعد.</p>
+  </div>
+  <div class="swot-card w">
+    <span class="card-dept">الاستراتيجي</span>
+    <h4>Vendor Lock-in رباعي</h4>
+    <p>Vercel + Meta + Google + Supabase. أي تغيير في سياسة أحدهم يُربك البنية التحتية بالكامل.</p>
+  </div>
+
+  <div class="swot-card w">
+    <span class="card-dept">الهندسة</span>
+    <h4>هجرة TypeScript منقوصة وغير منهجية</h4>
+    <p>نسخ .js و .ts متوازية مع @ts-ignore. كود الإنتاج غير محمي بـ type checking فعلياً.</p>
+  </div>
+  <div class="swot-card w">
+    <span class="card-dept">الهندسة</span>
+    <h4>findResponse.js — God File بـ 878 سطر</h4>
+    <p>منطق البحث + المحادثة + الاقتراحات + Supabase في دالة واحدة. نقطة فشل مركزية.</p>
+  </div>
+  <div class="swot-card w">
+    <span class="card-dept">الهندسة</span>
+    <h4>غياب Observability حقيقية</h4>
+    <p>لا Sentry، لا Grafana، لا alerting. اكتشاف المشاكل يتم من شكاوى المستخدمين فقط.</p>
+  </div>
+
+  <div class="swot-card w">
+    <span class="card-dept">الأمن السيبراني</span>
+    <h4>CSP تحتوي unsafe-inline</h4>
+    <p>يسمح بتنفيذ JavaScript مضمّن — يُفرغ CSP من قيمتها ضد XSS. يتناقض مع باقي الحماية.</p>
+  </div>
+  <div class="swot-card w">
+    <span class="card-dept">الأمن السيبراني</span>
+    <h4>امتثال PDPPL بنسبة 12% فقط</h4>
+    <p>5 ثغرات حرجة: لا DPA موقَّع، لا DPO، لا ROPA، لا تسجيل NCSA. موعد نهائي: 2026-05-01.</p>
+  </div>
+
+  <div class="swot-card w">
+    <span class="card-dept">UX / المنتج</span>
+    <h4>مشكلة PDF العربي الحرجة</h4>
+    <p>jsPDF لا يدعم العربية مباشرة. التقرير الرسمي بالإنجليزية فقط — تناقض مع جوهر المنتج.</p>
+  </div>
+  <div class="swot-card w">
+    <span class="card-dept">UX / المنتج</span>
+    <h4>التطبيق أحادي اللغة فعلياً</h4>
+    <p>رغم وجود i18n، اللغة الإنجليزية غير مُفعّلة. 30%+ من سكان قطر محرومون من تجربة كاملة.</p>
+  </div>
+
+  <div class="swot-card w">
+    <span class="card-dept">السوق والأعمال</span>
+    <h4>السوق صغير نسبياً (~300K طالب)</h4>
+    <p>سقف النمو الداخلي محدود. التوسع الإقليمي ضرورة استراتيجية وليس خياراً.</p>
+  </div>
+  <div class="swot-card w">
+    <span class="card-dept">السوق والأعمال</span>
+    <h4>صفر استثمار في التسويق والوعي</h4>
+    <p>لا استراتيجية اكتساب واضحة. المنتج الجيد وحده لا يكفي في سوق يعتمد على الثقة.</p>
+  </div>
+
+  <div class="swot-card w">
+    <span class="card-dept">ضمان الجودة</span>
+    <h4>المراقبة الإنتاجية: توثيق بلا تطبيق</h4>
+    <p>BetterStack/Checkly موثقة لكن Quick Start Checklist كلها [ ] غير مكتملة. لا uptime monitor حقيقي.</p>
+  </div>
+  <div class="swot-card w">
+    <span class="card-dept">ضمان الجودة</span>
+    <h4>k6 معطلة في CI</h4>
+    <p>اختبارات الأداء تعمل يدوياً فقط. Lighthouse بـ continue-on-error. لا Performance Gate فعلي.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- OPPORTUNITIES -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-icon o">O</div>
+  <div>
+    <div class="section-title o">Opportunities - الفرص</div>
+    <div class="section-subtitle">37 فرصة مُحددة من 6 محاور تحليلية</div>
+  </div>
+</div>
+
+<div class="swot-grid">
+  <div class="swot-card o">
+    <span class="card-dept">الاستراتيجي</span>
+    <h4>40,000+ طالب ثانوي سنوياً غير مخدومين</h4>
+    <p>لا منصة قطرية موحّدة للإرشاد الجامعي. First Mover Advantage لا يزال متاحاً بالكامل.</p>
+  </div>
+  <div class="swot-card o">
+    <span class="card-dept">الاستراتيجي</span>
+    <h4>شراكات B2B2C مع الجامعات</h4>
+    <p>إعلانات مدفوعة + Dashboard Analytics للجامعات = نموذج إيراد طبيعي لا يُعارض مصلحة المستخدم.</p>
+  </div>
+  <div class="swot-card o">
+    <span class="card-dept">الاستراتيجي</span>
+    <h4>التوسع الخليجي بتغيير ملف البيانات فقط</h4>
+    <p>الكويت، البحرين، الإمارات = نفس السياق الثقافي والفراغ التقني. 1.5+ مليون طالب.</p>
+  </div>
+  <div class="swot-card o">
+    <span class="card-dept">الاستراتيجي</span>
+    <h4>Qatar Vision 2030 كرياح خلفية</h4>
+    <p>دعم حكومي ضمني لأدوات توجيه الطلاب. فرصة لعقود مع وزارة التعليم ومؤسسة قطر.</p>
+  </div>
+
+  <div class="swot-card o">
+    <span class="card-dept">الهندسة</span>
+    <h4>RAG كامل مع pgvector (90% جاهز)</h4>
+    <p>HNSW Index + Gemini Embeddings جاهزان. ملء knowledge_cache يُقلص استدعاءات Gemini 60-70%.</p>
+  </div>
+  <div class="swot-card o">
+    <span class="card-dept">الهندسة</span>
+    <h4>PWA كامل للنشر في Google Play</h4>
+    <p>Manifest + SW جاهزان. تفعيل offline caching + Push Notifications = TWA للمتجر.</p>
+  </div>
+  <div class="swot-card o">
+    <span class="card-dept">الهندسة</span>
+    <h4>إكمال TypeScript وفرض strict: true</h4>
+    <p>Types موجودة، النسخ .ts جاهزة. 3 Sprints لإنهاء الهجرة = codebase أكثر موثوقية جذرياً.</p>
+  </div>
+
+  <div class="swot-card o">
+    <span class="card-dept">الأمن</span>
+    <h4>توقيع DPAs: إجراء فوري بلا كود</h4>
+    <p>جميع DPAs متاحة إلكترونياً مجاناً. يُغلق أخطر ثغرة قانونية بإجراء تشغيلي بسيط.</p>
+  </div>
+  <div class="swot-card o">
+    <span class="card-dept">الأمن</span>
+    <h4>SAST/DAST في CI/CD Pipeline</h4>
+    <p>GitHub CodeQL + OWASP ZAP = Security Gate تلقائي يمنع نشر كود يحتوي ثغرات.</p>
+  </div>
+
+  <div class="swot-card o">
+    <span class="card-dept">UX / المنتج</span>
+    <h4>مسار اختبار الميول المهني</h4>
+    <p>CAREER_TEST موجود جزئياً في الكود. تجربة تشخيصية كاملة تجذب طلاب المرحلة المبكرة.</p>
+  </div>
+  <div class="swot-card o">
+    <span class="card-dept">UX / المنتج</span>
+    <h4>"وضع المرشد" للمعلمين وأولياء الأمور</h4>
+    <p>Counselor Mode = قناة B2B2C عبر المدارس الثانوية والمراكز التعليمية.</p>
+  </div>
+
+  <div class="swot-card o">
+    <span class="card-dept">السوق</span>
+    <h4>نموذج SaaS للمدارس الثانوية</h4>
+    <p>اشتراك مؤسسي 200-500$/شهر = إيرادات متكررة وقابلة للتنبؤ. بديل اقتصادي للمستشار البشري.</p>
+  </div>
+  <div class="swot-card o">
+    <span class="card-dept">السوق</span>
+    <h4>Freemium + Premium Reports</h4>
+    <p>البحث مجاني، التقارير المفصلة 50-200 ريال. طالب يدفع لقرار مصيري = عميل منطقي.</p>
+  </div>
+  <div class="swot-card o">
+    <span class="card-dept">السوق</span>
+    <h4>تمويل حكومي وبرامج دعم</h4>
+    <p>QDB + QSTP + Bedaya Center = منح وصناديق. المنتج مرشح قوي بتوافقه مع Vision 2030.</p>
+  </div>
+
+  <div class="swot-card o">
+    <span class="card-dept">ضمان الجودة</span>
+    <h4>تفعيل BetterStack: مجاني وجاهز</h4>
+    <p>الإعداد موثق بالكامل. التفعيل يُعطي visibility حقيقي على SLA وMTTR قابل للقياس.</p>
+  </div>
+  <div class="swot-card o">
+    <span class="card-dept">ضمان الجودة</span>
+    <h4>Mutation Testing لقياس جودة الاختبارات</h4>
+    <p>Stryker + Vitest = تحول من كمي (coverage%) إلى نوعي (mutation score). قفزة في QA.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- THREATS -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-icon t">T</div>
+  <div>
+    <div class="section-title t">Threats - التهديدات</div>
+    <div class="section-subtitle">31 تهديداً مُحدداً من 6 محاور</div>
+  </div>
+</div>
+
+<div class="swot-grid">
+  <div class="swot-card t">
+    <span class="card-dept">الاستراتيجي</span>
+    <h4>سياسة Meta/WhatsApp متقلبة</h4>
+    <p>Meta تغيّر سياسات تسعير وقواعد استخدام WhatsApp Cloud API بشكل دوري. تعليق الحساب يوقف الخدمة فوراً.</p>
+  </div>
+  <div class="swot-card t">
+    <span class="card-dept">الاستراتيجي</span>
+    <h4>الجامعات تبني منصاتها الخاصة</h4>
+    <p>جامعة قطر أو مؤسسة قطر قد تطور بوابة توجيه موحدة بمصداقية مؤسسية وبيانات رسمية فورية.</p>
+  </div>
+  <div class="swot-card t">
+    <span class="card-dept">الاستراتيجي</span>
+    <h4>ChatGPT/Gemini/Perplexity كبديل مجاني</h4>
+    <p>أي طالب يسأل ChatGPT عن جامعات قطر. يجب ترسيخ الميزة التنافسية قبل أن تُضيّق LLMs العامة الفجوة.</p>
+  </div>
+
+  <div class="swot-card t">
+    <span class="card-dept">الهندسة</span>
+    <h4>حد Vercel Serverless 10 ثوانٍ</h4>
+    <p>أسوأ حالة: 17+ ثانية قبل Fallback. في ذروة نتائج الثانوية (يوليو) = Cold Starts مؤلمة.</p>
+  </div>
+  <div class="swot-card t">
+    <span class="card-dept">الهندسة</span>
+    <h4>Supabase Free Tier: سقف 50K MAU</h4>
+    <p>الوصول للسقف محتمل في موسم القبول. المنصة لا تُرسل تحذيراً كافياً قبل قطع الخدمة.</p>
+  </div>
+  <div class="swot-card t">
+    <span class="card-dept">الهندسة</span>
+    <h4>نموذج AI وحيد بلا Abstraction Layer</h4>
+    <p>Gemini 2.0 Flash فقط. أي تغيير في API أو الأسعار يُجبر تغييراً مكلفاً تقنياً.</p>
+  </div>
+
+  <div class="swot-card t">
+    <span class="card-dept">الأمن</span>
+    <h4>Prompt Injection متطور يتجاوز الفلاتر</h4>
+    <p>37 نمطاً ثابتاً. المهاجمون يطورون Unicode Obfuscation وLeetspeak يتجاوز Pattern Matching.</p>
+  </div>
+  <div class="swot-card t">
+    <span class="card-dept">الأمن</span>
+    <h4>NCSA تشدد تنفيذ PDPPL قبل 2026-05-01</h4>
+    <p>64% عدم امتثال. NCSA تملك صلاحية إيقاف معالجة البيانات. شكوى واحدة تُطلق تحقيقاً.</p>
+  </div>
+  <div class="swot-card t">
+    <span class="card-dept">الأمن</span>
+    <h4>Supply Chain Attack على المكتبات</h4>
+    <p>لا npm audit تلقائي ولا Dependency Pinning. اختراق مكتبة واحدة = تنفيذ في الإنتاج.</p>
+  </div>
+
+  <div class="swot-card t">
+    <span class="card-dept">UX / المنتج</span>
+    <h4>هشاشة البيانات المكتوبة يدوياً</h4>
+    <p>أي تغيير طارئ في GPA أو رسوم = توصيات مضللة دون علم المستخدم. أخطر تهديد على المصداقية.</p>
+  </div>
+  <div class="swot-card t">
+    <span class="card-dept">UX / المنتج</span>
+    <h4>الإرشاد = علاقة بشرية في الثقافة الخليجية</h4>
+    <p>إقناع المستخدم بالثقة بخوارزمية بدلاً من المرشد البشري يتطلب جهد تغيير سلوكي.</p>
+  </div>
+
+  <div class="swot-card t">
+    <span class="card-dept">السوق</span>
+    <h4>نافذة ريادة 12-18 شهراً فقط</h4>
+    <p>شركة كبرى (Alef Education، Noon Academy) يمكنها بناء منتج مماثل خلال 6-12 شهراً.</p>
+  </div>
+  <div class="swot-card t">
+    <span class="card-dept">السوق</span>
+    <h4>بطء دورة القرار في التعليم</h4>
+    <p>شراكات الجامعات والوزارات = 6-18 شهراً. البيروقراطية قد تُعطل النمو رغم جودة المنتج.</p>
+  </div>
+
+  <div class="swot-card t">
+    <span class="card-dept">ضمان الجودة</span>
+    <h4>Staging غير مفعّلة: bugs بيئية تظهر في Production</h4>
+    <p>E2E تعمل على localhost فقط. مشاكل env-specific قد تظهر في الإنتاج حصراً.</p>
+  </div>
+  <div class="swot-card t">
+    <span class="card-dept">ضمان الجودة</span>
+    <h4>PII في Logs بدون Sanitization</h4>
+    <p>GPA + جنسية + وضع أكاديمي في structured logs. تسريب محتمل عند log aggregation.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- TOWS CROSS MATRIX -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="matrix-section">
+  <h2>&#x1F9E9; مصفوفة TOWS — الاستراتيجيات المتقاطعة</h2>
+  <div class="matrix-grid">
+    <div class="matrix-cell so">
+      <h4>SO: استغلال القوة للفرص</h4>
+      <ul>
+        <li><strong>WhatsApp + 40K طالب:</strong> إطلاق حملة واتساب فيروسية في موسم القبول (أغسطس) تستهدف طلاب الثانوية مباشرة</li>
+        <li><strong>Zero-Cost Stack + SaaS:</strong> تحويل البنية المجانية إلى ميزة تنافسية بتقديم أسعار B2B لا يستطيع أي منافس مجاراتها</li>
+        <li><strong>PDPPL Compliance + Vision 2030:</strong> تسويق الامتثال القانوني كميزة تنافسية في المناقصات الحكومية</li>
+        <li><strong>Fallback + RAG:</strong> تفعيل pgvector الجاهز 90% لتقليص تكلفة Gemini 60% وتسريع الاستجابة</li>
+      </ul>
+    </div>
+    <div class="matrix-cell wo">
+      <h4>WO: معالجة الضعف بالفرص</h4>
+      <ul>
+        <li><strong>لا إيرادات + SaaS:</strong> إطلاق نموذج Freemium فوراً — بحث مجاني + تقارير PDF Premium ($5-10)</li>
+        <li><strong>بيانات يدوية + شراكات:</strong> شراكة مع الجامعات لتغذية API رسمي = بيانات دقيقة + إيراد</li>
+        <li><strong>PDF عربي + jsPDF:</strong> التحول لـ html2canvas يحل المشكلة ويفتح قناة التوزيع الرسمية</li>
+        <li><strong>PDPPL 12% + DPAs مجانية:</strong> توقيع 4 اتفاقيات إلكترونية فوراً يُغلق أكبر ثغرة قانونية</li>
+      </ul>
+    </div>
+    <div class="matrix-cell st">
+      <h4>ST: استخدام القوة لصد التهديدات</h4>
+      <ul>
+        <li><strong>Dialect Support vs ChatGPT:</strong> التخصيص الثقافي (30+ تعبير قطري) يبني خندقاً لا تملكه LLMs العامة</li>
+        <li><strong>Circuit Breaker vs Vendor Risk:</strong> الاحتياط الثلاثي يحمي التجربة عند فشل Gemini أو Supabase</li>
+        <li><strong>Security Headers vs Attacks:</strong> 9 headers + HMAC + Sanitizer = دفاع عميق ضد الاختراق</li>
+        <li><strong>PWA vs Meta Policy:</strong> قناة توزيع بديلة (تطبيق مثبّت) تُقلل الاعتماد على واتساب</li>
+      </ul>
+    </div>
+    <div class="matrix-cell wt">
+      <h4>WT: تقليل الضعف أمام التهديدات</h4>
+      <ul>
+        <li><strong>لا Observability + Downtime:</strong> تفعيل BetterStack فوراً (مجاني) قبل موسم القبول</li>
+        <li><strong>TypeScript ناقص + Bugs:</strong> إنهاء الهجرة خلال Sprint 3 لمنع regression في الذروة</li>
+        <li><strong>PDPPL 12% + NCSA:</strong> توقيع DPAs + تعيين DPO + تسجيل NCSA قبل 2026-05-01</li>
+        <li><strong>سوق صغير + منافس كبير:</strong> إغلاق أول شراكة مؤسسية (مدرسة ثانوية) = حماية الموقع</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- TOP RECOMMENDATIONS -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="reco-section">
+  <h2>&#x1F3AF; التوصيات الاستراتيجية — مرتبة حسب الأولوية</h2>
+  <div class="reco-grid">
+    <div class="reco-card">
+      <span class="priority critical">حرج — فوري</span>
+      <h4>إكمال امتثال PDPPL قبل 2026-05-01</h4>
+      <p>توقيع DPAs مع Supabase/Vercel/Google/Meta (إلكتروني مجاني)، تعيين DPO، إكمال Consent Manager، التسجيل لدى NCSA.</p>
+    </div>
+    <div class="reco-card">
+      <span class="priority critical">حرج — فوري</span>
+      <h4>تحديد نموذج الإيرادات</h4>
+      <p>Freemium (بحث مجاني + PDF Premium) + B2B SaaS للمدارس (200-500$/شهر) + Lead Referral للجامعات.</p>
+    </div>
+    <div class="reco-card">
+      <span class="priority high">عالي</span>
+      <h4>تفعيل Observability قبل موسم القبول</h4>
+      <p>BetterStack uptime (مجاني)، Sentry error tracking، structured logging migration من console.log.</p>
+    </div>
+    <div class="reco-card">
+      <span class="priority high">عالي</span>
+      <h4>أتمتة تحديث بيانات الجامعات</h4>
+      <p>API رسمي أو web scraping + مقارنة تلقائية. يحمي المصداقية في الموسم الأحرج.</p>
+    </div>
+    <div class="reco-card">
+      <span class="priority high">عالي</span>
+      <h4>تفعيل RAG عبر pgvector (90% جاهز)</h4>
+      <p>ملء knowledge_cache بـ embeddings لـ 200+ سؤال شائع. يُقلص Gemini calls 60-70%.</p>
+    </div>
+    <div class="reco-card">
+      <span class="priority medium">متوسط</span>
+      <h4>إنهاء هجرة TypeScript</h4>
+      <p>إزالة الازدواجية .js/.ts، إزالة @ts-ignore، فرض strict: true. 3 Sprints مخططة.</p>
+    </div>
+    <div class="reco-card">
+      <span class="priority medium">متوسط</span>
+      <h4>حل مشكلة PDF العربي + تفعيل EN</h4>
+      <p>html2canvas بديل jsPDF للعربية. تفعيل LanguageToggle يفتح 60%+ من سكان قطر.</p>
+    </div>
+    <div class="reco-card">
+      <span class="priority medium">متوسط</span>
+      <h4>إغلاق أول شراكة مؤسسية</h4>
+      <p>مدرسة ثانوية أو جامعة واحدة قبل نهاية 2026. تحويل المشروع من أداة إلى عمل تجاري.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- DEPARTMENTS -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="exec-summary" style="border-right-color: var(--maroon);">
+  <h2>&#x1F3E2; الأقسام المشاركة في التحليل</h2>
+  <table style="width:100%; border-collapse: collapse; margin-top: 16px;">
+    <tr style="background: var(--maroon); color: white;">
+      <th style="padding: 10px; text-align: right; border-radius: 8px 0 0 0;">القسم</th>
+      <th style="padding: 10px; text-align: right;">المحور</th>
+      <th style="padding: 10px; text-align: center;">نقاط القوة</th>
+      <th style="padding: 10px; text-align: center;">نقاط الضعف</th>
+      <th style="padding: 10px; text-align: center;">الفرص</th>
+      <th style="padding: 10px; text-align: center; border-radius: 0 0 0 8px;">التهديدات</th>
+    </tr>
+    <tr style="background: #FAFAFA;"><td style="padding: 10px; font-weight: 600;">التخطيط الاستراتيجي</td><td style="padding: 10px;">الرؤية الشاملة + السوق + الاستدامة</td><td style="padding: 10px; text-align: center; color: var(--strength); font-weight: 700;">8</td><td style="padding: 10px; text-align: center; color: var(--weakness); font-weight: 700;">7</td><td style="padding: 10px; text-align: center; color: var(--opportunity); font-weight: 700;">8</td><td style="padding: 10px; text-align: center; color: var(--threat); font-weight: 700;">7</td></tr>
+    <tr><td style="padding: 10px; font-weight: 600;">الهندسة</td><td style="padding: 10px;">البنية التقنية + الكود + الأداء</td><td style="padding: 10px; text-align: center; color: var(--strength); font-weight: 700;">8</td><td style="padding: 10px; text-align: center; color: var(--weakness); font-weight: 700;">6</td><td style="padding: 10px; text-align: center; color: var(--opportunity); font-weight: 700;">7</td><td style="padding: 10px; text-align: center; color: var(--threat); font-weight: 700;">6</td></tr>
+    <tr style="background: #FAFAFA;"><td style="padding: 10px; font-weight: 600;">الأمن السيبراني</td><td style="padding: 10px;">OWASP + PDPPL + الحماية</td><td style="padding: 10px; text-align: center; color: var(--strength); font-weight: 700;">7</td><td style="padding: 10px; text-align: center; color: var(--weakness); font-weight: 700;">6</td><td style="padding: 10px; text-align: center; color: var(--opportunity); font-weight: 700;">6</td><td style="padding: 10px; text-align: center; color: var(--threat); font-weight: 700;">6</td></tr>
+    <tr><td style="padding: 10px; font-weight: 600;">UX / المنتج</td><td style="padding: 10px;">التجربة + التصميم + الميزات</td><td style="padding: 10px; text-align: center; color: var(--strength); font-weight: 700;">8</td><td style="padding: 10px; text-align: center; color: var(--weakness); font-weight: 700;">6</td><td style="padding: 10px; text-align: center; color: var(--opportunity); font-weight: 700;">6</td><td style="padding: 10px; text-align: center; color: var(--threat); font-weight: 700;">5</td></tr>
+    <tr style="background: #FAFAFA;"><td style="padding: 10px; font-weight: 600;">التسويق / المبيعات</td><td style="padding: 10px;">السوق + المنافسة + الإيرادات</td><td style="padding: 10px; text-align: center; color: var(--strength); font-weight: 700;">7</td><td style="padding: 10px; text-align: center; color: var(--weakness); font-weight: 700;">6</td><td style="padding: 10px; text-align: center; color: var(--opportunity); font-weight: 700;">8</td><td style="padding: 10px; text-align: center; color: var(--threat); font-weight: 700;">6</td></tr>
+    <tr><td style="padding: 10px; font-weight: 600;">ضمان الجودة / العمليات</td><td style="padding: 10px;">الاختبار + CI/CD + المراقبة</td><td style="padding: 10px; text-align: center; color: var(--strength); font-weight: 700;">7</td><td style="padding: 10px; text-align: center; color: var(--weakness); font-weight: 700;">6</td><td style="padding: 10px; text-align: center; color: var(--opportunity); font-weight: 700;">6</td><td style="padding: 10px; text-align: center; color: var(--threat); font-weight: 700;">5</td></tr>
+    <tr style="background: var(--maroon); color: white; font-weight: 700;"><td style="padding: 10px;">المجموع</td><td style="padding: 10px;">6 أقسام متخصصة</td><td style="padding: 10px; text-align: center;">39</td><td style="padding: 10px; text-align: center;">33</td><td style="padding: 10px; text-align: center;">37</td><td style="padding: 10px; text-align: center;">31</td></tr>
+  </table>
+</section>
+
+</div> <!-- /container -->
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- FOOTER -->
+<!-- ════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <p style="margin-bottom: 8px;">
+    <span class="brand">Elite Software Company v3.0</span> | 28 Department | The Elite Way | DORA Elite
+  </p>
+  <p>Built on practices of Google, Netflix, Amazon & Microsoft</p>
+  <p style="margin-top: 8px; opacity: 0.7;">
+    SWOT Analysis generated on 2026-04-07 | Qatar University Advisor v1.2.0
+    <br>Leading with Vision, Executing with Precision
+  </p>
+</footer>
+
+</body>
+</html>
