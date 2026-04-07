@@ -4,7 +4,7 @@
     "subtitle": "Qatar University Advisor",
     "tagline": "Your comprehensive guide to choosing the right university, major, scholarships, and career opportunities in Qatar.",
     "loading": "Loading...",
-    "madeForQatar": "Designed for students in Qatar",
+    "madeForQatar": "Designed specifically for students in Qatar",
     "version": "Version"
   },
   "consent": {
@@ -32,12 +32,12 @@
     "changeNationality": "Change Nationality",
     "qatari": "Qatari",
     "resident": "Resident",
-    "qatariLabel": "Qatari",
+    "qatariLabel": "Qatari (Male / Female)",
     "residentLabel": "Resident in Qatar",
     "universities": "Universities & Institutes",
     "majors": "Academic Majors",
     "scholarships": "Scholarships & Programs",
-    "militaryColleges": "Military Colleges",
+    "militaryColleges": "Military & Security Colleges",
     "knowledgeBase": "Comprehensive Knowledge Base"
   },
   "chat": {

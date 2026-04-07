@@ -65,6 +65,9 @@ jobs:
       - name: Lint code
         run: npm run lint
 
+      - name: Type Check
+        run: npx tsc --noEmit
+
       - name: Run Tests
         run: npm test -- --reporter=verbose
         env:
