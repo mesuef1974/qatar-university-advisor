@@ -4,6 +4,35 @@ import PrivacyConsent from "./components/PrivacyConsent.jsx";
 import AcademicDisclaimer from "./components/AcademicDisclaimer.jsx";
 import LanguageToggle from "./components/LanguageToggle.jsx";
 
+// ── C-03: Error Boundary — catches unexpected runtime errors and shows a
+//    user-friendly Arabic recovery screen instead of a blank white page. ──
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ direction: 'rtl', textAlign: 'center', padding: '60px 20px', fontFamily: 'Tajawal, sans-serif' }}>
+          <h1 style={{ color: '#8A1538', marginBottom: 16 }}>حدث خطأ غير متوقع</h1>
+          <p style={{ color: '#666', marginBottom: 20 }}>نعتذر عن هذا الخلل. يرجى تحديث الصفحة.</p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{ background: '#8A1538', color: '#fff', border: 'none', padding: '12px 32px', borderRadius: 8, cursor: 'pointer', fontSize: '1em' }}
+          >
+            تحديث الصفحة
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 // UX-A1: Lazy Loading — الصفحات الثانوية تُحمَّل عند الحاجة فقط
 const ExecutionPlan = lazy(() => import("./components/ExecutionPlan.jsx"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard.jsx"));
@@ -188,7 +217,7 @@ function DesktopPanel() {
 // ══════════════════════════════════════════════════════════
 // Root App
 // ══════════════════════════════════════════════════════════
-export default function App() {
+function AppRoot() {
   const isWide = useIsWide();
   const [view, setView] = useState("app");
 
@@ -196,6 +225,10 @@ export default function App() {
   const [consentGiven, setConsentGiven] = useState(
     () => localStorage.getItem('advisor_privacy_consent') === 'true'
   );
+
+  // ── C-01: Legal overlay shown from within the consent screen ──
+  // 'privacy' | 'terms' | null
+  const [legalOverlay, setLegalOverlay] = useState(null);
 
   // ── Admin panel (sessionStorage — resets on browser close) ──
   const [adminUnlocked, setAdminUnlocked] = useState(
@@ -245,9 +278,32 @@ export default function App() {
     return <Suspense fallback={<LoadingFallback />}><DataRights onBack={() => window.history.back()} /></Suspense>;
   }
 
+  // ── C-01: Legal overlay shown from within the consent screen ──
+  if (!consentGiven && legalOverlay === 'privacy') {
+    return (
+      <Suspense fallback={<LoadingFallback />}>
+        <PrivacyPolicy onBack={() => setLegalOverlay(null)} />
+      </Suspense>
+    );
+  }
+  if (!consentGiven && legalOverlay === 'terms') {
+    return (
+      <Suspense fallback={<LoadingFallback />}>
+        <TermsOfService onBack={() => setLegalOverlay(null)} />
+      </Suspense>
+    );
+  }
+
   // ── Privacy consent screen ──
   if (!consentGiven) {
-    return <PrivacyConsent onAccept={handleConsent} onReject={handleConsentReject} />;
+    return (
+      <PrivacyConsent
+        onAccept={handleConsent}
+        onReject={handleConsentReject}
+        onShowPrivacy={() => setLegalOverlay('privacy')}
+        onShowTerms={() => setLegalOverlay('terms')}
+      />
+    );
   }
 
   // ── The main app content ──
@@ -328,5 +384,15 @@ export default function App() {
         </div>
       )}
     </div>
+  );
+}
+
+// ── C-03: Wrap the real app in ErrorBoundary so any unhandled render error
+//    shows an Arabic recovery screen instead of a blank page. ──
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <AppRoot />
+    </ErrorBoundary>
   );
 }

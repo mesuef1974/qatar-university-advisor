@@ -267,6 +267,52 @@ CREATE POLICY "public_read" ON tuition_fees           FOR SELECT USING (TRUE);
 CREATE POLICY "public_read" ON scholarships           FOR SELECT USING (TRUE);
 CREATE POLICY "public_read" ON salary_data            FOR SELECT USING (TRUE);
 
+-- ─────────────────────────────────────────
+-- 15. موافقات المستخدمين (PDPPL Article 7)
+-- ─────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS user_consents (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  phone TEXT NOT NULL,
+  consent_type TEXT NOT NULL DEFAULT 'data_processing',
+  consented_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  withdrawn_at TIMESTAMPTZ,
+  ip_address TEXT,
+  user_agent TEXT,
+  consent_text TEXT DEFAULT 'PDPPL Article 7 — explicit consent for data processing',
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Unique constraint: one active consent per phone per type
+CREATE UNIQUE INDEX IF NOT EXISTS idx_consents_active
+  ON user_consents(phone, consent_type)
+  WHERE is_active = TRUE;
+
+CREATE INDEX IF NOT EXISTS idx_consents_phone ON user_consents(phone);
+
+ALTER TABLE user_consents ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_all" ON user_consents FOR ALL USING (TRUE);
+
+-- ─────────────────────────────────────────
+-- 16. فهارس إضافية على الجداول الأكاديمية
+-- ─────────────────────────────────────────
+CREATE INDEX IF NOT EXISTS idx_universities_active
+  ON universities(is_active) WHERE is_active = TRUE;
+CREATE INDEX IF NOT EXISTS idx_universities_type
+  ON universities(type);
+CREATE INDEX IF NOT EXISTS idx_admission_university
+  ON admission_requirements(university_id);
+CREATE INDEX IF NOT EXISTS idx_admission_gpa
+  ON admission_requirements(min_gpa);
+CREATE INDEX IF NOT EXISTS idx_tuition_university
+  ON tuition_fees(university_id);
+CREATE INDEX IF NOT EXISTS idx_scholarships_active
+  ON scholarships(is_active) WHERE is_active = TRUE;
+CREATE INDEX IF NOT EXISTS idx_salary_field
+  ON salary_data(field);
+CREATE INDEX IF NOT EXISTS idx_analytics_source
+  ON analytics(source);
+
 -- ═══════════════════════════════════════════════════════════════════════════
 -- ✅ Schema جاهز — الخطوة التالية: تشغيل seed.sql
 -- ═══════════════════════════════════════════════════════════════════════════

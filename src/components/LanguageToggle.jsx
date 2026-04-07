@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * LanguageToggle — زر تبديل اللغة (عربي/إنجليزي)
- * I18N-A1: Sprint 1
- *
- * ملاحظة: هذا المكون مستقل ولا يعتمد على i18next
- * لأن التطبيق الحالي لم يُحوَّل بالكامل إلى i18n بعد.
- * في Sprint 2 سيتم ربطه بـ i18next عند تحويل باقي المكونات.
+ * I18N-A1: Sprint 1 — C-02 fix: connected to i18next so all translated
+ * components re-render on language change.
  */
 export default function LanguageToggle() {
-  const [lang, setLang] = useState('ar');
+  const { i18n } = useTranslation();
 
+  const lang = i18n.language || localStorage.getItem('advisor_language') || 'ar';
   const isArabic = lang === 'ar';
 
   const toggle = () => {
     const next = isArabic ? 'en' : 'ar';
-    setLang(next);
-    // Update document direction
-    document.documentElement.dir = next === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.lang = next;
+    // Call i18next — triggers re-render in all useTranslation consumers.
+    // i18n.js listener also updates document.dir + document.lang automatically.
+    i18n.changeLanguage(next);
     // Store preference
     localStorage.setItem('advisor_language', next);
   };
