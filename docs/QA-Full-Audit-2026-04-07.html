@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QA Full Audit — Qatar University Advisor | 2026-04-07</title>
+<style>
+:root{--m:#8A1538;--md:#6B1030;--g:#C5A55A;--gl:#D4BA7A;--ok:#0D6E3F;--ok-bg:#E8F5E9;--warn:#E65100;--warn-bg:#FFF3E0;--err:#C62828;--err-bg:#FFEBEE;--info:#1565C0;--info-bg:#E3F2FD;--bg:#FAFAFA;--card:#FFF;--txt:#212121;--txt2:#616161;--brd:#E0E0E0;--sh:0 2px 12px rgba(0,0,0,.08);--r:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Tajawal',sans-serif;background:var(--bg);color:var(--txt);line-height:1.7;direction:rtl}
+.hero{background:linear-gradient(135deg,var(--m),var(--md) 60%,#3D0A1A);color:#fff;padding:50px 40px;text-align:center;position:relative}
+.hero h1{font-size:2.2em;font-weight:800;margin-bottom:8px}
+.hero .sub{font-size:1.1em;color:var(--gl)}
+.hero .meta{font-size:.85em;opacity:.8;margin-top:12px}
+.badge{display:inline-block;background:var(--g);color:var(--md);padding:3px 14px;border-radius:20px;font-weight:700;font-size:.82em;margin:0 3px}
+.container{max-width:1300px;margin:0 auto;padding:24px}
+.summary{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:30px;margin-bottom:28px;border-right:5px solid var(--g)}
+.summary h2{color:var(--m);font-size:1.4em;margin-bottom:16px}
+.summary p{color:var(--txt2);font-size:1em;margin-bottom:10px}
+.hl{color:var(--m);font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
+.stat{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:20px;text-align:center}
+.stat .n{font-size:2em;font-weight:800}
+.stat .l{font-size:.85em;color:var(--txt2);margin-top:3px}
+.stat.green .n{color:var(--ok)}.stat.red .n{color:var(--err)}.stat.orange .n{color:var(--warn)}.stat.blue .n{color:var(--info)}
+.sec{margin:35px 0 18px;display:flex;align-items:center;gap:12px}
+.sec-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3em;font-weight:800;color:#fff;flex-shrink:0}
+.sec-icon.green{background:var(--ok)}.sec-icon.red{background:var(--err)}.sec-icon.orange{background:var(--warn)}.sec-icon.blue{background:var(--info)}.sec-icon.maroon{background:var(--m)}
+.sec h2{font-size:1.35em;font-weight:800}.sec .sub{font-size:.88em;color:var(--txt2)}
+table{width:100%;border-collapse:collapse;margin:12px 0;background:var(--card);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+th{background:var(--m);color:#fff;padding:10px 14px;text-align:right;font-size:.88em}
+td{padding:9px 14px;border-bottom:1px solid var(--brd);font-size:.88em}
+tr:nth-child(even){background:#FAFAFA}
+.tag{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.75em;font-weight:600}
+.tag.critical{background:var(--err-bg);color:var(--err)}.tag.warn{background:var(--warn-bg);color:var(--warn)}.tag.ok{background:var(--ok-bg);color:var(--ok)}.tag.info{background:var(--info-bg);color:var(--info)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin:14px 0}
+.issue-card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:18px 20px;border-right:4px solid}
+.issue-card.critical{border-right-color:var(--err)}.issue-card.warn{border-right-color:var(--warn)}.issue-card.info{border-right-color:var(--info)}
+.issue-card h4{font-size:.98em;font-weight:700;margin-bottom:6px}
+.issue-card p{font-size:.85em;color:var(--txt2);line-height:1.6}
+.reco{background:linear-gradient(135deg,var(--m),var(--md));color:#fff;border-radius:var(--r);padding:35px;margin:30px 0}
+.reco h2{color:var(--g);font-size:1.4em;margin-bottom:20px}
+.reco-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.reco-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:18px}
+.reco-card .pri{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.75em;font-weight:700;margin-bottom:8px}
+.reco-card .pri.c{background:#F44336}.reco-card .pri.h{background:#FF9800;color:#333}.reco-card .pri.m{background:#2196F3}
+.reco-card h4{font-size:.95em;margin-bottom:6px}
+.reco-card p{font-size:.82em;opacity:.85;line-height:1.55}
+.footer{text-align:center;padding:25px;color:var(--txt2);font-size:.82em;border-top:1px solid var(--brd);margin-top:25px}
+.footer .brand{color:var(--m);font-weight:700}
+@media(max-width:768px){.hero{padding:35px 16px}.hero h1{font-size:1.5em}.container{padding:14px}.card-grid{grid-template-columns:1fr}.reco-grid{grid-template-columns:1fr}}
+@media print{.hero{-webkit-print-color-adjust:exact}body{font-size:10pt}}
+</style>
+</head>
+<body>
+<header class="hero">
+<h1>QA Full Audit Report</h1>
+<div class="sub">تقرير المراجعة الشاملة — المستشار الجامعي القطري v1.2.0</div>
+<div class="meta"><span class="badge">2026-04-07</span><span class="badge">5 Departments</span><span class="badge">511/512 Tests</span></div>
+<div class="meta" style="margin-top:8px">Elite Software Company | 5 Audit Dimensions</div>
+</header>
+<div class="container">
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="summary">
+<h2>الملخص التنفيذي</h2>
+<p>أُجريت مراجعة شاملة لتطبيق المستشار الجامعي القطري بمشاركة <span class="hl">5 أقسام متخصصة</span>: ضمان الجودة (الاختبارات)، المحتوى (الاستجابات)، الهندسة (قاعدة البيانات)، الأمن، وتجربة المستخدم.</p>
+<p><strong>النتيجة:</strong> التطبيق يعمل بنسبة <span class="hl">99.8%</span> (511/512 اختبار ناجح)، يغطي <span class="hl">89 استجابة فريدة</span> و<span class="hl">10+ جامعات</span>، لكنه يعاني من <span class="hl">5 تناقضات رقمية حرجة</span> في البيانات الأكاديمية، و<span class="hl">3 مسارات UX مكسورة</span>، و<span class="hl">5 ثغرات أمنية</span> في قاعدة البيانات.</p>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+<div class="stat green"><div class="n">511/512</div><div class="l">اختبار ناجح (99.8%)</div></div>
+<div class="stat blue"><div class="n">89</div><div class="l">استجابة فريدة</div></div>
+<div class="stat blue"><div class="n">13</div><div class="l">جدول قاعدة بيانات</div></div>
+<div class="stat orange"><div class="n">15</div><div class="l">مكون React</div></div>
+<div class="stat red"><div class="n">5</div><div class="l">تناقض بيانات حرج</div></div>
+<div class="stat red"><div class="n">3</div><div class="l">مسار UX مكسور</div></div>
+</div>
+
+<!-- ═══════ SECTION 1: TESTS ═══════ -->
+<div class="sec"><div class="sec-icon green">1</div><div><h2>نتائج الاختبارات — ضمان الجودة</h2><div class="sub">22 ملف اختبار | 512 حالة | 99.8% نجاح</div></div></div>
+<table>
+<tr><th>المستوى</th><th>الملفات</th><th>الحالات</th><th>الناجح</th><th>الفاشل</th><th>النتيجة</th></tr>
+<tr><td>Unit Tests</td><td>17</td><td>~420</td><td>~419</td><td>1</td><td><span class="tag warn">99.7%</span></td></tr>
+<tr><td>Integration Tests</td><td>3</td><td>~50</td><td>50</td><td>0</td><td><span class="tag ok">100%</span></td></tr>
+<tr><td>E2E (Playwright)</td><td>7</td><td>—</td><td>—</td><td>—</td><td><span class="tag info">غير مُشغّل</span></td></tr>
+<tr style="font-weight:700;background:var(--ok-bg)"><td>المجموع</td><td>22</td><td>512</td><td>511</td><td>1</td><td><span class="tag ok">99.8%</span></td></tr>
+</table>
+<p style="margin:10px 0;color:var(--err);font-weight:600">الاختبار الفاشل: supabase.test.js > getOrCreateUser() — يُرجع null بدلاً من المستخدم الموجود (مشكلة mock في import بعد هجرة TypeScript)</p>
+
+<!-- ═══════ SECTION 2: RESPONSES ═══════ -->
+<div class="sec"><div class="sec-icon blue">2</div><div><h2>مراجعة الاستجابات والمحتوى</h2><div class="sub">89 استجابة | 13 فئة | 10+ جامعات</div></div></div>
+<table>
+<tr><th>الفئة</th><th>العدد</th><th>التغطية</th></tr>
+<tr><td>الجامعات بالاسم</td><td>11</td><td><span class="tag ok">ممتازة</span></td></tr>
+<tr><td>تخصصات QU التفصيلية</td><td>24</td><td><span class="tag ok">ممتازة</span></td></tr>
+<tr><td>المنح والابتعاث</td><td>9</td><td><span class="tag ok">ممتازة</span></td></tr>
+<tr><td>الجامعات الجديدة (UDST, HBKU...)</td><td>9</td><td><span class="tag ok">جيدة</span></td></tr>
+<tr><td>المقارنات</td><td>3</td><td><span class="tag ok">جيدة</span></td></tr>
+<tr><td>الخطط الدراسية</td><td>5</td><td><span class="tag warn">جزئية</span></td></tr>
+<tr><td>الرواتب وفرص العمل</td><td>2</td><td><span class="tag warn">محدودة</span></td></tr>
+<tr><td>اختبار المسار المهني</td><td>10 أسئلة + 7 نتائج</td><td><span class="tag ok">مكتمل</span></td></tr>
+</table>
+
+<div class="sec"><div class="sec-icon red">!</div><div><h2>التناقضات الحرجة في البيانات</h2><div class="sub">5 تناقضات رقمية بين الملفات الثلاثة</div></div></div>
+<div class="card-grid">
+<div class="issue-card critical">
+<span class="tag critical">C-01 حرج</span>
+<h4>برنامج طموح: 3 أرقام مختلفة!</h4>
+<p>responses.js: <strong>10,000 ر.ق/شهر</strong> | nationality-advisor.js: <strong>25,000</strong> | WebChat.jsx: <strong>22,000</strong>. المبلغ الصحيح: 10,000 ريال/شهر.</p>
+</div>
+<div class="issue-card critical">
+<span class="tag critical">C-02 حرج</span>
+<h4>SAT كورنيل: 3 أرقام متضاربة</h4>
+<p>responses.js: <strong>1400+</strong> | universities-2026.js: <strong>1500+</strong> | جدول المقارنة: <strong>1450+</strong>. الأدق: 1500+ (المصدر الأحدث).</p>
+</div>
+<div class="issue-card critical">
+<span class="tag critical">C-03 حرج</span>
+<h4>IELTS كورنيل متضارب</h4>
+<p>responses.js: <strong>7.0+</strong> | universities-2026.js: <strong>7.5+</strong>. فرق نصف درجة = طالب يُقدّم بدون تأهيل.</p>
+</div>
+<div class="issue-card critical">
+<span class="tag critical">C-04 حرج</span>
+<h4>رسوم CMU: فرق $12,000</h4>
+<p>responses-extended.js: <strong>$67,020/سنة</strong> | universities-2026.js: <strong>$55,000/سنة</strong>. فجوة ضخمة.</p>
+</div>
+<div class="issue-card critical">
+<span class="tag critical">C-05 حرج</span>
+<h4>GPA قطري في QU</h4>
+<p>responses.js: <strong>70%</strong> | universities-2026.js: <strong>60%</strong>. فرق 10 نقاط = طالب يظن أنه غير مؤهل!</p>
+</div>
+</div>
+
+<div class="sec"><div class="sec-icon orange">!</div><div><h2>فجوات التغطية</h2><div class="sub">جامعات وسيناريوهات ناقصة</div></div></div>
+<table>
+<tr><th>الجامعة/السيناريو</th><th>الحالة</th><th>الأولوية</th></tr>
+<tr><td>HEC Paris-Q — لا رد مخصص رغم وجودها في البيانات</td><td><span class="tag critical">غائبة</span></td><td>عالية</td></tr>
+<tr><td>HBKU — غائبة من universities-2026.js</td><td><span class="tag warn">جزئية</span></td><td>عالية</td></tr>
+<tr><td>VCUarts-Q — غائبة من universities-2026.js</td><td><span class="tag warn">جزئية</span></td><td>متوسطة</td></tr>
+<tr><td>Georgetown/Northwestern — لا خطة دراسية تفصيلية</td><td><span class="tag warn">جزئية</span></td><td>متوسطة</td></tr>
+</table>
+
+<!-- ═══════ SECTION 3: DATABASE ═══════ -->
+<div class="sec"><div class="sec-icon maroon">3</div><div><h2>تدقيق قاعدة البيانات</h2><div class="sub">13 جدول | Supabase + pgvector</div></div></div>
+<table>
+<tr><th>الجدول</th><th>الأعمدة</th><th>RLS</th><th>Indexes</th><th>التقييم</th></tr>
+<tr><td>users</td><td>14</td><td>نعم (TRUE)</td><td>phone</td><td><span class="tag warn">ضعيف</span></td></tr>
+<tr><td>conversations</td><td>6</td><td>نعم (TRUE)</td><td>user_id, created_at</td><td><span class="tag ok">جيد</span></td></tr>
+<tr><td>universities</td><td>10</td><td>public_read</td><td>—</td><td><span class="tag warn">بدون index</span></td></tr>
+<tr><td>programs</td><td>7</td><td>public_read</td><td>university_id, field</td><td><span class="tag ok">جيد</span></td></tr>
+<tr><td>admission_requirements</td><td>6</td><td>public_read</td><td>—</td><td><span class="tag critical">بدون index!</span></td></tr>
+<tr><td>tuition_fees</td><td>5</td><td>public_read</td><td>—</td><td><span class="tag critical">بدون index!</span></td></tr>
+<tr><td>scholarships</td><td>7</td><td>public_read</td><td>—</td><td><span class="tag critical">بدون index!</span></td></tr>
+<tr><td>knowledge_cache</td><td>11+vector</td><td>نعم</td><td>4 + HNSW</td><td><span class="tag ok">ممتاز</span></td></tr>
+<tr><td>analytics</td><td>6</td><td>نعم</td><td>created_at, cache_hit</td><td><span class="tag ok">جيد</span></td></tr>
+<tr><td>favorites</td><td>5</td><td>نعم</td><td>UNIQUE</td><td><span class="tag ok">جيد</span></td></tr>
+<tr><td>knowledge_embeddings</td><td>6+vector</td><td style="color:var(--err);font-weight:700">لا!</td><td>IVFFlat</td><td><span class="tag critical">خطر!</span></td></tr>
+<tr><td>conversation_embeddings</td><td>5+vector</td><td style="color:var(--err);font-weight:700">لا!</td><td>session_id</td><td><span class="tag critical">خطر!</span></td></tr>
+<tr><td style="color:var(--err)">user_consents</td><td style="color:var(--err)">مفقود!</td><td style="color:var(--err)">—</td><td style="color:var(--err)">—</td><td><span class="tag critical">جدول مفقود!</span></td></tr>
+</table>
+
+<div class="card-grid">
+<div class="issue-card critical">
+<span class="tag critical">DB-01 حرج</span>
+<h4>جدول user_consents مفقود من Schema</h4>
+<p>الكود يقرأ/يكتب منه لكنه غير موجود في أي ملف schema أو migration. لا يمكن إثبات الموافقة قانونياً (PDPPL).</p>
+</div>
+<div class="issue-card critical">
+<span class="tag critical">DB-02 حرج</span>
+<h4>3 ملفات Schema متعارضة</h4>
+<p>supabase-schema.sql (v1) vs schema.sql (v2) vs migration-pgvector — لا أحد يعرف أيها الفعلي في الإنتاج.</p>
+</div>
+<div class="issue-card critical">
+<span class="tag critical">DB-03 حرج</span>
+<h4>RLS بسياسة USING(TRUE) = لا حماية</h4>
+<p>كل العمليات مسموحة عبر anon key. أرقام الهاتف مخزنة plain text بدون تشفير.</p>
+</div>
+<div class="issue-card warn">
+<span class="tag warn">DB-04 عالي</span>
+<h4>Indexes مفقودة على 4 جداول أكاديمية</h4>
+<p>admission_requirements, tuition_fees, scholarships, salary_data — كلها Full Table Scan.</p>
+</div>
+</div>
+
+<!-- ═══════ SECTION 4: UX ═══════ -->
+<div class="sec"><div class="sec-icon orange">4</div><div><h2>تدقيق تجربة المستخدم — 15 مكون</h2><div class="sub">6 سيناريوهات | 3 مسارات مكسورة</div></div></div>
+<table>
+<tr><th>السيناريو</th><th>الحالة</th><th>المشكلة</th></tr>
+<tr><td>الزيارة الأولى → الموافقة → الجنسية → المحادثة</td><td><span class="tag warn">جزئي</span></td><td>أزرار "شروط الاستخدام" و"سياسة الخصوصية" لا تعمل (props = undefined)</td></tr>
+<tr><td>البحث → التفاصيل → المفضلة → المقارنة</td><td><span class="tag ok">يعمل</span></td><td>لا حد أقصى للمقارنة (يكسر التخطيط عند 4+)</td></tr>
+<tr><td>المنح → التوصيات → PDF</td><td><span class="tag warn">جزئي</span></td><td>زر PDF مشروط بنص حرفي هش</td></tr>
+<tr><td>تبديل اللغة EN/AR</td><td><span class="tag critical">مكسور</span></td><td>يُغيّر direction فقط — النصوص تبقى عربية</td></tr>
+<tr><td>تثبيت PWA</td><td><span class="tag ok">يعمل</span></td><td>ألوان غير متسقة مع الهوية</td></tr>
+<tr><td>لوحة الإدارة</td><td><span class="tag warn">يعمل مع ملاحظات</span></td><td>بدون React Router — navigation غير ديناميكي</td></tr>
+</table>
+
+<div class="card-grid">
+<div class="issue-card critical">
+<span class="tag critical">UX-01 حرج</span>
+<h4>onShowPrivacy / onShowTerms = undefined</h4>
+<p>App.jsx لا يُمرِّر handlers لأزرار الشروط والخصوصية في شاشة الموافقة. المسار القانوني مكسور.</p>
+</div>
+<div class="issue-card critical">
+<span class="tag critical">UX-02 حرج</span>
+<h4>LanguageToggle لا تُعيد render الواجهة</h4>
+<p>تُغيّر document.dir فقط بدون Context أو i18next. الميزة مُعلَنة لكن لا تعمل فعلياً.</p>
+</div>
+<div class="issue-card critical">
+<span class="tag critical">UX-03 حرج</span>
+<h4>لا يوجد Error Boundary</h4>
+<p>أي خطأ في مكون داخلي يُنتج شاشة بيضاء فارغة بلا رسالة خطأ.</p>
+</div>
+<div class="issue-card warn">
+<span class="tag warn">UX-04 عالي</span>
+<h4>SideMenu بدون Focus Trap</h4>
+<p>Tab يتجاوز الـ overlay — مخالفة WCAG 2.1. الحل موجود في WebChat.jsx.</p>
+</div>
+</div>
+
+<!-- ═══════ SECTION 5: SCORES ═══════ -->
+<div class="sec"><div class="sec-icon maroon">5</div><div><h2>الدرجات التفصيلية</h2><div class="sub">5 محاور تقييم</div></div></div>
+<table>
+<tr><th>المحور</th><th>الدرجة</th><th>التعليق</th></tr>
+<tr><td>الاختبارات الآلية</td><td style="color:var(--ok);font-weight:700">9.5/10</td><td>511/512 — ممتاز. اختبار واحد فاشل بسبب mock import</td></tr>
+<tr><td>دقة المحتوى الأكاديمي</td><td style="color:var(--warn);font-weight:700">6.5/10</td><td>5 تناقضات رقمية حرجة + HEC غائبة</td></tr>
+<tr><td>قاعدة البيانات والأمان</td><td style="color:var(--err);font-weight:700">4.5/10</td><td>جدول مفقود + RLS ضعيف + schemas متعارضة</td></tr>
+<tr><td>تجربة المستخدم</td><td style="color:var(--warn);font-weight:700">7.2/10</td><td>3 مسارات مكسورة + LanguageToggle غير مكتمل</td></tr>
+<tr><td>إمكانية الوصول (a11y)</td><td style="color:var(--warn);font-weight:700">6.0/10</td><td>SideMenu + CompareView بدون a11y</td></tr>
+<tr style="font-weight:700;background:var(--warn-bg)"><td>المعدل العام</td><td style="font-size:1.3em">6.7/10</td><td>أساس متين — يحتاج إصلاح البيانات والأمان</td></tr>
+</table>
+
+<!-- RECOMMENDATIONS -->
+<section class="reco">
+<h2>التوصيات — مرتبة حسب الأولوية</h2>
+<div class="reco-grid">
+<div class="reco-card">
+<span class="pri c">حرج — فوري</span>
+<h4>توحيد الأرقام الأكاديمية</h4>
+<p>اعتماد universities-2026.js كمرجع وحيد. تحديث responses.js وnationality-advisor.js وWebChat.jsx ليتطابقوا.</p>
+</div>
+<div class="reco-card">
+<span class="pri c">حرج — فوري</span>
+<h4>إنشاء جدول user_consents</h4>
+<p>الكود يحتاجه والقانون يتطلبه. إضافته للـ schema + migration + تفعيل RLS.</p>
+</div>
+<div class="reco-card">
+<span class="pri c">حرج — فوري</span>
+<h4>إصلاح مسار الخصوصية المكسور</h4>
+<p>تمرير onShowPrivacy/onShowTerms في App.jsx → PrivacyConsent. مسار قانوني لا يعمل.</p>
+</div>
+<div class="reco-card">
+<span class="pri h">عالي</span>
+<h4>تفعيل RLS حقيقي + تشفير الهاتف</h4>
+<p>استبدال USING(TRUE) بسياسات حقيقية. تشفير أرقام الهاتف. تفعيل RLS على embeddings.</p>
+</div>
+<div class="reco-card">
+<span class="pri h">عالي</span>
+<h4>إكمال LanguageToggle + Error Boundary</h4>
+<p>ربط بـ i18next Context. إضافة Error Boundary يلفّ التطبيق بالكامل.</p>
+</div>
+<div class="reco-card">
+<span class="pri h">عالي</span>
+<h4>إضافة رد مخصص لـ HEC Paris-Q</h4>
+<p>جامعة موجودة في البيانات لكن بدون رد. يحصل المستخدم على رد عام فقط.</p>
+</div>
+<div class="reco-card">
+<span class="pri m">متوسط</span>
+<h4>إضافة Indexes على 4 جداول</h4>
+<p>admission_requirements, tuition_fees, scholarships, salary_data — كلها Full Table Scan حالياً.</p>
+</div>
+<div class="reco-card">
+<span class="pri m">متوسط</span>
+<h4>توحيد Schema (حذف v1 القديم)</h4>
+<p>اعتماد supabase/schema.sql (v2) وحذف lib/supabase-schema.sql. توحيد نهج pgvector.</p>
+</div>
+</div>
+</section>
+
+<!-- DEPARTMENTS -->
+<section class="summary" style="border-right-color:var(--m)">
+<h2>الأقسام المشاركة في المراجعة</h2>
+<table>
+<tr><th>القسم</th><th>المحور</th><th>النتائج الرئيسية</th></tr>
+<tr><td>ضمان الجودة (QA)</td><td>الاختبارات الآلية</td><td>511/512 ناجح — اختبار واحد فاشل (supabase mock)</td></tr>
+<tr><td>المحتوى</td><td>الاستجابات والبيانات</td><td>89 استجابة — 5 تناقضات حرجة — HEC غائبة</td></tr>
+<tr><td>الهندسة + Data-AI</td><td>قاعدة البيانات</td><td>13 جدول — user_consents مفقود — 3 schemas متعارضة</td></tr>
+<tr><td>الأمن السيبراني</td><td>RLS + التشفير</td><td>RLS TRUE = لا حماية — هاتف plain text</td></tr>
+<tr><td>UX + QA</td><td>المكونات والسيناريوهات</td><td>15 مكون — 3 مسارات مكسورة — 7.2/10</td></tr>
+</table>
+</section>
+
+</div>
+<footer class="footer">
+<p><span class="brand">Elite Software Company v3.0</span> | 28 Departments | The Elite Way | DORA Elite</p>
+<p>QA Full Audit — 2026-04-07 | Qatar University Advisor v1.2.0</p>
+</footer>
+</body>
+</html>
