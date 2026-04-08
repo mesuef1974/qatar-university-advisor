@@ -76,33 +76,34 @@ export default function InfoPanel({ selectNationality }) {
           اختر نوع إقامتك للمتابعة
         </p>
 
-        {/* Selection cards */}
-        <div style={{display:'flex',gap:12,width:'100%',maxWidth:340,flexShrink:0}}>
+        {/* Selection cards — large touch targets */}
+        <div style={{display:'flex',gap:14,width:'100%',maxWidth:380,flexShrink:0}}>
           {[
             {val:'qatari',     flag:'🇶🇦',title:'قطري / قطرية',   sub:'تعليم مجاني · ابتعاث أميري'},
             {val:'non_qatari', flag:'🌍', title:'مقيم في قطر', sub:'منح مؤسسة قطر · HBKU'},
           ].map(({val,flag,title,sub})=>(
             <button key={val}
               onClick={()=>selectNationality(val)}
-              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow='0 12px 32px rgba(0,0,0,0.25)';}}
+              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px) scale(1.03)';e.currentTarget.style.boxShadow='0 16px 40px rgba(0,0,0,0.3)';}}
               onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='';}}
               style={{
-                flex:1, borderRadius:16, padding:'18px 10px',
+                flex:1, borderRadius:18, padding:'24px 12px',
                 color:'#fff', cursor:'pointer', textAlign:'center',
                 fontFamily:"'Tajawal',sans-serif",
+                minHeight:140,
                 background: val==='qatari'
-                  ? 'linear-gradient(145deg,rgba(197,165,90,0.18),rgba(197,165,90,0.06))'
-                  : 'rgba(255,255,255,0.07)',
+                  ? 'linear-gradient(145deg,rgba(197,165,90,0.22),rgba(197,165,90,0.08))'
+                  : 'rgba(255,255,255,0.09)',
                 border: val==='qatari'
-                  ? '1.5px solid rgba(197,165,90,0.55)'
-                  : '1.5px solid rgba(255,255,255,0.2)',
+                  ? '2px solid rgba(197,165,90,0.6)'
+                  : '2px solid rgba(255,255,255,0.25)',
                 transition:'transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s ease',
                 backdropFilter:'blur(8px)',
               }}
             >
-              <div style={{fontSize:32,marginBottom:8}}>{flag}</div>
-              <div style={{fontSize:13,fontWeight:700,lineHeight:1.3}}>{title}</div>
-              <div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:5,lineHeight:1.5}}>{sub}</div>
+              <div style={{fontSize:42,marginBottom:10}}>{flag}</div>
+              <div style={{fontSize:16,fontWeight:800,lineHeight:1.3}}>{title}</div>
+              <div style={{fontSize:12,color:'rgba(255,255,255,0.55)',marginTop:6,lineHeight:1.5}}>{sub}</div>
             </button>
           ))}
         </div>

@@ -11,8 +11,8 @@ const theme = {
     gold: '#C5A55A',          // Gold accent
     goldLight: '#D4BC7C',     // Light gold
     white: '#FFFFFF',
-    offWhite: '#F8F6F3',      // Warm off-white
-    cream: '#FFF9F0',         // Cream background
+    offWhite: '#F9FAFB',      // Cool off-white
+    cream: '#FFFFFF',         // Clean background
     gray50: '#F9FAFB',
     gray100: '#F3F4F6',
     gray200: '#E5E7EB',
@@ -26,7 +26,7 @@ const theme = {
     warningLight: '#FEF3C7',
     info: '#0284C7',
     infoLight: '#E0F2FE',
-    chatBg: '#F5F0EB',        // Warm chat background
+    chatBg: '#FFFFFF',         // Clean chat background
     userBubble: '#FCE4EC',    // Light maroon bubble
     botBubble: '#FFFFFF',
   },
@@ -60,9 +60,9 @@ const theme = {
 
   // ── Box shadows ───────────────────────────────────────────────────
   shadows: {
-    sm: '0 1px 3px rgba(138,21,56,0.08)',
-    md: '0 4px 12px rgba(138,21,56,0.12)',
-    lg: '0 8px 24px rgba(138,21,56,0.16)',
+    sm: '0 1px 3px rgba(0,0,0,0.04)',
+    md: '0 4px 12px rgba(0,0,0,0.06)',
+    lg: '0 8px 24px rgba(0,0,0,0.08)',
   },
 
   // ── Border radii ─────────────────────────────────────────────────
@@ -86,9 +86,9 @@ const theme = {
     // Duration tokens
     duration: {
       instant: '0.1s',
-      fast: '0.2s',
-      normal: '0.3s',
-      slow: '0.5s',
+      fast: '0.15s',
+      normal: '0.2s',
+      slow: '0.3s',
     },
 
     // Easing tokens
@@ -102,23 +102,23 @@ const theme = {
     keyframes: `
       @keyframes bounce {
         0%, 80%, 100% { transform: translateY(0); }
-        40%            { transform: translateY(-7px); }
+        40%            { transform: translateY(-3px); }
       }
       @keyframes msgIn {
-        from { opacity: 0; transform: translateY(8px); }
+        from { opacity: 0; transform: translateY(4px); }
         to   { opacity: 1; transform: translateY(0); }
       }
       @keyframes menuPulse {
-        0%   { box-shadow: 0 0 0 0   rgba(197,165,90,0.6); }
-        70%  { box-shadow: 0 0 0 6px rgba(197,165,90,0);   }
-        100% { box-shadow: 0 0 0 0   rgba(197,165,90,0);   }
+        0%   { box-shadow: 0 0 0 0   rgba(138,21,56,0.3); }
+        70%  { box-shadow: 0 0 0 4px rgba(138,21,56,0);   }
+        100% { box-shadow: 0 0 0 0   rgba(138,21,56,0);   }
       }
       @keyframes fadeIn {
         from { opacity: 0; }
         to   { opacity: 1; }
       }
       @keyframes slideUp {
-        from { opacity: 0; transform: translateY(16px); }
+        from { opacity: 0; transform: translateY(8px); }
         to   { opacity: 1; transform: translateY(0); }
       }
     `,

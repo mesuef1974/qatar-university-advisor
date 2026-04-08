@@ -11,14 +11,24 @@
   --gold:          #C5A55A;
   --gold-light:    #D4BC7C;
   --gold-bg:       #FFF8E7;
-  --text:          #1C1C1E;
+  --text:          #1F2937;
   --text-muted:    #6B7280;
   --text-secondary: #6B7280;
-  --bg:            #EDE5DA;
-  --surface:       #F5F0EB;
+  --bg:            #FFFFFF;
+  --surface:       #F9FAFB;
   --card-bg:       #FFFFFF;
-  --input-bg:      #F5F0EB;
-  --border:        #E5DDD5;
+  --input-bg:      #FFFFFF;
+  --border:        #E5E7EB;
+
+  /* Modern design tokens */
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md:     0 4px 12px rgba(0,0,0,0.06);
+  --shadow-lg:     0 8px 24px rgba(0,0,0,0.08);
+  --radius-sm:     8px;
+  --radius-md:     12px;
+  --radius-lg:     16px;
+  --transition-fast:   0.15s ease-out;
+  --transition-normal: 0.2s ease-out;
 
   font-family: 'Tajawal', 'Segoe UI', 'Arial', sans-serif;
   font-size: 16px;
@@ -43,7 +53,6 @@ body {
   text-align: right;
   min-height: 100dvh;
   min-height: -webkit-fill-available;
-  /* Mobile: warm gradient */
   background: var(--bg);
 }
 
@@ -59,7 +68,7 @@ body {
 /* ── Tablet (768px+) ── */
 @media (min-width: 768px) {
   body {
-    background: linear-gradient(160deg, #8A1538 0%, #6B1030 50%, #3D0A1C 100%);
+    background: linear-gradient(160deg, #1E293B 0%, #0F172A 50%, #020617 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,8 +97,8 @@ body {
     position: fixed;
     inset: 0;
     background:
-      radial-gradient(circle at 15% 50%, rgba(197,165,90,0.08) 0%, transparent 50%),
-      radial-gradient(circle at 85% 20%, rgba(255,255,255,0.04) 0%, transparent 40%);
+      radial-gradient(circle at 15% 50%, rgba(138,21,56,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 85% 20%, rgba(255,255,255,0.03) 0%, transparent 40%);
     pointer-events: none;
     z-index: 0;
   }
@@ -106,7 +115,7 @@ body {
 /* The React app shell (#root > div) gets shadow on desktop via JS inline style.
    Here we add a subtle entry animation */
 #root > div > div:first-child {
-  animation: appFadeIn 0.35s ease-out;
+  animation: appFadeIn 0.2s ease-out;
 }
 
 /* ── Safe area support (iOS notch) ── */
@@ -147,16 +156,16 @@ button { -webkit-tap-highlight-color: transparent; }
 ::-webkit-scrollbar       { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(138,21,56,0.22);
+  background: rgba(0,0,0,0.12);
   border-radius: 2px;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(138,21,56,0.4); }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.24); }
 
 /* ════════════════════════════════════════════════════
    SELECTION
    ════════════════════════════════════════════════════ */
 ::selection {
-  background: rgba(138,21,56,0.14);
+  background: rgba(138,21,56,0.10);
   color: var(--text);
 }
 
@@ -164,28 +173,27 @@ button { -webkit-tap-highlight-color: transparent; }
    ANIMATIONS
    ════════════════════════════════════════════════════ */
 @keyframes appFadeIn {
-  from { opacity: 0; transform: translateY(12px) scale(0.995); }
-  to   { opacity: 1; transform: translateY(0)    scale(1); }
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes bounceIn {
-  0%   { opacity: 0; transform: scale(0.8); }
-  60%  { transform: scale(1.04); }
+  0%   { opacity: 0; transform: scale(0.95); }
   100% { opacity: 1; transform: scale(1); }
 }
 
 @keyframes msgIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -194,31 +202,28 @@ button { -webkit-tap-highlight-color: transparent; }
   100% { background-position:  200% center; }
 }
 
-.fade-in   { animation: fadeIn   0.3s ease-out; }
-.slide-up  { animation: slideUp  0.4s ease-out; }
-.bounce-in { animation: bounceIn 0.4s ease-out; }
-.msg-in    { animation: msgIn    0.25s ease-out; }
+.fade-in   { animation: fadeIn   0.15s ease-out; }
+.slide-up  { animation: slideUp  0.2s ease-out; }
+.bounce-in { animation: bounceIn 0.2s ease-out; }
+.msg-in    { animation: msgIn    0.15s ease-out; }
 
 /* ════════════════════════════════════════════════════
    UTILITY CLASSES
    ════════════════════════════════════════════════════ */
 
-/* Gold shimmer text effect */
+/* Gold accent text — subtle, no shimmer animation */
 .gold-shimmer {
-  background: linear-gradient(90deg, #C5A55A 0%, #F5D78E 50%, #C5A55A 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 2.5s linear infinite;
+  color: #C5A55A;
+  -webkit-text-fill-color: #C5A55A;
 }
 
 /* Hover lift effect */
 .lift-on-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 .lift-on-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
 }
 
 /* ════════════════════════════════════════════════════
@@ -230,7 +235,7 @@ button { -webkit-tap-highlight-color: transparent; }
    it stays prominent against dark backgrounds.
    ════════════════════════════════════════════════════ */
 @media (prefers-color-scheme: dark) {
-  input::placeholder, textarea::placeholder { color: #8A7070 !important; opacity: 1; }
+  input::placeholder, textarea::placeholder { color: #64748B !important; opacity: 1; }
   svg[stroke="#8A1538"] { stroke: #C4254E; }
   input, textarea { color: var(--text) !important; }
 
@@ -239,22 +244,25 @@ button { -webkit-tap-highlight-color: transparent; }
     --maroon:        #C4254E;
     --maroon-dark:   #A01E3F;
     --maroon-light:  #D94068;
-    --maroon-bg:     #2D1B22;
+    --maroon-bg:     #1E293B;
     --gold:          #D4BA7A;
     --gold-light:    #E8D09A;
-    --gold-bg:       #2A2010;
-    --text:          #F5F0EB;
-    --text-muted:    #BDB0A8;
-    --bg:            #1A1014;
-    --surface:       #2D1B22;
-    --border:        #4A3540;
+    --gold-bg:       #1E293B;
+    --text:          #F1F5F9;
+    --text-muted:    #94A3B8;
+    --bg:            #0F172A;
+    --surface:       #1E293B;
+    --border:        #334155;
 
     /* Extra tokens used by dark variants below */
-    --surface-elevated: #3D2830;
-    --text-secondary:   #BDB0A8;
-    --input-bg:         #2D1B22;
-    --card-bg:          #2D1B22;
+    --surface-elevated: #283548;
+    --text-secondary:   #94A3B8;
+    --input-bg:         #1E293B;
+    --card-bg:          #1E293B;
     --shadow-color:     rgba(0,0,0,0.35);
+    --shadow-sm:        0 1px 3px rgba(0,0,0,0.12);
+    --shadow-md:        0 4px 12px rgba(0,0,0,0.18);
+    --shadow-lg:        0 8px 24px rgba(0,0,0,0.24);
   }
 
   /* ── Base document ── */
@@ -263,23 +271,23 @@ button { -webkit-tap-highlight-color: transparent; }
     color: var(--text);
   }
 
-  /* ── Desktop / tablet body gradient — keep maroon, darken it ── */
+  /* ── Desktop / tablet body gradient — cool dark blue ── */
   @media (min-width: 768px) {
     body {
       background: linear-gradient(
         160deg,
-        #3D0A1C 0%,
-        #2A0814 50%,
-        #1A0510 100%
+        #0F172A 0%,
+        #020617 50%,
+        #000000 100%
       ) !important;
     }
   }
 
-  /* ── Desktop decorative overlay — tone down the gold glow ── */
+  /* ── Desktop decorative overlay — subtle accent glow ── */
   @media (min-width: 1024px) {
     body::before {
       background:
-        radial-gradient(circle at 15% 50%, rgba(212,186,122,0.06) 0%, transparent 50%),
+        radial-gradient(circle at 15% 50%, rgba(138,21,56,0.04) 0%, transparent 50%),
         radial-gradient(circle at 85% 20%, rgba(255,255,255,0.02) 0%, transparent 40%);
     }
   }
@@ -293,10 +301,10 @@ button { -webkit-tap-highlight-color: transparent; }
 
   /* ── Scrollbar thumb ── */
   ::-webkit-scrollbar-thumb {
-    background: rgba(196,37,78,0.28);
+    background: rgba(255,255,255,0.15);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(196,37,78,0.48);
+    background: rgba(255,255,255,0.25);
   }
 
   /* ── Text selection ── */
@@ -305,15 +313,15 @@ button { -webkit-tap-highlight-color: transparent; }
     color: var(--text);
   }
 
-  /* ── Gold shimmer — brighter stops ── */
+  /* ── Gold accent — no shimmer ── */
   .gold-shimmer {
-    background: linear-gradient(90deg, #D4BA7A 0%, #F0DC9E 50%, #D4BA7A 100%);
-    background-size: 200% auto;
+    color: #D4BA7A;
+    -webkit-text-fill-color: #D4BA7A;
   }
 
   /* ── Lift hover shadow adapts to dark ── */
   .lift-on-hover:hover {
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    box-shadow: var(--shadow-lg);
   }
 
   /* ════════════════════════════════════════
@@ -323,12 +331,7 @@ button { -webkit-tap-highlight-color: transparent; }
   /* Chat messages scroll area (id="chat-messages") */
   #chat-messages {
     background: var(--bg) !important;
-    background-image: radial-gradient(
-      circle,
-      rgba(196,37,78,0.07) 1.5px,
-      transparent 1.5px
-    ) !important;
-    background-size: 24px 24px !important;
+    background-image: none !important;
   }
 
   /* ── Bot message bubbles ──
@@ -437,21 +440,21 @@ button { -webkit-tap-highlight-color: transparent; }
   [style*="background: '#E5E7EB'"],
   [style*='background: #E5E7EB'],
   [style*="background:#E5E7EB"] {
-    background: #3D2830 !important;
+    background: #283548 !important;
   }
 
   /* ── Suggestion chips default bg ── */
   [style*="rgba(138,21,56,0.03)"],
   [style*="rgba(138,21,56,0.06)"] {
-    background: rgba(196,37,78,0.08) !important;
-    border-color: rgba(196,37,78,0.22) !important;
+    background: rgba(196,37,78,0.06) !important;
+    border-color: rgba(196,37,78,0.18) !important;
     color: var(--text) !important;
   }
 
   /* ── Quick access buttons in SideMenu ── */
   [style*="background: '#FEF2F2'"],
   [style*="background:'#FEF2F2'"] {
-    background: rgba(196,37,78,0.14) !important;
+    background: rgba(196,37,78,0.10) !important;
     color: var(--maroon-light) !important;
   }
 
@@ -524,7 +527,7 @@ button { -webkit-tap-highlight-color: transparent; }
 /* Placeholder text in dark mode */
 :root[data-theme="dark"] input::placeholder,
 :root[data-theme="dark"] textarea::placeholder {
-  color: #8A7070 !important;
+  color: #64748B !important;
   opacity: 1;
 }
 :root[data-theme="dark"] svg[stroke="#8A1538"] {
@@ -540,20 +543,23 @@ button { -webkit-tap-highlight-color: transparent; }
   --maroon:        #C4254E;
   --maroon-dark:   #A01E3F;
   --maroon-light:  #D94068;
-  --maroon-bg:     #2D1B22;
+  --maroon-bg:     #1E293B;
   --gold:          #D4BA7A;
   --gold-light:    #E8D09A;
-  --gold-bg:       #2A2010;
-  --text:          #F5F0EB;
-  --text-muted:    #BDB0A8;
-  --bg:            #1A1014;
-  --surface:       #2D1B22;
-  --border:        #4A3540;
-  --surface-elevated: #3D2830;
-  --text-secondary:   #BDB0A8;
-  --input-bg:         #2D1B22;
-  --card-bg:          #2D1B22;
+  --gold-bg:       #1E293B;
+  --text:          #F1F5F9;
+  --text-muted:    #94A3B8;
+  --bg:            #0F172A;
+  --surface:       #1E293B;
+  --border:        #334155;
+  --surface-elevated: #283548;
+  --text-secondary:   #94A3B8;
+  --input-bg:         #1E293B;
+  --card-bg:          #1E293B;
   --shadow-color:     rgba(0,0,0,0.35);
+  --shadow-sm:        0 1px 3px rgba(0,0,0,0.12);
+  --shadow-md:        0 4px 12px rgba(0,0,0,0.18);
+  --shadow-lg:        0 8px 24px rgba(0,0,0,0.24);
   color-scheme: dark;
 }
 
@@ -564,14 +570,14 @@ button { -webkit-tap-highlight-color: transparent; }
 
 @media (min-width: 768px) {
   [data-theme="dark"] body {
-    background: linear-gradient(160deg, #3D0A1C 0%, #2A0814 50%, #1A0510 100%) !important;
+    background: linear-gradient(160deg, #0F172A 0%, #020617 50%, #000000 100%) !important;
   }
 }
 
 @media (min-width: 1024px) {
   [data-theme="dark"] body::before {
     background:
-      radial-gradient(circle at 15% 50%, rgba(212,186,122,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 15% 50%, rgba(138,21,56,0.04) 0%, transparent 50%),
       radial-gradient(circle at 85% 20%, rgba(255,255,255,0.02) 0%, transparent 40%);
   }
 }
@@ -583,10 +589,10 @@ button { -webkit-tap-highlight-color: transparent; }
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-thumb {
-  background: rgba(196,37,78,0.28);
+  background: rgba(255,255,255,0.15);
 }
 [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
-  background: rgba(196,37,78,0.48);
+  background: rgba(255,255,255,0.25);
 }
 
 [data-theme="dark"] ::selection {
@@ -595,18 +601,17 @@ button { -webkit-tap-highlight-color: transparent; }
 }
 
 [data-theme="dark"] .gold-shimmer {
-  background: linear-gradient(90deg, #D4BA7A 0%, #F0DC9E 50%, #D4BA7A 100%);
-  background-size: 200% auto;
+  color: #D4BA7A;
+  -webkit-text-fill-color: #D4BA7A;
 }
 
 [data-theme="dark"] .lift-on-hover:hover {
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  box-shadow: var(--shadow-lg);
 }
 
 [data-theme="dark"] #chat-messages {
   background: var(--bg) !important;
-  background-image: radial-gradient(circle, rgba(196,37,78,0.07) 1.5px, transparent 1.5px) !important;
-  background-size: 24px 24px !important;
+  background-image: none !important;
 }
 
 [data-theme="dark"] #chat-messages [style*="background:#fff"],
@@ -678,13 +683,13 @@ button { -webkit-tap-highlight-color: transparent; }
 [data-theme="dark"] [style*="background: '#E5E7EB'"],
 [data-theme="dark"] [style*='background: #E5E7EB'],
 [data-theme="dark"] [style*="background:#E5E7EB"] {
-  background: #3D2830 !important;
+  background: #283548 !important;
 }
 
 [data-theme="dark"] [style*="rgba(138,21,56,0.03)"],
 [data-theme="dark"] [style*="rgba(138,21,56,0.06)"] {
-  background: rgba(196,37,78,0.08) !important;
-  border-color: rgba(196,37,78,0.22) !important;
+  background: rgba(196,37,78,0.06) !important;
+  border-color: rgba(196,37,78,0.18) !important;
   color: var(--text) !important;
 }
 
@@ -717,14 +722,17 @@ button { -webkit-tap-highlight-color: transparent; }
   --gold:          #C5A55A;
   --gold-light:    #D4BC7C;
   --gold-bg:       #FFF8E7;
-  --text:          #1C1C1E;
+  --text:          #1F2937;
   --text-muted:    #6B7280;
   --text-secondary: #6B7280;
-  --bg:            #EDE5DA;
-  --surface:       #F5F0EB;
+  --bg:            #FFFFFF;
+  --surface:       #F9FAFB;
   --card-bg:       #FFFFFF;
-  --input-bg:      #F5F0EB;
-  --border:        #E5DDD5;
+  --input-bg:      #FFFFFF;
+  --border:        #E5E7EB;
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md:     0 4px 12px rgba(0,0,0,0.06);
+  --shadow-lg:     0 8px 24px rgba(0,0,0,0.08);
   color-scheme: light;
 }
 
@@ -735,15 +743,15 @@ button { -webkit-tap-highlight-color: transparent; }
 
 @media (min-width: 768px) {
   [data-theme="light"] body {
-    background: linear-gradient(160deg, #8A1538 0%, #6B1030 50%, #3D0A1C 100%) !important;
+    background: linear-gradient(160deg, #1E293B 0%, #0F172A 50%, #020617 100%) !important;
   }
 }
 
 @media (min-width: 1024px) {
   [data-theme="light"] body::before {
     background:
-      radial-gradient(circle at 15% 50%, rgba(197,165,90,0.08) 0%, transparent 50%),
-      radial-gradient(circle at 85% 20%, rgba(255,255,255,0.04) 0%, transparent 40%);
+      radial-gradient(circle at 15% 50%, rgba(138,21,56,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 85% 20%, rgba(255,255,255,0.03) 0%, transparent 40%);
   }
 }
 
@@ -754,19 +762,19 @@ button { -webkit-tap-highlight-color: transparent; }
 [data-theme="light"] [style*='background: #fff'],
 [data-theme="light"] [style*="background:#fff"] {
   background: #ffffff !important;
-  color: #1C1C1E !important;
+  color: #1F2937 !important;
 }
 
 [data-theme="light"] [style*="background:'#F5F0EB'"],
 [data-theme="light"] [style*='background: #F5F0EB'],
 [data-theme="light"] [style*="background:#F5F0EB"] {
-  background: #F5F0EB !important;
+  background: #F9FAFB !important;
 }
 
 [data-theme="light"] [style*="color:'#1C1C1E'"],
 [data-theme="light"] [style*="color: #1C1C1E"],
 [data-theme="light"] [style*="color:#1C1C1E"] {
-  color: #1C1C1E !important;
+  color: #1F2937 !important;
 }
 
 [data-theme="light"] #chat-messages {
@@ -774,10 +782,47 @@ button { -webkit-tap-highlight-color: transparent; }
 }
 
 [data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: rgba(138,21,56,0.22);
+  background: rgba(0,0,0,0.12);
 }
 
 [data-theme="light"] ::selection {
-  background: rgba(138,21,56,0.14);
+  background: rgba(138,21,56,0.10);
   color: var(--text);
+}
+
+/* ════════════════════════════════════════════════════
+   2026 MODERN OVERRIDES
+   Override inline styles from JSX components
+   ════════════════════════════════════════════════════ */
+
+/* ── Input field: remove pill shape (28px → 12px) ── */
+#root [style*="borderRadius"][style*="28"] {
+  border-radius: var(--radius-md) !important;
+}
+
+/* ── University cards: remove colored side border ── */
+#root [style*="borderRight"][style*="solid"] {
+  border-right: none !important;
+}
+
+/* ── Chat background: clean white/dark, no dot pattern ── */
+#chat-messages {
+  background-image: none !important;
+}
+
+/* ── Softer shadows on all cards ── */
+#root [style*="boxShadow"][style*="0.07"],
+#root [style*="boxShadow"][style*="0.12"],
+#root [style*="boxShadow"][style*="0.13"] {
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* ── Active press: faster ── */
+button:active {
+  transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+}
+
+/* ── Links and buttons: use faster transitions ── */
+a, button, input, [style*="transition"] {
+  transition-duration: 0.15s !important;
 }

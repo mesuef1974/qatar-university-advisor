@@ -71,53 +71,52 @@ export default function PrivacyConsent({ onAccept, onReject, onShowPrivacy, onSh
       background: 'linear-gradient(135deg, #8A1538 0%, #4a0d22 100%)',
       color: '#fff',
       textAlign: 'center',
-      padding: '24px 20px',
+      padding: '16px 20px',
       direction: 'rtl',
       fontFamily: "'Tajawal', 'Cairo', 'Segoe UI', sans-serif",
     }}>
       {/* Icon */}
-      <div style={{ fontSize: 64, marginBottom: 16, lineHeight: 1 }}>🎓</div>
+      <div style={{ fontSize: 40, marginBottom: 8, lineHeight: 1 }}>🎓</div>
 
       {/* Title */}
-      <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8, marginTop: 0 }}>
+      <h1 style={{ fontSize: 18, fontWeight: 800, marginBottom: 4, marginTop: 0 }}>
         المستشار الجامعي القطري
       </h1>
-      <p style={{ fontSize: 14, opacity: 0.8, marginBottom: 28, lineHeight: 1.6, maxWidth: 340 }}>
-        مرحباً! قبل البدء، نريد أن نكون شفافين معك حول كيفية استخدام بياناتك.
+      <p style={{ fontSize: 13, opacity: 0.8, marginBottom: 14, lineHeight: 1.5, maxWidth: 340 }}>
+        نحمي بياناتك وفق القانون القطري
       </p>
 
-      {/* Info cards */}
+      {/* Info cards — compact */}
       <div style={{
         background: 'rgba(255,255,255,0.1)',
-        borderRadius: 16,
-        padding: '20px 24px',
+        borderRadius: 12,
+        padding: '12px 16px',
         maxWidth: 360,
         width: '100%',
-        marginBottom: 24,
+        marginBottom: 14,
         backdropFilter: 'blur(10px)',
         border: '1px solid rgba(255,255,255,0.15)',
       }}>
         {[
-          { icon: '🔒', text: 'رقم هاتفك غير مخزَّن — يُستخدَم لإرسال الرد فقط' },
-          { icon: '📱', text: 'تفضيلاتك محفوظة على جهازك فقط، لا تصل لأي خادم' },
-          { icon: '🚫', text: 'لا نبيع بياناتك ولا نشاركها مع أطراف تجارية' },
-          { icon: '📚', text: 'المعلومات إرشادية — تحقَّق دائماً من الجهات الرسمية' },
+          { icon: '🔒', text: 'هاتفك لا يُخزَّن — يُستخدَم للرد فقط' },
+          { icon: '📱', text: 'بياناتك على جهازك فقط' },
+          { icon: '🚫', text: 'لا نبيع ولا نشارك بياناتك' },
         ].map(({ icon, text }, i) => (
           <div key={i} style={{
             display: 'flex',
-            alignItems: 'flex-start',
-            gap: 12,
+            alignItems: 'center',
+            gap: 10,
             textAlign: 'right',
-            marginBottom: i < 3 ? 14 : 0,
+            marginBottom: i < 2 ? 8 : 0,
           }}>
-            <span style={{ fontSize: 20, flexShrink: 0, marginTop: 1 }}>{icon}</span>
-            <p style={{ fontSize: 13, lineHeight: 1.65, margin: 0, opacity: 0.92 }}>{text}</p>
+            <span style={{ fontSize: 16, flexShrink: 0 }}>{icon}</span>
+            <p style={{ fontSize: 12, lineHeight: 1.5, margin: 0, opacity: 0.92 }}>{text}</p>
           </div>
         ))}
       </div>
 
       {/* Legal links */}
-      <p style={{ fontSize: 12, opacity: 0.7, marginBottom: 20, lineHeight: 1.8 }}>
+      <p style={{ fontSize: 11, opacity: 0.6, marginBottom: 12, lineHeight: 1.6 }}>
         بالمتابعة، توافق على{' '}
         <button
           onClick={onShowTerms}
@@ -143,56 +142,56 @@ export default function PrivacyConsent({ onAccept, onReject, onShowPrivacy, onSh
         {' '}وفق القوانين القطرية
       </p>
 
-      {/* Accept button */}
+      {/* Accept button — large & prominent */}
       <button
         onClick={handleAccept}
         style={{
-          padding: '15px 0',
-          borderRadius: 14,
+          padding: '18px 0',
+          borderRadius: 16,
           background: 'linear-gradient(135deg, #C5A55A 0%, #a8893d 100%)',
           color: '#fff',
           border: 'none',
-          fontSize: 16,
-          fontWeight: 700,
+          fontSize: 18,
+          fontWeight: 800,
           cursor: 'pointer',
           width: '100%',
-          maxWidth: 340,
-          boxShadow: '0 4px 16px rgba(197,165,90,0.35)',
+          maxWidth: 360,
+          boxShadow: '0 6px 24px rgba(197,165,90,0.45)',
           letterSpacing: 0.5,
           transition: 'transform 0.1s, box-shadow 0.1s',
         }}
         onMouseDown={e => e.currentTarget.style.transform = 'scale(0.98)'}
         onMouseUp={e => e.currentTarget.style.transform = 'scale(1)'}
       >
-        أوافق وأبدأ الاستخدام ✓
+        أوافق وأبدأ ✓
       </button>
 
       {/* Reject button — PDPPL Article 7 compliance */}
       <button
         onClick={handleReject}
         style={{
-          padding: '12px 0',
-          borderRadius: 14,
+          padding: '8px 0',
+          borderRadius: 10,
           background: 'transparent',
-          color: 'rgba(255,255,255,0.55)',
-          border: '1px solid rgba(255,255,255,0.2)',
-          fontSize: 14,
-          fontWeight: 600,
+          color: 'rgba(255,255,255,0.45)',
+          border: '1px solid rgba(255,255,255,0.15)',
+          fontSize: 12,
+          fontWeight: 500,
           cursor: 'pointer',
           width: '100%',
-          maxWidth: 340,
-          marginTop: 10,
+          maxWidth: 360,
+          marginTop: 8,
           letterSpacing: 0.3,
           transition: 'border-color 0.2s, color 0.2s',
         }}
         onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'; e.currentTarget.style.color = 'rgba(255,255,255,0.75)'; }}
-        onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = 'rgba(255,255,255,0.55)'; }}
+        onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'; e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; }}
       >
         أرفض
       </button>
 
-      <p style={{ fontSize: 12, opacity: 0.5, marginTop: 16 }}>
-        مرخَّص وفق قوانين دولة قطر
+      <p style={{ fontSize: 10, opacity: 0.4, marginTop: 10 }}>
+        وفق قوانين دولة قطر
       </p>
     </div>
   );

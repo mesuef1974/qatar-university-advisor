@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 export default function AcademicDisclaimer({ position = 'bottom' }) {
   const [dismissed, setDismissed] = useState(
-    () => sessionStorage.getItem('disclaimer_dismissed') === 'true'
+    () => localStorage.getItem('disclaimer_dismissed') === 'true'
   );
 
   if (dismissed) return null;
@@ -63,7 +63,7 @@ export default function AcademicDisclaimer({ position = 'bottom' }) {
   };
 
   const handleDismiss = () => {
-    sessionStorage.setItem('disclaimer_dismissed', 'true');
+    localStorage.setItem('disclaimer_dismissed', 'true');
     setDismissed(true);
   };
 
