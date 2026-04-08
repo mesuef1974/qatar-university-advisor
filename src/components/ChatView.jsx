@@ -166,7 +166,7 @@ export default function ChatView({
             display:'flex', gap:8, marginBottom:16,
             alignItems:'flex-end',
             flexDirection: msg.type==='user' ? 'row-reverse' : 'row',
-            animation:'msgIn 0.25s ease-out',
+            animation: msg.type==='bot' ? 'msgSlideIn 0.3s ease-out' : 'msgIn 0.25s ease-out',
           }}>
             {/* Bot avatar */}
             {msg.type==='bot'&&(
@@ -197,7 +197,7 @@ export default function ChatView({
                   : {
                       background:theme.colors.botBubble,
                       color:'#1C1C1E',
-                      boxShadow:'0 1px 3px rgba(0,0,0,0.06),0 4px 14px rgba(0,0,0,0.06)',
+                      boxShadow:'0 1px 4px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.07)',
                     }),
               }}>
                 {renderText(msg.content.text)}

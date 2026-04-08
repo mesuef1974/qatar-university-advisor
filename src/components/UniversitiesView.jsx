@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 const CATEGORIES = [
   { key: 'all',     label: 'الكل',     icon: '🏛️', iconLabel: 'مبنى' },
@@ -34,6 +34,7 @@ export default function UniversitiesView({
 }) {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [hoveredCard, setHoveredCard] = useState(null);
 
   const allUnis = Object.values(UNIVERSITIES_DB);
 
@@ -74,12 +75,21 @@ export default function UniversitiesView({
     const isFav = userProfile.favorites.includes(u.id);
     const isCmp = compareList.includes(u.id);
 
+    const isHovered = hoveredCard === u.id;
     return (
-      <div key={u.id} style={{
-        ...S.ucard,
-        opacity: isRestricted ? 0.72 : 1,
-        borderRight: `3.5px solid ${colors.border}`,
-      }}>
+      <div key={u.id}
+        onMouseEnter={() => setHoveredCard(u.id)}
+        onMouseLeave={() => setHoveredCard(null)}
+        style={{
+          ...S.ucard,
+          opacity: isRestricted ? 0.72 : 1,
+          borderRight: `3.5px solid ${colors.border}`,
+          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+          boxShadow: isHovered
+            ? '0 8px 24px rgba(0,0,0,0.13)'
+            : '0 2px 12px rgba(0,0,0,0.07)',
+        }}>
         {/* Card header row */}
         <div style={S.ucardH} onClick={() => setExpandedUni(isOpen ? null : u.id)}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
@@ -309,9 +319,11 @@ export default function UniversitiesView({
         <div key={gi}>
           {group.title && (
             <div style={{
-              padding: '8px 12px', margin: '4px 0', fontSize: 14,
+              padding: '8px 14px', margin: '4px 0 6px', fontSize: 14,
               fontWeight: 700, color: '#8A1538',
               borderBottom: '2px solid #C5A55A',
+              background: 'linear-gradient(90deg,rgba(138,21,56,0.05) 0%,rgba(197,165,90,0.06) 60%,transparent 100%)',
+              borderRadius: '8px 8px 0 0',
             }}>
               {group.title}
               <span style={{ fontSize: 12, fontWeight: 400, color: '#6B7280', marginRight: 8 }}>
