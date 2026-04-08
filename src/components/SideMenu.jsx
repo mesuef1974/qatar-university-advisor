@@ -44,7 +44,7 @@ export default function SideMenu({
       onClick={() => setShowMenu(false)}
     >
       <div
-        style={{ width: 280, background: theme.colors.white, height: '100%', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}
+        style={{ width: 280, background: 'var(--card-bg,#FFFFFF)', height: '100%', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Header ── */}
@@ -58,7 +58,7 @@ export default function SideMenu({
 
         {/* ── وصول سريع ── */}
         {quickBtns?.length > 0 && (
-          <div style={{ padding: '14px 16px', borderBottom: '1px solid #f0f0f0' }}>
+          <div style={{ padding: '14px 16px', borderBottom: '1px solid var(--border,#f0f0f0)' }}>
             <div style={{ fontWeight: 700, fontSize: 12, color: theme.colors.gray500, marginBottom: 10 }}>⚡ وصول سريع</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
               {quickBtns.map((b, i) => (
@@ -66,14 +66,14 @@ export default function SideMenu({
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: 5,
                     padding: '8px 13px', borderRadius: 12,
-                    background: '#FEF2F2', color: theme.colors.maroon,
+                    background: 'var(--maroon-bg,#FEF2F2)', color: 'var(--maroon,#8A1538)',
                     border: '1px solid rgba(138,21,56,0.15)',
                     cursor: 'pointer', fontSize: 12, fontWeight: 600,
                     fontFamily: "'Tajawal',sans-serif",
                     transition: 'background 0.15s ease',
                   }}
                   onMouseEnter={e=>e.currentTarget.style.background='rgba(138,21,56,0.1)'}
-                  onMouseLeave={e=>e.currentTarget.style.background='#FEF2F2'}
+                  onMouseLeave={e=>e.currentTarget.style.background='var(--maroon-bg,#FEF2F2)'}
                   onClick={() => { sendMessage(b.q); setActiveView('chat'); setShowMenu(false); }}
                 >
                   <span style={{ fontSize: 14 }}>{b.icon}</span>
@@ -85,41 +85,41 @@ export default function SideMenu({
         )}
 
         {/* ── أسئلة شائعة ── */}
-        <div style={{ padding: '12px 16px', borderBottom: '1px solid #f0f0f0' }}>
+        <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border,#f0f0f0)' }}>
           <div style={{ fontWeight: 700, fontSize: 12, color: theme.colors.gray500, marginBottom: 8 }}>💡 أسئلة شائعة</div>
           {topQuestions.map((q, i) => (
             <button key={i}
-              style={{ display: 'block', width: '100%', textAlign: 'right', padding: '9px 10px', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#1a1a1a', borderRadius: 8, marginBottom: 2 }}
+              style={{ display: 'block', width: '100%', textAlign: 'right', padding: '9px 10px', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: 'var(--text,#1a1a1a)', borderRadius: 8, marginBottom: 2 }}
               onClick={() => { sendMessage(q); setActiveView('chat'); setShowMenu(false); }}
             >{q}</button>
           ))}
         </div>
 
         {/* ── الجامعات ── */}
-        <div style={{ padding: '12px 16px', borderBottom: '1px solid #f0f0f0' }}>
+        <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border,#f0f0f0)' }}>
           <div style={{ fontWeight: 700, fontSize: 12, color: theme.colors.gray500, marginBottom: 8 }}>📚 الجامعات</div>
           {Object.values(UNIVERSITIES_DB).map((u) => (
             <button key={u.id}
-              style={{ display: 'block', width: '100%', textAlign: 'right', padding: '9px 10px', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#1a1a1a', borderRadius: 8, marginBottom: 2 }}
+              style={{ display: 'block', width: '100%', textAlign: 'right', padding: '9px 10px', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: 'var(--text,#1a1a1a)', borderRadius: 8, marginBottom: 2 }}
               onClick={() => { sendMessage(`خطة دراسة ${u.name} والمواد والتخصصات وفرص العمل`); setActiveView('chat'); setShowMenu(false); }}
             >{u.icon} {u.name}</button>
           ))}
         </div>
 
         {/* ── الأقسام ── */}
-        <div style={{ padding: '12px 16px', borderBottom: '1px solid #f0f0f0' }}>
+        <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border,#f0f0f0)' }}>
           <div style={{ fontWeight: 700, fontSize: 12, color: theme.colors.gray500, marginBottom: 8 }}>🔗 الأقسام</div>
           {SECTIONS.map((t, i) => (
             <button key={i}
               aria-label={t.l.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}]/gu, '').trim()}
-              style={{ display: 'block', width: '100%', textAlign: 'right', padding: '9px 10px', background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: '#1a1a1a', borderRadius: 8, marginBottom: 2 }}
+              style={{ display: 'block', width: '100%', textAlign: 'right', padding: '9px 10px', background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: 'var(--text,#1a1a1a)', borderRadius: 8, marginBottom: 2 }}
               onClick={() => { setActiveView(t.v); setShowMenu(false); }}
             >{t.l}</button>
           ))}
         </div>
 
         {/* ── القانوني (للمستخدمين) ── */}
-        <div style={{ padding: '12px 16px', marginTop: 'auto', borderTop: '1px solid #f0f0f0' }}>
+        <div style={{ padding: '12px 16px', marginTop: 'auto', borderTop: '1px solid var(--border,#f0f0f0)' }}>
           <div style={{ fontWeight: 700, fontSize: 12, color: theme.colors.gray300, marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>
             معلومات قانونية
           </div>

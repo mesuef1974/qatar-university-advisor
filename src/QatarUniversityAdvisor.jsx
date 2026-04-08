@@ -375,14 +375,14 @@ export default function QatarUniversityAdvisor() {
     <div style={{
       display:'flex', alignItems:'center', justifyContent:'center',
       gap:16, padding:'6px 16px 8px',
-      background:'#fff', borderTop:'1px solid rgba(0,0,0,0.05)',
+      background:'var(--card-bg,#fff)', borderTop:'1px solid var(--border,rgba(0,0,0,0.05))',
       flexShrink:0,
     }}>
-      <a href="/privacy" style={{fontSize:12,color:'#9CA3AF',textDecoration:'none',fontFamily:"'Tajawal',sans-serif",direction:'rtl',transition:'color 0.15s'}}
-        onMouseEnter={e=>e.target.style.color='#8A1538'} onMouseLeave={e=>e.target.style.color='#9CA3AF'}>سياسة الخصوصية</a>
-      <span style={{fontSize:12,color:'#D1D5DB'}}>·</span>
-      <a href="/terms" style={{fontSize:12,color:'#9CA3AF',textDecoration:'none',fontFamily:"'Tajawal',sans-serif",direction:'rtl',transition:'color 0.15s'}}
-        onMouseEnter={e=>e.target.style.color='#8A1538'} onMouseLeave={e=>e.target.style.color='#9CA3AF'}>شروط الاستخدام</a>
+      <a href="/privacy" style={{fontSize:12,color:'var(--text-secondary,#9CA3AF)',textDecoration:'none',fontFamily:"'Tajawal',sans-serif",direction:'rtl',transition:'color 0.15s'}}
+        onMouseEnter={e=>e.target.style.color='#8A1538'} onMouseLeave={e=>e.target.style.color='var(--text-secondary,#9CA3AF)'}>سياسة الخصوصية</a>
+      <span style={{fontSize:12,color:'var(--border,#D1D5DB)'}}>·</span>
+      <a href="/terms" style={{fontSize:12,color:'var(--text-secondary,#9CA3AF)',textDecoration:'none',fontFamily:"'Tajawal',sans-serif",direction:'rtl',transition:'color 0.15s'}}
+        onMouseEnter={e=>e.target.style.color='#8A1538'} onMouseLeave={e=>e.target.style.color='var(--text-secondary,#9CA3AF)'}>شروط الاستخدام</a>
     </div>
   );
 
@@ -422,7 +422,7 @@ export default function QatarUniversityAdvisor() {
         dir="rtl"
         style={{
           display:'flex', flexDirection:'row', width:'100%', height:'100dvh',
-          fontFamily:"'Tajawal','Segoe UI',sans-serif", background:'#EDE5DA',
+          fontFamily:"'Tajawal','Segoe UI',sans-serif", background:'var(--bg,#EDE5DA)',
           overflow:'hidden', position:'relative',
         }}
       >
@@ -431,7 +431,7 @@ export default function QatarUniversityAdvisor() {
           flex:'1 1 58%', display:'flex', flexDirection:'column',
           height:'100dvh', overflow:'hidden',
           borderRight:'1px solid rgba(138,21,56,0.12)',
-          background:'#EDE5DA',
+          background:'var(--bg,#EDE5DA)',
         }}>
           <Header S={S} userProfile={userProfile}
             activeView={activeView} setActiveView={setActiveView}
@@ -460,7 +460,7 @@ export default function QatarUniversityAdvisor() {
         <div style={{
           flex:'1 1 42%', display:'flex', flexDirection:'column',
           height:'100dvh', overflow:'hidden',
-          background:'#F8F5F2',
+          background:'var(--bg,#F8F5F2)',
           minWidth:320, maxWidth:520,
         }}>
           {/* Sidebar header */}
@@ -491,8 +491,8 @@ export default function QatarUniversityAdvisor() {
 
           {/* Bottom nav — controls left panel content (chat tab kept for UX consistency) */}
           <nav aria-label="التنقل الثانوي" style={{
-            display:'flex', background:'#fff',
-            borderTop:'1px solid rgba(0,0,0,0.06)',
+            display:'flex', background:'var(--card-bg,#fff)',
+            borderTop:'1px solid var(--border,rgba(0,0,0,0.06))',
             flexShrink:0, zIndex:90,
             boxShadow:'0 -4px 20px rgba(0,0,0,0.07)',
           }}>
@@ -640,8 +640,8 @@ export default function QatarUniversityAdvisor() {
       <nav
         aria-label="التنقل الرئيسي"
         style={{
-          display:'flex', background:'#fff',
-          borderTop:'1px solid rgba(0,0,0,0.06)',
+          display:'flex', background:'var(--card-bg,#fff)',
+          borderTop:'1px solid var(--border,rgba(0,0,0,0.06))',
           flexShrink:0, zIndex:90,
           boxShadow:'0 -4px 20px rgba(0,0,0,0.07)',
           paddingBottom:'env(safe-area-inset-bottom,0)',
@@ -681,25 +681,25 @@ export default function QatarUniversityAdvisor() {
       <div style={{
         display:'flex', alignItems:'center', justifyContent:'center',
         gap:16, padding:'6px 16px 8px',
-        background:'#fff', borderTop:'1px solid rgba(0,0,0,0.05)',
+        background:'var(--card-bg,#fff)', borderTop:'1px solid var(--border,rgba(0,0,0,0.05))',
         flexShrink:0,
       }}>
         <a href="/privacy" style={{
-          fontSize:12, color:'#9CA3AF', textDecoration:'none',
+          fontSize:12, color:'var(--text-secondary,#9CA3AF)', textDecoration:'none',
           fontFamily:"'Tajawal',sans-serif", direction:'rtl',
           transition:'color 0.15s',
         }}
           onMouseEnter={e=>e.target.style.color='#8A1538'}
-          onMouseLeave={e=>e.target.style.color='#9CA3AF'}
+          onMouseLeave={e=>e.target.style.color='var(--text-secondary,#9CA3AF)'}
         >سياسة الخصوصية</a>
-        <span style={{ fontSize:12, color:'#D1D5DB' }}>·</span>
+        <span style={{ fontSize:12, color:'var(--border,#D1D5DB)' }}>·</span>
         <a href="/terms" style={{
-          fontSize:12, color:'#9CA3AF', textDecoration:'none',
+          fontSize:12, color:'var(--text-secondary,#9CA3AF)', textDecoration:'none',
           fontFamily:"'Tajawal',sans-serif", direction:'rtl',
           transition:'color 0.15s',
         }}
           onMouseEnter={e=>e.target.style.color='#8A1538'}
-          onMouseLeave={e=>e.target.style.color='#9CA3AF'}
+          onMouseLeave={e=>e.target.style.color='var(--text-secondary,#9CA3AF)'}
         >شروط الاستخدام</a>
       </div>
 
@@ -729,14 +729,14 @@ const S={
     if (w >= 1024) return {
       display:'flex', flexDirection:'column',
       height:'100dvh', fontFamily:"'Tajawal','Segoe UI',sans-serif",
-      background:'#EDE5DA', direction:'rtl', overflow:'hidden',
+      background:'var(--bg,#EDE5DA)', direction:'rtl', overflow:'hidden',
       width:'100%', maxWidth:'100%', margin:0,
       position:'relative', borderRadius:0, boxShadow:'none',
     };
     if (w >= 768) return {
       display:'flex', flexDirection:'column',
       height:'100dvh', fontFamily:"'Tajawal','Segoe UI',sans-serif",
-      background:'#EDE5DA', direction:'rtl', overflow:'hidden',
+      background:'var(--bg,#EDE5DA)', direction:'rtl', overflow:'hidden',
       width:'100%', maxWidth:520, margin:'0 auto',
       position:'relative', borderRadius:20,
       boxShadow:'0 24px 64px rgba(0,0,0,0.35)',
@@ -744,7 +744,7 @@ const S={
     return {
       display:'flex', flexDirection:'column',
       height:'100dvh', fontFamily:"'Tajawal','Segoe UI',sans-serif",
-      background:'#EDE5DA', direction:'rtl', overflow:'hidden',
+      background:'var(--bg,#EDE5DA)', direction:'rtl', overflow:'hidden',
       width:'100%', maxWidth:'100%', margin:0,
       position:'relative', borderRadius:0, boxShadow:'none',
     };
@@ -763,7 +763,7 @@ const S={
     alignItems:'center', justifyContent:'center',
     width:36, height:36, flexShrink:0,
   },
-  vc:{ flex:1, overflowY:'auto', padding:'14px 12px 8px', background:'#F8F5F2' },
+  vc:{ flex:1, overflowY:'auto', padding:'14px 12px 8px', background:'var(--bg,#F8F5F2)' },
   vh:{
     marginBottom:16, textAlign:'center',
     padding:'8px 0 14px',
@@ -773,30 +773,30 @@ const S={
     fontSize:20, fontWeight:800, color:'#8A1538', margin:0,
     fontFamily:"'Cairo','Tajawal',sans-serif",
   },
-  vs:{ fontSize:12, color:'#9CA3AF', margin:'4px 0 0' },
+  vs:{ fontSize:12, color:'var(--text-secondary,#9CA3AF)', margin:'4px 0 0' },
   ucard:{
-    background:'#fff', borderRadius:16, marginBottom:10,
+    background:'var(--card-bg,#fff)', borderRadius:16, marginBottom:10,
     boxShadow:'0 2px 12px rgba(0,0,0,0.07)',
-    overflow:'hidden', border:'1px solid rgba(0,0,0,0.04)',
+    overflow:'hidden', border:'1px solid var(--border,rgba(0,0,0,0.04))',
   },
   ucardH:{
     display:'flex', alignItems:'center',
     justifyContent:'space-between',
     padding:'14px 16px', cursor:'pointer',
   },
-  un:{ fontWeight:700, fontSize:14, color:'#1C1C1E', lineHeight:1.3, marginBottom:3 },
+  un:{ fontWeight:700, fontSize:14, color:'var(--text,#1C1C1E)', lineHeight:1.3, marginBottom:3 },
   badge:{ fontSize:12, padding:'3px 9px', borderRadius:10, fontWeight:700, display:'inline-block' },
-  mt:{ fontSize:12, color:'#9CA3AF' },
+  mt:{ fontSize:12, color:'var(--text-secondary,#9CA3AF)' },
   ib:{
     background:'rgba(138,21,56,0.06)', border:'none',
     fontSize:16, cursor:'pointer', padding:'6px 8px',
     borderRadius:8, minHeight:'auto',
     display:'flex', alignItems:'center', justifyContent:'center',
   },
-  uex:{ padding:'4px 16px 16px', borderTop:'1px solid #F5F5F5' },
+  uex:{ padding:'4px 16px 16px', borderTop:'1px solid var(--border,#F5F5F5)' },
   chip:{
-    fontSize:12, color:'#374151', background:'#F9FAFB',
-    padding:'4px 10px', borderRadius:10, border:'1px solid #EAEAEA',
+    fontSize:12, color:'var(--text,#374151)', background:'var(--surface,#F9FAFB)',
+    padding:'4px 10px', borderRadius:10, border:'1px solid var(--border,#EAEAEA)',
     display:'inline-block',
   },
   pros:{
@@ -820,10 +820,10 @@ const S={
   },
   cl:{
     flex:'0 0 88px', padding:'10px', fontSize:12, fontWeight:700,
-    color:'#374151', background:'#FAFAFA', borderLeft:'1px solid #F0F0F0',
+    color:'var(--text,#374151)', background:'var(--surface,#FAFAFA)', borderLeft:'1px solid var(--border,#F0F0F0)',
   },
-  cc:{ flex:1, padding:'10px', fontSize:12, color:'#1C1C1E', textAlign:'center', lineHeight:1.5 },
-  em:{ textAlign:'center', padding:'48px 20px', color:'#9CA3AF' },
+  cc:{ flex:1, padding:'10px', fontSize:12, color:'var(--text,#1C1C1E)', textAlign:'center', lineHeight:1.5 },
+  em:{ textAlign:'center', padding:'48px 20px', color:'var(--text-secondary,#9CA3AF)' },
   gb:{
     padding:'13px 24px',
     background:'linear-gradient(135deg,#8A1538 0%,#6B1030 100%)',

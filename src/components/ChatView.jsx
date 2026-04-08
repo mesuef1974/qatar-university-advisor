@@ -159,7 +159,7 @@ export default function ChatView({
         role="log"
         aria-live="polite"
         aria-label="سجل المحادثة"
-        style={{flex:1,overflowY:'auto',padding:'16px 14px 8px',background:'#EDE5DA',backgroundImage:`radial-gradient(circle,rgba(138,21,56,0.055) 1.5px,transparent 1.5px)`,backgroundSize:'24px 24px'}}
+        style={{flex:1,overflowY:'auto',padding:'16px 14px 8px',background:'var(--bg,#EDE5DA)',backgroundImage:`radial-gradient(circle,rgba(138,21,56,0.055) 1.5px,transparent 1.5px)`,backgroundSize:'24px 24px'}}
       >
         {messages.map(msg=>(
           <div key={msg.id} style={{
@@ -195,8 +195,8 @@ export default function ChatView({
                       boxShadow:'0 4px 14px rgba(138,21,56,0.22)',
                     }
                   : {
-                      background:theme.colors.botBubble,
-                      color:'#1C1C1E',
+                      background:'var(--card-bg,#FFFFFF)',
+                      color:'var(--text,#1C1C1E)',
                       boxShadow:'0 1px 4px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.07)',
                     }),
               }}>
@@ -280,7 +280,7 @@ export default function ChatView({
               boxShadow:'0 2px 8px rgba(138,21,56,0.3)',
             }}>🎓</div>
             <div style={{
-              background:theme.colors.botBubble, padding:'13px 18px',
+              background:'var(--card-bg,#FFFFFF)', padding:'13px 18px',
               borderRadius:'4px 18px 18px 18px',
               display:'flex', gap:5, alignItems:'center',
               boxShadow:'0 2px 8px rgba(0,0,0,0.08)',
@@ -303,14 +303,14 @@ export default function ChatView({
       <div style={{
         padding:'10px 14px',
         paddingBottom:'max(10px,env(safe-area-inset-bottom,10px))',
-        background:theme.colors.white,
-        borderTop:'1px solid rgba(0,0,0,0.06)',
+        background:'var(--card-bg,#FFFFFF)',
+        borderTop:'1px solid var(--border,rgba(0,0,0,0.06))',
         flexShrink:0,
         boxShadow:'0 -2px 16px rgba(0,0,0,0.05)',
       }}>
         <div style={{
           display:'flex', alignItems:'center',
-          background:theme.colors.chatBg,
+          background:'var(--surface,#F5F0EB)',
           borderRadius:28,
           border:'1.5px solid rgba(138,21,56,0.13)',
           padding:'4px 4px 4px 8px',
@@ -324,14 +324,14 @@ export default function ChatView({
               flex:1, padding:'9px 10px',
               border:'none', background:'transparent',
               fontSize:14, outline:'none',
-              color:'#1C1C1E', textAlign:'right',
+              color:'var(--text,#1C1C1E)', textAlign:'right',
               fontFamily:"'Tajawal',sans-serif",
             }}
             value={input}
             onChange={e=>setInput(e.target.value)}
             onKeyDown={e=>e.key==='Enter'&&sendMessage()}
-            onFocus={e=>{const p=e.target.parentElement;p.style.borderColor=theme.colors.maroon;p.style.background=theme.colors.white;p.style.boxShadow='0 0 0 3px rgba(138,21,56,0.08)';}}
-            onBlur={e=>{const p=e.target.parentElement;p.style.borderColor='rgba(138,21,56,0.13)';p.style.background=theme.colors.chatBg;p.style.boxShadow='none';}}
+            onFocus={e=>{const p=e.target.parentElement;p.style.borderColor=theme.colors.maroon;p.style.background='var(--card-bg,#FFFFFF)';p.style.boxShadow='0 0 0 3px rgba(138,21,56,0.08)';}}
+            onBlur={e=>{const p=e.target.parentElement;p.style.borderColor='rgba(138,21,56,0.13)';p.style.background='var(--surface,#F5F0EB)';p.style.boxShadow='none';}}
             placeholder="اسأل عن خطة دراسية، مواد، مقارنة..."
           />
           <button

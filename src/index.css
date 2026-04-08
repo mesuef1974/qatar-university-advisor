@@ -13,8 +13,11 @@
   --gold-bg:       #FFF8E7;
   --text:          #1C1C1E;
   --text-muted:    #6B7280;
+  --text-secondary: #6B7280;
   --bg:            #EDE5DA;
-  --surface:       #FFFFFF;
+  --surface:       #F5F0EB;
+  --card-bg:       #FFFFFF;
+  --input-bg:      #F5F0EB;
   --border:        #E5DDD5;
 
   font-family: 'Tajawal', 'Segoe UI', 'Arial', sans-serif;
@@ -698,8 +701,11 @@ button { -webkit-tap-highlight-color: transparent; }
   --gold-bg:       #FFF8E7;
   --text:          #1C1C1E;
   --text-muted:    #6B7280;
+  --text-secondary: #6B7280;
   --bg:            #EDE5DA;
-  --surface:       #FFFFFF;
+  --surface:       #F5F0EB;
+  --card-bg:       #FFFFFF;
+  --input-bg:      #F5F0EB;
   --border:        #E5DDD5;
   color-scheme: light;
 }

@@ -3,10 +3,10 @@ import React from 'react';
 const S = {
   container: {
     minHeight: '100dvh',
-    background: '#f8f9fa',
+    background: 'var(--bg,#f8f9fa)',
     direction: 'rtl',
     fontFamily: "'Segoe UI', Tahoma, Arial, sans-serif",
-    color: '#1a1a1a',
+    color: 'var(--text,#1a1a1a)',
   },
   header: {
     background: 'linear-gradient(135deg, #8A1538 0%, #6B1030 100%)',
@@ -53,7 +53,7 @@ const S = {
     display: 'inline-block',
   },
   section: {
-    background: '#fff',
+    background: 'var(--card-bg,#fff)',
     borderRadius: 12,
     padding: '20px 24px',
     marginBottom: 16,
@@ -70,7 +70,7 @@ const S = {
   p: {
     fontSize: 14,
     lineHeight: 1.8,
-    color: '#374151',
+    color: 'var(--text,#374151)',
     margin: '6px 0',
   },
   ul: {
@@ -81,7 +81,7 @@ const S = {
   li: {
     fontSize: 14,
     lineHeight: 1.8,
-    color: '#374151',
+    color: 'var(--text,#374151)',
     marginBottom: 6,
   },
   tableWrap: {
@@ -98,13 +98,13 @@ const S = {
     padding: '10px 14px',
     textAlign: 'right',
     fontWeight: 700,
-    color: '#374151',
+    color: 'var(--text,#374151)',
     border: '1px solid #e5e7eb',
   },
   td: {
     padding: '10px 14px',
     textAlign: 'right',
-    color: '#374151',
+    color: 'var(--text,#374151)',
     border: '1px solid #e5e7eb',
     lineHeight: 1.6,
   },

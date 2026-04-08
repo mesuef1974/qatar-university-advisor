@@ -29,7 +29,7 @@ export default function FavoritesView({
             style={{
               display: 'flex',
               gap: 10,
-              background: '#fff',
+              background: 'var(--card-bg,#fff)',
               borderRadius: 12,
               padding: 14,
               marginBottom: 10,

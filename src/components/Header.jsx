@@ -175,9 +175,9 @@ export default function Header({
       {showNatPicker && (
         <div style={{
           position: 'absolute', top: 62, right: 12, left: 12, zIndex: 300,
-          background: theme.colors.white, borderRadius: 14, padding: 14,
+          background: 'var(--card-bg,#FFFFFF)', borderRadius: 14, padding: 14,
           boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
-          border: '1px solid rgba(0,0,0,0.06)',
+          border: '1px solid var(--border,rgba(0,0,0,0.06))',
         }}>
           <p style={{
             fontSize: 12, color: '#9CA3AF', textAlign: 'center',
@@ -196,11 +196,11 @@ export default function Header({
                 style={{
                   flex: 1, padding: '12px 8px', borderRadius: 10, cursor: 'pointer',
                   fontFamily: "'Tajawal',sans-serif", fontSize: 13, fontWeight: 700,
-                  color: '#1C1C1E',
+                  color: 'var(--text,#1C1C1E)',
                   border: userProfile.nationality === val
                     ? `2px solid ${theme.colors.maroon}`
-                    : `1.5px solid ${theme.colors.gray200}`,
-                  background: userProfile.nationality === val ? '#FEF2F2' : theme.colors.gray50,
+                    : `1.5px solid var(--border,#E5E7EB)`,
+                  background: userProfile.nationality === val ? 'var(--maroon-bg,#FEF2F2)' : 'var(--surface,#F9FAFB)',
                 }}
               >
                 {flag} {label}

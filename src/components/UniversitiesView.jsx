@@ -157,7 +157,7 @@ export default function UniversitiesView({
             </button>
             <div style={{
               width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#9CA3AF', transition: 'transform 0.22s ease',
+              color: 'var(--text-secondary,#9CA3AF)', transition: 'transform 0.22s ease',
               transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
             }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -169,7 +169,7 @@ export default function UniversitiesView({
 
         {expandedUni === u.id && (
           <div style={S.uex}>
-            <p style={{ fontSize: 12, color: '#374151', margin: '6px 0', lineHeight: 1.6 }}>
+            <p style={{ fontSize: 12, color: 'var(--text,#374151)', margin: '6px 0', lineHeight: 1.6 }}>
               {u.description}
             </p>
 
@@ -248,7 +248,7 @@ export default function UniversitiesView({
       <div style={{ marginBottom: 12, position: 'relative' }}>
         <div style={{
           display: 'flex', alignItems: 'center',
-          background: '#fff', borderRadius: 14,
+          background: 'var(--card-bg,#fff)', borderRadius: 14,
           border: '1.5px solid rgba(138,21,56,0.15)',
           boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
           padding: '3px 14px',
@@ -265,7 +265,7 @@ export default function UniversitiesView({
             style={{
               flex: 1, padding: '10px 10px', border: 'none',
               fontSize: 14, textAlign: 'right', direction: 'rtl',
-              outline: 'none', color: '#1C1C1E', background: 'transparent',
+              outline: 'none', color: 'var(--text,#1C1C1E)', background: 'transparent',
               fontFamily: "'Tajawal',sans-serif",
             }}
             onFocus={e => e.target.closest('div').style.borderColor = '#8A1538'}
@@ -274,7 +274,7 @@ export default function UniversitiesView({
           {searchQuery && (
             <button onClick={() => setSearchQuery('')} style={{
               background: 'none', border: 'none', cursor: 'pointer',
-              color: '#9CA3AF', fontSize: 16, padding: '0 2px', flexShrink: 0,
+              color: 'var(--text-secondary,#9CA3AF)', fontSize: 16, padding: '0 2px', flexShrink: 0,
             }}>✕</button>
           )}
         </div>
@@ -297,11 +297,11 @@ export default function UniversitiesView({
               fontFamily: "'Tajawal',sans-serif",
               background: activeCategory === cat.key
                 ? 'linear-gradient(135deg,#8A1538,#6B1030)'
-                : '#fff',
-              color: activeCategory === cat.key ? '#fff' : '#374151',
+                : 'var(--card-bg,#fff)',
+              color: activeCategory === cat.key ? '#fff' : 'var(--text,#374151)',
               border: activeCategory === cat.key
                 ? '1.5px solid transparent'
-                : '1.5px solid #E5E7EB',
+                : '1.5px solid var(--border,#E5E7EB)',
               cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
               boxShadow: activeCategory === cat.key
                 ? '0 3px 12px rgba(138,21,56,0.28)'
@@ -326,7 +326,7 @@ export default function UniversitiesView({
               borderRadius: '8px 8px 0 0',
             }}>
               {group.title}
-              <span style={{ fontSize: 12, fontWeight: 400, color: '#6B7280', marginRight: 8 }}>
+              <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--text-secondary,#6B7280)', marginRight: 8 }}>
                 ({group.unis.length})
               </span>
             </div>

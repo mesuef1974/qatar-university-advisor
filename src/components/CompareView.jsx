@@ -45,13 +45,13 @@ export default function CompareView({
         <>
           <div
             style={{
-              background: '#fff',
+              background: 'var(--card-bg,#fff)',
               borderRadius: 12,
               overflow: 'hidden',
               boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
             }}
           >
-            <div style={{ display: 'flex', borderBottom: '1px solid #f0f0f0' }}>
+            <div style={{ display: 'flex', borderBottom: '1px solid var(--border,#f0f0f0)' }}>
               <div style={S.cl}>الجامعة</div>
               {unis.map((u) => (
                 <div key={u.id} style={S.cc}>
@@ -71,8 +71,8 @@ export default function CompareView({
                 key={i}
                 style={{
                   display: 'flex',
-                  borderBottom: '1px solid #f0f0f0',
-                  background: i % 2 === 0 ? '#f9fafb' : '#fff',
+                  borderBottom: '1px solid var(--border,#f0f0f0)',
+                  background: i % 2 === 0 ? 'var(--surface,#f9fafb)' : 'var(--card-bg,#fff)',
                 }}
               >
                 <div style={S.cl}>{r.l}</div>
