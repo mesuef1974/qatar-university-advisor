@@ -1,6 +1,12 @@
 import React from 'react';
 import SuggestionBar from './SuggestionBar.jsx';
 import theme from '../styles/theme.js';
+import {
+  GraduationCapIcon,
+  SendIcon,
+  PdfIcon,
+  LoadingIcon,
+} from './icons/Icons';
 
 // ════════════════════════════════════════════════════════════════════
 // ChatView — Chat messages area + input + send button
@@ -105,7 +111,7 @@ function renderLine(line, idx) {
     const text = line.trim().replace(/^[-•]\s+/, '');
     return (
       <p key={idx} style={{margin:'2px 0',lineHeight:1.7,paddingRight:16,display:'flex',alignItems:'flex-start',gap:6}}>
-        <span style={{color:'#8A1538',flexShrink:0,marginTop:2}}>•</span>
+        <span style={{color:'var(--maroon, #8A1538)',flexShrink:0,marginTop:2}}>•</span>
         <span>{applyInline(text, idx)}</span>
       </p>
     );
@@ -159,7 +165,7 @@ export default function ChatView({
         role="log"
         aria-live="polite"
         aria-label="سجل المحادثة"
-        style={{flex:1,overflowY:'auto',padding:'16px 14px 8px',background:'var(--bg,#EDE5DA)',backgroundImage:`radial-gradient(circle,rgba(138,21,56,0.055) 1.5px,transparent 1.5px)`,backgroundSize:'24px 24px'}}
+        style={{flex:1,overflowY:'auto',padding:'16px 14px 8px',background:'var(--bg,#FFFFFF)'}}
       >
         {messages.map(msg=>(
           <div key={msg.id} style={{
@@ -173,11 +179,13 @@ export default function ChatView({
               <div style={{
                 width:32, height:32,
                 background:`linear-gradient(135deg,${theme.colors.maroon},${theme.colors.maroonDark})`,
-                borderRadius:'50%',
+                borderRadius:10,
                 display:'flex', alignItems:'center', justifyContent:'center',
-                fontSize:15, flexShrink:0,
+                flexShrink:0,
                 boxShadow:'0 2px 8px rgba(138,21,56,0.3)',
-              }}>🎓</div>
+              }}>
+                <GraduationCapIcon size={18} color="#FFFFFF" />
+              </div>
             )}
 
             <div style={{maxWidth:'78%'}}>
@@ -197,7 +205,8 @@ export default function ChatView({
                   : {
                       background:'var(--card-bg,#FFFFFF)',
                       color:'var(--text,#1C1C1E)',
-                      boxShadow:'0 1px 4px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.07)',
+                      boxShadow:'var(--shadow-md, 0 1px 4px rgba(0,0,0,0.06))',
+                      border:'1px solid var(--border, rgba(0,0,0,0.06))',
                     }),
               }}>
                 {renderText(msg.content.text)}
@@ -231,7 +240,7 @@ export default function ChatView({
                       background: `linear-gradient(135deg, ${theme.colors.maroon}, ${theme.colors.gold})`,
                       color: theme.colors.white,
                       border: 'none',
-                      borderRadius: '10px',
+                      borderRadius: 'var(--radius-sm, 10px)',
                       cursor: pdfLoading ? 'not-allowed' : 'pointer',
                       fontSize: '13px',
                       fontWeight: 'bold',
@@ -246,14 +255,17 @@ export default function ChatView({
                     onMouseEnter={e => { if (!pdfLoading) { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(138,21,56,0.38)'; } }}
                     onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 14px rgba(138,21,56,0.28)'; }}
                   >
-                    {pdfLoading ? '⏳ جارٍ التحضير...' : '📄 تنزيل تقريري PDF'}
+                    {pdfLoading
+                      ? <><LoadingIcon size={14} color="#FFFFFF" /> جارٍ التحضير...</>
+                      : <><PdfIcon size={14} color="#FFFFFF" /> تنزيل تقريري PDF</>
+                    }
                   </button>
                 )}
                 <div style={{
-                  fontSize:12, marginTop:5,
+                  fontSize:11, marginTop:5,
                   color: msg.type==='user'
                     ? 'rgba(255,255,255,0.5)'
-                    : '#B0B8C4',
+                    : 'var(--text-secondary, #B0B8C4)',
                   textAlign: msg.type==='user' ? 'right' : 'left',
                 }}>{msg.time}</div>
               </div>
@@ -275,15 +287,18 @@ export default function ChatView({
             <div style={{
               width:32, height:32,
               background:`linear-gradient(135deg,${theme.colors.maroon},${theme.colors.maroonDark})`,
-              borderRadius:'50%', display:'flex', alignItems:'center',
-              justifyContent:'center', fontSize:15, flexShrink:0,
+              borderRadius:10, display:'flex', alignItems:'center',
+              justifyContent:'center', flexShrink:0,
               boxShadow:'0 2px 8px rgba(138,21,56,0.3)',
-            }}>🎓</div>
+            }}>
+              <GraduationCapIcon size={18} color="#FFFFFF" />
+            </div>
             <div style={{
               background:'var(--card-bg,#FFFFFF)', padding:'13px 18px',
               borderRadius:'4px 18px 18px 18px',
               display:'flex', gap:5, alignItems:'center',
-              boxShadow:'0 2px 8px rgba(0,0,0,0.08)',
+              boxShadow:'var(--shadow-sm, 0 2px 8px rgba(0,0,0,0.08))',
+              border:'1px solid var(--border, rgba(0,0,0,0.06))',
             }}>
               {[0,0.2,0.4].map((d,di)=>(
                 <span key={di} style={{
@@ -311,7 +326,7 @@ export default function ChatView({
         <div style={{
           display:'flex', alignItems:'center',
           background:'var(--surface,#F5F0EB)',
-          borderRadius:28,
+          borderRadius:'var(--radius-md, 12px)',
           border:'1.5px solid rgba(138,21,56,0.13)',
           padding:'4px 4px 4px 8px',
           transition:'all 0.2s ease',
@@ -330,7 +345,7 @@ export default function ChatView({
             value={input}
             onChange={e=>setInput(e.target.value)}
             onKeyDown={e=>e.key==='Enter'&&sendMessage()}
-            onFocus={e=>{const p=e.target.parentElement;p.style.borderColor=theme.colors.maroon;p.style.background='var(--card-bg,#FFFFFF)';p.style.boxShadow='0 0 0 3px rgba(138,21,56,0.08)';}}
+            onFocus={e=>{const p=e.target.parentElement;p.style.borderColor='var(--maroon, #8A1538)';p.style.background='var(--card-bg,#FFFFFF)';p.style.boxShadow='0 0 0 3px rgba(138,21,56,0.08)';}}
             onBlur={e=>{const p=e.target.parentElement;p.style.borderColor='rgba(138,21,56,0.13)';p.style.background='var(--surface,#F5F0EB)';p.style.boxShadow='none';}}
             placeholder="اسأل عن خطة دراسية، مواد، مقارنة..."
           />
@@ -339,12 +354,12 @@ export default function ChatView({
             aria-label="إرسال الرسالة"
             title="إرسال"
             style={{
-              width:44, height:44, borderRadius:'50%', border:'none',
+              width:44, height:44, borderRadius:'var(--radius-md, 12px)', border:'none',
               cursor:'pointer', flexShrink:0,
               display:'flex', alignItems:'center', justifyContent:'center',
               background: input.trim()
                 ? `linear-gradient(135deg,${theme.colors.maroon},${theme.colors.maroonDark})`
-                : theme.colors.gray200,
+                : 'var(--border, #E5E7EB)',
               boxShadow: input.trim()
                 ? '0 3px 12px rgba(138,21,56,0.32)'
                 : 'none',
@@ -352,13 +367,10 @@ export default function ChatView({
             }}
             onClick={()=>sendMessage()}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill={input.trim()?'#fff':'#9CA3AF'} aria-hidden="true" focusable="false">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-            </svg>
+            <SendIcon size={18} color={input.trim() ? '#FFFFFF' : '#9CA3AF'} />
           </button>
         </div>
       </div>
     </>
   );
 }
-

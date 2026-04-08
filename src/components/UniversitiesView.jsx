@@ -1,13 +1,56 @@
 import React, { useState } from 'react';
+import {
+  SearchIcon,
+  AllCategoriesIcon,
+  GovernmentIcon,
+  InternationalIcon,
+  PrivateIcon,
+  MilitaryIcon,
+  AviationIcon,
+  LocationIcon,
+  LanguageIcon,
+  CalendarIcon,
+  MoneyIcon,
+  CheckIcon,
+  WarningIcon,
+  LockIcon,
+  BookIcon,
+  JobIcon,
+  ClipboardIcon,
+  GlobeIcon,
+  LinkIcon,
+  ChevronDownIcon,
+  UniversityIcon,
+  ChartIcon,
+  StarIcon,
+} from './icons/Icons';
+// UniversityLogo component will be created in parallel
+// import { UniversityLogo } from './UniversityLogos';
 
 const CATEGORIES = [
-  { key: 'all',     label: 'الكل',     icon: '🏛️', iconLabel: 'مبنى' },
-  { key: 'gov',     label: 'حكومية',   icon: '🇶🇦', iconLabel: 'علم قطر',  filter: u => u.type.includes('حكومية') },
-  { key: 'intl',    label: 'دولية',    icon: '🌍', iconLabel: 'كرة الأرض', filter: u => u.type === 'دولية' },
-  { key: 'private', label: 'خاصة',     icon: '🏫', iconLabel: 'مبنى مدرسة', filter: u => u.type.includes('خاصة') },
-  { key: 'military',label: 'عسكرية',   icon: '⚔️', iconLabel: 'سيوف',      filter: u => u.type === 'عسكرية' || u.type === 'أمنية' },
-  { key: 'special', label: 'تخصصية',   icon: '✈️', iconLabel: 'طائرة',     filter: u => u.type === 'تخصصية' },
+  { key: 'all',      label: 'الكل',     Icon: AllCategoriesIcon,  iconColor: '#8A1538' },
+  { key: 'gov',      label: 'حكومية',   Icon: GovernmentIcon,     iconColor: '#8A1538', filter: u => u.type.includes('حكومية') },
+  { key: 'intl',     label: 'دولية',    Icon: InternationalIcon,  iconColor: '#1D4ED8', filter: u => u.type === 'دولية' },
+  { key: 'private',  label: 'خاصة',     Icon: PrivateIcon,        iconColor: '#059669', filter: u => u.type.includes('خاصة') },
+  { key: 'military', label: 'عسكرية',   Icon: MilitaryIcon,       iconColor: '#4B5563', filter: u => u.type === 'عسكرية' || u.type === 'أمنية' },
+  { key: 'special',  label: 'تخصصية',   Icon: AviationIcon,       iconColor: '#C2410C', filter: u => u.type === 'تخصصية' },
 ];
+
+const GROUP_ICONS = {
+  gov:      GovernmentIcon,
+  intl:     InternationalIcon,
+  private:  PrivateIcon,
+  military: MilitaryIcon,
+  special:  AviationIcon,
+};
+
+const GROUP_COLORS = {
+  gov:      '#8A1538',
+  intl:     '#1D4ED8',
+  private:  '#059669',
+  military: '#4B5563',
+  special:  '#C2410C',
+};
 
 const TYPE_COLORS = {
   'حكومية': { bg: '#FEF2F2', text: '#8A1538', border: '#8A1538' },
@@ -61,12 +104,12 @@ export default function UniversitiesView({
 
   // Group by type for "all" view
   const grouped = activeCategory === 'all' ? [
-    { title: '🇶🇦 الجامعات الحكومية', unis: filtered.filter(u => u.type.includes('حكومية')) },
-    { title: '🌍 الجامعات الدولية (المدينة التعليمية)', unis: filtered.filter(u => u.type === 'دولية') },
-    { title: '🏫 الجامعات والكليات الخاصة', unis: filtered.filter(u => u.type.includes('خاصة')) },
-    { title: '⚔️ الكليات العسكرية والأمنية', unis: filtered.filter(u => u.type === 'عسكرية' || u.type === 'أمنية') },
-    { title: '✈️ الأكاديميات التخصصية', unis: filtered.filter(u => u.type === 'تخصصية') },
-  ].filter(g => g.unis.length > 0) : [{ title: '', unis: filtered }];
+    { key: 'gov',      title: 'الجامعات الحكومية',                      unis: filtered.filter(u => u.type.includes('حكومية')) },
+    { key: 'intl',     title: 'الجامعات الدولية (المدينة التعليمية)',    unis: filtered.filter(u => u.type === 'دولية') },
+    { key: 'private',  title: 'الجامعات والكليات الخاصة',               unis: filtered.filter(u => u.type.includes('خاصة')) },
+    { key: 'military', title: 'الكليات العسكرية والأمنية',              unis: filtered.filter(u => u.type === 'عسكرية' || u.type === 'أمنية') },
+    { key: 'special',  title: 'الأكاديميات التخصصية',                   unis: filtered.filter(u => u.type === 'تخصصية') },
+  ].filter(g => g.unis.length > 0) : [{ key: 'filtered', title: '', unis: filtered }];
 
   const renderCard = (u) => {
     const colors = TYPE_COLORS[u.type] || TYPE_COLORS['خاصة'];
@@ -74,8 +117,8 @@ export default function UniversitiesView({
     const isOpen = expandedUni === u.id;
     const isFav = userProfile.favorites.includes(u.id);
     const isCmp = compareList.includes(u.id);
-
     const isHovered = hoveredCard === u.id;
+
     return (
       <div key={u.id}
         onMouseEnter={() => setHoveredCard(u.id)}
@@ -83,25 +126,25 @@ export default function UniversitiesView({
         style={{
           ...S.ucard,
           opacity: isRestricted ? 0.72 : 1,
-          borderRight: `3.5px solid ${colors.border}`,
           transition: 'transform 0.2s ease, box-shadow 0.2s ease',
           transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
           boxShadow: isHovered
-            ? '0 8px 24px rgba(0,0,0,0.13)'
-            : '0 2px 12px rgba(0,0,0,0.07)',
+            ? 'var(--shadow-lg, 0 8px 24px rgba(0,0,0,0.13))'
+            : 'var(--shadow-sm, 0 2px 12px rgba(0,0,0,0.07))',
+          borderRadius: 'var(--radius-md, 12px)',
+          border: '1px solid var(--border, #E5E7EB)',
         }}>
         {/* Card header row */}
         <div style={S.ucardH} onClick={() => setExpandedUni(isOpen ? null : u.id)}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
-            {/* Icon in colored circle */}
+            {/* University icon in colored circle */}
             <div style={{
-              width: 44, height: 44, borderRadius: 12, flexShrink: 0,
+              width: 44, height: 44, borderRadius: 'var(--radius-md, 12px)', flexShrink: 0,
               background: colors.bg,
               border: `1.5px solid ${colors.border}`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 22,
             }}>
-              {u.icon}
+              <UniversityIcon size={22} color={colors.text} />
             </div>
 
             <div style={{ flex: 1, minWidth: 0 }}>
@@ -115,11 +158,15 @@ export default function UniversitiesView({
                 }}>
                   {u.type}
                 </span>
-                <span style={{ ...S.mt, display: 'flex', alignItems: 'center', gap: 2 }}>
-                  📊 {u.minGrade}%+
+                <span style={{ ...S.mt, display: 'flex', alignItems: 'center', gap: 3 }}>
+                  <ChartIcon size={12} color="var(--text-secondary, #9CA3AF)" />
+                  {u.minGrade}%+
                 </span>
                 {isRestricted && (
-                  <span style={{ fontSize: 12, color: '#DC2626', fontWeight: 700 }}>🔒 قطريون فقط</span>
+                  <span style={{ fontSize: 12, color: '#DC2626', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 3 }}>
+                    <LockIcon size={12} color="#DC2626" />
+                    قطريون فقط
+                  </span>
                 )}
               </div>
             </div>
@@ -131,38 +178,30 @@ export default function UniversitiesView({
               style={{
                 ...S.ib,
                 background: isFav ? 'rgba(197,165,90,0.12)' : 'rgba(138,21,56,0.05)',
-                color: isFav ? '#C5A55A' : '#9CA3AF',
                 transition: 'all 0.18s ease',
               }}
               onClick={(e) => { e.stopPropagation(); toggleFav(u.id); }}
               aria-label="مفضلة"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill={isFav ? '#C5A55A' : 'none'} stroke={isFav ? '#C5A55A' : '#9CA3AF'} strokeWidth="1.8" strokeLinejoin="round">
-                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
-              </svg>
+              <StarIcon size={16} color={isFav ? '#C5A55A' : '#9CA3AF'} filled={isFav} />
             </button>
             <button
               style={{
                 ...S.ib,
                 background: isCmp ? 'rgba(5,150,105,0.08)' : 'rgba(138,21,56,0.05)',
-                color: isCmp ? '#059669' : '#9CA3AF',
                 transition: 'all 0.18s ease',
               }}
               onClick={(e) => { e.stopPropagation(); toggleCmp(u.id); }}
               aria-label="مقارنة"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={isCmp ? '#059669' : '#9CA3AF'} strokeWidth="1.8" strokeLinecap="round">
-                <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
-              </svg>
+              <ChartIcon size={16} color={isCmp ? '#059669' : '#9CA3AF'} />
             </button>
             <div style={{
               width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center',
               color: 'var(--text-secondary,#9CA3AF)', transition: 'transform 0.22s ease',
               transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
             }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <polyline points="6,9 12,15 18,9"/>
-              </svg>
+              <ChevronDownIcon size={14} />
             </div>
           </div>
         </div>
@@ -174,49 +213,69 @@ export default function UniversitiesView({
             </p>
 
             {isRestricted && (
-              <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 8, padding: '8px 12px', marginBottom: 8, fontSize: 12 }}>
-                ⚠️ <strong>هذه المؤسسة للقطريين فقط.</strong> اضغط "بدائل متاحة" لمعرفة خياراتك.
+              <div style={{
+                background: 'var(--maroon-bg, #FEF2F2)',
+                border: '1px solid #FECACA',
+                borderRadius: 'var(--radius-sm, 8px)',
+                padding: '8px 12px', marginBottom: 8, fontSize: 12,
+                display: 'flex', alignItems: 'center', gap: 6,
+              }}>
+                <WarningIcon size={14} color="#D97706" />
+                <span><strong>هذه المؤسسة للقطريين فقط.</strong> اضغط "بدائل متاحة" لمعرفة خياراتك.</span>
               </div>
             )}
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 8 }}>
-              <span style={S.chip}>📍 {u.location}</span>
-              <span style={S.chip}>🗣️ {u.language}</span>
-              <span style={S.chip}>📅 {u.admissionPeriod}</span>
-              <span style={S.chip}>💰 {u.tuition}</span>
+              <span style={{ ...S.chip, display: 'flex', alignItems: 'center', gap: 4 }}>
+                <LocationIcon size={12} color="var(--text-secondary, #6B7280)" /> {u.location}
+              </span>
+              <span style={{ ...S.chip, display: 'flex', alignItems: 'center', gap: 4 }}>
+                <LanguageIcon size={12} color="var(--text-secondary, #6B7280)" /> {u.language}
+              </span>
+              <span style={{ ...S.chip, display: 'flex', alignItems: 'center', gap: 4 }}>
+                <CalendarIcon size={12} color="var(--text-secondary, #6B7280)" /> {u.admissionPeriod}
+              </span>
+              <span style={{ ...S.chip, display: 'flex', alignItems: 'center', gap: 4 }}>
+                <MoneyIcon size={12} color="var(--text-secondary, #6B7280)" /> {u.tuition}
+              </span>
             </div>
 
             <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
               <div style={S.pros}>
-                <div style={{ fontWeight: 700, fontSize: 12, color: '#16a34a', marginBottom: 3 }}>✅ المميزات</div>
+                <div style={{ fontWeight: 700, fontSize: 12, color: '#16a34a', marginBottom: 3, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <CheckIcon size={13} color="#16a34a" /> المميزات
+                </div>
                 {u.pros.map((p, i) => <div key={i} style={{ fontSize: 12, color: '#15803d' }}>• {p}</div>)}
               </div>
               <div style={S.cons}>
-                <div style={{ fontWeight: 700, fontSize: 12, color: '#ea580c', marginBottom: 3 }}>⚠️ التحديات</div>
+                <div style={{ fontWeight: 700, fontSize: 12, color: '#ea580c', marginBottom: 3, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <WarningIcon size={13} color="#ea580c" /> التحديات
+                </div>
                 {u.cons.map((c, i) => <div key={i} style={{ fontSize: 12, color: '#c2410c' }}>• {c}</div>)}
               </div>
             </div>
 
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-              <button style={S.ab} onClick={() => { setActiveView('chat'); sendMessage(`خطة دراسة ${u.name} والمواد والتخصصات`); }}>
-                📚 التخصصات
+              <button style={{ ...S.ab, display: 'flex', alignItems: 'center', gap: 5 }} onClick={() => { setActiveView('chat'); sendMessage(`خطة دراسة ${u.name} والمواد والتخصصات`); }}>
+                <BookIcon size={14} color="#FFFFFF" /> التخصصات
               </button>
-              <button style={{ ...S.ab, background: '#6B1030' }} onClick={() => { setActiveView('chat'); sendMessage(`فرص العمل والرواتب بعد التخرج من ${u.name}`); }}>
-                💼 فرص العمل
+              <button style={{ ...S.ab, background: '#6B1030', display: 'flex', alignItems: 'center', gap: 5 }} onClick={() => { setActiveView('chat'); sendMessage(`فرص العمل والرواتب بعد التخرج من ${u.name}`); }}>
+                <JobIcon size={14} color="#FFFFFF" /> فرص العمل
               </button>
-              <button style={{ ...S.ab, background: '#C5A55A' }} onClick={() => { setActiveView('chat'); sendMessage(`شروط القبول والتقديم في ${u.name}`); }}>
-                📋 شروط القبول
+              <button style={{ ...S.ab, background: '#C5A55A', display: 'flex', alignItems: 'center', gap: 5 }} onClick={() => { setActiveView('chat'); sendMessage(`شروط القبول والتقديم في ${u.name}`); }}>
+                <ClipboardIcon size={14} color="#FFFFFF" /> شروط القبول
               </button>
               {isRestricted && (
-                <button style={{ ...S.ab, background: '#0284C7' }} onClick={() => { setActiveView('chat'); sendMessage('منح لغير القطريين'); }}>
-                  🌍 بدائل متاحة
+                <button style={{ ...S.ab, background: '#0284C7', display: 'flex', alignItems: 'center', gap: 5 }} onClick={() => { setActiveView('chat'); sendMessage('منح لغير القطريين'); }}>
+                  <GlobeIcon size={14} color="#FFFFFF" /> بدائل متاحة
                 </button>
               )}
             </div>
 
             {u.website && (
-              <a href={`https://${u.website}`} target="_blank" rel="noopener noreferrer" style={S.wb}>
-                🌐 {u.website}
+              <a href={`https://${u.website}`} target="_blank" rel="noopener noreferrer"
+                style={{ ...S.wb, display: 'flex', alignItems: 'center', gap: 5 }}>
+                <LinkIcon size={13} color="var(--maroon, #8A1538)" /> {u.website}
               </a>
             )}
           </div>
@@ -237,8 +296,9 @@ export default function UniversitiesView({
             width: 36, height: 36, borderRadius: 10,
             background: 'linear-gradient(135deg,#8A1538,#6B1030)',
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 18,
-          }}>🏛️</span>
+          }}>
+            <UniversityIcon size={20} color="#FFFFFF" />
+          </span>
           الجامعات في قطر
         </h2>
         <p style={{ ...S.vs, marginTop: 6 }}>{allUnis.length} مؤسسة تعليمية — اضغط على أي بطاقة للتفاصيل</p>
@@ -248,15 +308,13 @@ export default function UniversitiesView({
       <div style={{ marginBottom: 12, position: 'relative' }}>
         <div style={{
           display: 'flex', alignItems: 'center',
-          background: 'var(--card-bg,#fff)', borderRadius: 14,
+          background: 'var(--card-bg,#fff)', borderRadius: 'var(--radius-md, 14px)',
           border: '1.5px solid rgba(138,21,56,0.15)',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+          boxShadow: 'var(--shadow-sm, 0 2px 8px rgba(0,0,0,0.05))',
           padding: '3px 14px',
           transition: 'all 0.2s ease',
         }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A1538" strokeWidth="2" strokeLinecap="round" style={{ flexShrink: 0, opacity: 0.5 }}>
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
+          <SearchIcon size={16} color="var(--maroon, #8A1538)" />
           <input
             type="text"
             placeholder="ابحث عن جامعة أو تخصص..."
@@ -268,14 +326,19 @@ export default function UniversitiesView({
               outline: 'none', color: 'var(--text,#1C1C1E)', background: 'transparent',
               fontFamily: "'Tajawal',sans-serif",
             }}
-            onFocus={e => e.target.closest('div').style.borderColor = '#8A1538'}
+            onFocus={e => e.target.closest('div').style.borderColor = 'var(--maroon, #8A1538)'}
             onBlur={e => e.target.closest('div').style.borderColor = 'rgba(138,21,56,0.15)'}
           />
           {searchQuery && (
             <button onClick={() => setSearchQuery('')} style={{
               background: 'none', border: 'none', cursor: 'pointer',
               color: 'var(--text-secondary,#9CA3AF)', fontSize: 16, padding: '0 2px', flexShrink: 0,
-            }}>✕</button>
+              minHeight: 'auto',
+            }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M18 6L6 18M6 6l12 12"/>
+              </svg>
+            </button>
           )}
         </div>
       </div>
@@ -285,33 +348,38 @@ export default function UniversitiesView({
         display: 'flex', gap: 6, marginBottom: 14,
         overflowX: 'auto', msOverflowStyle: 'none', scrollbarWidth: 'none',
       }}>
-        {CATEGORIES.map(cat => (
-          <button
-            key={cat.key}
-            onClick={() => setActiveCategory(cat.key)}
-            aria-label={cat.label}
-            aria-pressed={activeCategory === cat.key}
-            style={{
-              padding: '7px 15px', borderRadius: 20, fontSize: 12,
-              fontWeight: activeCategory === cat.key ? 700 : 500,
-              fontFamily: "'Tajawal',sans-serif",
-              background: activeCategory === cat.key
-                ? 'linear-gradient(135deg,#8A1538,#6B1030)'
-                : 'var(--card-bg,#fff)',
-              color: activeCategory === cat.key ? '#fff' : 'var(--text,#374151)',
-              border: activeCategory === cat.key
-                ? '1.5px solid transparent'
-                : '1.5px solid var(--border,#E5E7EB)',
-              cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
-              boxShadow: activeCategory === cat.key
-                ? '0 3px 12px rgba(138,21,56,0.28)'
-                : '0 1px 3px rgba(0,0,0,0.04)',
-              transition: 'all 0.2s cubic-bezier(0.34,1.56,0.64,1)',
-            }}
-          >
-            <span role="img" aria-label={cat.iconLabel}>{cat.icon}</span> {cat.label}
-          </button>
-        ))}
+        {CATEGORIES.map(cat => {
+          const isActive = activeCategory === cat.key;
+          return (
+            <button
+              key={cat.key}
+              onClick={() => setActiveCategory(cat.key)}
+              aria-label={cat.label}
+              aria-pressed={isActive}
+              style={{
+                padding: '7px 14px', borderRadius: 20, fontSize: 12,
+                fontWeight: isActive ? 700 : 500,
+                fontFamily: "'Tajawal',sans-serif",
+                background: isActive
+                  ? 'linear-gradient(135deg,#8A1538,#6B1030)'
+                  : 'var(--card-bg,#fff)',
+                color: isActive ? '#fff' : 'var(--text,#374151)',
+                border: isActive
+                  ? '1.5px solid transparent'
+                  : '1.5px solid var(--border,#E5E7EB)',
+                cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
+                boxShadow: isActive
+                  ? '0 3px 12px rgba(138,21,56,0.28)'
+                  : 'var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.04))',
+                transition: 'all 0.2s cubic-bezier(0.34,1.56,0.64,1)',
+                display: 'flex', alignItems: 'center', gap: 5,
+              }}
+            >
+              <cat.Icon size={14} color={isActive ? '#FFFFFF' : cat.iconColor} />
+              {cat.label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Grouped University List */}
@@ -320,11 +388,16 @@ export default function UniversitiesView({
           {group.title && (
             <div style={{
               padding: '8px 14px', margin: '4px 0 6px', fontSize: 14,
-              fontWeight: 700, color: '#8A1538',
-              borderBottom: '2px solid #C5A55A',
+              fontWeight: 700, color: 'var(--maroon, #8A1538)',
+              borderBottom: '2px solid var(--gold, #C5A55A)',
               background: 'linear-gradient(90deg,rgba(138,21,56,0.05) 0%,rgba(197,165,90,0.06) 60%,transparent 100%)',
               borderRadius: '8px 8px 0 0',
+              display: 'flex', alignItems: 'center', gap: 8,
             }}>
+              {GROUP_ICONS[group.key] && React.createElement(GROUP_ICONS[group.key], {
+                size: 16,
+                color: GROUP_COLORS[group.key] || '#8A1538',
+              })}
               {group.title}
               <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--text-secondary,#6B7280)', marginRight: 8 }}>
                 ({group.unis.length})
