@@ -230,6 +230,9 @@ button { -webkit-tap-highlight-color: transparent; }
    it stays prominent against dark backgrounds.
    ════════════════════════════════════════════════════ */
 @media (prefers-color-scheme: dark) {
+  input::placeholder, textarea::placeholder { color: #8A7070 !important; opacity: 1; }
+  svg[stroke="#8A1538"] { stroke: #C4254E; }
+  input, textarea { color: var(--text) !important; }
 
   /* ── CSS custom property overrides ── */
   :root {
@@ -518,6 +521,21 @@ button { -webkit-tap-highlight-color: transparent; }
    Mirrors the prefers-color-scheme: dark block above.
    Applied when the user clicks the toggle button.
    ════════════════════════════════════════════════════ */
+/* Placeholder text in dark mode */
+:root[data-theme="dark"] input::placeholder,
+:root[data-theme="dark"] textarea::placeholder {
+  color: #8A7070 !important;
+  opacity: 1;
+}
+:root[data-theme="dark"] svg[stroke="#8A1538"] {
+  stroke: #C4254E;
+}
+/* Ensure all inputs are readable in dark */
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] textarea {
+  color: var(--text) !important;
+}
+
 :root[data-theme="dark"] {
   --maroon:        #C4254E;
   --maroon-dark:   #A01E3F;
