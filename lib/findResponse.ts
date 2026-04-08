@@ -5,6 +5,7 @@
  */
 
 import type { BotResponse } from '../types/index.js';
+import type { UserProfile } from './user-profiler.js';
 
 // ──────────────────────────────────────────────────────────
 // External JS module imports — typed via companion .d.ts files
@@ -47,16 +48,12 @@ interface FindResult {
   track?: string | null;
 }
 
-/** Profile shape used throughout processing (loose — mirrors JS) */
-interface ProcessingProfile {
-  nationality?: string | null;
-  userType?: string;
+/** Profile shape used throughout processing (extends UserProfile for compatibility) */
+interface ProcessingProfile extends Partial<UserProfile> {
   gpa?: number | null;
-  track?: string | null;
   preferredMajor?: string | null;
   messageCount?: number;
   conversationStage?: string;
-  [key: string]: unknown;
 }
 
 /** Conversation history entry for AI */

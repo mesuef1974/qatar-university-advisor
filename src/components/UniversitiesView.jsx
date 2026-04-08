@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 
 const CATEGORIES = [
   { key: 'all',     label: 'الكل',     icon: '🏛️', iconLabel: 'مبنى' },

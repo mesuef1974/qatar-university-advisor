@@ -62,7 +62,7 @@ describe('Supabase Client', () => {
         }),
         update: vi.fn().mockReturnValue({
           eq: vi.fn().mockReturnValue({
-            catch: vi.fn(),
+            then: vi.fn().mockReturnValue({ catch: vi.fn() }),
           }),
         }),
       });

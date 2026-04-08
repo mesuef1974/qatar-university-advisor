@@ -27,6 +27,22 @@ function useIsWide() {
   return wide;
 }
 
+// ── Legal footer links (reused in both layouts) ──
+const LegalFooter = () => (
+  <div style={{
+    display:'flex', alignItems:'center', justifyContent:'center',
+    gap:16, padding:'6px 16px 8px',
+    background:'var(--card-bg,#fff)', borderTop:'1px solid var(--border,rgba(0,0,0,0.05))',
+    flexShrink:0,
+  }}>
+    <a href="/privacy" style={{fontSize:12,color:'var(--text-secondary,#9CA3AF)',textDecoration:'none',fontFamily:"'Tajawal',sans-serif",direction:'rtl',transition:'color 0.15s'}}
+      onMouseEnter={e=>e.target.style.color='#8A1538'} onMouseLeave={e=>e.target.style.color='var(--text-secondary,#9CA3AF)'}>سياسة الخصوصية</a>
+    <span style={{fontSize:12,color:'var(--border,#D1D5DB)'}}>·</span>
+    <a href="/terms" style={{fontSize:12,color:'var(--text-secondary,#9CA3AF)',textDecoration:'none',fontFamily:"'Tajawal',sans-serif",direction:'rtl',transition:'color 0.15s'}}
+      onMouseEnter={e=>e.target.style.color='#8A1538'} onMouseLeave={e=>e.target.style.color='var(--text-secondary,#9CA3AF)'}>شروط الاستخدام</a>
+  </div>
+);
+
 export default function QatarUniversityAdvisor() {
   const isWide = useIsWide();
   // UX-A4: Keyboard Navigation — DISABLED: React 19 + Vite 8 dual-instance bug
@@ -387,22 +403,6 @@ export default function QatarUniversityAdvisor() {
     {view:'compare',     label:'مقارنة',  svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>},
     {view:'favorites',   label:'مفضلة',   svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill={a?'currentColor':'none'} stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>},
   ];
-
-  // ── Legal footer links (reused in both layouts) ──
-  const LegalFooter = () => (
-    <div style={{
-      display:'flex', alignItems:'center', justifyContent:'center',
-      gap:16, padding:'6px 16px 8px',
-      background:'var(--card-bg,#fff)', borderTop:'1px solid var(--border,rgba(0,0,0,0.05))',
-      flexShrink:0,
-    }}>
-      <a href="/privacy" style={{fontSize:12,color:'var(--text-secondary,#9CA3AF)',textDecoration:'none',fontFamily:"'Tajawal',sans-serif",direction:'rtl',transition:'color 0.15s'}}
-        onMouseEnter={e=>e.target.style.color='#8A1538'} onMouseLeave={e=>e.target.style.color='var(--text-secondary,#9CA3AF)'}>سياسة الخصوصية</a>
-      <span style={{fontSize:12,color:'var(--border,#D1D5DB)'}}>·</span>
-      <a href="/terms" style={{fontSize:12,color:'var(--text-secondary,#9CA3AF)',textDecoration:'none',fontFamily:"'Tajawal',sans-serif",direction:'rtl',transition:'color 0.15s'}}
-        onMouseEnter={e=>e.target.style.color='#8A1538'} onMouseLeave={e=>e.target.style.color='var(--text-secondary,#9CA3AF)'}>شروط الاستخدام</a>
-    </div>
-  );
 
   // ── Secondary view renderer (universities / compare / favorites) ──
   const renderSecondaryView = (panelView) => {

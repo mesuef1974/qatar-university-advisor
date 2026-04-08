@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 // Web Vitals — Core Performance Monitoring (Q-15-03)
 if (typeof window !== 'undefined') {
-  import('web-vitals').then(({ onCLS, onFID, onFCP, onLCP, onTTFB, onINP }) => {
+  import('web-vitals').then(({ onCLS, onFCP, onLCP, onTTFB, onINP }) => {
     const reportVital = (metric) => {
       // Log to console in development
       if (import.meta.env.DEV) {
