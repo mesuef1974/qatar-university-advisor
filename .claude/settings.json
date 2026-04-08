@@ -29,6 +29,15 @@
             "command": "echo '🎯 Elite v4.0 — Skill invoked'"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '🧠 Memory: ① CEO لا يكتب كود ② Logic Gate قبل كل قرار ③ QA قبل كل push'"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -38,6 +47,15 @@
           {
             "type": "command",
             "command": "cd C:/Users/mesue/.claude/elite-company && node v3/tools/skill-versioning.js snapshot 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "matcher": "(Write|Edit).*(src/|lib/|api/)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '⚠️ تحذير: CEO لا يكتب كود — تأكد أن القسم الهندسي هو المنفذ'"
           }
         ]
       }

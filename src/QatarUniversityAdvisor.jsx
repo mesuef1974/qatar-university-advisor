@@ -111,6 +111,16 @@ export default function QatarUniversityAdvisor() {
       return { type:'start_test' };
     }
 
+    // ── Button-specific patterns (fuzzy match — guards against invisible chars) ──
+    if (q.includes('أرسل') && q.includes('معدل') || q.includes('ارسل') && q.includes('معدل'))
+      return { type: 'ask_grade' };
+    if (q.includes('المدينة التعليمية') || q.includes('education city'))
+      return { type: 'response', key: 'education_city' };
+    if (q.includes('hbku') || q.includes('حمد بن خليفة'))
+      return { type: 'response', key: 'hbku' };
+    if ((q.includes('منح') || q.includes('scholarship')) && (q.includes('غير القطري') || q.includes('مقيم') || q.includes('وافد') || q.includes('أجنبي')))
+      return { type: 'response', key: 'scholarships_non_qatari' };
+
     if ((q.includes('مقارن') || q.includes('الفرق') || q.includes('vs') || q.includes('ولا') || q.includes('أيهما'))) {
       if ((q.includes('كورنيل') || q.includes('وايل')) && (q.includes('قطر') || q.includes('qu') || q.includes('طب')))
         return { type:'response', key:'compare_wcm_qu' };
@@ -288,6 +298,14 @@ export default function QatarUniversityAdvisor() {
       }
 
       const result = findResponse(userText);
+
+      if (result.type === 'ask_grade') {
+        addBotMessage(
+          `📊 **أخبرني بمعدلك ومسارك!**\n\nاكتب معدلك بهذا الشكل:\n• "معدلي 85% علمي"\n• "92% أدبي"\n• أو الرقم فقط: "85"\n\nوسأخبرك بكل الجامعات والتخصصات المتاحة لك! 🎓`,
+          ['معدلي 95%+ علمي', 'معدلي 85% علمي', 'معدلي 75% أدبي', 'معدلي 65%']
+        );
+        return;
+      }
 
       if (result.type === 'start_test') {
         setTestState({active:true,currentQuestion:0,answers:[],traits:{}});

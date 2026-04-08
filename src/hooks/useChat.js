@@ -81,8 +81,8 @@ function findResponse(text, testStateActive) {
   if (q.includes('اختبار') || q.includes('تحديد التخصص') || q.includes('ابدأ اختبار') || q.includes('اكتشف تخصصي'))
     return { type: 'start_test' };
 
-  // ── Button-specific patterns (exact match for suggestion buttons) ──
-  if (q === 'أرسل معدلك' || q === 'ارسل معدلك')
+  // ── Button-specific patterns (fuzzy match — guards against invisible chars) ──
+  if (q.includes('أرسل') && q.includes('معدل') || q.includes('ارسل') && q.includes('معدل'))
     return { type: 'ask_grade' };
   if (q.includes('المدينة التعليمية') || q.includes('education city'))
     return { type: 'response', key: 'education_city' };
