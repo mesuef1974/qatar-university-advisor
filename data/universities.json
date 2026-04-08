@@ -2,7 +2,7 @@
   "_meta": {
     "description": "Qatar University Advisor - University Data 2025/2026",
     "source": "Official university websites + Ministry of Education and Higher Education Qatar",
-    "lastGlobalUpdate": "2026-04-04",
+    "lastGlobalUpdate": "2026-04-08",
     "academicYear": "2025-2026",
     "maintainer": "Content Team - Elite Software Company",
     "notes": "This file is the single source of truth for all university data. Edit values directly - no code changes needed."
@@ -21,10 +21,11 @@
 
       "admissionRequirements": {
         "qatari": {
-          "minGPA": 60,
-          "scientificTrack": { "minGPA": 60, "englishLevel": "IELTS 5.0+" },
-          "literaryTrack": { "minGPA": 65, "englishLevel": "IELTS 4.5+" },
-          "commercialTrack": { "minGPA": 60, "englishLevel": "IELTS 4.5+" }
+          "minGPA": 70,
+          "scientificTrack": { "minGPA": 70, "englishLevel": "IELTS 5.0+" },
+          "literaryTrack": { "minGPA": 70, "englishLevel": "IELTS 4.5+" },
+          "commercialTrack": { "minGPA": 70, "englishLevel": "IELTS 4.5+" },
+          "notes": "80% للصيدلة، 85% للطب"
         },
         "nonQatari": {
           "minGPA": 80,
@@ -74,8 +75,8 @@
       "tuitionFees": {
         "qatari": 0,
         "nonQatari": {
-          "perCredit": "QAR 950",
-          "perYear": "QAR 28,500 (تقريباً)"
+          "perCredit": "QAR 1,100-1,400 حسب الكلية",
+          "perYear": "QAR 33,000-42,000 (تقريباً حسب الكلية)"
         }
       },
 
@@ -95,7 +96,8 @@
         "علوم الحاسوب (Computer Science)",
         "نظم المعلومات (Information Systems)",
         "الأعمال والإدارة (Business Administration)",
-        "علوم الأحياء الحسابية (Computational Biology)"
+        "علوم الأحياء الحسابية (Computational Biology)",
+        "الذكاء الاصطناعي (Artificial Intelligence)"
       ],
 
       "admissionRequirements": {
@@ -103,11 +105,11 @@
         "gpa": "معدل 90%+ في الثانوية",
         "english": "TOEFL 100+ أو IELTS 7.0+",
         "essays": "مقالات شخصية + توصيات",
-        "deadline": "يناير 1 (Early Decision) | أبريل 15 (Regular)"
+        "deadline": "20 نوفمبر (Early Decision) | 1 فبراير (Regular Decision)"
       },
 
       "tuitionFees": {
-        "perYear": "USD 55,000 (تقريباً)",
+        "perYear": "USD 69,702 (2026-2027)",
         "qatariScholarship": "منح كاملة للقطريين المتميزين"
       },
 
@@ -155,7 +157,7 @@
     "WCM_Q": {
       "nameAr": "جامعة وايل كورنيل الطبية — قطر",
       "nameEn": "Weill Cornell Medicine-Qatar",
-      "website": "https://www.qatar-med.cornell.edu",
+      "website": "https://qatar-weill.cornell.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
 
@@ -170,7 +172,8 @@
       },
 
       "tuitionFees": {
-        "note": "مدعومة بالكامل من مؤسسة قطر لجميع الطلاب المقبولين"
+        "perYear": "USD 71,266/سنة",
+        "note": "الرسوم USD 71,266/سنة — المنح ليست تلقائية لجميع الطلاب. يجب التقديم على المنح بشكل منفصل."
       },
 
       "lastUpdated": "2026-04-04",
@@ -232,18 +235,147 @@
       "type": "فرنسية — فرع قطر",
 
       "programs": [
-        "ماجستير إدارة الأعمال (MBA)",
+        "Executive MBA (دوام جزئي — 15-18 شهر)",
         "ماجستير الإدارة"
       ],
 
       "admissionRequirements": {
         "gmat": "GMAT 600+ موصى به",
-        "experience": "خبرة عمل 3 سنوات+",
+        "experience": "خبرة عمل 8 سنوات+ (منها 5 سنوات إدارية)",
         "english": "TOEFL 100+ أو IELTS 7.0+"
       },
 
       "lastUpdated": "2026-04-04",
       "dataSource": "official website",
+      "academicYear": "2025-2026"
+    },
+
+    "HBKU": {
+      "nameAr": "جامعة حمد بن خليفة",
+      "nameEn": "Hamad Bin Khalifa University",
+      "website": "https://www.hbku.edu.qa",
+      "location": "المدينة التعليمية",
+      "type": "حكومية بحثية",
+
+      "admissionRequirements": {
+        "gpa": "جيد جداً+",
+        "ielts": "6.5+",
+        "sat": "اختياري"
+      },
+
+      "programs": [
+        "الأمن السيبراني",
+        "علوم البيانات والذكاء الاصطناعي",
+        "الطاقة المستدامة",
+        "الدراسات الإسلامية",
+        "القانون",
+        "السياسات العامة"
+      ],
+
+      "scholarships": "منح كاملة لجميع الجنسيات",
+      "applicationDeadlines": "أكتوبر - مارس",
+
+      "tuitionFees": {
+        "perCredit": "QAR 2,000/ساعة",
+        "note": "منح كاملة متاحة لجميع الجنسيات"
+      },
+
+      "lastUpdated": "2026-04-08",
+      "dataSource": "hbku.edu.qa",
+      "academicYear": "2025-2026"
+    },
+
+    "UDST": {
+      "nameAr": "جامعة الدوحة للعلوم والتكنولوجيا",
+      "nameEn": "University of Doha for Science and Technology",
+      "website": "https://www.udst.edu.qa",
+      "location": "الدوحة",
+      "type": "حكومية تطبيقية",
+
+      "admissionRequirements": {
+        "gpa": "60%+",
+        "ielts": "5.0+"
+      },
+
+      "programs": [
+        "الأعمال",
+        "الحوسبة وتكنولوجيا المعلومات",
+        "الهندسة والتكنولوجيا",
+        "العلوم الصحية"
+      ],
+
+      "scholarships": "القطريون وأبناء القطريات: إعفاء كامل",
+
+      "tuitionFees": {
+        "international": "USD 13,000-16,000/سنة",
+        "qatari": "إعفاء كامل"
+      },
+
+      "lastUpdated": "2026-04-08",
+      "dataSource": "udst.edu.qa",
+      "academicYear": "2025-2026"
+    },
+
+    "LU": {
+      "nameAr": "جامعة لوسيل",
+      "nameEn": "Lusail University",
+      "website": "https://www.lu.edu.qa",
+      "location": "لوسيل، الدوحة",
+      "type": "خاصة وطنية",
+
+      "admissionRequirements": {
+        "gpa": "65%+",
+        "ielts": "5.5+"
+      },
+
+      "programs": [
+        "القانون (شراكة سوربون باريس)",
+        "التربية والآداب",
+        "التجارة والأعمال",
+        "تكنولوجيا المعلومات"
+      ],
+
+      "scholarships": "منح جزئية للمتفوقين",
+
+      "tuitionFees": {
+        "perYear": "QAR 60,000-75,000/سنة"
+      },
+
+      "lastUpdated": "2026-04-08",
+      "dataSource": "lu.edu.qa",
+      "academicYear": "2025-2026"
+    },
+
+    "VCU_Q": {
+      "nameAr": "جامعة فرجينيا كومنولث للفنون — قطر",
+      "nameEn": "VCUarts Qatar",
+      "website": "https://qatar.vcu.edu",
+      "location": "المدينة التعليمية",
+      "type": "أمريكية — فنون وتصميم",
+
+      "admissionRequirements": {
+        "gpa": "80%+",
+        "ielts": "6.0+",
+        "portfolio": "مطلوب لبرامج BFA"
+      },
+
+      "programs": [
+        "تصميم الجرافيك",
+        "التصميم الداخلي",
+        "الوسائط المتحركة",
+        "الرسم والطباعة",
+        "تاريخ الفن"
+      ],
+
+      "scholarships": "منح مؤسسة قطر",
+      "applicationDeadlines": "15 يناير",
+
+      "tuitionFees": {
+        "perYear": "USD 36,836/سنة"
+      },
+
+      "lastUpdated": "2026-04-08",
+      "dataSource": "qatar.vcu.edu",
       "academicYear": "2025-2026"
     }
   },
@@ -290,7 +422,7 @@
 
   "quickAnswers": {
     "ما هي أفضل جامعة في قطر": "تعتمد على تخصصك. للطب: WCM-Q، للهندسة: TAMU-Q، للأعمال: CMU-Q أو HEC، للإعلام: NU-Q، للجميع: جامعة قطر.",
-    "شروط القبول في جامعة قطر": "للقطريين: معدل 60%+. لغير القطريين: معدل 80%+. مع اجتياز مستوى اللغة الإنجليزية.",
+    "شروط القبول في جامعة قطر": "للقطريين: معدل 70%+ (80% للصيدلة، 85% للطب). لغير القطريين: معدل 80%+. مع اجتياز مستوى اللغة الإنجليزية.",
     "هل القبول مفتوح الآن": "قبول الفصل الدراسي الأول 2025/2026 مفتوح من فبراير حتى مايو. راجع موقع الجامعة للتأكيد."
   }
 }
