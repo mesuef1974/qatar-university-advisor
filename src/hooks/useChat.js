@@ -81,6 +81,16 @@ function findResponse(text, testStateActive) {
   if (q.includes('اختبار') || q.includes('تحديد التخصص') || q.includes('ابدأ اختبار') || q.includes('اكتشف تخصصي'))
     return { type: 'start_test' };
 
+  // ── Button-specific patterns (exact match for suggestion buttons) ──
+  if (q === 'أرسل معدلك' || q === 'ارسل معدلك')
+    return { type: 'ask_grade' };
+  if (q.includes('المدينة التعليمية') || q.includes('education city'))
+    return { type: 'response', key: 'education_city' };
+  if (q.includes('hbku') || q.includes('حمد بن خليفة'))
+    return { type: 'response', key: 'hbku' };
+  if ((q.includes('منح') || q.includes('scholarship')) && (q.includes('غير القطري') || q.includes('مقيم') || q.includes('وافد') || q.includes('أجنبي')))
+    return { type: 'response', key: 'scholarships_non_qatari' };
+
   // Comparisons
   if (q.includes('مقارن') || q.includes('الفرق') || q.includes('vs') || q.includes('ولا') || q.includes('أيهما')) {
     if ((q.includes('كورنيل') || q.includes('وايل')) && (q.includes('قطر') || q.includes('qu') || q.includes('طب')))
@@ -298,6 +308,14 @@ export function useChat() {
 
         // ── Keyword routing ───────────────────────────────────────
         const result = findResponse(userText, testState.active);
+
+        if (result.type === 'ask_grade') {
+          addBotMessage(
+            `📊 **أخبرني بمعدلك ومسارك!**\n\nاكتب معدلك بهذا الشكل:\n• "معدلي 85% علمي"\n• "92% أدبي"\n• أو الرقم فقط: "85"\n\nوسأخبرك بكل الجامعات والتخصصات المتاحة لك! 🎓`,
+            ['معدلي 95%+ علمي', 'معدلي 85% علمي', 'معدلي 75% أدبي', 'معدلي 65%']
+          );
+          return;
+        }
 
         if (result.type === 'start_test') {
           setTestState({ active: true, currentQuestion: 0, answers: [], traits: {} });

@@ -29,8 +29,8 @@ function useIsWide() {
 
 export default function QatarUniversityAdvisor() {
   const isWide = useIsWide();
-  // UX-A4: Keyboard Navigation الشامل
-  useKeyboardNav();
+  // UX-A4: Keyboard Navigation — DISABLED: React 19 + Vite 8 dual-instance bug
+  // useKeyboardNav(); // TODO: re-enable after Vite/React compatibility fix
   // Helper to build initial welcome message based on nationality
   const getWelcomeMessage = (nationality) => {
     if (nationality === 'qatari') {
