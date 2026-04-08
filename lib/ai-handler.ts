@@ -8,51 +8,6 @@ import { buildSystemPrompt } from './ai-system-prompt.js';
 // Types & Interfaces
 // ══════════════════════════════════════════
 
-/** A single part in Gemini request/response content */
-export interface GeminiPart {
-  text: string;
-}
-
-/** A single content entry in the Gemini API */
-export interface GeminiContent {
-  role: 'user' | 'model';
-  parts: GeminiPart[];
-}
-
-/** Safety setting for Gemini API */
-export interface GeminiSafetySetting {
-  category: string;
-  threshold: string;
-}
-
-/** Generation config for Gemini API */
-export interface GeminiGenerationConfig {
-  temperature: number;
-  maxOutputTokens: number;
-  topP: number;
-  topK: number;
-}
-
-/** Full Gemini API request body */
-export interface GeminiRequestBody {
-  system_instruction: { parts: GeminiPart[] };
-  contents: GeminiContent[];
-  generationConfig: GeminiGenerationConfig;
-  safetySettings: GeminiSafetySetting[];
-}
-
-/** A candidate in the Gemini API response */
-export interface GeminiCandidate {
-  content?: {
-    parts?: GeminiPart[];
-  };
-}
-
-/** Gemini API response shape */
-export interface GeminiAPIResponse {
-  candidates?: GeminiCandidate[];
-}
-
 /** Conversation history message (from the bot's storage layer) */
 export interface ConversationMessage {
   role: 'user' | 'assistant' | 'model';
@@ -65,12 +20,25 @@ export interface AIResponse {
   suggestions: string[];
 }
 
+/** Claude API message */
+interface ClaudeMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+/** Claude API response shape */
+interface ClaudeAPIResponse {
+  content?: Array<{ type: string; text?: string }>;
+  error?: { message: string };
+}
+
 // ══════════════════════════════════════════
 // Constants
 // ══════════════════════════════════════════
 
-const GEMINI_API_URL: string =
-  'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+const CLAUDE_API_URL: string = 'https://api.anthropic.com/v1/messages';
+const CLAUDE_MODEL: string = 'claude-sonnet-4-20250514';
+const ANTHROPIC_VERSION: string = '2023-06-01';
 
 // ────────────────────────────────────────────────────────────────────────────
 // System Prompt — يُبنى ديناميكياً من universities.json عبر buildSystemPrompt()
@@ -114,16 +82,16 @@ function withTimeout<T>(promise: Promise<T>, ms: number = 8000, label: string = 
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-// Single Gemini API call
+// Single Claude API call (Anthropic)
 // ────────────────────────────────────────────────────────────────────────────
-async function callGemini(userMessage: string, conversationHistory: ConversationMessage[] = []): Promise<string | null> {
-  const apiKey = process.env.GEMINI_API_KEY;
+async function callClaude(userMessage: string, conversationHistory: ConversationMessage[] = []): Promise<string | null> {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return null;
 
-  // Build contents: recent history (max 6 messages) + current message
-  const recentHistory: GeminiContent[] = conversationHistory.slice(-6).map((msg) => ({
-    role: (msg.role === 'user' ? 'user' : 'model') as 'user' | 'model',
-    parts: [{ text: msg.content }],
+  // Build messages: recent history (max 6 messages) + current message
+  const recentHistory: ClaudeMessage[] = conversationHistory.slice(-6).map((msg) => ({
+    role: (msg.role === 'user' ? 'user' : 'assistant') as 'user' | 'assistant',
+    content: msg.content,
   }));
 
   // Strip PII before sending to external API (PDPPL Art. 8)
@@ -132,40 +100,34 @@ async function callGemini(userMessage: string, conversationHistory: Conversation
   // Normalize Qatari dialect to MSA for better comprehension
   const normalizedMessage: string = normalizeDialect(sanitizedMessage);
 
-  const contents: GeminiContent[] = [
+  const messages: ClaudeMessage[] = [
     ...recentHistory,
-    { role: 'user', parts: [{ text: normalizedMessage }] },
+    { role: 'user', content: normalizedMessage },
   ];
 
-  const response = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
+  const response = await fetch(CLAUDE_API_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': ANTHROPIC_VERSION,
+    },
     body: JSON.stringify({
-      system_instruction: { parts: [{ text: getSystemPrompt() }] },
-      contents,
-      generationConfig: {
-        temperature: 0.3,
-        maxOutputTokens: 900,
-        topP: 0.85,
-        topK: 40,
-      },
-      safetySettings: [
-        { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-        { category: 'HARM_CATEGORY_HATE_SPEECH',        threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',  threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-        { category: 'HARM_CATEGORY_DANGEROUS_CONTENT',  threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-      ],
-    } satisfies GeminiRequestBody),
+      model: CLAUDE_MODEL,
+      max_tokens: 1024,
+      system: getSystemPrompt(),
+      messages,
+    }),
   });
 
   if (!response.ok) {
     const err = await response.text().catch(() => String(response.status));
-    console.error(`Gemini API error ${response.status}:`, err);
+    console.error(`Claude API error ${response.status}:`, err);
     return null;
   }
 
-  const data: GeminiAPIResponse = await response.json();
-  return data.candidates?.[0]?.content?.parts?.[0]?.text ?? null;
+  const data: ClaudeAPIResponse = await response.json();
+  return data.content?.[0]?.text ?? null;
 }
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -206,14 +168,14 @@ async function getAIResponse(userMessage: string, conversationHistory: Conversat
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
       const aiText = await withTimeout(
-        callGemini(userMessage, conversationHistory),
+        callClaude(userMessage, conversationHistory),
         TIMEOUT_MS,
-        `Gemini attempt ${attempt}`
+        `Claude attempt ${attempt}`
       );
 
       if (aiText) return parseAIResponse(aiText);
 
-      console.warn(`[AI] Attempt ${attempt}: empty response from Gemini`);
+      console.warn(`[AI] Attempt ${attempt}: empty response from Claude`);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
       console.warn(`[AI] Attempt ${attempt} failed: ${message}`);
@@ -225,7 +187,7 @@ async function getAIResponse(userMessage: string, conversationHistory: Conversat
     }
   }
 
-  console.error('[AI] All Gemini attempts failed — returning null for local fallback');
+  console.error('[AI] All Claude attempts failed — returning null for local fallback');
   return null;
 }
 

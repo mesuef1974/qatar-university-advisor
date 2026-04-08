@@ -1,6 +1,6 @@
 /**
  * T-FIX-004: Input Sanitizer — Prompt Injection Defense (TypeScript)
- * يحمي النظام من محاولات التلاعب بـ Gemini AI
+ * يحمي النظام من محاولات التلاعب بـ Claude AI
  * شركة النخبوية للبرمجيات | OWASP A03:2021
  */
 
@@ -65,6 +65,8 @@ const SENSITIVE_EXTRACTION: RegExp[] = [
   /\.env/i,
   /supabase.*key/i,
   /gemini.*key/i,
+  /claude.*key/i,
+  /anthropic.*key/i,
   /webhook.*secret/i,
 ];
 

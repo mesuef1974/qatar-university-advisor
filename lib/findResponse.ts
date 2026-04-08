@@ -642,7 +642,7 @@ async function processMessage(
   }
 
   // 3.5. Semantic Search
-  if (!cachedResponse && process.env.GEMINI_API_KEY) {
+  if (!cachedResponse && process.env.ANTHROPIC_API_KEY) {
     const semanticResult = await semanticSearch(userText).catch(() => null) as { answer: string; similarity: number } | null;
     if (semanticResult) {
       const response: ResponseWithSuggestions = {
@@ -702,7 +702,7 @@ async function processMessage(
     }
 
     default: {
-      // 5. Gemini AI Fallback
+      // 5. Claude AI Fallback
       const enrichedQuestion: string = profileContext
         ? `${profileContext}\n\nسؤال المستخدم: ${safeMessage}`
         : safeMessage;

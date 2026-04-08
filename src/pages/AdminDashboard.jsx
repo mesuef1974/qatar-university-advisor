@@ -199,7 +199,7 @@ export default function AdminDashboard() {
                   <span style={{ fontSize: '0.875rem', color: '#cbd5e1' }}>
                     {service === 'vercel' ? '☁️ Vercel' :
                      service === 'whatsapp' ? '📱 WhatsApp' :
-                     service === 'gemini' ? '🤖 Gemini' :
+                     service === 'claude' ? '🤖 Claude' :
                      '🗄️ Supabase'}
                   </span>
                   <span style={styles.badge(status === 'operational')}>

@@ -154,7 +154,7 @@ export default function QatarUniversityAdvisor() {
       return { type: 'response', key: 'education_city' };
     if (q.includes('hbku') || q.includes('حمد بن خليفة'))
       return { type: 'response', key: 'hbku' };
-    if ((q.includes('منح') || q.includes('scholarship')) && (q.includes('غير القطري') || q.includes('مقيم') || q.includes('وافد') || q.includes('أجنبي')))
+    if ((q.includes('منح') || q.includes('scholarship')) && (q.includes('غير القطري') || q.includes('غير قطري') || q.includes('لغير القطريين') || q.includes('مقيم') || q.includes('وافد') || q.includes('أجنبي') || q.includes('non qatari')))
       return { type: 'response', key: 'scholarships_non_qatari' };
 
     if ((q.includes('مقارن') || q.includes('الفرق') || q.includes('vs') || q.includes('ولا') || q.includes('أيهما'))) {
@@ -238,8 +238,12 @@ export default function QatarUniversityAdvisor() {
     if (q.includes('عسكري') || q.includes('جيش') || q.includes('ضابط') || q.includes('ملازم') || q.includes('القوات'))
       return { type:'response', key:'general_military' };
 
-    if (q.includes('منح') || q.includes('ابتعاث') || q.includes('مجان') || q.includes('تمويل'))
+    if (q.includes('منح') || q.includes('ابتعاث') || q.includes('مجان') || q.includes('تمويل')) {
+      // إذا كان السياق يشير لغير القطريين، وجّه للمنح المناسبة
+      if (q.includes('غير') || q.includes('مقيم') || q.includes('وافد') || q.includes('أجنبي'))
+        return { type: 'response', key: 'scholarships_non_qatari' };
       return { type:'response', key:'amiri' };
+    }
 
     if (q.includes('طيران') || q.includes('طيار') || q.includes('خطوط قطرية'))
       return { type:'response', key:'qaa' };
@@ -252,6 +256,26 @@ export default function QatarUniversityAdvisor() {
 
     if (q.includes('جامعات') || q.includes('خيارات') || q.includes('متاح') || q.includes('كل الجامعات') || q.includes('قائمة'))
       return { type:'response', key:'general_list' };
+
+    // ── ذكاء اصطناعي / AI (قبل ماجستير — لأن "ماجستير ذكاء اصطناعي" يجب أن يذهب لبرامج AI) ──
+    if (q.includes('ذكاء اصطناعي') || q.includes('ai') || q.includes('تعلم آلي') || q.includes('machine learning'))
+      return { type: 'response', key: 'ai_programs' };
+
+    // ── ماجستير / دراسات عليا ──
+    if (q.includes('ماجستير') || q.includes('دراسات عليا') || q.includes('ماستر') || q.includes('master') || q.includes('graduate'))
+      return { type: 'response', key: 'graduate_programs' };
+
+    // ── دبلوم ──
+    if (q.includes('دبلوم') || q.includes('كلية المجتمع') || q.includes('diploma'))
+      return { type: 'response', key: 'diploma_programs' };
+
+    // ── سكن / إقامة ──
+    if (q.includes('سكن') || q.includes('إقامة') || q.includes('housing') || q.includes('accommodation'))
+      return { type: 'response', key: 'housing_info' };
+
+    // ── رسوم / تكاليف ──
+    if (q.includes('رسوم') || q.includes('تكلفة') || q.includes('كم سعر') || q.includes('fees') || q.includes('cost'))
+      return { type: 'response', key: 'fees_overview' };
 
     const gm = q.match(/(\d{2,3})\s*%?/);
     if (gm && (q.includes('%') || q.includes('معدل') || /^\d{2,3}$/.test(q.trim()))) {
@@ -292,7 +316,7 @@ export default function QatarUniversityAdvisor() {
     return CAREER_TEST.results[Object.entries(cats).sort((a,b)=>b[1]-a[1])[0][0]];
   };
 
-  // ─── AI Fallback — استدعاء Gemini عبر API عند فشل keyword matching ───
+  // ─── AI Fallback — استدعاء Claude عبر API عند فشل keyword matching ───
   const callAIFallback = useCallback(async (userText) => {
     try {
       const res = await fetch('/api/chat', {
@@ -315,8 +339,8 @@ export default function QatarUniversityAdvisor() {
       }
     } catch {
       addBotMessage(
-        'عذراً، الخدمة غير متاحة حالياً. يمكنك تصفح الجامعات من القائمة أو المحاولة لاحقاً.',
-        ['جميع الجامعات', 'المنح والابتعاث', 'ابدأ اختبار التخصص']
+        `أنا مُرشِدي — متخصص في الجامعات القطرية. 🎓\n\nلم أجد إجابة دقيقة لسؤالك، لكن يمكنني مساعدتك في:\n• معلومات عن أي جامعة (اكتب اسمها)\n• المعدل المطلوب (اكتب "معدلي 85%")\n• المنح المتاحة\n• اختبار تحديد التخصص`,
+        ['جميع الجامعات', 'أرسل معدلك', 'المنح المتاحة', 'ابدأ اختبار التخصص']
       );
     }
   }, [userProfile.nationality, addBotMessage]);
@@ -334,7 +358,7 @@ export default function QatarUniversityAdvisor() {
     setInput('');
     setIsTyping(true);
 
-    // ── معالجة فورية للأنواع المعروفة (synchronous) ──
+    // ── معالجة فورية للأنواع التي تحتاج state محلي ──
     const handleLocalResponse = () => {
       if (testState.active) {
         const q = CAREER_TEST.questions[testState.currentQuestion];
@@ -378,15 +402,6 @@ export default function QatarUniversityAdvisor() {
         return true;
       }
 
-      if (result.type === 'response') {
-        const r = ALL_RESPONSES[result.key];
-        if (r) {
-          const enhanced = addNationalityContext({text: r.text, suggestions: r.suggestions || []}, userProfile.nationality, result.key);
-          addBotMessage(enhanced.text, enhanced.suggestions);
-          return true;
-        }
-      }
-
       if (result.type === 'grade') {
         const u = {grade:result.grade};
         if (result.track) u.track = result.track;
@@ -411,7 +426,18 @@ export default function QatarUniversityAdvisor() {
         return true;
       }
 
-      // type === 'unknown' — يحتاج AI fallback
+      // ── response type → عرض محلي من ALL_RESPONSES ──
+      if (result.type === 'response') {
+        const r = ALL_RESPONSES[result.key];
+        if (r) {
+          const enhanced = addNationalityContext(r, userProfile.nationality, result.key);
+          addBotMessage(enhanced.text, enhanced.suggestions || []);
+          return true;
+        }
+        // المفتاح غير موجود → يذهب لـ API
+      }
+
+      // unknown → API
       return false;
     };
 
@@ -422,7 +448,7 @@ export default function QatarUniversityAdvisor() {
         return;
       }
 
-      // ── AI Fallback: استدعاء Gemini عبر /api/chat ──
+      // ── كل شيء آخر → API (findResponse الكاملة + Claude fallback) ──
       try {
         await callAIFallback(userText);
       } finally {

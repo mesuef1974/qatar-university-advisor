@@ -257,8 +257,8 @@ export default function PrivacyPolicy({ onBack }) {
               <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noreferrer" style={S.link}>سياسة الخصوصية</a>
             </li>
             <li style={S.li}>
-              <strong>Google Gemini (AI):</strong> معالجة الاستفسارات وتوليد الردود الذكية.{' '}
-              <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" style={S.link}>سياسة الخصوصية</a>
+              <strong>Anthropic Claude (AI):</strong> معالجة الاستفسارات وتوليد الردود الذكية.{' '}
+              <a href="https://www.anthropic.com/privacy" target="_blank" rel="noreferrer" style={S.link}>سياسة الخصوصية</a>
             </li>
             <li style={S.li}>
               <strong>Meta / WhatsApp Cloud API:</strong> إرسال واستقبال الرسائل عبر WhatsApp.{' '}
@@ -342,7 +342,7 @@ export default function PrivacyPolicy({ onBack }) {
           <ul style={S.ulEn}>
             <li style={S.liEn}><strong>Supabase</strong> — Database &amp; storage. <a href="https://supabase.com/privacy" target="_blank" rel="noreferrer" style={S.link}>Privacy Policy</a></li>
             <li style={S.liEn}><strong>Vercel</strong> — Application hosting &amp; edge delivery. <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noreferrer" style={S.link}>Privacy Policy</a></li>
-            <li style={S.liEn}><strong>Google Gemini (AI)</strong> — AI query processing &amp; response generation. <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" style={S.link}>Privacy Policy</a></li>
+            <li style={S.liEn}><strong>Anthropic Claude (AI)</strong> — AI query processing &amp; response generation. <a href="https://www.anthropic.com/privacy" target="_blank" rel="noreferrer" style={S.link}>Privacy Policy</a></li>
             <li style={S.liEn}><strong>Meta / WhatsApp Cloud API</strong> — Messaging delivery. <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noreferrer" style={S.link}>Privacy Policy</a></li>
           </ul>
         </div>

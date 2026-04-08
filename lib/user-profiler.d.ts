@@ -77,7 +77,7 @@ export declare function buildUserProfile(
 ): UserProfile;
 
 /**
- * Build a one-line Arabic context string for Gemini (e.g. "[معلومات المتحدث: ...]").
+ * Build a one-line Arabic context string for Claude (e.g. "[معلومات المتحدث: ...]").
  * Returns an empty string if the profile is empty.
  */
 export declare function buildProfileContext(profile: Partial<UserProfile>): string;

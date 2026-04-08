@@ -46,7 +46,7 @@ import {
 
 beforeEach(() => {
   vi.clearAllMocks();
-  process.env.GEMINI_API_KEY = 'test-key';
+  process.env.ANTHROPIC_API_KEY = 'test-key';
 });
 
 // ══════════════════════════════════════════════════════
@@ -128,21 +128,21 @@ describe('getFromKnowledgeBase — البحث الرئيسي', () => {
 
 // ══════════════════════════════════════════════════════
 describe('generateEmbedding — توليد Embedding', () => {
-  it('يُرجع null عند عدم وجود GEMINI_API_KEY', async () => {
-    delete process.env.GEMINI_API_KEY;
+  it('يُرجع null عند عدم وجود ANTHROPIC_API_KEY', async () => {
+    delete process.env.ANTHROPIC_API_KEY;
     const result = await generateEmbedding('اختبار');
     expect(result).toBeNull();
   });
 
   it('يُرجع null عند فشل الـ API', async () => {
-    process.env.GEMINI_API_KEY = 'test-key';
+    process.env.ANTHROPIC_API_KEY = 'test-key';
     mockFetch.mockResolvedValueOnce({ ok: false });
     const result = await generateEmbedding('اختبار');
     expect(result).toBeNull();
   });
 
   it('يُرجع المتجه عند نجاح الـ API', async () => {
-    process.env.GEMINI_API_KEY = 'test-key';
+    process.env.ANTHROPIC_API_KEY = 'test-key';
     const fakeVector = [0.1, 0.2, 0.3];
     mockFetch.mockResolvedValueOnce({
       ok: true,

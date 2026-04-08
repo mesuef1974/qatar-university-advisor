@@ -10,8 +10,8 @@ declare namespace NodeJS {
     SUPABASE_ANON_KEY:           string;
     SUPABASE_SERVICE_ROLE_KEY:   string;
 
-    // Gemini AI
-    GEMINI_API_KEY:              string;
+    // Claude AI
+    ANTHROPIC_API_KEY:              string;
 
     // WhatsApp
     WHATSAPP_TOKEN:              string;

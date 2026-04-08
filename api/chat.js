@@ -7,7 +7,7 @@
  *
  * يستخدم نفس سلسلة الاحتياط الموجودة في WhatsApp:
  *   1. Keyword matching (findResponse)
- *   2. Gemini AI (مع Circuit Breaker)
+ *   2. Claude AI (مع Circuit Breaker)
  *   3. رسالة خطأ ودية
  *
  * شركة النخبوية للبرمجيات | Elite Software Company
@@ -84,7 +84,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ── Build user profile context for Gemini ──
+    // ── Build user profile context for Claude ──
     const userProfile = {};
     if (nationality === 'qatari' || nationality === 'non_qatari') {
       userProfile.nationality = nationality;

@@ -109,7 +109,7 @@ function findResponse(text, testStateActive) {
     return { type: 'response', key: 'education_city' };
   if (q.includes('hbku') || q.includes('حمد بن خليفة'))
     return { type: 'response', key: 'hbku' };
-  if ((q.includes('منح') || q.includes('scholarship')) && (q.includes('غير القطري') || q.includes('مقيم') || q.includes('وافد') || q.includes('أجنبي')))
+  if ((q.includes('منح') || q.includes('scholarship')) && (q.includes('غير القطري') || q.includes('غير قطري') || q.includes('لغير القطريين') || q.includes('مقيم') || q.includes('وافد') || q.includes('أجنبي') || q.includes('non qatari')))
     return { type: 'response', key: 'scholarships_non_qatari' };
 
   // Comparisons
@@ -165,11 +165,36 @@ function findResponse(text, testStateActive) {
   if (q.includes('راتب') || q.includes('وظيفة') || q.includes('فرص عمل') || q.includes('توظيف') || (q.includes('مستقبل') && !q.includes('سنة'))) return { type: 'response', key: 'salaries' };
   if (q.includes('موعد') || q.includes('تقديم') || (q.includes('متى') && q.includes('يفتح')) || q.includes('تسجيل')) return { type: 'response', key: 'deadlines' };
   if (q.includes('عسكري') || q.includes('جيش') || q.includes('ضابط') || q.includes('ملازم') || q.includes('القوات')) return { type: 'response', key: 'general_military' };
-  if (q.includes('منح') || q.includes('ابتعاث') || q.includes('مجان') || q.includes('تمويل')) return { type: 'response', key: 'amiri' };
+  if (q.includes('منح') || q.includes('ابتعاث') || q.includes('مجان') || q.includes('تمويل')) {
+    // إذا كان السياق يشير لغير القطريين، وجّه للمنح المناسبة
+    if (q.includes('غير') || q.includes('مقيم') || q.includes('وافد') || q.includes('أجنبي'))
+      return { type: 'response', key: 'scholarships_non_qatari' };
+    return { type: 'response', key: 'amiri' };
+  }
   if (q.includes('طيران') || q.includes('طيار') || q.includes('خطوط قطرية')) return { type: 'response', key: 'qaa' };
   if (q.includes('طب') || q.includes('دكتور') || q.includes('طبيب')) return { type: 'response', key: 'plan_medicine' };
   if (q.includes('هندسة') || q.includes('مهندس')) return { type: 'response', key: 'plan_engineering_qu' };
   if (q.includes('جامعات') || q.includes('خيارات') || q.includes('متاح') || q.includes('كل الجامعات') || q.includes('قائمة')) return { type: 'response', key: 'general_list' };
+
+  // ── ذكاء اصطناعي / AI (قبل ماجستير — لأن "ماجستير ذكاء اصطناعي" يجب أن يذهب لبرامج AI) ──
+  if (q.includes('ذكاء اصطناعي') || q.includes('ai') || q.includes('تعلم آلي') || q.includes('machine learning'))
+    return { type: 'response', key: 'ai_programs' };
+
+  // ── ماجستير / دراسات عليا ──
+  if (q.includes('ماجستير') || q.includes('دراسات عليا') || q.includes('ماستر') || q.includes('master') || q.includes('graduate'))
+    return { type: 'response', key: 'graduate_programs' };
+
+  // ── دبلوم ──
+  if (q.includes('دبلوم') || q.includes('كلية المجتمع') || q.includes('diploma'))
+    return { type: 'response', key: 'diploma_programs' };
+
+  // ── سكن / إقامة ──
+  if (q.includes('سكن') || q.includes('إقامة') || q.includes('housing') || q.includes('accommodation'))
+    return { type: 'response', key: 'housing_info' };
+
+  // ── رسوم / تكاليف ──
+  if (q.includes('رسوم') || q.includes('تكلفة') || q.includes('كم سعر') || q.includes('fees') || q.includes('cost'))
+    return { type: 'response', key: 'fees_overview' };
 
   // Grade detection
   const gm = q.match(/(\d{2,3})\s*%?/);
@@ -293,11 +318,10 @@ export function useChat() {
       setInput('');
       setIsTyping(true);
 
-      setTimeout(() => {
-        setIsTyping(false);
-
+      setTimeout(async () => {
         // ── Career test active ──────────────────────────────────────
         if (testState.active) {
+          setIsTyping(false);
           const q = CAREER_TEST.questions[testState.currentQuestion];
           const sel = q.options.find((o) => userText.includes(o.text.substring(0, 6)));
           if (!sel) {
@@ -327,10 +351,11 @@ export function useChat() {
           return;
         }
 
-        // ── Keyword routing ───────────────────────────────────────
+        // ── Local-only types (need client state) ──────────────────
         const result = findResponse(userText, testState.active);
 
         if (result.type === 'ask_grade') {
+          setIsTyping(false);
           addBotMessage(
             `📊 **أخبرني بمعدلك ومسارك!**\n\nاكتب معدلك بهذا الشكل:\n• "معدلي 85% علمي"\n• "92% أدبي"\n• أو الرقم فقط: "85"\n\nوسأخبرك بكل الجامعات والتخصصات المتاحة لك! 🎓`,
             ['معدلي 95%+ علمي', 'معدلي 85% علمي', 'معدلي 75% أدبي', 'معدلي 65%']
@@ -339,6 +364,7 @@ export function useChat() {
         }
 
         if (result.type === 'start_test') {
+          setIsTyping(false);
           setTestState({ active: true, currentQuestion: 0, answers: [], traits: {} });
           const q0 = CAREER_TEST.questions[0];
           addBotMessage(
@@ -348,20 +374,8 @@ export function useChat() {
           return;
         }
 
-        if (result.type === 'response') {
-          const r = ALL_RESPONSES[result.key];
-          if (r) {
-            const enhanced = addNationalityContext(
-              { text: r.text, suggestions: r.suggestions || [] },
-              userProfile.nationality,
-              result.key
-            );
-            addBotMessage(enhanced.text, enhanced.suggestions);
-            return;
-          }
-        }
-
         if (result.type === 'grade') {
+          setIsTyping(false);
           const u = { grade: result.grade };
           if (result.track) u.track = result.track;
           setUserProfile((p) => ({ ...p, ...u }));
@@ -372,6 +386,7 @@ export function useChat() {
         }
 
         if (result.type === 'student') {
+          setIsTyping(false);
           setUserProfile((p) => ({ ...p, type: 'student' }));
           addBotMessage(
             `أهلاً بك! 🎓\n\nيسعدني مساعدتك في رحلتك التعليمية.\n\n**أخبرني: ما معدلك ومسارك؟**`,
@@ -381,6 +396,7 @@ export function useChat() {
         }
 
         if (result.type === 'parent') {
+          setIsTyping(false);
           setUserProfile((p) => ({ ...p, type: 'parent' }));
           addBotMessage(`أهلاً بك! 👨‍👩‍👧\n\n**ما معدل ابنك/ابنتك ومساره؟**`, [
             'معدله 90%+ علمي',
@@ -391,11 +407,32 @@ export function useChat() {
           return;
         }
 
-        // Default fallback
-        addBotMessage(
-          `لم أجد إجابة محددة لهذا السؤال. 🙏\n\n**جرّب أحد هؤلاء:**\n• اسم الجامعة: "وايل كورنيل" أو "تكساس إي أند أم"\n• معدلك: "معدلي 85% علمي"\n• تخصص: "خطة دراسة هندسة البترول"\n• سؤال: "كيف أصبح مهندس مكامن؟"\n• "اختبار التخصص"`,
-          ['جامعة قطر — التفاصيل', 'خطة دراسة هندسة البترول', 'مقارنة الكليات العسكرية', 'ابدأ اختبار التخصص']
-        );
+        // ── response type → عرض محلي من ALL_RESPONSES ──────────
+        if (result.type === 'response') {
+          const r = ALL_RESPONSES[result.key];
+          if (r) {
+            setIsTyping(false);
+            const enhanced = addNationalityContext(r, userProfile.nationality, result.key);
+            addBotMessage(enhanced.text, enhanced.suggestions || []);
+            return;
+          }
+          // المفتاح غير موجود → يذهب لـ API
+        }
+
+        // ── كل شيء آخر (unknown) → API ──────────────
+        try {
+          const res = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question: userText, nationality: userProfile.nationality }),
+          });
+          const data = await res.json();
+          addBotMessage(data.answer || 'عذراً، جرّب مرة أخرى.', data.suggestions || []);
+        } catch {
+          addBotMessage('عذراً، جرّب صياغة سؤالك بطريقة مختلفة.', ['جميع الجامعات', 'أرسل معدلك']);
+        } finally {
+          setIsTyping(false);
+        }
       }, 400 + Math.random() * 300);
     },
     [input, testState, userProfile.nationality, userProfile.track, addBotMessage]

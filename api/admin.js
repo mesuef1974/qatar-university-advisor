@@ -73,7 +73,7 @@ export default async function handler(req, res) {
       botStatus: {
         vercel: 'operational',
         whatsapp: 'operational',
-        gemini: 'operational',
+        claude: 'operational',
         supabase: circuitStatus.isHealthy ? 'operational' : 'degraded',
       },
     });

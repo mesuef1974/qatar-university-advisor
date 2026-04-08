@@ -14,7 +14,7 @@ describe('validateEnv', () => {
     delete process.env.WHATSAPP_PHONE_ID;
     delete process.env.WEBHOOK_VERIFY_TOKEN;
     delete process.env.WEBHOOK_APP_SECRET;
-    delete process.env.GEMINI_API_KEY;
+    delete process.env.ANTHROPIC_API_KEY;
     delete process.env.SUPABASE_URL;
     delete process.env.SUPABASE_ANON_KEY;
     delete process.env.ADMIN_SECRET;
@@ -67,8 +67,8 @@ describe('validateEnv', () => {
       process.env.WEBHOOK_VERIFY_TOKEN = 'vt';
       const result = validateEnv('webhook');
       expect(result.warnings.length).toBeGreaterThan(0);
-      // WEBHOOK_APP_SECRET, GEMINI_API_KEY, SUPABASE_URL, SUPABASE_ANON_KEY
-      expect(result.warnings.some(w => w.includes('GEMINI_API_KEY'))).toBe(true);
+      // WEBHOOK_APP_SECRET, ANTHROPIC_API_KEY, SUPABASE_URL, SUPABASE_ANON_KEY
+      expect(result.warnings.some(w => w.includes('ANTHROPIC_API_KEY'))).toBe(true);
     });
 
     it('no warnings when all optional vars are set too', () => {
@@ -76,7 +76,7 @@ describe('validateEnv', () => {
       process.env.WHATSAPP_PHONE_ID = 'pid';
       process.env.WEBHOOK_VERIFY_TOKEN = 'vt';
       process.env.WEBHOOK_APP_SECRET = 'sec';
-      process.env.GEMINI_API_KEY = 'gk';
+      process.env.ANTHROPIC_API_KEY = 'gk';
       process.env.SUPABASE_URL = 'su';
       process.env.SUPABASE_ANON_KEY = 'sk';
       const result = validateEnv('webhook');
