@@ -509,3 +509,251 @@ button { -webkit-tap-highlight-color: transparent; }
   }
 
 }
+
+/* ════════════════════════════════════════════════════
+   MANUAL DARK MODE OVERRIDE  [data-theme="dark"]
+   Mirrors the prefers-color-scheme: dark block above.
+   Applied when the user clicks the toggle button.
+   ════════════════════════════════════════════════════ */
+:root[data-theme="dark"] {
+  --maroon:        #C4254E;
+  --maroon-dark:   #A01E3F;
+  --maroon-light:  #D94068;
+  --maroon-bg:     #2D1B22;
+  --gold:          #D4BA7A;
+  --gold-light:    #E8D09A;
+  --gold-bg:       #2A2010;
+  --text:          #F5F0EB;
+  --text-muted:    #BDB0A8;
+  --bg:            #1A1014;
+  --surface:       #2D1B22;
+  --border:        #4A3540;
+  --surface-elevated: #3D2830;
+  --text-secondary:   #BDB0A8;
+  --input-bg:         #2D1B22;
+  --card-bg:          #2D1B22;
+  --shadow-color:     rgba(0,0,0,0.35);
+  color-scheme: dark;
+}
+
+[data-theme="dark"] body {
+  background: var(--bg) !important;
+  color: var(--text);
+}
+
+@media (min-width: 768px) {
+  [data-theme="dark"] body {
+    background: linear-gradient(160deg, #3D0A1C 0%, #2A0814 50%, #1A0510 100%) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-theme="dark"] body::before {
+    background:
+      radial-gradient(circle at 15% 50%, rgba(212,186,122,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 85% 20%, rgba(255,255,255,0.02) 0%, transparent 40%);
+  }
+}
+
+[data-theme="dark"] button:focus-visible,
+[data-theme="dark"] input:focus-visible,
+[data-theme="dark"] a:focus-visible {
+  outline-color: var(--maroon);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: rgba(196,37,78,0.28);
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(196,37,78,0.48);
+}
+
+[data-theme="dark"] ::selection {
+  background: rgba(196,37,78,0.22);
+  color: var(--text);
+}
+
+[data-theme="dark"] .gold-shimmer {
+  background: linear-gradient(90deg, #D4BA7A 0%, #F0DC9E 50%, #D4BA7A 100%);
+  background-size: 200% auto;
+}
+
+[data-theme="dark"] .lift-on-hover:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+[data-theme="dark"] #chat-messages {
+  background: var(--bg) !important;
+  background-image: radial-gradient(circle, rgba(196,37,78,0.07) 1.5px, transparent 1.5px) !important;
+  background-size: 24px 24px !important;
+}
+
+[data-theme="dark"] #chat-messages [style*="background:#fff"],
+[data-theme="dark"] #chat-messages [style*='background: #fff'],
+[data-theme="dark"] #chat-messages [style*="background: rgb(255, 255, 255)"] {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+[data-theme="dark"] [style*="background:'#fff'"],
+[data-theme="dark"] [style*='background: #fff'],
+[data-theme="dark"] [style*="background:#fff"] {
+  background: var(--surface) !important;
+}
+
+[data-theme="dark"] [style*="background:'#F5F0EB'"],
+[data-theme="dark"] [style*='background: #F5F0EB'],
+[data-theme="dark"] [style*="background:#F5F0EB"] {
+  background: var(--input-bg) !important;
+}
+
+[data-theme="dark"] [style*="color:'#1C1C1E'"],
+[data-theme="dark"] [style*="color: #1C1C1E"],
+[data-theme="dark"] [style*="color:#1C1C1E"] {
+  color: var(--text) !important;
+}
+
+[data-theme="dark"] [style*="background: '#fff'"],
+[data-theme="dark"] [style*='width: 280px'][style*='background'],
+[data-theme="dark"] [style*="width:280px"][style*="background"] {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+[data-theme="dark"] [style*="background: '#FAFAFA'"],
+[data-theme="dark"] [style*='background: #FAFAFA'],
+[data-theme="dark"] [style*="background:#FAFAFA"] {
+  background: var(--surface-elevated) !important;
+}
+
+[data-theme="dark"] [style*="background: '#FEF2F2'"],
+[data-theme="dark"] [style*='background: #FEF2F2'],
+[data-theme="dark"] [style*="background:#FEF2F2"] {
+  background: rgba(196,37,78,0.14) !important;
+}
+
+[data-theme="dark"] #root [style*="borderRadius"][style*="background:'#fff'"],
+[data-theme="dark"] #root [style*="borderRadius"][style*='background: #fff'],
+[data-theme="dark"] #root [style*="borderRadius"][style*="background:#fff"] {
+  background: var(--card-bg) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+[data-theme="dark"] [style*="color:'#6B7280'"],
+[data-theme="dark"] [style*="color: #6B7280"],
+[data-theme="dark"] [style*="color:#6B7280"],
+[data-theme="dark"] [style*="color:'#9CA3AF'"],
+[data-theme="dark"] [style*="color: #9CA3AF"],
+[data-theme="dark"] [style*="color:#9CA3AF"] {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] [style*="borderBottom: '1px solid #f0f0f0'"],
+[data-theme="dark"] [style*='borderBottom: 1px solid #f0f0f0'] {
+  border-bottom-color: var(--border) !important;
+}
+
+[data-theme="dark"] [style*="background: '#E5E7EB'"],
+[data-theme="dark"] [style*='background: #E5E7EB'],
+[data-theme="dark"] [style*="background:#E5E7EB"] {
+  background: #3D2830 !important;
+}
+
+[data-theme="dark"] [style*="rgba(138,21,56,0.03)"],
+[data-theme="dark"] [style*="rgba(138,21,56,0.06)"] {
+  background: rgba(196,37,78,0.08) !important;
+  border-color: rgba(196,37,78,0.22) !important;
+  color: var(--text) !important;
+}
+
+[data-theme="dark"] [style*="rgba(255,255,255,0.1)"][style*="backdropFilter"] {
+  background: rgba(255,255,255,0.06) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+}
+
+[data-theme="dark"] [style*="color: '#8A1538'"],
+[data-theme="dark"] [style*="color:'#8A1538'"] {
+  color: var(--maroon) !important;
+}
+
+[data-theme="dark"] [style*="color: '#666'"],
+[data-theme="dark"] [style*="color:'#666'"],
+[data-theme="dark"] [style*="color: #666"],
+[data-theme="dark"] [style*="color:#666"] {
+  color: var(--text-secondary) !important;
+}
+
+/* ════════════════════════════════════════════════════
+   MANUAL LIGHT MODE OVERRIDE  [data-theme="light"]
+   Forces light mode even when the OS is in dark mode.
+   ════════════════════════════════════════════════════ */
+:root[data-theme="light"] {
+  --maroon:        #8A1538;
+  --maroon-dark:   #6B1030;
+  --maroon-light:  #A52050;
+  --maroon-bg:     #FEF2F2;
+  --gold:          #C5A55A;
+  --gold-light:    #D4BC7C;
+  --gold-bg:       #FFF8E7;
+  --text:          #1C1C1E;
+  --text-muted:    #6B7280;
+  --bg:            #EDE5DA;
+  --surface:       #FFFFFF;
+  --border:        #E5DDD5;
+  color-scheme: light;
+}
+
+[data-theme="light"] body {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+@media (min-width: 768px) {
+  [data-theme="light"] body {
+    background: linear-gradient(160deg, #8A1538 0%, #6B1030 50%, #3D0A1C 100%) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-theme="light"] body::before {
+    background:
+      radial-gradient(circle at 15% 50%, rgba(197,165,90,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 85% 20%, rgba(255,255,255,0.04) 0%, transparent 40%);
+  }
+}
+
+/* Restore light-mode whites that the dark-media-query would otherwise darken */
+[data-theme="light"] #chat-messages [style*="background:#fff"],
+[data-theme="light"] #chat-messages [style*='background: #fff'],
+[data-theme="light"] [style*="background:'#fff'"],
+[data-theme="light"] [style*='background: #fff'],
+[data-theme="light"] [style*="background:#fff"] {
+  background: #ffffff !important;
+  color: #1C1C1E !important;
+}
+
+[data-theme="light"] [style*="background:'#F5F0EB'"],
+[data-theme="light"] [style*='background: #F5F0EB'],
+[data-theme="light"] [style*="background:#F5F0EB"] {
+  background: #F5F0EB !important;
+}
+
+[data-theme="light"] [style*="color:'#1C1C1E'"],
+[data-theme="light"] [style*="color: #1C1C1E"],
+[data-theme="light"] [style*="color:#1C1C1E"] {
+  color: #1C1C1E !important;
+}
+
+[data-theme="light"] #chat-messages {
+  background: var(--bg) !important;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(138,21,56,0.22);
+}
+
+[data-theme="light"] ::selection {
+  background: rgba(138,21,56,0.14);
+  color: var(--text);
+}

@@ -1,5 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import theme from '../styles/theme.js';
+
+/* ── Dark-mode toggle helpers ── */
+function getInitialTheme() {
+  try { return localStorage.getItem('theme-preference') || 'auto'; } catch { return 'auto'; }
+}
+
+function applyTheme(mode) {
+  const root = document.documentElement;
+  if (mode === 'dark')  { root.setAttribute('data-theme', 'dark');  }
+  else if (mode === 'light') { root.setAttribute('data-theme', 'light'); }
+  else                  { root.removeAttribute('data-theme'); }
+  try { localStorage.setItem('theme-preference', mode); } catch { /* noop */ }
+}
+
+const THEME_CYCLE = { light: 'dark', dark: 'auto', auto: 'light' };
+const THEME_ICON  = { light: '☀️', dark: '🌙', auto: '🔄' };
+const THEME_LABEL = { light: 'الوضع الفاتح — انقر للوضع الداكن', dark: 'الوضع الداكن — انقر للتلقائي', auto: 'الوضع التلقائي — انقر للوضع الفاتح' };
 
 export default function Header({
   S,
@@ -13,6 +30,14 @@ export default function Header({
 }) {
   const [showNatPicker, setShowNatPicker] = useState(false);
   const isQatari = userProfile.nationality === 'qatari';
+
+  /* Dark mode toggle state — initialise once from localStorage */
+  const [themeMode, setThemeMode] = useState(getInitialTheme);
+
+  /* Apply on mount and whenever themeMode changes */
+  useEffect(() => { applyTheme(themeMode); }, [themeMode]);
+
+  const cycleTheme = () => setThemeMode(prev => THEME_CYCLE[prev] || 'auto');
 
   return (
     <div style={S.hdr}>
@@ -57,7 +82,7 @@ export default function Header({
               fontWeight: 800, fontSize: 15, color: '#fff',
               fontFamily: "'Cairo','Tajawal',sans-serif", lineHeight: 1.2,
             }}>
-              <span>المستشار الجامعي</span>
+              <span>المستشار الجامعي القطري</span>
 
               {/* Nationality badge (clickable) */}
               {userProfile.nationality && (
@@ -92,6 +117,27 @@ export default function Header({
             </div>
           </div>
         </div>
+
+        {/* Dark-mode toggle button */}
+        <button
+          onClick={cycleTheme}
+          aria-label={THEME_LABEL[themeMode]}
+          title={THEME_LABEL[themeMode]}
+          style={{
+            width: 36, height: 36, minHeight: 36,
+            borderRadius: '50%',
+            border: '1.5px solid rgba(197,165,90,0.45)',
+            background: 'rgba(197,165,90,0.15)',
+            backdropFilter: 'blur(8px)',
+            cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 16,
+            flexShrink: 0,
+            transition: 'background 0.2s, border-color 0.2s',
+          }}
+        >
+          {THEME_ICON[themeMode]}
+        </button>
 
         {/* Favorites button */}
         <button
