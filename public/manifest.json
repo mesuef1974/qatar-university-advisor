@@ -1,6 +1,6 @@
 {
-  "name": "المرشد الأكاديمي — Qatar University Advisor",
-  "short_name": "مرشد قطر",
+  "name": "المستشار الجامعي القطري",
+  "short_name": "المستشار القطري",
   "description": "إرشاد أكاديمي مخصص لجامعات قطر عبر الذكاء الاصطناعي",
   "start_url": "/",
   "display": "standalone",

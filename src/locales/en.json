@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "Smart University Advisor",
+    "title": "Qatar University Advisor",
     "subtitle": "Qatar University Advisor",
     "tagline": "Your comprehensive guide to choosing the right university, major, scholarships, and career opportunities in Qatar.",
     "loading": "Loading...",
@@ -8,7 +8,7 @@
     "version": "Version"
   },
   "consent": {
-    "title": "Smart University Advisor",
+    "title": "Qatar University Advisor",
     "intro": "Hello! Before we begin, we want to be transparent about how we use your data.",
     "phoneNotStored": "Your phone number is not stored — it's only used to send replies",
     "localStorageOnly": "Your preferences are stored locally on your device only",

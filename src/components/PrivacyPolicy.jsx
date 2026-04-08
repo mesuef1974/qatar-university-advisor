@@ -102,7 +102,7 @@ export default function PrivacyPolicy({ onBack }) {
 
         <div style={S.section}>
           <h2 style={S.sectionTitle}>1. البيانات التي نجمعها</h2>
-          <p style={S.p}>عند استخدام المستشار الجامعي الذكي، نعالج البيانات التالية:</p>
+          <p style={S.p}>عند استخدام المستشار الجامعي القطري، نعالج البيانات التالية:</p>
           <ul style={S.ul}>
             <li style={S.li}>
               <strong>عبر WhatsApp:</strong> رقم هاتفك (لإرسال الردود فقط) ونص رسائلك لمعالجتها والرد عليها. لا يُخزَّن رقم هاتفك في قاعدة بيانات.

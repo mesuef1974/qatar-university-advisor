@@ -51,7 +51,7 @@ export default function SideMenu({
         <div style={{ display: 'flex', gap: 12, padding: 20, background: theme.colors.maroon, color: theme.colors.white, alignItems: 'center', flexShrink: 0 }}>
           <span style={{ fontSize: 30 }}>🎓</span>
           <div>
-            <div style={{ fontWeight: 700, fontSize: 15 }}>المستشار الجامعي</div>
+            <div style={{ fontWeight: 700, fontSize: 15 }}>المستشار الجامعي القطري</div>
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)' }}>v5.0 | قاعدة معرفة شاملة</div>
           </div>
         </div>
@@ -130,7 +130,7 @@ export default function SideMenu({
             >{label}</button>
           ))}
           <div style={{ fontSize: 12, color: theme.colors.gray300, textAlign: 'center', marginTop: 12 }}>
-            © 2026 المستشار الجامعي الذكي
+            © 2026 المستشار الجامعي القطري
           </div>
         </div>
 

@@ -38,7 +38,7 @@ const ExecutionPlan = () => {
         <div style={S.brand}>
           <span style={S.icon}>🛡️</span>
           <div>
-            <h1 style={S.mainTitle}>المستشار الجامعي | الرؤية التنفيذية 2025</h1>
+            <h1 style={S.mainTitle}>المستشار الجامعي القطري | الرؤية التنفيذية 2025</h1>
             <p style={S.subTitle}>خطة الاستحواذ والتشغيل - دولة قطر</p>
           </div>
         </div>
@@ -147,7 +147,7 @@ const ExecutionPlan = () => {
       </div>
 
       <footer style={S.footer}>
-        طُوّر هذا المخطط ليكون دليلاً حياً لنمو مشروع "المستشار الجامعي" - 2025
+        طُوّر هذا المخطط ليكون دليلاً حياً لنمو مشروع "المستشار الجامعي القطري" - 2025
       </footer>
     </div>
   );

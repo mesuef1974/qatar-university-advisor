@@ -56,7 +56,7 @@ const MOCK_RESPONSES = [
 ];
 
 const DEFAULT_RESPONSE = {
-  answer: '🎓 أنا المرشد الجامعي الذكي! يمكنني مساعدتك في:\n\n• اختيار الجامعة والتخصص المناسب\n• معلومات عن المنح والابتعاث\n• الرواتب المتوقعة بعد التخرج\n\nما الذي تريد معرفته؟',
+  answer: '🎓 أنا المستشار الجامعي القطري! يمكنني مساعدتك في:\n\n• اختيار الجامعة والتخصص المناسب\n• معلومات عن المنح والابتعاث\n• الرواتب المتوقعة بعد التخرج\n\nما الذي تريد معرفته؟',
   suggestions: ['جامعات قطر', 'المنح والابتعاث', 'تخصصات المستقبل'],
 };
 
@@ -346,7 +346,7 @@ export default function WebChat() {
         {
           id: Date.now(),
           type: 'bot',
-          text: '🎓 **مرحباً بك في المرشد الجامعي!**\n\nكيف يمكنني مساعدتك اليوم؟ اسألني عن الجامعات أو التخصصات أو المنح في قطر.',
+          text: '🎓 **مرحباً بك في المستشار الجامعي القطري!**\n\nكيف يمكنني مساعدتك اليوم؟ اسألني عن الجامعات أو التخصصات أو المنح في قطر.',
           suggestions: ['جامعات قطر', 'المنح والابتعاث', 'تخصصات المستقبل'],
           time: now(),
         },
@@ -427,14 +427,14 @@ export default function WebChat() {
         <div
           ref={panelRef}
           role="dialog"
-          aria-label="نافذة المحادثة مع المرشد الجامعي"
+          aria-label="نافذة المحادثة مع المستشار الجامعي القطري"
           aria-modal="true"
           style={s.overlay}
         >
           {/* Header */}
           <div style={s.header}>
             <span style={s.headerIcon} aria-hidden="true">🎓</span>
-            <span style={s.headerTitle}>المرشد الجامعي</span>
+            <span style={s.headerTitle}>المستشار الجامعي القطري</span>
             <button
               style={s.headerClose}
               onClick={() => setIsOpen(false)}

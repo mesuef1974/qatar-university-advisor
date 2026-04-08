@@ -44,14 +44,16 @@ export default function InfoPanel({ selectNationality }) {
           display:'flex', alignItems:'center', justifyContent:'center',
           fontSize:36, flexShrink:0,
           boxShadow:'0 0 40px rgba(197,165,90,0.15)',
+          animation:'capFloat 2.8s ease-in-out infinite',
         }}>🎓</div>
+        <style>{`@keyframes capFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}`}</style>
 
         {/* Title */}
         <h1 style={{
           fontSize:22, fontWeight:800, color:'#fff',
           margin:'0 0 4px', textAlign:'center',
           fontFamily:"'Cairo','Tajawal',sans-serif", lineHeight:1.3, flexShrink:0,
-        }}>المستشار الجامعي الذكي</h1>
+        }}>المستشار الجامعي القطري</h1>
 
         {/* Gold divider */}
         <div style={{display:'flex',alignItems:'center',gap:8,margin:'8px 0 10px',width:200,flexShrink:0}}>

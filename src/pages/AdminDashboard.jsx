@@ -116,7 +116,7 @@ export default function AdminDashboard() {
         <div style={{ ...styles.card, width: '100%', maxWidth: '400px' }}>
           <h1 style={{ textAlign: 'center', marginBottom: '8px', fontSize: '1.5rem' }}>🏢 لوحة تحكم المدير</h1>
           <p style={{ textAlign: 'center', color: '#94a3b8', marginBottom: '24px', fontSize: '0.875rem' }}>
-            المرشد الأكاديمي — شركة النخبوية للبرمجيات
+            المستشار الجامعي القطري — شركة النخبوية للبرمجيات
           </p>
           <form onSubmit={handleLogin}>
             <label style={{ display: 'block', marginBottom: '8px', color: '#94a3b8', fontSize: '0.875rem' }}>
@@ -148,7 +148,7 @@ export default function AdminDashboard() {
         <div>
           <h1 style={{ margin: 0, fontSize: '1.5rem' }}>🏢 لوحة تحكم المدير التنفيذي</h1>
           <p style={{ margin: '4px 0 0', color: '#94a3b8', fontSize: '0.875rem' }}>
-            المرشد الأكاديمي | شركة النخبوية للبرمجيات
+            المستشار الجامعي القطري | شركة النخبوية للبرمجيات
           </p>
         </div>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>

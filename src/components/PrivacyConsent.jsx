@@ -80,7 +80,7 @@ export default function PrivacyConsent({ onAccept, onReject, onShowPrivacy, onSh
 
       {/* Title */}
       <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8, marginTop: 0 }}>
-        المستشار الجامعي الذكي
+        المستشار الجامعي القطري
       </h1>
       <p style={{ fontSize: 14, opacity: 0.8, marginBottom: 28, lineHeight: 1.6, maxWidth: 340 }}>
         مرحباً! قبل البدء، نريد أن نكون شفافين معك حول كيفية استخدام بياناتك.

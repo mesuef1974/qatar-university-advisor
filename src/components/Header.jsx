@@ -69,11 +69,12 @@ export default function Header({
         {/* Logo + name */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
           <div style={{
-            width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
+            width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
             background: 'rgba(197,165,90,0.18)',
             border: '1.5px solid rgba(197,165,90,0.45)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 20,
+            fontSize: 24,
+            filter: 'drop-shadow(0 0 6px rgba(197,165,90,0.55))',
           }}>🎓</div>
 
           <div style={{ flex: 1, minWidth: 0 }}>

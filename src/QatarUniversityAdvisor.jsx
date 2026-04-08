@@ -13,7 +13,7 @@ import './styles/accessibility.css';
 
 
 // ════════════════════════════════════════════════════════════════════
-// المستشار الجامعي الذكي v5.0 — محلي بالكامل، سريع، موثوق
+// المستشار الجامعي القطري v5.0 — محلي بالكامل، سريع، موثوق
 // ════════════════════════════════════════════════════════════════════
 
 // ── Responsive: is the viewport wide enough for two-column layout? ──
@@ -35,12 +35,12 @@ export default function QatarUniversityAdvisor() {
   const getWelcomeMessage = (nationality) => {
     if (nationality === 'qatari') {
       return {
-        text: `🎓 **أهلاً بك في المستشار الجامعي الذكي!**\n🇶🇦 مرحباً بالطالب/ة القطري/ة\n\nأنا هنا لمساعدتك في اختيار جامعتك وتخصصك.\n\n✅ كل الجامعات الحكومية مجانية لك\n✅ الكليات العسكرية متاحة لك\n✅ الابتعاث الأميري والخارجي متاح\n✅ منح قطر للطاقة والخطوط القطرية وQNB\n\nيمكنك سؤالي عن أي شيء!`,
+        text: `🎓 **أهلاً بك في المستشار الجامعي القطري!**\n🇶🇦 مرحباً بالطالب/ة القطري/ة\n\nأنا هنا لمساعدتك في اختيار جامعتك وتخصصك.\n\n✅ كل الجامعات الحكومية مجانية لك\n✅ الكليات العسكرية متاحة لك\n✅ الابتعاث الأميري والخارجي متاح\n✅ منح قطر للطاقة والخطوط القطرية وQNB\n\nيمكنك سؤالي عن أي شيء!`,
         suggestions: ['جميع الجامعات', 'الابتعاث الأميري', 'الكليات العسكرية', 'أرسل معدلك']
       };
     }
     return {
-      text: `🎓 **أهلاً بك في المستشار الجامعي الذكي!**\n🌍 مرحباً بالطالب/ة المقيم/ة في قطر\n\nأنا هنا لمساعدتك في اختيار جامعتك وتخصصك.\n\n📋 خياراتك المتاحة:\n• جامعة قطر (رسوم 800-1,400 ريال/ساعة)\n• جامعات المدينة التعليمية (منح كاملة متاحة من مؤسسة قطر)\n• جامعة حمد بن خليفة HBKU (منح ممولة بالكامل لجميع الجنسيات)\n• جامعة لوسيل وUDST والكليات الخاصة\n• منحة الفاخورة للمقيمين\n\nيمكنك سؤالي عن أي شيء!`,
+      text: `🎓 **أهلاً بك في المستشار الجامعي القطري!**\n🌍 مرحباً بالطالب/ة المقيم/ة في قطر\n\nأنا هنا لمساعدتك في اختيار جامعتك وتخصصك.\n\n📋 خياراتك المتاحة:\n• جامعة قطر (رسوم 800-1,400 ريال/ساعة)\n• جامعات المدينة التعليمية (منح كاملة متاحة من مؤسسة قطر)\n• جامعة حمد بن خليفة HBKU (منح ممولة بالكامل لجميع الجنسيات)\n• جامعة لوسيل وUDST والكليات الخاصة\n• منحة الفاخورة للمقيمين\n\nيمكنك سؤالي عن أي شيء!`,
       suggestions: ['منح لغير القطريين', 'جامعات المدينة التعليمية', 'HBKU منح كاملة', 'أرسل معدلك']
     };
   };
@@ -479,7 +479,7 @@ export default function QatarUniversityAdvisor() {
                                                       'الجامعات المفضلة'}
               </div>
               <div style={{fontSize:11,color:'rgba(255,255,255,0.6)',marginTop:1,fontFamily:"'Tajawal',sans-serif"}}>
-                المستشار الجامعي الذكي · قطر
+                المستشار الجامعي القطري
               </div>
             </div>
           </div>
@@ -536,7 +536,10 @@ export default function QatarUniversityAdvisor() {
         <style>{`
           @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
           @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+          @keyframes msgSlideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
           @keyframes menuPulse{0%{box-shadow:0 0 0 0 rgba(197,165,90,0.6)}70%{box-shadow:0 0 0 6px rgba(197,165,90,0)}100%{box-shadow:0 0 0 0 rgba(197,165,90,0)}}
+          @keyframes capFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+          @keyframes navTap{0%{transform:scale(1)}50%{transform:scale(0.88)}100%{transform:scale(1)}}
           *{box-sizing:border-box}
           ::-webkit-scrollbar{width:3px;height:3px}
           ::-webkit-scrollbar-track{background:transparent}
@@ -661,7 +664,7 @@ export default function QatarUniversityAdvisor() {
               }}
               onMouseEnter={e=>{if(!isActive)e.currentTarget.style.background='rgba(138,21,56,0.04)';}}
               onMouseLeave={e=>{e.currentTarget.style.background='none';}}
-              onClick={()=>setActiveView(t.view)}
+              onClick={e=>{e.currentTarget.style.animation='navTap 0.22s ease';setTimeout(()=>{if(e.currentTarget)e.currentTarget.style.animation='';},220);setActiveView(t.view);}}
             >
               {isActive && <div style={{
                 position:'absolute',top:0,left:'22%',right:'22%',
@@ -703,7 +706,10 @@ export default function QatarUniversityAdvisor() {
       <style>{`
         @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
         @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes msgSlideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
         @keyframes menuPulse{0%{box-shadow:0 0 0 0 rgba(197,165,90,0.6)}70%{box-shadow:0 0 0 6px rgba(197,165,90,0)}100%{box-shadow:0 0 0 0 rgba(197,165,90,0)}}
+        @keyframes capFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+        @keyframes navTap{0%{transform:scale(1)}50%{transform:scale(0.88)}100%{transform:scale(1)}}
         *{box-sizing:border-box}
         ::-webkit-scrollbar{width:3px;height:3px}
         ::-webkit-scrollbar-track{background:transparent}
