@@ -8,7 +8,6 @@ import Header from './components/Header.jsx';
 import SideMenu from './components/SideMenu.jsx';
 import InfoPanel from './components/InfoPanel.jsx';
 import ChatView from './components/ChatView.jsx';
-import useKeyboardNav from './hooks/useKeyboardNav.js';
 import './styles/accessibility.css';
 
 
@@ -123,6 +122,27 @@ export default function QatarUniversityAdvisor() {
     const q = text.toLowerCase().trim();
 
     if (testState.active) return { type:'test' };
+
+    // ── أسئلة عن البوت نفسه (التعريف) ──
+    if (q.includes('من أنت') || q.includes('من انت') || q.includes('عرف نفسك') || q.includes('عرفني') || q.includes('ما هي وظيفتك') || q.includes('وظيفتك') || q.includes('ايش انت') || q.includes('شو انت'))
+      return { type: 'response', key: 'bot_identity' };
+
+    // ── تحيات ومرحبا ──
+    if (q.includes('مرحبا') || q.includes('مرحباً') || q.includes('هلا') || q.includes('السلام') || q.includes('سلام') || q.includes('هاي') || q.includes('hi') || q.includes('hello'))
+      return { type: 'response', key: 'greeting' };
+
+    // ── شكر ──
+    if (q.includes('شكرا') || q.includes('شكراً') || q.includes('مشكور') || q.includes('thanks') || q.includes('thank'))
+      return { type: 'response', key: 'thanks' };
+
+    // ── مساعدة ──
+    if (q.includes('ساعدني') || q.includes('مساعدة') || q.includes('help') || q.includes('كيف أستخدم') || q.includes('كيف استخدم'))
+      return { type: 'response', key: 'help' };
+
+    // ── من أنا (المستخدم يسأل عن نفسه) ──
+    if (q.includes('من أنا') || q.includes('من انا'))
+      return { type: 'response', key: 'who_am_i' };
+
     if (q.includes('اختبار') || q.includes('تحديد التخصص') || q.includes('ابدأ اختبار') || q.includes('اكتشف تخصصي')) {
       return { type:'start_test' };
     }
@@ -272,6 +292,35 @@ export default function QatarUniversityAdvisor() {
     return CAREER_TEST.results[Object.entries(cats).sort((a,b)=>b[1]-a[1])[0][0]];
   };
 
+  // ─── AI Fallback — استدعاء Gemini عبر API عند فشل keyword matching ───
+  const callAIFallback = useCallback(async (userText) => {
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question: userText,
+          nationality: userProfile.nationality || null,
+        }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      if (data.answer) {
+        addBotMessage(data.answer, data.suggestions || ['جميع الجامعات', 'المنح والابتعاث', 'الرواتب والوظائف']);
+      } else {
+        addBotMessage(
+          'عذراً، لم أتمكن من الإجابة الآن. جرّب صياغة سؤالك بطريقة مختلفة أو اختر من الاقتراحات.',
+          ['جميع الجامعات', 'المنح والابتعاث', 'ابدأ اختبار التخصص']
+        );
+      }
+    } catch {
+      addBotMessage(
+        'عذراً، الخدمة غير متاحة حالياً. يمكنك تصفح الجامعات من القائمة أو المحاولة لاحقاً.',
+        ['جميع الجامعات', 'المنح والابتعاث', 'ابدأ اختبار التخصص']
+      );
+    }
+  }, [userProfile.nationality, addBotMessage]);
+
   // ─── إرسال رسالة ───
   const sendMessage = useCallback((text=input) => {
     if (!text.trim()) return;
@@ -285,15 +334,14 @@ export default function QatarUniversityAdvisor() {
     setInput('');
     setIsTyping(true);
 
-    setTimeout(()=>{
-      setIsTyping(false);
-
+    // ── معالجة فورية للأنواع المعروفة (synchronous) ──
+    const handleLocalResponse = () => {
       if (testState.active) {
         const q = CAREER_TEST.questions[testState.currentQuestion];
         const sel = q.options.find(o => userText.includes(o.text.substring(0,6)));
         if (!sel) {
           addBotMessage(`⚠️ الرجاء اختيار إجابة من الخيارات.`, q.options.map(o=>o.text));
-          return;
+          return true;
         }
         const traits = {...testState.traits};
         Object.entries(sel.traits).forEach(([t,v])=>{ traits[t]=(traits[t]||0)+v; });
@@ -310,7 +358,7 @@ export default function QatarUniversityAdvisor() {
           const nq = CAREER_TEST.questions[next];
           addBotMessage(`✅ تم!\n\n**📝 السؤال ${next+1} من 10:**\n\n${nq.question}`, nq.options.map(o=>o.text));
         }
-        return;
+        return true;
       }
 
       const result = findResponse(userText);
@@ -320,14 +368,14 @@ export default function QatarUniversityAdvisor() {
           `📊 **أخبرني بمعدلك ومسارك!**\n\nاكتب معدلك بهذا الشكل:\n• "معدلي 85% علمي"\n• "92% أدبي"\n• أو الرقم فقط: "85"\n\nوسأخبرك بكل الجامعات والتخصصات المتاحة لك! 🎓`,
           ['معدلي 95%+ علمي', 'معدلي 85% علمي', 'معدلي 75% أدبي', 'معدلي 65%']
         );
-        return;
+        return true;
       }
 
       if (result.type === 'start_test') {
         setTestState({active:true,currentQuestion:0,answers:[],traits:{}});
         const q0 = CAREER_TEST.questions[0];
         addBotMessage(`🎯 **اختبار تحديد التخصص**\n\n10 أسئلة تساعدك لاكتشاف التخصص الأنسب لشخصيتك.\n\n**📝 السؤال 1 من 10:**\n\n${q0.question}`, q0.options.map(o=>o.text));
-        return;
+        return true;
       }
 
       if (result.type === 'response') {
@@ -335,7 +383,7 @@ export default function QatarUniversityAdvisor() {
         if (r) {
           const enhanced = addNationalityContext({text: r.text, suggestions: r.suggestions || []}, userProfile.nationality, result.key);
           addBotMessage(enhanced.text, enhanced.suggestions);
-          return;
+          return true;
         }
       }
 
@@ -346,29 +394,42 @@ export default function QatarUniversityAdvisor() {
         const r = gradeResponse(result.grade, result.track || userProfile.track);
         const enhanced = addNationalityContext(r, userProfile.nationality, 'grade');
         addBotMessage(enhanced.text, enhanced.suggestions);
-        return;
+        return true;
       }
 
       if (result.type === 'student') {
         setUserProfile(p=>({...p,type:'student'}));
         addBotMessage(`أهلاً بك! 🎓\n\nيسعدني مساعدتك في رحلتك التعليمية.\n\n**أخبرني: ما معدلك ومسارك؟**`,
           ['معدلي 95%+ علمي','معدلي 85% علمي','معدلي 75% أدبي','لم تظهر نتائجي بعد']);
-        return;
+        return true;
       }
 
       if (result.type === 'parent') {
         setUserProfile(p=>({...p,type:'parent'}));
         addBotMessage(`أهلاً بك! 👨‍👩‍👧\n\n**ما معدل ابنك/ابنتك ومساره؟**`,
           ['معدله 90%+ علمي','معدلها 85% علمية','يريد المسار العسكري','الجامعات المتاحة']);
+        return true;
+      }
+
+      // type === 'unknown' — يحتاج AI fallback
+      return false;
+    };
+
+    setTimeout(async ()=>{
+      const handled = handleLocalResponse();
+      if (handled) {
+        setIsTyping(false);
         return;
       }
 
-      addBotMessage(
-        `لم أجد إجابة محددة لهذا السؤال. 🙏\n\n**جرّب أحد هؤلاء:**\n• اسم الجامعة: "وايل كورنيل" أو "تكساس إي أند أم"\n• معدلك: "معدلي 85% علمي"\n• تخصص: "خطة دراسة هندسة البترول"\n• سؤال: "كيف أصبح مهندس مكامن؟"\n• "اختبار التخصص"`,
-        ['جامعة قطر — التفاصيل','خطة دراسة هندسة البترول','مقارنة الكليات العسكرية','ابدأ اختبار التخصص']
-      );
+      // ── AI Fallback: استدعاء Gemini عبر /api/chat ──
+      try {
+        await callAIFallback(userText);
+      } finally {
+        setIsTyping(false);
+      }
     }, 400 + Math.random()*300);
-  },[input, testState, findResponse, userProfile.track, userProfile.nationality, addBotMessage]);
+  },[input, testState, findResponse, userProfile.track, userProfile.nationality, addBotMessage, callAIFallback]);
 
   const toggleFav = (id) => setUserProfile(p=>({...p,favorites:p.favorites.includes(id)?p.favorites.filter(f=>f!==id):[...p.favorites,id]}));
   const toggleCmp = (id) => setCompareList(p=>p.includes(id)?p.filter(c=>c!==id):p.length<3?[...p,id]:p);

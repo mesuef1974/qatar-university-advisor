@@ -78,6 +78,27 @@ function findResponse(text, testStateActive) {
   const q = text.toLowerCase().trim();
 
   if (testStateActive) return { type: 'test' };
+
+  // ── أسئلة عن البوت نفسه ──
+  if (q.includes('من أنت') || q.includes('من انت') || q.includes('عرف نفسك') || q.includes('ما هي وظيفتك') || q.includes('وظيفتك') || q.includes('ايش انت') || q.includes('شو انت'))
+    return { type: 'response', key: 'bot_identity' };
+
+  // ── تحيات ──
+  if (q.includes('مرحبا') || q.includes('هلا') || q.includes('السلام') || q.includes('سلام') || q.includes('هاي') || q.includes('hi') || q.includes('hello'))
+    return { type: 'response', key: 'greeting' };
+
+  // ── شكر ──
+  if (q.includes('شكرا') || q.includes('مشكور') || q.includes('thanks'))
+    return { type: 'response', key: 'thanks' };
+
+  // ── مساعدة ──
+  if (q.includes('ساعدني') || q.includes('مساعدة') || q.includes('help') || q.includes('كيف أستخدم'))
+    return { type: 'response', key: 'help' };
+
+  // ── من أنا ──
+  if (q.includes('من أنا') || q.includes('من انا'))
+    return { type: 'response', key: 'who_am_i' };
+
   if (q.includes('اختبار') || q.includes('تحديد التخصص') || q.includes('ابدأ اختبار') || q.includes('اكتشف تخصصي'))
     return { type: 'start_test' };
 
