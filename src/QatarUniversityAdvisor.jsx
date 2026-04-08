@@ -16,7 +16,19 @@ import './styles/accessibility.css';
 // المستشار الجامعي الذكي v5.0 — محلي بالكامل، سريع، موثوق
 // ════════════════════════════════════════════════════════════════════
 
+// ── Responsive: is the viewport wide enough for two-column layout? ──
+function useIsWide() {
+  const [wide, setWide] = useState(() => window.innerWidth >= 1024);
+  useEffect(() => {
+    const handler = () => setWide(window.innerWidth >= 1024);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return wide;
+}
+
 export default function QatarUniversityAdvisor() {
+  const isWide = useIsWide();
   // UX-A4: Keyboard Navigation الشامل
   useKeyboardNav();
   // Helper to build initial welcome message based on nationality
@@ -350,6 +362,197 @@ export default function QatarUniversityAdvisor() {
     return <InfoPanel selectNationality={selectNationality} />;
   }
 
+  // ══ Shared nav tabs definition (used in both mobile and desktop) ══
+  const NAV_TABS = [
+    {view:'chat',        label:'محادثة',  svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>},
+    {view:'universities',label:'جامعات', svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>},
+    {view:'compare',     label:'مقارنة',  svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>},
+    {view:'favorites',   label:'مفضلة',   svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill={a?'currentColor':'none'} stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>},
+  ];
+
+  // ── Legal footer links (reused in both layouts) ──
+  const LegalFooter = () => (
+    <div style={{
+      display:'flex', alignItems:'center', justifyContent:'center',
+      gap:16, padding:'6px 16px 8px',
+      background:'#fff', borderTop:'1px solid rgba(0,0,0,0.05)',
+      flexShrink:0,
+    }}>
+      <a href="/privacy" style={{fontSize:12,color:'#9CA3AF',textDecoration:'none',fontFamily:"'Tajawal',sans-serif",direction:'rtl',transition:'color 0.15s'}}
+        onMouseEnter={e=>e.target.style.color='#8A1538'} onMouseLeave={e=>e.target.style.color='#9CA3AF'}>سياسة الخصوصية</a>
+      <span style={{fontSize:12,color:'#D1D5DB'}}>·</span>
+      <a href="/terms" style={{fontSize:12,color:'#9CA3AF',textDecoration:'none',fontFamily:"'Tajawal',sans-serif",direction:'rtl',transition:'color 0.15s'}}
+        onMouseEnter={e=>e.target.style.color='#8A1538'} onMouseLeave={e=>e.target.style.color='#9CA3AF'}>شروط الاستخدام</a>
+    </div>
+  );
+
+  // ── Secondary view renderer (universities / compare / favorites) ──
+  const renderSecondaryView = (panelView) => {
+    if (panelView === 'universities') return (
+      <UniversitiesView S={S} UNIVERSITIES_DB={UNIVERSITIES_DB}
+        expandedUni={expandedUni} setExpandedUni={setExpandedUni}
+        userProfile={userProfile} compareList={compareList}
+        toggleFav={toggleFav} toggleCmp={toggleCmp}
+        setActiveView={setActiveView} sendMessage={sendMessage} />
+    );
+    if (panelView === 'compare') return (
+      <CompareView S={S} UNIVERSITIES_DB={UNIVERSITIES_DB}
+        compareList={compareList} setCompareList={setCompareList}
+        setActiveView={setActiveView} sendMessage={sendMessage} />
+    );
+    if (panelView === 'favorites') return (
+      <FavoritesView S={S} UNIVERSITIES_DB={UNIVERSITIES_DB}
+        userProfile={userProfile} toggleFav={toggleFav}
+        setActiveView={setActiveView} sendMessage={sendMessage} />
+    );
+    return null;
+  };
+
+  // ══════════════════════════════════════════════════════════════════
+  // Desktop two-column layout (>= 1024px)
+  // Right panel (RTL): Chat — always visible
+  // Left panel (RTL): Secondary views — switched via bottom nav tabs
+  // ══════════════════════════════════════════════════════════════════
+  if (isWide) {
+    // On desktop "chat" tab click focuses the right panel — left panel stays on last secondary view
+    const desktopSideView = activeView === 'chat' ? 'universities' : activeView;
+
+    return (
+      <div
+        dir="rtl"
+        style={{
+          display:'flex', flexDirection:'row', width:'100%', height:'100dvh',
+          fontFamily:"'Tajawal','Segoe UI',sans-serif", background:'#EDE5DA',
+          overflow:'hidden', position:'relative',
+        }}
+      >
+        {/* ── Right panel: Chat (always visible, RTL-right = visual right) ── */}
+        <div style={{
+          flex:'1 1 58%', display:'flex', flexDirection:'column',
+          height:'100dvh', overflow:'hidden',
+          borderRight:'1px solid rgba(138,21,56,0.12)',
+          background:'#EDE5DA',
+        }}>
+          <Header S={S} userProfile={userProfile}
+            activeView={activeView} setActiveView={setActiveView}
+            showMenu={showMenu} setShowMenu={setShowMenu}
+            selectNationality={selectNationality} />
+
+          {showMenu && (
+            <SideMenu UNIVERSITIES_DB={UNIVERSITIES_DB}
+              topQuestions={topQuestions} quickBtns={quickBtns}
+              setShowMenu={setShowMenu} setActiveView={setActiveView}
+              sendMessage={sendMessage} />
+          )}
+
+          <div style={{flex:1,overflow:'hidden',display:'flex',flexDirection:'column'}}>
+            <ChatView messages={messages} isTyping={isTyping}
+              input={input} setInput={setInput} sendMessage={sendMessage}
+              messagesEndRef={messagesEndRef} userProfile={userProfile}
+              pdfLoading={pdfLoading} setPdfLoading={setPdfLoading}
+              suggStyle={S.sugg} />
+          </div>
+
+          <LegalFooter />
+        </div>
+
+        {/* ── Left panel: Secondary views + sidebar nav ── */}
+        <div style={{
+          flex:'1 1 42%', display:'flex', flexDirection:'column',
+          height:'100dvh', overflow:'hidden',
+          background:'#F8F5F2',
+          minWidth:320, maxWidth:520,
+        }}>
+          {/* Sidebar header */}
+          <div style={{
+            background:'linear-gradient(160deg,#8A1538 0%,#6B1030 100%)',
+            color:'#fff', padding:'12px 16px 10px',
+            flexShrink:0, zIndex:100,
+            boxShadow:'0 2px 14px rgba(107,16,48,0.3)',
+            display:'flex', alignItems:'center', gap:10,
+          }}>
+            <span style={{fontSize:20}}>🎓</span>
+            <div>
+              <div style={{fontWeight:800,fontSize:15,fontFamily:"'Cairo','Tajawal',sans-serif"}}>
+                {desktopSideView === 'universities' ? 'الجامعات والمعاهد' :
+                 desktopSideView === 'compare'      ? 'مقارنة الجامعات'  :
+                                                      'الجامعات المفضلة'}
+              </div>
+              <div style={{fontSize:11,color:'rgba(255,255,255,0.6)',marginTop:1,fontFamily:"'Tajawal',sans-serif"}}>
+                المستشار الجامعي الذكي · قطر
+              </div>
+            </div>
+          </div>
+
+          {/* Secondary view content */}
+          <div style={{flex:1,overflow:'hidden',display:'flex',flexDirection:'column'}}>
+            {renderSecondaryView(desktopSideView)}
+          </div>
+
+          {/* Bottom nav — controls left panel content (chat tab kept for UX consistency) */}
+          <nav aria-label="التنقل الثانوي" style={{
+            display:'flex', background:'#fff',
+            borderTop:'1px solid rgba(0,0,0,0.06)',
+            flexShrink:0, zIndex:90,
+            boxShadow:'0 -4px 20px rgba(0,0,0,0.07)',
+          }}>
+            {NAV_TABS.map((t,i) => {
+              const isActive = t.view === 'chat'
+                ? activeView === 'chat'
+                : activeView === t.view || (activeView === 'chat' && desktopSideView === t.view);
+              return (
+                <button key={i}
+                  aria-label={t.label}
+                  aria-current={isActive ? 'page' : undefined}
+                  style={{
+                    flex:1, display:'flex', flexDirection:'column',
+                    alignItems:'center', gap:4,
+                    padding:'9px 0 7px', background:'none', border:'none',
+                    cursor:'pointer', fontFamily:"'Tajawal',sans-serif",
+                    fontSize:12, fontWeight:isActive ? 700 : 400,
+                    color:isActive ? '#8A1538' : '#9CA3AF',
+                    position:'relative', transition:'color 0.18s',
+                  }}
+                  onMouseEnter={e=>{if(!isActive)e.currentTarget.style.background='rgba(138,21,56,0.04)';}}
+                  onMouseLeave={e=>{e.currentTarget.style.background='none';}}
+                  onClick={()=>{
+                    // On desktop, "chat" tab just keeps focus on right panel — left panel stays on universities
+                    setActiveView(t.view === 'chat' ? 'chat' : t.view);
+                  }}
+                >
+                  {isActive && <div style={{
+                    position:'absolute',top:0,left:'22%',right:'22%',
+                    height:3,borderRadius:'0 0 4px 4px',
+                    background:'linear-gradient(90deg,#8A1538,#C5A55A)',
+                  }}/>}
+                  {t.svg(isActive)}
+                  <span>{t.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+
+        <style>{`
+          @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
+          @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+          @keyframes menuPulse{0%{box-shadow:0 0 0 0 rgba(197,165,90,0.6)}70%{box-shadow:0 0 0 6px rgba(197,165,90,0)}100%{box-shadow:0 0 0 0 rgba(197,165,90,0)}}
+          *{box-sizing:border-box}
+          ::-webkit-scrollbar{width:3px;height:3px}
+          ::-webkit-scrollbar-track{background:transparent}
+          ::-webkit-scrollbar-thumb{background:rgba(138,21,56,0.18);border-radius:2px}
+          ::-webkit-scrollbar-thumb:hover{background:rgba(138,21,56,0.35)}
+          p{margin:2px 0;line-height:1.75}
+          strong{font-weight:700;color:inherit}
+          input::placeholder{color:rgba(107,16,48,0.35);font-family:'Tajawal',sans-serif}
+        `}</style>
+      </div>
+    );
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // Mobile / Tablet single-column layout (unchanged)
+  // ══════════════════════════════════════════════════════════════════
   return (
     <div style={S.app} dir="rtl" id="main-content" role="main">
       <a href="#chat-messages" className="skip-nav">
@@ -441,12 +644,7 @@ export default function QatarUniversityAdvisor() {
           paddingBottom:'env(safe-area-inset-bottom,0)',
         }}
       >
-        {[
-          {view:'chat',        label:'محادثة',  svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>},
-          {view:'universities',label:'جامعات', svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>},
-          {view:'compare',     label:'مقارنة',  svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>},
-          {view:'favorites',   label:'مفضلة',   svg:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill={a?'currentColor':'none'} stroke="currentColor" strokeWidth={a?2.2:1.8} strokeLinecap="round" strokeLinejoin="round"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>},
-        ].map((t,i)=>{
+        {NAV_TABS.map((t,i)=>{
           const isActive = activeView===t.view;
           return (
             <button key={i}
