@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "Qatar University",
     "Education City",
   ],
-  authors: [{ name: "شركة أذكياء للبرمجيات | Azkia" }],
+  authors: [{ name: "شركة أذكياء للبرمجيات | Azkia Software Co." }],
   icons: {
     icon: "/favicon.png",
     apple: "/apple-touch-icon.png",

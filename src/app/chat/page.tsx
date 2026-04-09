@@ -84,7 +84,7 @@ export default function ChatPage() {
                 <path d="M12 8l-2.5 5h5L12 8z" fill="#C5A55A" />
               </svg>
               <span className="text-[10px] text-muted-foreground/60">
-                © 2026 شركة أذكياء للبرمجيات | Azkia
+                © 2026 شركة أذكياء للبرمجيات | Azkia Software Co.
               </span>
             </div>
           </footer>
