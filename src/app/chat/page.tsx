@@ -11,16 +11,6 @@ export default function ChatPage() {
   const hydrated = useHydrateStore();
   const { addMessage, setIsTyping, userProfile } = useChatStore();
 
-  if (!hydrated) {
-    return (
-      <div className="flex items-center justify-center h-dvh">
-        <div className="animate-pulse text-muted-foreground text-sm">
-          جاري التحميل...
-        </div>
-      </div>
-    );
-  }
-
   const handleSidebarMessage = useCallback(
     async (text: string) => {
       addMessage(createUserMessage(text));
@@ -56,6 +46,16 @@ export default function ChatPage() {
     },
     [addMessage, setIsTyping, userProfile.nationality]
   );
+
+  if (!hydrated) {
+    return (
+      <div className="flex items-center justify-center h-dvh">
+        <div className="animate-pulse text-muted-foreground text-sm">
+          جاري التحميل...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-dvh">
