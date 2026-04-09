@@ -2,7 +2,7 @@
   "_meta": {
     "description": "Qatar University Advisor - University Data 2025/2026",
     "source": "Official university websites + Ministry of Education and Higher Education Qatar",
-    "lastGlobalUpdate": "2026-04-08",
+    "lastGlobalUpdate": "2026-04-09",
     "academicYear": "2025-2026",
     "maintainer": "Content Team - Azkia",
     "notes": "This file is the single source of truth for all university data. Edit values directly - no code changes needed."
@@ -13,6 +13,7 @@
     "QU": {
       "nameAr": "جامعة قطر",
       "nameEn": "Qatar University",
+      "logoUrl": "https://www.qu.edu.qa/Style%20Library/assets/images/qulogo.png",
       "website": "https://www.qu.edu.qa",
       "admissionsUrl": "https://www.qu.edu.qa/ar/admissions",
       "location": "الدوحة — حي الطريق الغربي",
@@ -88,6 +89,7 @@
     "CMU_Q": {
       "nameAr": "جامعة كارنيغي ميلون — قطر",
       "nameEn": "Carnegie Mellon University Qatar",
+      "logoUrl": "https://www.qatar.cmu.edu/wp-content/uploads/2024/12/cropped-site-logo.png",
       "website": "https://www.qatar.cmu.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
@@ -126,6 +128,7 @@
     "TAMU_Q": {
       "nameAr": "جامعة تكساس إي آند إم — قطر",
       "nameEn": "Texas A&M University at Qatar",
+      "logoUrl": "https://www.qatar.tamu.edu/assets/img/elements/TAMU-logo-white.png",
       "website": "https://www.qatar.tamu.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
@@ -157,6 +160,7 @@
     "WCM_Q": {
       "nameAr": "جامعة وايل كورنيل الطبية — قطر",
       "nameEn": "Weill Cornell Medicine-Qatar",
+      "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Weill_Cornell_Medicine_logo.svg/320px-Weill_Cornell_Medicine_logo.svg.png",
       "website": "https://qatar-weill.cornell.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
@@ -184,6 +188,7 @@
     "NU_Q": {
       "nameAr": "جامعة نورث ويسترن — قطر",
       "nameEn": "Northwestern University in Qatar",
+      "logoUrl": "https://common.qatar.northwestern.edu/images/logos/NUQ-vertical-white.svg",
       "website": "https://www.qatar.northwestern.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
@@ -207,6 +212,7 @@
     "GU_Q": {
       "nameAr": "جامعة جورجتاون — قطر",
       "nameEn": "Georgetown University in Qatar",
+      "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Georgetown_University_Seal.svg/200px-Georgetown_University_Seal.svg.png",
       "website": "https://www.qatar.georgetown.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
@@ -230,6 +236,7 @@
     "HEC_Q": {
       "nameAr": "جامعة HEC باريس — قطر",
       "nameEn": "HEC Paris in Qatar",
+      "logoUrl": "https://www.hec.edu/themes/custom/hec_theme/logo.svg",
       "website": "https://www.hec.edu/en/qatar",
       "location": "المدينة التعليمية",
       "type": "فرنسية — فرع قطر",
@@ -253,6 +260,7 @@
     "HBKU": {
       "nameAr": "جامعة حمد بن خليفة",
       "nameEn": "Hamad Bin Khalifa University",
+      "logoUrl": "https://www.hbku.edu.qa/themes/custom/hbku/images/logo-white.svg",
       "website": "https://www.hbku.edu.qa",
       "location": "المدينة التعليمية",
       "type": "حكومية بحثية",
@@ -288,6 +296,7 @@
     "UDST": {
       "nameAr": "جامعة الدوحة للعلوم والتكنولوجيا",
       "nameEn": "University of Doha for Science and Technology",
+      "logoUrl": "https://www.udst.edu.qa/themes/custom/cnaq/logo.png",
       "website": "https://www.udst.edu.qa",
       "location": "الدوحة",
       "type": "حكومية تطبيقية",
@@ -319,6 +328,7 @@
     "LU": {
       "nameAr": "جامعة لوسيل",
       "nameEn": "Lusail University",
+      "logoUrl": "https://lu.edu.qa/img/lu-logo.webp",
       "website": "https://www.lu.edu.qa",
       "location": "لوسيل، الدوحة",
       "type": "خاصة وطنية",
@@ -349,6 +359,7 @@
     "VCU_Q": {
       "nameAr": "جامعة فرجينيا كومنولث للفنون — قطر",
       "nameEn": "VCUarts Qatar",
+      "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/VCU_brandmark.svg/200px-VCU_brandmark.svg.png",
       "website": "https://qatar.vcu.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فنون وتصميم",
@@ -382,6 +393,7 @@
     "CCQ": {
       "nameAr": "كلية المجتمع في قطر",
       "nameEn": "Community College of Qatar",
+      "logoUrl": "https://www.community.edu.qa/Style%20Library/CCQ-Assets/img/fullLogo.svg",
       "website": "https://www.ccq.edu.qa",
       "location": "الدوحة",
       "type": "حكومية",
@@ -412,6 +424,7 @@
     "QAA": {
       "nameAr": "أكاديمية قطر لعلوم الطيران",
       "nameEn": "Qatar Aeronautical Academy",
+      "logoUrl": "https://www.qaa.edu.qa/Style%20Library/QAA-Assets/img/logo.png",
       "website": "https://www.qaa.edu.qa",
       "location": "مطار الدوحة",
       "type": "تخصصية — بالتعاون مع الخطوط القطرية",
@@ -636,6 +649,7 @@
     "DOHA_INSTITUTE": {
       "nameAr": "معهد الدوحة للدراسات العليا",
       "nameEn": "Doha Institute for Graduate Studies",
+      "logoUrl": "https://www.dohainstitute.edu.qa/Style%20Library/DI-Styles/images/top-logo.svg",
       "website": "https://www.dohainstitute.edu.qa",
       "location": "الدوحة",
       "type": "خاصة غير ربحية — دراسات عليا",
@@ -661,6 +675,397 @@
 
       "lastUpdated": "2026-04-09",
       "dataSource": "dohainstitute.edu.qa",
+      "academicYear": "2025-2026"
+    },
+
+    "AFG_ABERDEEN": {
+      "nameAr": "كلية AFG بالتعاون مع جامعة أبردين",
+      "nameEn": "AFG College with University of Aberdeen",
+      "logoUrl": "https://alfaleh.edu.qa/wp-content/uploads/2021/04/logo.png",
+      "website": "https://www.afg.qa",
+      "admissionsUrl": "https://www.abdn.ac.uk/qatar/apply/index.php",
+      "location": "مشيرب — الدوحة",
+      "type": "بريطانية — شراكة دولية",
+
+      "programs": [
+        "المحاسبة والمالية (BSc Accountancy & Finance)",
+        "إدارة الأعمال (BA Business Management)",
+        "إدارة الأعمال ونظم المعلومات (BA Business Management & Information Systems)",
+        "إدارة الأعمال والعلاقات الدولية (BA Business Management & International Relations)",
+        "إدارة الأعمال والدراسات القانونية (BA Business Management & Legal Studies)",
+        "ماجستير إدارة الأعمال (MBA)",
+        "ماجستير إدارة الأعمال الدولية (MSc International Business Management)",
+        "ماجستير القانون التجاري الدولي (LLM International Commercial Law)",
+        "ماجستير إدارة الموارد البشرية الدولية (MSc International HRM)",
+        "علوم الحاسوب والذكاء الاصطناعي (قريباً)",
+        "الأمن السيبراني (قريباً)",
+        "الاستدامة (قريباً)"
+      ],
+
+      "admissionRequirements": {
+        "gpa": "70%+ في الثانوية",
+        "ielts": "5.5+ للبكالوريوس | 6.5+ للماجستير",
+        "applicationFee": "QAR 400"
+      },
+
+      "tuitionFees": {
+        "registrationFee": "QAR 2,100",
+        "note": "تواصل مع القبول للرسوم التفصيلية حسب البرنامج"
+      },
+
+      "scholarships": "منح حكومية للقطريين + خصومات للمتفوقين",
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "abdn.ac.uk/qatar + alfaleh.edu.qa",
+      "academicYear": "2025-2026"
+    },
+
+    "ORYX_LJMU": {
+      "nameAr": "كلية أوريكس العالمية",
+      "nameEn": "Oryx Universal College with LJMU",
+      "logoUrl": "https://oryx.edu.qa/wp-content/uploads/2025/07/Logo-_V_03-800x203.png",
+      "website": "https://www.oryx.edu.qa",
+      "location": "الدوحة",
+      "type": "بريطانية — شراكة دولية",
+
+      "programs": [
+        "هندسة البرمجيات (BSc Software Engineering)",
+        "علوم الحاسوب (BSc Computer Science)",
+        "الأمن السيبراني (BSc Cybersecurity)",
+        "الذكاء الاصطناعي (BSc Artificial Intelligence)",
+        "إدارة الأعمال (BA Business Management)",
+        "المحاسبة والمالية (BSc Accounting & Finance)",
+        "الهندسة الميكانيكية (BEng Mechanical Engineering)",
+        "الهندسة الكهربائية والإلكترونية (BEng Electrical & Electronic Engineering)"
+      ],
+
+      "admissionRequirements": {
+        "gpa": "60%+ في الثانوية",
+        "ielts": "5.5+ للبكالوريوس",
+        "notes": "شهادة LJMU بريطانية معتمدة"
+      },
+
+      "tuitionFees": {
+        "note": "رسوم تنافسية — تواصل مع القبول للتفاصيل"
+      },
+
+      "scholarships": "منح تصل إلى 40% + منح Education Above All كاملة",
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "oryx.edu.qa",
+      "academicYear": "2025-2026"
+    },
+
+    "ARIU": {
+      "nameAr": "كلية الريان الدولية الجامعية",
+      "nameEn": "Al Rayyan International University College",
+      "logoUrl": "https://ariu.edu.qa/wp-content/uploads/2022/12/logo-new-1-3.png",
+      "website": "https://www.ariu.edu.qa",
+      "location": "الريان",
+      "type": "بريطانية — شراكة دولية",
+
+      "programs": [
+        "إدارة الضيافة الدولية (BA Hons International Hospitality Management)",
+        "إدارة السياحة الدولية (BA Hons International Tourism Management)",
+        "إدارة الأعمال الدولية (BSc Hons International Business Management)",
+        "ماجستير إدارة السياحة (MSc Tourism Management)",
+        "ماجستير إدارة الأعمال العالمي (MBA Global — شراكة جامعة ديربي)"
+      ],
+
+      "admissionRequirements": {
+        "gpa": "60%+ في الثانوية",
+        "ielts": "5.5+ للبكالوريوس | 6.0+ للماجستير",
+        "applicationFee": "QAR 1,000 (غير مستردة)"
+      },
+
+      "tuitionFees": {
+        "undergraduate": "QAR 40,000/فصل دراسي",
+        "mbaGlobal": "QAR 105,000/سنة (88,000 مع المنحة)"
+      },
+
+      "scholarships": "منح حكومية كاملة للقطريين + منح للشركات وغير القطريين",
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "ariu.edu.qa",
+      "academicYear": "2025-2026"
+    },
+
+    "BUC": {
+      "nameAr": "كلية برزان الجامعية",
+      "nameEn": "Barzan University College",
+      "logoUrl": "",
+      "website": "https://www.buc.edu.qa",
+      "location": "الدوحة",
+      "type": "أسترالية — شراكة دولية",
+
+      "programs": [
+        "علوم الحاسوب (BSc Computer Science — Swinburne)",
+        "تكنولوجيا المعلومات (BSc Information Technology — Swinburne)",
+        "إدارة الأعمال (Bachelor of Business — Swinburne)",
+        "الهندسة والبيئة المبنية (Engineering & Built Environment)",
+        "البرنامج التأسيسي (Pre-University Program)"
+      ],
+
+      "admissionRequirements": {
+        "gpa": "60%+ في الثانوية",
+        "ielts": "5.5+ للبكالوريوس",
+        "notes": "شهادة أسترالية من جامعة سوينبرن (Top 300 عالمياً)"
+      },
+
+      "tuitionFees": {
+        "note": "أسعار تمهيدية حالياً — تواصل مع القبول للتفاصيل"
+      },
+
+      "scholarships": "منح أداء أكاديمي متميز + خصومات شركات",
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "buc.edu.qa",
+      "academicYear": "2025-2026"
+    },
+
+    "ASTATE_Q": {
+      "nameAr": "جامعة أركنساس ستيت — قطر",
+      "nameEn": "Arkansas State University Qatar",
+      "logoUrl": "https://astateqatar.com/wp-content/uploads/2025/10/ASTATE-Qatar-Landscape-Black@4x.png",
+      "website": "https://www.astateqatar.com",
+      "location": "الدوحة",
+      "type": "أمريكية — فرع قطر",
+
+      "programs": [
+        "علوم الحاسوب (BSc Computer Science)",
+        "علم النفس (BA Psychology)",
+        "التربية الخاصة (BSc Education in Special Education K-12)",
+        "التكنولوجيا الرقمية والتصميم (BSc Digital Technology & Design)",
+        "إدارة النظم الهندسية (BSc Engineering Management Systems)"
+      ],
+
+      "admissionRequirements": {
+        "gpa": "75%+ في الثانوية (77-79% لبعض البرامج)",
+        "ielts": "5.5+ أو TOEFL 61+ أو iTEP 3.5+",
+        "notes": "شهادة أمريكية معتمدة — طلاب من 60+ دولة"
+      },
+
+      "tuitionFees": {
+        "note": "تواصل مع القبول — الرسوم تُدفع في بداية كل فصل"
+      },
+
+      "scholarships": "منح 15% للقطريين + منح رياضية + منح المستجدين المتفوقين",
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "astateqatar.com",
+      "academicYear": "2025-2026"
+    },
+
+    "CUQ_ULSTER": {
+      "nameAr": "كلية CUQ بالتعاون مع جامعة ألستر",
+      "nameEn": "CUQ Ulster University",
+      "logoUrl": "https://cuq-ulster.edu.qa/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-09-at-11.34.09-AM.jpeg",
+      "website": "https://www.cuq-ulster.edu.qa",
+      "location": "لوسيل",
+      "type": "بريطانية — شراكة دولية",
+
+      "programs": [
+        "العمارة (BSc Architecture)",
+        "علم النفس (BSc Psychology)",
+        "الذكاء الاصطناعي (BSc Artificial Intelligence)",
+        "إدارة الأعمال (BSc Business Management)",
+        "الأعمال الدولية والحوسبة (BSc Global Business with Computing)",
+        "القانون (LLB Law)",
+        "الهندسة والتكنولوجيا (BEng Engineering & Technology)",
+        "الهندسة الطبية الحيوية (BEng Biomedical Engineering)",
+        "علوم الحاسوب (BSc Computer Science)",
+        "الصناعات الإبداعية (BA Creative Industries)",
+        "ماجستير إدارة الأعمال (MBA)",
+        "ماجستير الذكاء الاصطناعي (MSc Artificial Intelligence)",
+        "ماجستير التسويق (MSc Marketing)",
+        "ماجستير إدارة التعليم (MEd Education Management)",
+        "ماجستير القانون التجاري الدولي (LLM)"
+      ],
+
+      "admissionRequirements": {
+        "gpa": "60%+ في الثانوية",
+        "ielts": "5.5+ للبكالوريوس | 6.0+ للماجستير",
+        "registrationFee": "QAR 3,500"
+      },
+
+      "tuitionFees": {
+        "note": "خصم 10% للدفع المبكر + تقسيط متاح"
+      },
+
+      "scholarships": "خصم 10% للتقديم المبكر + منح حسب البرنامج",
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "cuq-ulster.edu.qa",
+      "academicYear": "2025-2026"
+    },
+
+    "MIE_SPPU": {
+      "nameAr": "معهد MIE بالتعاون مع جامعة بيون — قطر",
+      "nameEn": "MIE-SPPU Pune University Qatar",
+      "logoUrl": "",
+      "website": "https://www.miesppu.edu.qa",
+      "location": "الدوحة",
+      "type": "هندية — فرع قطر",
+
+      "programs": [
+        "بكالوريوس إدارة الأعمال — ريادة الأعمال (BBA Entrepreneurship)",
+        "بكالوريوس إدارة الأعمال — الإدارة العامة (BBA General Management)",
+        "بكالوريوس التجارة — المحاسبة الدولية (BCom International Accounting)",
+        "بكالوريوس التجارة — البنوك والتمويل (BCom Banking & Finance)",
+        "بكالوريوس التربية (B.Ed)"
+      ],
+
+      "admissionRequirements": {
+        "gpa": "50%+ في الثانوية",
+        "ielts": "غير مطلوب — التدريس بالإنجليزية",
+        "seatReservation": "QAR 1,000 (غير مستردة)"
+      },
+
+      "tuitionFees": {
+        "bedProgram": "QAR 12,000/سنة (إجمالي QAR 24,000 لسنتين)",
+        "note": "رسوم مدعومة — أقل تكلفة في قطر"
+      },
+
+      "scholarships": "خصم 10% للشركات الشريكة + منح أداء أكاديمي متميز",
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "miesppu.edu.qa",
+      "academicYear": "2025-2026"
+    },
+
+    "QFBA": {
+      "nameAr": "أكاديمية قطر للمال والأعمال",
+      "nameEn": "QFBA with Northumbria University",
+      "logoUrl": "",
+      "website": "https://www.qfba.edu.qa",
+      "admissionsUrl": "https://nu.qfba.edu.qa/academic-programs",
+      "location": "الخليج الغربي — الدوحة",
+      "type": "بريطانية — شراكة مالية",
+
+      "programs": [
+        "بكالوريوس البنوك والتمويل الدولي (BA Hons International Banking & Finance — Northumbria)",
+        "ماجستير المالية (MSc Finance — Northumbria)",
+        "دبلوم في المالية",
+        "برامج تدريب مهنية في القطاع المالي والمصرفي"
+      ],
+
+      "admissionRequirements": {
+        "gpa": "جيد+ في الثانوية أو بكالوريوس للماجستير",
+        "ielts": "6.0+ للبكالوريوس | 6.5+ للماجستير",
+        "notes": "تحت إشراف هيئة مركز قطر للمال (QFC)"
+      },
+
+      "tuitionFees": {
+        "note": "تواصل مع الأكاديمية — رسوم تنافسية للقطاع المالي"
+      },
+
+      "scholarships": "منح من مركز قطر للمال + دعم حكومي للقطريين",
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "qfba.edu.qa + northumbria.ac.uk",
+      "academicYear": "2025-2026"
+    },
+
+    "DFI": {
+      "nameAr": "معهد الدوحة للأفلام",
+      "nameEn": "Doha Film Institute",
+      "logoUrl": "",
+      "website": "https://www.dohafilminstitute.com",
+      "location": "كتارا — الدوحة",
+      "type": "متخصصة — سينما وإعلام",
+
+      "programs": [
+        "شهادة الرسوم المتحركة — ToonBoom (Animation Certificate)",
+        "شهادة التصوير السينمائي — بالتعاون مع La Fémis باريس",
+        "شهادة الرسوم المتحركة — بالتعاون مع Gobelins باريس (9 أشهر)",
+        "ورشة كتابة السيناريو (Screenwriting Lab)",
+        "مختبر صناعة الأفلام (Filmmaking Lab)",
+        "مختبر المنتجين (Producers Lab)",
+        "مختبر الأفلام القصيرة (Short Script Lab)"
+      ],
+
+      "admissionRequirements": {
+        "notes": "لا تشترط شهادة محددة — تقييم بالملف الإبداعي والمقابلة",
+        "age": "18+ لمعظم البرامج",
+        "language": "الإنجليزية أو العربية حسب البرنامج"
+      },
+
+      "tuitionFees": {
+        "note": "بعض البرامج مجانية أو مدعومة — تختلف حسب البرنامج"
+      },
+
+      "scholarships": "منح إنتاج أفلام + دعم مالي للمشاريع السينمائية",
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "dohafilm.com",
+      "academicYear": "2025-2026"
+    },
+
+    "ABP": {
+      "nameAr": "البرنامج التأسيسي الأكاديمي",
+      "nameEn": "Academic Bridge Program",
+      "logoUrl": "",
+      "website": "https://www.abp.edu.qa",
+      "location": "المدينة التعليمية",
+      "type": "تأسيسي — مؤسسة قطر",
+
+      "programs": [
+        "المسار العلمي والتقني (STEM Track)",
+        "مسار العلوم الاجتماعية (Social Sciences Track)",
+        "مسار الإنسانيات والفنون البصرية (Humanities & Visual Arts Track)",
+        "اختبار IELTS (مركز اختبار معتمد — أول مركز في المدينة التعليمية)"
+      ],
+
+      "admissionRequirements": {
+        "gpa": "شهادة ثانوية",
+        "notes": "برنامج تأسيسي لمدة سنة — 90%+ من الخريجين يُقبلون في الجامعات",
+        "target": "خريجو الثانوية الراغبون في الالتحاق بجامعات المدينة التعليمية"
+      },
+
+      "tuitionFees": {
+        "note": "ممول من مؤسسة قطر — مجاني أو شبه مجاني للقطريين"
+      },
+
+      "scholarships": "تمويل كامل من مؤسسة قطر لمعظم الطلاب",
+      "applicationDeadlines": "فبراير - مايو",
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "abp.edu.qa + qf.org.qa",
+      "academicYear": "2025-2026"
+    },
+
+    "UFC": {
+      "nameAr": "كلية التأسيس الجامعي",
+      "nameEn": "University Foundation College",
+      "logoUrl": "https://ufc.edu.qa/wp-content/uploads/2024/04/UFC-Logo-1.jpg",
+      "website": "https://www.ufc.edu.qa",
+      "location": "الدوحة",
+      "type": "تأسيسي — NCUK",
+
+      "programs": [
+        "السنة التأسيسية الدولية — الأعمال (NCUK IFY Business)",
+        "السنة التأسيسية الدولية — الهندسة (NCUK IFY Engineering)",
+        "السنة التأسيسية الدولية — العلوم/الطب (NCUK IFY Science/Medicine)",
+        "السنة التأسيسية الدولية — الإنسانيات (NCUK IFY Humanities)",
+        "السنة التأسيسية الدولية — الفن والتصميم (NCUK IFY Art & Design)",
+        "السنة الأولى الدولية (NCUK International Year One — IYOne)"
+      ],
+
+      "admissionRequirements": {
+        "gpa": "شهادة ثانوية",
+        "ielts": "4.5+ (يتم تطوير اللغة خلال البرنامج)",
+        "notes": "أول مركز NCUK في الشرق الأوسط منذ 2017 — التحويل لـ 100+ جامعة عالمية"
+      },
+
+      "tuitionFees": {
+        "note": "تواصل مع القبول — الرسوم تشمل المواد الدراسية والدعم الأكاديمي"
+      },
+
+      "scholarships": "منح جزئية متاحة — تحويل مضمون لجامعات NCUK الشريكة",
+      "applicationDeadlines": "طوال السنة",
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "ufc.edu.qa + ncuk.ac.uk",
       "academicYear": "2025-2026"
     }
   },

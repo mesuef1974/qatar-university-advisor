@@ -35,13 +35,27 @@ export default function UniversityCard({ id, university }: UniversityCardProps) 
     <Card className="group hover:shadow-md transition-all duration-200 hover:border-maroon/20 dark:hover:border-primary/20">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
-          <div className="flex-1 min-w-0">
-            <CardTitle className="text-base font-bold leading-tight">
-              {university.nameAr}
-            </CardTitle>
-            <p className="text-[12px] text-muted-foreground mt-1">
-              {university.nameEn}
-            </p>
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            {university.logoUrl && (
+              <div className="w-12 h-12 rounded-lg bg-white p-1 shadow-sm flex-shrink-0 overflow-hidden border border-gray-100">
+                <img
+                  src={university.logoUrl}
+                  alt={university.nameAr}
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+              </div>
+            )}
+            <div className="flex-1 min-w-0">
+              <CardTitle className="text-base font-bold leading-tight">
+                {university.nameAr}
+              </CardTitle>
+              <p className="text-[12px] text-muted-foreground mt-1">
+                {university.nameEn}
+              </p>
+            </div>
           </div>
           <Badge variant="outline" className={`text-[10px] ${typeColor} flex-shrink-0`}>
             {university.type}

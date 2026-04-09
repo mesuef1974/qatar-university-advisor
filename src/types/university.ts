@@ -1,6 +1,7 @@
 export interface University {
   nameAr: string;
   nameEn: string;
+  logoUrl?: string;
   website: string;
   admissionsUrl?: string;
   location: string;

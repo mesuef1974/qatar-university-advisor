@@ -45,6 +45,18 @@ export default function UniversityDetailClient({ id, university }: Props) {
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
+            {university.logoUrl && (
+              <div className="w-16 h-16 rounded-xl bg-white p-1.5 shadow-sm flex-shrink-0 overflow-hidden">
+                <img
+                  src={university.logoUrl}
+                  alt={university.nameAr}
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).parentElement!.style.display = 'none';
+                  }}
+                />
+              </div>
+            )}
             <div className="flex-1">
               <h1 className="text-xl font-bold">{university.nameAr}</h1>
               <p className="text-[13px] text-white/65">
