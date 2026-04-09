@@ -132,6 +132,7 @@ export default function ChatView() {
                   alt="المستشار الجامعي القطري"
                   width={120}
                   height={120}
+                  unoptimized
                   className="object-contain rounded-xl"
                 />
               </div>

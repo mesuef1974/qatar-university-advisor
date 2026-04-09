@@ -22,6 +22,7 @@ export default function NationalityPicker({
               alt="المستشار الجامعي القطري"
               width={64}
               height={64}
+              unoptimized
               className="object-contain rounded-xl"
             />
           </div>

@@ -69,6 +69,7 @@ export default function Sidebar({ onSendMessage }: SidebarProps) {
                 alt="المستشار الجامعي القطري"
                 width={36}
                 height={36}
+                unoptimized
                 className="object-contain rounded-lg"
               />
             </div>

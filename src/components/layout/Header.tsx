@@ -62,6 +62,7 @@ export default function Header() {
               alt="المستشار الجامعي القطري"
               width={40}
               height={40}
+              unoptimized
               className="object-contain rounded-lg"
               priority
             />
