@@ -9,8 +9,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 import {
-  GraduationCap,
   MessageCircle,
   Building2,
   GitCompareArrows,
@@ -63,8 +63,14 @@ export default function Sidebar({ onSendMessage }: SidebarProps) {
         {/* Header */}
         <SheetHeader className="bg-gradient-to-l from-maroon to-maroon-dark text-white p-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gold/20 border-[1.5px] border-gold/40 flex items-center justify-center">
-              <GraduationCap className="h-[22px] w-[22px] text-gold" />
+            <div className="w-10 h-10 rounded-xl bg-white p-1 shadow-sm flex items-center justify-center overflow-hidden">
+              <Image
+                src="/logo-192.png"
+                alt="المستشار الجامعي القطري"
+                width={36}
+                height={36}
+                className="object-contain rounded-lg"
+              />
             </div>
             <div>
               <SheetTitle className="text-white font-bold text-[15px]">

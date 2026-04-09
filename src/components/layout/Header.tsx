@@ -56,13 +56,13 @@ export default function Header() {
 
         {/* Logo + name */}
         <div className="flex items-center gap-3 flex-1 min-w-0">
-          <div className="w-10 h-10 rounded-xl flex-shrink-0 bg-gold/18 border-[1.5px] border-gold/40 flex items-center justify-center overflow-hidden">
+          <div className="w-10 h-10 rounded-xl flex-shrink-0 bg-white p-1 shadow-sm flex items-center justify-center overflow-hidden">
             <Image
               src="/logo-192.png"
               alt="المستشار الجامعي القطري"
               width={40}
               height={40}
-              className="object-contain"
+              className="object-contain rounded-lg"
               priority
             />
           </div>

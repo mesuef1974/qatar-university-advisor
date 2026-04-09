@@ -12,7 +12,7 @@ import ChatInput from "./ChatInput";
 import SuggestionChips from "./SuggestionChips";
 import TypingIndicator from "./TypingIndicator";
 import NationalityPicker from "./NationalityPicker";
-import { GraduationCap } from "lucide-react";
+import Image from "next/image";
 
 function getWelcomeMessage(nationality: "qatari" | "non_qatari") {
   if (nationality === "qatari") {
@@ -126,8 +126,14 @@ export default function ChatView() {
         <div className="py-4">
           {messages.length === 0 && (
             <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
-              <div className="w-16 h-16 rounded-2xl bg-maroon/10 dark:bg-maroon/20 flex items-center justify-center mb-4">
-                <GraduationCap className="h-8 w-8 text-maroon dark:text-primary" />
+              <div className="w-32 h-32 rounded-2xl bg-white p-4 shadow-md flex items-center justify-center mb-4">
+                <Image
+                  src="/logo-192.png"
+                  alt="المستشار الجامعي القطري"
+                  width={120}
+                  height={120}
+                  className="object-contain rounded-xl"
+                />
               </div>
               <h2 className="text-lg font-bold text-foreground mb-2">
                 مرحبا بك!
