@@ -67,12 +67,12 @@ export default function Sidebar({ onSendMessage }: SidebarProps) {
         {/* Header */}
         <SheetHeader className="bg-gradient-to-l from-maroon to-maroon-dark text-white p-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white p-1 shadow-sm flex items-center justify-center overflow-hidden">
+            <div className="w-12 h-12 rounded-xl bg-white p-1 shadow-sm border-2 border-white/30 flex items-center justify-center overflow-hidden">
               <Image
                 src="/logo-192.png"
                 alt="المستشار الجامعي القطري"
-                width={36}
-                height={36}
+                width={48}
+                height={48}
                 unoptimized
                 className="object-contain rounded-lg"
               />

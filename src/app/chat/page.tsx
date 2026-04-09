@@ -1,14 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import ChatView from "@/components/chat/ChatView";
 import { useChatStore, useHydrateStore, createUserMessage, createBotMessage } from "@/store/chat-store";
 import { useCallback } from "react";
 
-export default function ChatPage() {
+function ChatPageInner() {
   const hydrated = useHydrateStore();
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get("q");
   const { addMessage, setIsTyping, userProfile } = useChatStore();
 
   const handleSidebarMessage = useCallback(
@@ -57,9 +61,11 @@ export default function ChatPage() {
         </div>
       ) : (
         <>
-          <Header />
+          <div className="sticky top-0 z-50">
+            <Header />
+          </div>
           <Sidebar onSendMessage={handleSidebarMessage} />
-          <ChatView />
+          <ChatView initialQuery={initialQuery || undefined} />
 
           {/* Legal footer */}
           <footer className="flex items-center justify-center gap-4 py-1.5 px-4 bg-card border-t border-border flex-shrink-0">
@@ -91,5 +97,21 @@ export default function ChatPage() {
         </>
       )}
     </div>
+  );
+}
+
+export default function ChatPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex flex-col h-dvh items-center justify-center">
+          <div className="animate-pulse text-muted-foreground text-sm">
+            جاري التحميل...
+          </div>
+        </div>
+      }
+    >
+      <ChatPageInner />
+    </Suspense>
   );
 }

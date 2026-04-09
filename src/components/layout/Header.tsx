@@ -57,12 +57,12 @@ export default function Header() {
 
         {/* Logo + name */}
         <div className="flex items-center gap-3 flex-1 min-w-0">
-          <div className="w-10 h-10 rounded-xl flex-shrink-0 bg-white p-1 shadow-sm flex items-center justify-center overflow-hidden">
+          <div className="w-12 h-12 rounded-xl flex-shrink-0 bg-white p-1 shadow-sm border-2 border-white/30 flex items-center justify-center overflow-hidden">
             <Image
               src="/logo-192.png"
               alt="المستشار الجامعي القطري"
-              width={40}
-              height={40}
+              width={48}
+              height={48}
               unoptimized
               className="object-contain rounded-lg"
               priority
@@ -86,7 +86,7 @@ export default function Header() {
                     }`}
                   >
                     <Globe className="h-3 w-3" />
-                    {isQatari ? "قطري" : "مقيم"}
+                    {isQatari ? "قطري/ة" : "مقيم/ة"}
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start">
                     <DropdownMenuItem onClick={() => setNationality("qatari")}>

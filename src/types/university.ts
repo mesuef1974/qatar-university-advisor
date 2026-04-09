@@ -22,6 +22,13 @@ export interface University {
   colleges?: (string | { name: string; nameEn?: string; [key: string]: unknown })[];
   scholarships?: Record<string, unknown>;
   tuitionFees?: Record<string, unknown>;
+  contact?: {
+    phone?: string;
+    email?: string;
+    whatsapp?: string;
+    hotline?: string;
+    address?: string;
+  };
   searchIndex?: {
     aliases: string[];
     majorKeywords: string[];

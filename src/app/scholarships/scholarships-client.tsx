@@ -22,6 +22,7 @@ import {
   Search,
   SlidersHorizontal,
 } from "lucide-react";
+import PageLayout from "@/components/layout/PageLayout";
 import type { University } from "@/types/university";
 import type { GovernmentScholarship } from "./page";
 
@@ -175,9 +176,10 @@ export default function ScholarshipsClient({
   }, [universityScholarships, nationality]);
 
   return (
-    <div className="min-h-dvh bg-background">
+    <PageLayout>
+    <div className="bg-background">
       {/* Header */}
-      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white">
+      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3 mb-4">
             <Link href="/chat">
@@ -641,5 +643,6 @@ export default function ScholarshipsClient({
         </Tabs>
       </main>
     </div>
+    </PageLayout>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -29,7 +30,12 @@ import {
   Globe,
   Banknote,
   Filter,
+  Calendar,
+  Trophy,
+  Sparkles,
+  Heart,
 } from "lucide-react";
+import PageLayout from "@/components/layout/PageLayout";
 import type { University } from "@/types/university";
 
 interface CompareClientProps {
@@ -65,7 +71,6 @@ const GPA_OPTIONS: { value: GPAFilter; label: string }[] = [
   { value: "90+", label: "90+" },
 ];
 
-// Check if a university has programs matching a specialty filter
 function matchesSpecialty(uni: University, filter: SpecialtyFilter): boolean {
   if (filter === "all") return true;
   const keywords: Record<string, string[]> = {
@@ -82,11 +87,10 @@ function matchesSpecialty(uni: University, filter: SpecialtyFilter): boolean {
   return kws.some((kw) => text.includes(kw));
 }
 
-// Check if a university matches a budget filter
 function matchesBudget(uni: University, filter: BudgetFilter): boolean {
   if (filter === "all") return true;
   const fees = uni.tuitionFees;
-  if (!fees) return filter === "free"; // no fees info, assume might be free/military
+  if (!fees) return filter === "free";
 
   if (filter === "free") {
     if (typeof fees === "object" && "qatari" in fees && fees.qatari === 0) return true;
@@ -94,12 +98,10 @@ function matchesBudget(uni: University, filter: BudgetFilter): boolean {
     return str.includes("مجاني") || str.includes("free");
   }
 
-  // Try extracting a numeric yearly fee
   const str = JSON.stringify(fees);
   const nums = str.match(/(\d[\d,]*)/g);
-  if (!nums) return true; // can't determine, include it
+  if (!nums) return true;
 
-  // Find the smallest yearly-ish fee (QAR)
   const parsed = nums.map((n) => parseInt(n.replace(/,/g, ""), 10)).filter((n) => n > 1000);
   if (parsed.length === 0) return true;
   const minFee = Math.min(...parsed);
@@ -109,11 +111,10 @@ function matchesBudget(uni: University, filter: BudgetFilter): boolean {
   return true;
 }
 
-// Check if a university matches a GPA filter
 function matchesGPA(uni: University, filter: GPAFilter): boolean {
   if (filter === "all") return true;
   const req = uni.admissionRequirements;
-  if (!req) return true; // include unknowns
+  if (!req) return true;
 
   let minGPA: number | null = null;
   if (req.qatari?.minGPA) minGPA = req.qatari.minGPA;
@@ -131,6 +132,20 @@ function matchesGPA(uni: University, filter: GPAFilter): boolean {
   if (filter === "80-90") return minGPA > 80 && minGPA <= 90;
   if (filter === "90+") return minGPA > 90;
   return true;
+}
+
+function extractNumericFee(uni: University): number | null {
+  const fees = uni.tuitionFees;
+  if (!fees) return null;
+  if (typeof fees === "object" && "qatari" in fees) {
+    const val = fees.qatari;
+    if (typeof val === "number") return val;
+  }
+  const str = JSON.stringify(fees);
+  const nums = str.match(/(\d[\d,]*)/g);
+  if (!nums) return null;
+  const parsed = nums.map((n) => parseInt(n.replace(/,/g, ""), 10)).filter((n) => n > 100);
+  return parsed.length > 0 ? Math.min(...parsed) : null;
 }
 
 export default function CompareClient({ universities }: CompareClientProps) {
@@ -154,7 +169,6 @@ export default function CompareClient({ universities }: CompareClientProps) {
     return entry ? entry[1] : undefined;
   };
 
-  // Filter universities based on smart filters, then exclude already selected
   const filteredUniversities = useMemo(() => {
     return universities.filter(([, uni]) => {
       return (
@@ -165,14 +179,13 @@ export default function CompareClient({ universities }: CompareClientProps) {
     });
   }, [universities, specialtyFilter, budgetFilter, gpaFilter]);
 
-  // Get available universities (not already selected)
   const available = filteredUniversities.filter(([id]) => !selected.includes(id));
 
-  // Helper to extract programs/colleges as display names
   const getDisplayName = (item: string | { name?: string; nameAr?: string; nameEn?: string }): string => {
     if (typeof item === 'string') return item;
     return item.name || item.nameAr || item.nameEn || '';
   };
+
   const getPrograms = (uni: University): string[] => {
     if (uni.colleges && uni.colleges.length > 0)
       return uni.colleges.map((c) => getDisplayName(c));
@@ -182,34 +195,35 @@ export default function CompareClient({ universities }: CompareClientProps) {
     return [];
   };
 
-  // Helper to extract tuition info
-  const getTuition = (uni: University): string => {
+  const getTuitionQatari = (uni: University): string => {
     if (!uni.tuitionFees) return "غير محدد";
     const fees = uni.tuitionFees;
     if (typeof fees === "string") return fees;
-    const parts: string[] = [];
     if ("qatari" in fees) {
       const val = fees.qatari;
-      parts.push(`قطري: ${val === 0 ? "مجاني" : String(val)}`);
+      return val === 0 ? "مجاني" : `${val} ر.ق`;
     }
+    return "غير محدد";
+  };
+
+  const getTuitionNonQatari = (uni: University): string => {
+    if (!uni.tuitionFees) return "غير محدد";
+    const fees = uni.tuitionFees;
+    if (typeof fees === "string") return fees;
     if ("nonQatari" in fees) {
       const val = fees.nonQatari;
       if (typeof val === "object" && val !== null) {
         const obj = val as Record<string, unknown>;
-        if (obj.perYear) parts.push(`غير قطري: ${obj.perYear}`);
-        else if (obj.perCredit) parts.push(`غير قطري: ${obj.perCredit}/ساعة`);
+        if (obj.perYear) return `${obj.perYear} ر.ق/سنة`;
+        if (obj.perCredit) return `${obj.perCredit} ر.ق/ساعة`;
       }
+      if (typeof val === "number") return `${val} ر.ق`;
     }
-    if ("perYear" in fees) {
-      parts.push(String(fees.perYear));
-    }
-    if ("international" in fees) {
-      parts.push(`دولي: ${fees.international}`);
-    }
-    return parts.length > 0 ? parts.join(" | ") : "غير محدد";
+    if ("perYear" in fees) return `${fees.perYear} ر.ق/سنة`;
+    if ("international" in fees) return `${fees.international}`;
+    return "غير محدد";
   };
 
-  // Helper to get GPA requirement
   const getGPA = (uni: University): string => {
     if (uni.admissionRequirements?.qatari?.minGPA) {
       return `${uni.admissionRequirements.qatari.minGPA}%+`;
@@ -219,7 +233,6 @@ export default function CompareClient({ universities }: CompareClientProps) {
     return "غير محدد";
   };
 
-  // Helper to get scholarships summary
   const getScholarshipSummary = (uni: University): string => {
     if (!uni.scholarships) return "غير متاح";
     if (typeof uni.scholarships === "string") return uni.scholarships;
@@ -237,6 +250,27 @@ export default function CompareClient({ universities }: CompareClientProps) {
       .join(" | ");
   };
 
+  const getLanguage = (uni: University): string => {
+    if (uni.type.includes("أمريكية") || uni.type.includes("فرنسية") || uni.type.includes("بريطانية"))
+      return "الانجليزية";
+    if (uni.type.includes("حكومية"))
+      return "العربية والانجليزية";
+    return "الانجليزية";
+  };
+
+  const getDeadlines = (uni: University): string => {
+    const raw = uni as Record<string, unknown>;
+    if (raw.applicationDeadlines) {
+      const dl = raw.applicationDeadlines;
+      if (typeof dl === "string") return dl;
+      if (typeof dl === "object" && dl !== null) {
+        const vals = Object.values(dl as Record<string, string>);
+        return vals.slice(0, 2).join(" | ");
+      }
+    }
+    return "راجع موقع الجامعة";
+  };
+
   const selectedUnis = selected
     .map((id) => {
       const uni = getUniversity(id);
@@ -244,10 +278,92 @@ export default function CompareClient({ universities }: CompareClientProps) {
     })
     .filter(Boolean) as { id: string; uni: University }[];
 
+  // Compute badges
+  const badges = useMemo(() => {
+    if (selectedUnis.length < 2) return {};
+    const result: Record<string, string[]> = {};
+    selectedUnis.forEach(({ id }) => { result[id] = []; });
+
+    // Cheapest
+    const feePairs = selectedUnis.map(({ id, uni }) => ({ id, fee: extractNumericFee(uni) }));
+    const withFees = feePairs.filter((p) => p.fee !== null);
+    if (withFees.length > 0) {
+      const minFee = Math.min(...withFees.map((p) => p.fee!));
+      withFees.forEach((p) => {
+        if (p.fee === minFee) {
+          if (minFee === 0) {
+            result[p.id].push("مجاني للقطريين");
+          } else {
+            result[p.id].push("الارخص");
+          }
+        }
+      });
+    }
+
+    // Free for Qataris (secondary check)
+    selectedUnis.forEach(({ id, uni }) => {
+      const fee = extractNumericFee(uni);
+      if (fee === 0 && !result[id].includes("مجاني للقطريين")) {
+        result[id].push("مجاني للقطريين");
+      }
+    });
+
+    // Most programs
+    const programCounts = selectedUnis.map(({ id, uni }) => ({ id, count: getPrograms(uni).length }));
+    const maxPrograms = Math.max(...programCounts.map((p) => p.count));
+    if (maxPrograms > 0) {
+      programCounts.forEach((p) => {
+        if (p.count === maxPrograms && p.count > 1) {
+          result[p.id].push("اكثر تخصصات");
+        }
+      });
+    }
+
+    return result;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedUnis.map(s => s.id).join(",")]);
+
+  const isCheapest = (uniId: string): boolean => {
+    return badges[uniId]?.includes("الارخص") || badges[uniId]?.includes("مجاني للقطريين") || false;
+  };
+
+  const isMostExpensive = (uniId: string): boolean => {
+    if (selectedUnis.length < 2) return false;
+    const feePairs = selectedUnis.map(({ id, uni }) => ({ id, fee: extractNumericFee(uni) }));
+    const withFees = feePairs.filter((p) => p.fee !== null && p.fee! > 0);
+    if (withFees.length < 2) return false;
+    const maxFee = Math.max(...withFees.map((p) => p.fee!));
+    return feePairs.find((p) => p.id === uniId)?.fee === maxFee;
+  };
+
+  type CriterionRow = {
+    label: string;
+    icon: React.ReactNode;
+    getValue: (uni: University) => string;
+    highlight?: "fee";
+  };
+
+  const criteria: CriterionRow[] = [
+    { label: "النوع", icon: <Building2 className="h-4 w-4" />, getValue: (uni) => uni.type },
+    { label: "الموقع", icon: <MapPin className="h-4 w-4" />, getValue: (uni) => uni.location },
+    { label: "الحد الادنى للمعدل", icon: <GraduationCap className="h-4 w-4" />, getValue: (uni) => getGPA(uni) },
+    { label: "الرسوم (قطري)", icon: <Banknote className="h-4 w-4" />, getValue: (uni) => getTuitionQatari(uni), highlight: "fee" },
+    { label: "الرسوم (مقيم)", icon: <Banknote className="h-4 w-4" />, getValue: (uni) => getTuitionNonQatari(uni) },
+    { label: "المنح", icon: <Award className="h-4 w-4" />, getValue: (uni) => getScholarshipSummary(uni) },
+    { label: "لغة التدريس", icon: <Globe className="h-4 w-4" />, getValue: (uni) => getLanguage(uni) },
+    { label: "عدد البرامج/الكليات", icon: <GraduationCap className="h-4 w-4" />, getValue: (uni) => `${getPrograms(uni).length || "غير محدد"}` },
+    { label: "مواعيد التقديم", icon: <Calendar className="h-4 w-4" />, getValue: (uni) => getDeadlines(uni) },
+  ];
+
+  const getLogoPath = (id: string): string => {
+    return `/logos/${id}.png`;
+  };
+
   return (
-    <div className="min-h-dvh bg-background">
+    <PageLayout>
+    <div className="bg-background">
       {/* Header */}
-      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white">
+      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3 mb-4">
             <Link href="/chat">
@@ -274,7 +390,6 @@ export default function CompareClient({ universities }: CompareClientProps) {
               <Filter className="h-3 w-3" />
               فلترة الجامعات
             </div>
-            {/* Specialty filter */}
             <div className="flex flex-wrap gap-1.5">
               {SPECIALTY_OPTIONS.map((opt) => (
                 <button
@@ -290,7 +405,6 @@ export default function CompareClient({ universities }: CompareClientProps) {
                 </button>
               ))}
             </div>
-            {/* Budget + GPA row */}
             <div className="flex flex-wrap gap-1.5">
               <span className="text-[10px] text-white/50 self-center ml-1">الميزانية:</span>
               {BUDGET_OPTIONS.map((opt) => (
@@ -374,7 +488,6 @@ export default function CompareClient({ universities }: CompareClientProps) {
               اختر حتى 3 جامعات من القائمة اعلاه لمقارنتها
             </p>
 
-            {/* Quick picks */}
             <div className="flex flex-wrap justify-center gap-2 max-w-lg mx-auto">
               {filteredUniversities.slice(0, 6).map(([id, uni]) => (
                 <Button
@@ -391,46 +504,126 @@ export default function CompareClient({ universities }: CompareClientProps) {
             </div>
           </div>
         ) : (
-          <div className="space-y-4">
-            {/* Comparison table as cards for mobile friendliness */}
-            <CompareRow
-              label="النوع"
-              icon={<Building2 className="h-3.5 w-3.5" />}
-              values={selectedUnis.map(({ uni }) => uni.type)}
-            />
-            <CompareRow
-              label="الموقع"
-              icon={<MapPin className="h-3.5 w-3.5" />}
-              values={selectedUnis.map(({ uni }) => uni.location)}
-            />
-            <CompareRow
-              label="الحد الادنى للمعدل"
-              icon={<GraduationCap className="h-3.5 w-3.5" />}
-              values={selectedUnis.map(({ uni }) => getGPA(uni))}
-            />
-            <CompareRow
-              label="الرسوم الدراسية"
-              icon={<Banknote className="h-3.5 w-3.5" />}
-              values={selectedUnis.map(({ uni }) => getTuition(uni))}
-            />
-            <CompareRow
-              label="المنح"
-              icon={<Award className="h-3.5 w-3.5" />}
-              values={selectedUnis.map(({ uni }) => getScholarshipSummary(uni))}
-            />
-            <CompareRow
-              label="اللغة"
-              icon={<Globe className="h-3.5 w-3.5" />}
-              values={selectedUnis.map(({ uni }) =>
-                uni.type.includes("أمريكية") || uni.type.includes("فرنسية")
-                  ? "الانجليزية"
-                  : uni.type.includes("حكومية")
-                    ? "العربية والانجليزية"
-                    : "العربية والانجليزية"
-              )}
-            />
+          <div className="space-y-6">
+            {/* Badges Section */}
+            {selectedUnis.length >= 2 && (
+              <div className={`grid gap-3 ${selectedUnis.length === 2 ? "grid-cols-2" : "grid-cols-3"}`}>
+                {selectedUnis.map(({ id, uni }) => (
+                  <Card key={id} className="text-center py-3">
+                    <CardContent className="p-3 flex flex-col items-center gap-2">
+                      <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center overflow-hidden">
+                        <Image
+                          src={getLogoPath(id)}
+                          alt={uni.nameAr}
+                          width={48}
+                          height={48}
+                          className="object-contain"
+                          unoptimized
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
+                      <h3 className="text-[13px] font-bold">{uni.nameAr}</h3>
+                      <div className="flex flex-wrap gap-1 justify-center">
+                        {badges[id]?.map((badge) => (
+                          <Badge
+                            key={badge}
+                            className={`text-[10px] gap-1 ${
+                              badge === "مجاني للقطريين"
+                                ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                                : badge === "الارخص"
+                                  ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                                  : badge === "اكثر تخصصات"
+                                    ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
+                                    : "bg-gold/20 text-maroon"
+                            }`}
+                          >
+                            {badge === "مجاني للقطريين" && <Heart className="h-3 w-3" />}
+                            {badge === "الارخص" && <Sparkles className="h-3 w-3" />}
+                            {badge === "اكثر تخصصات" && <Trophy className="h-3 w-3" />}
+                            {badge}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
 
-            {/* Programs */}
+            {/* Professional Comparison Table */}
+            <Card className="overflow-hidden">
+              <CardHeader className="pb-2 bg-muted/30">
+                <CardTitle className="text-sm flex items-center gap-2">
+                  <GitCompareArrows className="h-4 w-4 text-maroon dark:text-primary" />
+                  جدول المقارنة التفصيلي
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-[13px]">
+                    <thead>
+                      <tr className="border-b bg-muted/20">
+                        <th className="text-right p-3 font-bold text-muted-foreground min-w-[140px]">المعيار</th>
+                        {selectedUnis.map(({ id, uni }) => (
+                          <th key={id} className="p-3 text-center min-w-[160px]">
+                            <div className="flex flex-col items-center gap-1.5">
+                              <div className="w-10 h-10 rounded-full bg-background border flex items-center justify-center overflow-hidden">
+                                <Image
+                                  src={getLogoPath(id)}
+                                  alt={uni.nameAr}
+                                  width={40}
+                                  height={40}
+                                  className="object-contain"
+                                  unoptimized
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).style.display = 'none';
+                                  }}
+                                />
+                              </div>
+                              <span className="font-bold text-[12px]">{uni.nameAr}</span>
+                            </div>
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {criteria.map((criterion, idx) => (
+                        <tr key={criterion.label} className={idx % 2 === 0 ? "bg-background" : "bg-muted/10"}>
+                          <td className="p-3 border-l">
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <span className="text-maroon dark:text-primary">{criterion.icon}</span>
+                              <span className="font-semibold text-[12px]">{criterion.label}</span>
+                            </div>
+                          </td>
+                          {selectedUnis.map(({ id, uni }) => {
+                            const value = criterion.getValue(uni);
+                            let cellClass = "p-3 text-center border-l";
+
+                            if (criterion.highlight === "fee" && selectedUnis.length >= 2) {
+                              if (isCheapest(id)) {
+                                cellClass += " bg-green-50 dark:bg-green-900/10 text-green-700 dark:text-green-400 font-bold";
+                              } else if (isMostExpensive(id)) {
+                                cellClass += " bg-red-50 dark:bg-red-900/10 text-red-600 dark:text-red-400";
+                              }
+                            }
+
+                            return (
+                              <td key={id} className={cellClass}>
+                                <span className="text-[12px]">{value}</span>
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Programs / Colleges */}
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm flex items-center gap-2">
@@ -493,43 +686,6 @@ export default function CompareClient({ universities }: CompareClientProps) {
         )}
       </main>
     </div>
-  );
-}
-
-function CompareRow({
-  label,
-  icon,
-  values,
-}: {
-  label: string;
-  icon: React.ReactNode;
-  values: string[];
-}) {
-  return (
-    <Card>
-      <CardContent className="py-3 px-4">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-muted-foreground">{icon}</span>
-          <span className="text-[12px] font-bold text-muted-foreground">
-            {label}
-          </span>
-        </div>
-        <div
-          className={`grid gap-3 ${
-            values.length === 1
-              ? "grid-cols-1"
-              : values.length === 2
-                ? "grid-cols-2"
-                : "grid-cols-3"
-          }`}
-        >
-          {values.map((value, i) => (
-            <p key={i} className="text-[13px] text-foreground">
-              {value}
-            </p>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+    </PageLayout>
   );
 }

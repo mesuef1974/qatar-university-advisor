@@ -20,6 +20,7 @@ import {
   Minus,
   ExternalLink,
 } from "lucide-react";
+import PageLayout from "@/components/layout/PageLayout";
 import type { University } from "@/types/university";
 
 interface CalculatorClientProps {
@@ -212,9 +213,10 @@ export default function CalculatorClient({
   }, [results]);
 
   return (
-    <div className="min-h-dvh bg-background">
+    <PageLayout>
+    <div className="bg-background">
       {/* Header */}
-      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white">
+      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white sticky top-0 z-50">
         <div className="max-w-3xl mx-auto px-4 py-5">
           <div className="flex items-center gap-3 mb-5">
             <Link href="/chat">
@@ -226,6 +228,16 @@ export default function CalculatorClient({
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
+            <div className="w-10 h-10 rounded-xl flex-shrink-0 bg-white p-1 shadow-sm flex items-center justify-center overflow-hidden">
+              <Image
+                src="/logo-192.png"
+                alt="المستشار الجامعي القطري"
+                width={40}
+                height={40}
+                unoptimized
+                className="object-contain rounded-lg"
+              />
+            </div>
             <Calculator className="h-5 w-5 text-gold" />
             <div>
               <h1 className="text-xl font-bold">حاسبة القبول</h1>
@@ -439,5 +451,6 @@ export default function CalculatorClient({
         )}
       </main>
     </div>
+    </PageLayout>
   );
 }

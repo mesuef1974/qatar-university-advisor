@@ -179,8 +179,170 @@
           "universities": ["VCU_Q"]
         }
       ]
+    },
+    "energy": {
+      "nameAr": "الطاقة والنفط والغاز",
+      "nameEn": "Energy, Oil & Gas",
+      "paths": [
+        {
+          "title": "مهندس بترول",
+          "titleEn": "Petroleum Engineer",
+          "description": "تصميم وتطوير طرق استخراج النفط والغاز من باطن الأرض",
+          "salaryRange": { "entry": "20,000-30,000", "mid": "35,000-55,000", "senior": "60,000-100,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي",
+          "topEmployers": ["QatarEnergy", "قطر غاز", "RasGas", "Shell Qatar"],
+          "relatedMajors": ["هندسة بترول", "هندسة كيميائية"],
+          "universities": ["TAMU_Q", "QU"]
+        },
+        {
+          "title": "مهندس طاقة متجددة",
+          "titleEn": "Renewable Energy Engineer",
+          "description": "تصميم وتنفيذ مشاريع الطاقة الشمسية وطاقة الرياح والهيدروجين",
+          "salaryRange": { "entry": "15,000-22,000", "mid": "25,000-40,000", "senior": "45,000-75,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي — نمو متسارع",
+          "topEmployers": ["QatarEnergy Renewable Solutions", "Siraj Energy", "KAHRAMAA", "Qatar Foundation"],
+          "relatedMajors": ["هندسة كهربائية", "هندسة طاقة", "هندسة بيئية"],
+          "universities": ["TAMU_Q", "QU"]
+        }
+      ]
+    },
+    "finance": {
+      "nameAr": "المالية والمصرفية",
+      "nameEn": "Finance & Banking",
+      "paths": [
+        {
+          "title": "محلل مالي",
+          "titleEn": "Financial Analyst",
+          "description": "تحليل البيانات المالية وإعداد التقارير والتوقعات المالية",
+          "salaryRange": { "entry": "13,000-18,000", "mid": "22,000-35,000", "senior": "40,000-55,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي",
+          "topEmployers": ["QNB", "Qatar Investment Authority", "Deloitte Qatar", "KPMG"],
+          "relatedMajors": ["مالية", "محاسبة", "اقتصاد"],
+          "universities": ["QU", "CMU_Q", "HEC_Q", "AFG_ABERDEEN"]
+        },
+        {
+          "title": "مصرفي / بنكي",
+          "titleEn": "Banker",
+          "description": "إدارة الحسابات والخدمات المصرفية للأفراد والشركات",
+          "salaryRange": { "entry": "12,000-18,000", "mid": "22,000-35,000", "senior": "40,000-65,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي",
+          "topEmployers": ["QNB", "Qatar Islamic Bank", "Masraf Al Rayan", "Commercial Bank"],
+          "relatedMajors": ["مالية", "إدارة أعمال", "اقتصاد"],
+          "universities": ["QU", "AFG_ABERDEEN", "UDST"]
+        },
+        {
+          "title": "محلل استثمار",
+          "titleEn": "Investment Analyst",
+          "description": "تقييم الفرص الاستثمارية وإدارة المحافظ المالية",
+          "salaryRange": { "entry": "18,000-28,000", "mid": "32,000-48,000", "senior": "55,000-80,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي",
+          "topEmployers": ["Qatar Investment Authority", "QNB Capital", "Doha Bank", "QFC"],
+          "relatedMajors": ["مالية", "اقتصاد", "إدارة أعمال"],
+          "universities": ["CMU_Q", "HEC_Q", "QU"]
+        }
+      ]
+    },
+    "healthcare": {
+      "nameAr": "العلوم الصحية",
+      "nameEn": "Healthcare Sciences",
+      "paths": [
+        {
+          "title": "ممرض/ة",
+          "titleEn": "Nurse",
+          "description": "تقديم الرعاية التمريضية للمرضى في المستشفيات والمراكز الصحية",
+          "salaryRange": { "entry": "8,000-12,000", "mid": "13,000-20,000", "senior": "22,000-35,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي جداً",
+          "topEmployers": ["حمد الطبية", "سدرة للطب", "الأهلي", "Primary Health Care Corporation"],
+          "relatedMajors": ["تمريض", "علوم صحية"],
+          "universities": ["QU", "UDST", "CNA_Q"]
+        },
+        {
+          "title": "أخصائي علاج طبيعي",
+          "titleEn": "Physiotherapist",
+          "description": "تأهيل المرضى وعلاج الإصابات الجسدية والحركية",
+          "salaryRange": { "entry": "10,000-15,000", "mid": "18,000-28,000", "senior": "30,000-45,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي",
+          "topEmployers": ["حمد الطبية", "سدرة للطب", "Aspetar", "مراكز إعادة التأهيل"],
+          "relatedMajors": ["علاج طبيعي", "علوم صحية"],
+          "universities": ["QU"]
+        },
+        {
+          "title": "فني مختبرات",
+          "titleEn": "Laboratory Technician",
+          "description": "إجراء الفحوصات المخبرية وتحليل العينات الطبية",
+          "salaryRange": { "entry": "7,000-10,000", "mid": "12,000-18,000", "senior": "20,000-30,000" },
+          "currency": "QAR/شهر",
+          "demand": "متوسط-عالي",
+          "topEmployers": ["حمد الطبية", "سدرة للطب", "مختبرات خاصة"],
+          "relatedMajors": ["علوم مختبرات طبية", "علوم طبية حيوية"],
+          "universities": ["QU", "UDST", "CNA_Q"]
+        }
+      ]
+    },
+    "aviation": {
+      "nameAr": "الطيران",
+      "nameEn": "Aviation",
+      "paths": [
+        {
+          "title": "طيار تجاري",
+          "titleEn": "Commercial Pilot",
+          "description": "قيادة الطائرات التجارية لنقل الركاب والبضائع",
+          "salaryRange": { "entry": "25,000-35,000", "mid": "45,000-65,000", "senior": "70,000-120,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي",
+          "topEmployers": ["الخطوط الجوية القطرية"],
+          "relatedMajors": ["طيران", "هندسة طيران"],
+          "universities": ["ORYX_LJMU", "QAA"]
+        },
+        {
+          "title": "مهندس صيانة طائرات",
+          "titleEn": "Aircraft Maintenance Engineer",
+          "description": "صيانة وفحص الطائرات وضمان سلامتها التشغيلية",
+          "salaryRange": { "entry": "15,000-22,000", "mid": "28,000-40,000", "senior": "45,000-65,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي",
+          "topEmployers": ["الخطوط الجوية القطرية", "Qatar Aviation Services", "مطار حمد الدولي"],
+          "relatedMajors": ["هندسة طيران", "هندسة ميكانيكية"],
+          "universities": ["ORYX_LJMU", "TAMU_Q"]
+        }
+      ]
+    },
+    "architecture": {
+      "nameAr": "العمارة والتصميم الداخلي",
+      "nameEn": "Architecture & Interior Design",
+      "paths": [
+        {
+          "title": "مهندس معماري",
+          "titleEn": "Architect",
+          "description": "تصميم المباني والمجمعات العمرانية والإشراف على تنفيذها",
+          "salaryRange": { "entry": "14,000-20,000", "mid": "25,000-38,000", "senior": "42,000-65,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي",
+          "topEmployers": ["أشغال", "AECOM Qatar", "KEO International", "Dar Al-Handasah"],
+          "relatedMajors": ["هندسة معمارية", "عمارة"],
+          "universities": ["QU", "TAMU_Q"]
+        },
+        {
+          "title": "مصمم داخلي",
+          "titleEn": "Interior Designer",
+          "description": "تصميم المساحات الداخلية للمباني السكنية والتجارية",
+          "salaryRange": { "entry": "10,000-15,000", "mid": "18,000-28,000", "senior": "32,000-50,000" },
+          "currency": "QAR/شهر",
+          "demand": "متوسط-عالي",
+          "topEmployers": ["شركات التصميم الداخلي", "Lusail City", "Msheireb Properties", "Katara Hospitality"],
+          "relatedMajors": ["تصميم داخلي", "عمارة", "تصميم"],
+          "universities": ["VCU_Q", "QU"]
+        }
+      ]
     }
   },
   "lastUpdated": "2026-04-09",
-  "source": "بيانات تقريبية مبنية على سوق العمل القطري 2025-2026"
+  "source": "بيانات تقريبية مبنية على سوق العمل القطري 2025-2026 — المصادر: Glassdoor، PayScale، WorldSalaries، Indeed Qatar"
 }

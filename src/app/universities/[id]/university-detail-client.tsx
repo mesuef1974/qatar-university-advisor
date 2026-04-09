@@ -19,7 +19,12 @@ import {
   GraduationCap,
   Award,
   Banknote,
+  Phone,
+  Mail,
+  MessageCircle,
+  MapPinned,
 } from "lucide-react";
+import PageLayout from "@/components/layout/PageLayout";
 import type { University } from "@/types/university";
 
 interface Props {
@@ -31,9 +36,10 @@ export default function UniversityDetailClient({ id, university }: Props) {
   void id; // available for future use
 
   return (
-    <div className="min-h-dvh bg-background">
+    <PageLayout>
+    <div className="bg-background">
       {/* Header */}
-      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white">
+      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3 mb-4">
             <Link href="/universities">
@@ -338,9 +344,58 @@ export default function UniversityDetailClient({ id, university }: Props) {
           </Card>
         )}
 
+        {/* Contact Information */}
+        {university.contact && (
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Phone className="h-4 w-4 text-maroon dark:text-primary" />
+                تواصل مع الجامعة
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {university.contact.phone && (
+                <a
+                  href={`tel:${university.contact.phone}`}
+                  className="flex items-center gap-3 text-[13px] text-foreground hover:text-maroon dark:hover:text-primary transition-colors"
+                >
+                  <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                  <span dir="ltr">{university.contact.phone}</span>
+                </a>
+              )}
+              {university.contact.email && (
+                <a
+                  href={`mailto:${university.contact.email}`}
+                  className="flex items-center gap-3 text-[13px] text-foreground hover:text-maroon dark:hover:text-primary transition-colors"
+                >
+                  <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                  <span dir="ltr">{university.contact.email}</span>
+                </a>
+              )}
+              {university.contact.whatsapp && (
+                <a
+                  href={`https://wa.me/${university.contact.whatsapp.replace(/[^0-9]/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-[13px] text-foreground hover:text-green-600 transition-colors"
+                >
+                  <MessageCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
+                  <span dir="ltr">{university.contact.whatsapp}</span>
+                </a>
+              )}
+              {university.contact.address && (
+                <div className="flex items-start gap-3 text-[13px] text-muted-foreground">
+                  <MapPinned className="h-4 w-4 flex-shrink-0 mt-0.5" />
+                  <span>{university.contact.address}</span>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
+
         {/* Back to chat CTA */}
         <div className="text-center py-4">
-          <Link href="/chat">
+          <Link href={`/chat?q=أخبرني عن ${university.nameAr}`}>
             <Button className="bg-maroon hover:bg-maroon-dark text-white">
               اسأل عن هذه الجامعة في المحادثة
             </Button>
@@ -348,5 +403,6 @@ export default function UniversityDetailClient({ id, university }: Props) {
         </div>
       </main>
     </div>
+    </PageLayout>
   );
 }

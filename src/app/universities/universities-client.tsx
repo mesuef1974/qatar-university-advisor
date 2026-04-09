@@ -7,6 +7,7 @@ import { ArrowRight, Search } from "lucide-react";
 import UniversityCard from "@/components/universities/UniversityCard";
 import type { University } from "@/types/university";
 import Link from "next/link";
+import PageLayout from "@/components/layout/PageLayout";
 
 interface UniversitiesClientProps {
   universities: [string, University][];
@@ -34,9 +35,10 @@ export default function UniversitiesClient({
   const types = [...new Set(universities.map(([, u]) => u.type))];
 
   return (
-    <div className="min-h-dvh bg-background">
+    <PageLayout>
+    <div className="bg-background">
       {/* Header */}
-      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white">
+      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3 mb-4">
             <Link href="/chat">
@@ -114,5 +116,6 @@ export default function UniversitiesClient({
         )}
       </main>
     </div>
+    </PageLayout>
   );
 }

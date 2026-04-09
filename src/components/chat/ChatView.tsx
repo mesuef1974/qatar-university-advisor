@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   useChatStore,
@@ -37,7 +37,11 @@ function getWelcomeMessage(nationality: "qatari" | "non_qatari") {
   };
 }
 
-export default function ChatView() {
+interface ChatViewProps {
+  initialQuery?: string;
+}
+
+export default function ChatView({ initialQuery }: ChatViewProps) {
   const {
     messages,
     input,
@@ -50,6 +54,7 @@ export default function ChatView() {
   } = useChatStore();
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [initialQuerySent, setInitialQuerySent] = useState(false);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -108,6 +113,14 @@ export default function ChatView() {
     },
     [input, userProfile.nationality, addMessage, setInput, setIsTyping]
   );
+
+  // Auto-send initial query from URL parameter
+  useEffect(() => {
+    if (initialQuery && !initialQuerySent && userProfile.nationality && messages.length <= 1) {
+      setInitialQuerySent(true);
+      sendMessage(initialQuery);
+    }
+  }, [initialQuery, initialQuerySent, userProfile.nationality, messages.length, sendMessage]);
 
   // If no nationality selected, show picker
   if (!userProfile.nationality) {
