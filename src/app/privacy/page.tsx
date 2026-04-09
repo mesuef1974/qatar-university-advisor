@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Shield, Lock, Database, Eye, Clock, Users, ShieldCheck, Mail } from "lucide-react";
 import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/Navbar";
 
 export const metadata: Metadata = {
   title: "سياسة الخصوصية | المستشار الجامعي القطري",
@@ -23,24 +24,10 @@ const SECTIONS = [
 
 export default function PrivacyPage() {
   return (
-    <div className="h-dvh bg-background flex flex-col">
-      <header className="flex-shrink-0 bg-gradient-to-l from-maroon to-maroon-dark text-white shadow-md">
-        <div className="max-w-3xl mx-auto px-4 py-4 flex items-center gap-3">
-          <Link href="/chat">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 rounded-xl bg-white/10 text-white hover:bg-white/20 hover:text-white"
-            >
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
-          <Lock className="h-5 w-5 text-gold" />
-          <h1 className="text-lg font-bold">سياسة الخصوصية</h1>
-        </div>
-      </header>
+    <div className="min-h-dvh bg-background flex flex-col">
+      <Navbar />
 
-      <main className="max-w-3xl mx-auto px-4 py-8 space-y-6 flex-1 overflow-y-auto">
+      <main className="max-w-3xl mx-auto px-4 py-8 space-y-6 flex-1 w-full">
         {/* Legal compliance banner */}
         <Card className="bg-maroon-light dark:bg-maroon/10 border-maroon/20">
           <CardContent className="py-4 flex items-start gap-3">

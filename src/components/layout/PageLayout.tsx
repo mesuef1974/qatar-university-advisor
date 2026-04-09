@@ -1,5 +1,6 @@
 "use client";
 
+import Navbar from "./Navbar";
 import Footer from "./Footer";
 
 export default function PageLayout({
@@ -8,13 +9,15 @@ export default function PageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-dvh flex flex-col">
-      {/* Main content — scrollable area between fixed header and footer */}
-      <main className="flex-1 overflow-y-auto">
+    <div className="min-h-dvh flex flex-col">
+      <Navbar />
+
+      {/* Main content */}
+      <main className="flex-1">
         {children}
       </main>
 
-      {/* Footer — always at bottom */}
+      {/* Footer */}
       <Footer />
     </div>
   );
