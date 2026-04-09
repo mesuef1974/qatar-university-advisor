@@ -76,9 +76,17 @@ export default function ChatPage() {
             >
               شروط الاستخدام
             </Link>
-            <p className="text-[10px] text-muted-foreground/60">
-              © 2026 شركة أذكياء للبرمجيات | Azkia Software Co.
-            </p>
+            <div className="flex items-center justify-center gap-1.5 mt-0.5">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Azkia Logo">
+                {/* Geometric A shape - triangle */}
+                <path d="M12 2L2 20h6l1.5-3h5l1.5 3h6L12 2z" fill="#8A1538" />
+                {/* Inner gold accent - small diamond */}
+                <path d="M12 8l-2.5 5h5L12 8z" fill="#C5A55A" />
+              </svg>
+              <span className="text-[10px] text-muted-foreground/60">
+                © 2026 شركة أذكياء للبرمجيات | Azkia
+              </span>
+            </div>
           </footer>
         </>
       )}
