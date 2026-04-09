@@ -2,13 +2,6 @@
 
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Search } from "lucide-react";
 import UniversityCard from "@/components/universities/UniversityCard";
@@ -63,30 +56,42 @@ export default function UniversitiesClient({
             </div>
           </div>
 
-          {/* Search + Filter */}
-          <div className="flex gap-3">
-            <div className="relative flex-1">
-              <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="ابحث عن جامعة..."
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/40 pr-10 h-10 rounded-xl"
-              />
-            </div>
-            <Select value={typeFilter} onValueChange={(val) => setTypeFilter(val ?? "all")}>
-              <SelectTrigger className="w-[140px] bg-white/10 border-white/20 text-white h-10 rounded-xl">
-                <SelectValue placeholder="النوع" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">الكل</SelectItem>
-                {types.map((type) => (
-                  <SelectItem key={type} value={type}>
-                    {type}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="ابحث عن جامعة..."
+              className="bg-white/10 border-white/20 text-white placeholder:text-white/40 pr-10 h-10 rounded-xl"
+            />
+          </div>
+
+          {/* Filter Pills */}
+          <div className="flex gap-2 flex-wrap mt-3">
+            <button
+              onClick={() => setTypeFilter("all")}
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                typeFilter === "all"
+                  ? "bg-white text-maroon"
+                  : "bg-white/10 text-white/70 hover:bg-white/20"
+              }`}
+            >
+              الكل
+            </button>
+            {types.map((type) => (
+              <button
+                key={type}
+                onClick={() => setTypeFilter(type)}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  typeFilter === type
+                    ? "bg-white text-maroon"
+                    : "bg-white/10 text-white/70 hover:bg-white/20"
+                }`}
+              >
+                {type}
+              </button>
+            ))}
           </div>
         </div>
       </header>
