@@ -9,6 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 import {
   GraduationCap,
   Menu,
@@ -23,8 +24,6 @@ export default function Header() {
   const { theme, setTheme } = useTheme();
   const {
     userProfile,
-    activeView,
-    setActiveView,
     sidebarOpen,
     setSidebarOpen,
     setNationality,
@@ -125,27 +124,16 @@ export default function Header() {
         </DropdownMenu>
 
         {/* Universities button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className={`h-9 w-9 rounded-xl border transition-colors ${
-            activeView === "universities"
-              ? "bg-gold/20 border-gold/50"
-              : "bg-white/8 border-white/12"
-          } text-white hover:bg-gold/20 hover:text-white`}
-          onClick={() =>
-            setActiveView(
-              activeView === "universities" ? "chat" : "universities"
-            )
-          }
-          aria-label="الجامعات"
-        >
-          <Star
-            className={`h-[17px] w-[17px] ${
-              activeView === "universities" ? "text-gold fill-gold" : ""
-            }`}
-          />
-        </Button>
+        <Link href="/universities">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9 rounded-xl border transition-colors bg-white/8 border-white/12 text-white hover:bg-gold/20 hover:text-white"
+            aria-label="الجامعات"
+          >
+            <Star className="h-[17px] w-[17px]" />
+          </Button>
+        </Link>
       </div>
 
       {/* Gold accent underline */}

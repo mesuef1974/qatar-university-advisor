@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import ChatView from "@/components/chat/ChatView";
@@ -53,19 +54,19 @@ export default function ChatPage() {
 
       {/* Legal footer */}
       <footer className="flex items-center justify-center gap-4 py-1.5 px-4 bg-card border-t border-border flex-shrink-0">
-        <a
+        <Link
           href="/privacy"
           className="text-[11px] text-muted-foreground hover:text-maroon dark:hover:text-primary transition-colors"
         >
           سياسة الخصوصية
-        </a>
+        </Link>
         <span className="text-[11px] text-border">&middot;</span>
-        <a
+        <Link
           href="/terms"
           className="text-[11px] text-muted-foreground hover:text-maroon dark:hover:text-primary transition-colors"
         >
           شروط الاستخدام
-        </a>
+        </Link>
       </footer>
     </div>
   );

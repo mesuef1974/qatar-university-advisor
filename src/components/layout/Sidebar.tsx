@@ -23,10 +23,10 @@ import {
 } from "lucide-react";
 
 const SECTIONS = [
-  { label: "المحادثة", view: "chat" as const, icon: MessageCircle },
-  { label: "الجامعات", view: "universities" as const, icon: Building2 },
-  { label: "المقارنة", view: "compare" as const, icon: GitCompareArrows },
-  { label: "المنح", view: "scholarships" as const, icon: Award },
+  { label: "المحادثة", href: "/chat", icon: MessageCircle },
+  { label: "الجامعات", href: "/universities", icon: Building2 },
+  { label: "المقارنة", href: "/compare", icon: GitCompareArrows },
+  { label: "المنح", href: "/scholarships", icon: Award },
 ];
 
 const TOP_QUESTIONS = [
@@ -127,17 +127,15 @@ export default function Sidebar({ onSendMessage }: SidebarProps) {
           </div>
           <div className="space-y-0.5">
             {SECTIONS.map((section) => (
-              <button
-                key={section.view}
-                onClick={() => {
-                  setActiveView(section.view);
-                  setSidebarOpen(false);
-                }}
+              <Link
+                key={section.href}
+                href={section.href}
+                onClick={() => setSidebarOpen(false)}
                 className="w-full flex items-center gap-2 text-right px-3 py-2.5 rounded-lg text-[13px] text-foreground hover:bg-muted transition-colors cursor-pointer"
               >
                 <section.icon className="h-4 w-4 text-maroon" />
                 {section.label}
-              </button>
+              </Link>
             ))}
           </div>
         </div>

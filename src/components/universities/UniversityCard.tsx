@@ -55,17 +55,24 @@ export default function UniversityCard({ id, university }: UniversityCardProps) 
             <MapPin className="h-3.5 w-3.5 flex-shrink-0" />
             <span>{university.location}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Calendar className="h-3.5 w-3.5 flex-shrink-0" />
-            <span>تأسست {university.founded}</span>
-          </div>
-          {university.colleges && (
+          {university.founded && (
+            <div className="flex items-center gap-2">
+              <Calendar className="h-3.5 w-3.5 flex-shrink-0" />
+              <span>تأسست {university.founded}</span>
+            </div>
+          )}
+          {university.colleges ? (
             <div className="flex items-center gap-2">
               <Building2 className="h-3.5 w-3.5 flex-shrink-0" />
               <span>{university.colleges.length} كلية</span>
             </div>
-          )}
-          {university.admissionRequirements?.qatari && (
+          ) : Array.isArray((university as Record<string, unknown>).programs) ? (
+            <div className="flex items-center gap-2">
+              <Building2 className="h-3.5 w-3.5 flex-shrink-0" />
+              <span>{((university as Record<string, unknown>).programs as string[]).length} تخصص</span>
+            </div>
+          ) : null}
+          {university.admissionRequirements?.qatari?.minGPA ? (
             <div className="flex items-center gap-2">
               <GraduationCap className="h-3.5 w-3.5 flex-shrink-0" />
               <span>
@@ -73,28 +80,43 @@ export default function UniversityCard({ id, university }: UniversityCardProps) 
                 {university.admissionRequirements.qatari.minGPA}%
               </span>
             </div>
-          )}
+          ) : (university.admissionRequirements as Record<string, unknown>)?.gpa ? (
+            <div className="flex items-center gap-2">
+              <GraduationCap className="h-3.5 w-3.5 flex-shrink-0" />
+              <span>
+                المعدل:{" "}
+                {String((university.admissionRequirements as Record<string, unknown>).gpa)}
+              </span>
+            </div>
+          ) : null}
         </div>
 
-        {/* Colleges preview */}
-        {university.colleges && university.colleges.length > 0 && (
-          <div className="flex flex-wrap gap-1">
-            {university.colleges.slice(0, 4).map((college) => (
-              <Badge
-                key={college}
-                variant="secondary"
-                className="text-[10px] font-normal"
-              >
-                {college}
-              </Badge>
-            ))}
-            {university.colleges.length > 4 && (
-              <Badge variant="secondary" className="text-[10px] font-normal">
-                +{university.colleges.length - 4}
-              </Badge>
-            )}
-          </div>
-        )}
+        {/* Colleges/Programs preview */}
+        {(() => {
+          const items = university.colleges && university.colleges.length > 0
+            ? university.colleges
+            : Array.isArray((university as Record<string, unknown>).programs)
+              ? ((university as Record<string, unknown>).programs as string[])
+              : [];
+          return items.length > 0 ? (
+            <div className="flex flex-wrap gap-1">
+              {items.slice(0, 4).map((item) => (
+                <Badge
+                  key={item}
+                  variant="secondary"
+                  className="text-[10px] font-normal"
+                >
+                  {item}
+                </Badge>
+              ))}
+              {items.length > 4 && (
+                <Badge variant="secondary" className="text-[10px] font-normal">
+                  +{items.length - 4}
+                </Badge>
+              )}
+            </div>
+          ) : null;
+        })()}
 
         <div className="flex gap-2 pt-1">
           <Link href={`/universities/${id}`} className="flex-1">

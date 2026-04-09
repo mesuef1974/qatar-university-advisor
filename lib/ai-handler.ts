@@ -89,9 +89,10 @@ async function callClaude(userMessage: string, conversationHistory: Conversation
   if (!apiKey) return null;
 
   // Build messages: recent history (max 6 messages) + current message
+  // Sanitize PII from conversation history before sending to external API (PDPPL Art. 8)
   const recentHistory: ClaudeMessage[] = conversationHistory.slice(-6).map((msg) => ({
     role: (msg.role === 'user' ? 'user' : 'assistant') as 'user' | 'assistant',
-    content: msg.content,
+    content: typeof msg.content === 'string' ? sanitizePII(msg.content) : msg.content,
   }));
 
   // Strip PII before sending to external API (PDPPL Art. 8)

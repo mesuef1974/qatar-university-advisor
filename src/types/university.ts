@@ -5,7 +5,7 @@ export interface University {
   admissionsUrl?: string;
   location: string;
   type: string;
-  founded: number;
+  founded?: number;
   admissionRequirements?: {
     qatari?: {
       minGPA: number;

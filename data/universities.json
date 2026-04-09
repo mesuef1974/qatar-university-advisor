@@ -34,7 +34,7 @@
       },
 
       "applicationDeadlines": {
-        "fallSemester2025": {
+        "fallSemester2026": {
           "open": "2025-02-01",
           "close": "2025-05-31",
           "results": "2025-06-30"
@@ -376,6 +376,291 @@
 
       "lastUpdated": "2026-04-08",
       "dataSource": "qatar.vcu.edu",
+      "academicYear": "2025-2026"
+    },
+
+    "CCQ": {
+      "nameAr": "كلية المجتمع في قطر",
+      "nameEn": "Community College of Qatar",
+      "website": "https://www.ccq.edu.qa",
+      "location": "الدوحة",
+      "type": "حكومية",
+
+      "admissionRequirements": {
+        "gpa": "60%+",
+        "ielts": "4.5+"
+      },
+
+      "programs": [
+        "دبلوم مشارك",
+        "بكالوريوس تطبيقي"
+      ],
+
+      "scholarships": "مجانية للقطريين — قبول مرن وانتقال لاحق للجامعة",
+      "applicationDeadlines": "طوال السنة",
+
+      "tuitionFees": {
+        "qatari": 0,
+        "international": "رسوم رمزية"
+      },
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "ccq.edu.qa",
+      "academicYear": "2025-2026"
+    },
+
+    "QAA": {
+      "nameAr": "أكاديمية قطر لعلوم الطيران",
+      "nameEn": "Qatar Aeronautical Academy",
+      "website": "https://www.qaa.edu.qa",
+      "location": "مطار الدوحة",
+      "type": "تخصصية — بالتعاون مع الخطوط القطرية",
+
+      "admissionRequirements": {
+        "gpa": "70%+ علمي",
+        "ielts": "4.5+",
+        "medical": "لياقة طبية فئة أولى (Class 1 Medical)",
+        "vision": "نظر 6/6 بدون نظارة أو قابل للتصحيح",
+        "height": "163-190 سم",
+        "extras": "اختبار ميل للطيران (Aptitude Test)"
+      },
+
+      "programs": [
+        "طيار تجاري (CPL) — 18-24 شهر",
+        "صيانة طائرات B1.1 / B2 (~255 ساعة)"
+      ],
+
+      "scholarships": "توظيف مضمون في الخطوط القطرية",
+      "applicationDeadlines": "طوال السنة",
+
+      "tuitionFees": {
+        "note": "مرتفعة — مع ضمان توظيف"
+      },
+
+      "salaryInfo": {
+        "pilotJunior": "25,000-35,000 ريال/شهر",
+        "pilotCaptain": "50,000-80,000+ ريال/شهر",
+        "maintenanceTech": "8,000-14,000 ريال/شهر"
+      },
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "qaa.edu.qa",
+      "academicYear": "2025-2026"
+    },
+
+    "ABMMC": {
+      "nameAr": "كلية أحمد بن محمد العسكرية",
+      "nameEn": "Ahmed Bin Mohammed Military College",
+      "website": "",
+      "location": "الدوحة",
+      "type": "عسكرية — القوات المسلحة القطرية",
+
+      "admissionRequirements": {
+        "gpa": "70%+ ذكور | 80%+ إناث",
+        "nationality": "قطري فقط",
+        "extras": "حسن السير والسلوك + لياقة بدنية وطبية كاملة + اختبارات كتابية وشخصية"
+      },
+
+      "programs": [
+        "إدارة عسكرية",
+        "نظم معلومات",
+        "محاسبة",
+        "قانون",
+        "علاقات دولية"
+      ],
+
+      "scholarships": "راتب 4,000-6,000 ريال أثناء الدراسة + سكن ومعيشة مجانية",
+      "applicationDeadlines": "مايو - يونيو",
+
+      "tuitionFees": {
+        "note": "مجانية + راتب شهري"
+      },
+
+      "graduationBenefits": {
+        "rank": "ملازم أول عند التخرج",
+        "salary": "12,000-16,000 ريال",
+        "studyAbroad": "ساندهيرست (بريطانيا) | ويست بوينت (أمريكا) | سان سير (فرنسا)"
+      },
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "official sources",
+      "academicYear": "2025-2026"
+    },
+
+    "POLICE": {
+      "nameAr": "أكاديمية الشرطة",
+      "nameEn": "Police Academy",
+      "website": "",
+      "location": "الدوحة",
+      "type": "أمنية — وزارة الداخلية",
+
+      "admissionRequirements": {
+        "gpa": "70%+",
+        "nationality": "قطري فقط",
+        "extras": "سجل جنائي نظيف تماماً + لياقة بدنية وطبية + تحقق أمني شامل"
+      },
+
+      "programs": [
+        "قانون وعلوم شرطية (4 سنوات)"
+      ],
+
+      "careerPaths": [
+        "ضابط شرطة ميداني",
+        "محقق جنائي",
+        "ضابط مكافحة مخدرات",
+        "ضابط جوازات وحدود",
+        "ضابط أمن سيبراني",
+        "مرور وإدارة سير"
+      ],
+
+      "scholarships": "راتب أثناء الدراسة + دورات في بريطانيا وفرنسا",
+      "applicationDeadlines": "مايو - يونيو",
+
+      "tuitionFees": {
+        "note": "مجانية + راتب شهري"
+      },
+
+      "graduationBenefits": {
+        "rank": "ملازم عند التخرج",
+        "salary": "12,000-18,000 ريال"
+      },
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "official sources",
+      "academicYear": "2025-2026"
+    },
+
+    "AIRFORCE": {
+      "nameAr": "الكلية الجوية — كلية الزعيم محمد العطية",
+      "nameEn": "Air Force College",
+      "website": "",
+      "location": "الدوحة",
+      "type": "عسكرية — القوات الجوية",
+
+      "admissionRequirements": {
+        "gpa": "75%+ علمي",
+        "nationality": "قطري فقط",
+        "vision": "نظر 6/6 بدون نظارة",
+        "height": "165-185 سم",
+        "extras": "لياقة بدنية استثنائية + اختبارات ذكاء وميل للطيران"
+      },
+
+      "programs": [
+        "طيار مقاتل (F-16, Eurofighter Typhoon)",
+        "طيار نقل / مروحيات",
+        "ضابط رادار وصواريخ",
+        "ضابط هندسة طيران"
+      ],
+
+      "scholarships": "أعلى رواتب في القوات المسلحة + بدل طيران + ابتعاث دولي",
+      "applicationDeadlines": "مايو - يونيو",
+
+      "tuitionFees": {
+        "note": "مجانية + راتب شهري"
+      },
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "official sources",
+      "academicYear": "2025-2026"
+    },
+
+    "NAVAL": {
+      "nameAr": "الأكاديمية البحرية — أكاديمية الغانم",
+      "nameEn": "Naval Academy",
+      "website": "",
+      "location": "الدوحة",
+      "type": "عسكرية — القوات البحرية (بالتعاون مع فرنسا)",
+
+      "admissionRequirements": {
+        "gpa": "70%+",
+        "nationality": "قطري فقط",
+        "extras": "إجادة السباحة إلزامية + لياقة بدنية وطبية"
+      },
+
+      "programs": [
+        "ضابط بحري (قيادة سفن حربية)",
+        "خفر السواحل",
+        "مهندس بحري"
+      ],
+
+      "scholarships": "تدريب في القواعد البحرية الفرنسية + شهادة بحرية دولية + بدلات بحرية",
+      "applicationDeadlines": "مايو - يونيو",
+
+      "tuitionFees": {
+        "note": "مجانية + راتب شهري"
+      },
+
+      "graduationBenefits": {
+        "salary": "12,000-18,000 ريال"
+      },
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "official sources",
+      "academicYear": "2025-2026"
+    },
+
+    "CYBER": {
+      "nameAr": "أكاديمية الأمن السيبراني",
+      "nameEn": "Cybersecurity Academy",
+      "website": "",
+      "location": "الدوحة",
+      "type": "تخصصية",
+
+      "admissionRequirements": {
+        "gpa": "80%+ علمي",
+        "nationality": "قطري فقط",
+        "extras": "مهارات حاسوبية قوية + اختبار قدرات تقنية + تحقق أمني عالي المستوى"
+      },
+
+      "programs": [
+        "أمن الشبكات (Network Security)",
+        "اختبار الاختراق (Ethical Hacking / Penetration Testing)",
+        "التحليل الجنائي الرقمي (Digital Forensics)",
+        "الاستخبارات السيبرانية (Cyber Intelligence)"
+      ],
+
+      "scholarships": "مجانية — رواتب 15,000-30,000 ريال بعد التخرج",
+      "applicationDeadlines": "طوال السنة",
+
+      "tuitionFees": {
+        "note": "مجانية"
+      },
+
+      "certifications": ["CEH", "CISSP", "CompTIA Security+", "OSCP"],
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "official sources",
+      "academicYear": "2025-2026"
+    },
+
+    "DOHA_INSTITUTE": {
+      "nameAr": "معهد الدوحة للدراسات العليا",
+      "nameEn": "Doha Institute for Graduate Studies",
+      "website": "https://www.dohainstitute.edu.qa",
+      "location": "الدوحة",
+      "type": "خاصة غير ربحية — دراسات عليا",
+
+      "admissionRequirements": {
+        "gpa": "بكالوريوس مطلوب",
+        "language": "العربية (لغة التدريس الأساسية)"
+      },
+
+      "programs": [
+        "ماجستير في العلوم الاجتماعية",
+        "ماجستير في العلوم الإنسانية",
+        "ماجستير في الإدارة العامة",
+        "دكتوراه في برامج مختارة"
+      ],
+
+      "scholarships": "منح جزئية متاحة",
+      "applicationDeadlines": "فبراير - مايو",
+
+      "tuitionFees": {
+        "perCredit": "QAR 7,000/ساعة"
+      },
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "dohainstitute.edu.qa",
       "academicYear": "2025-2026"
     }
   },
