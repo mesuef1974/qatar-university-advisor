@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useEffect, useState } from "react";
 
 export interface ChatMessage {
   id: string;
@@ -34,26 +35,7 @@ interface ChatState {
   setGrade: (grade: number) => void;
   setTrack: (track: string) => void;
   clearMessages: () => void;
-}
-
-function getStoredNationality(): "qatari" | "non_qatari" | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const val = localStorage.getItem("advisor_nationality");
-    if (val === "qatari" || val === "non_qatari") return val;
-  } catch {
-    /* noop */
-  }
-  return null;
-}
-
-function getStoredFavorites(): string[] {
-  if (typeof window === "undefined") return [];
-  try {
-    return JSON.parse(localStorage.getItem("advisor_favorites") || "[]");
-  } catch {
-    return [];
-  }
+  _setFavorites: (favs: string[]) => void;
 }
 
 function getTimeString(): string {
@@ -68,10 +50,10 @@ export const useChatStore = create<ChatState>((set) => ({
   input: "",
   isTyping: false,
   userProfile: {
-    nationality: getStoredNationality(),
+    nationality: null,
     grade: null,
     track: null,
-    favorites: getStoredFavorites(),
+    favorites: [],
   },
   activeView: "chat",
   sidebarOpen: false,
@@ -116,7 +98,50 @@ export const useChatStore = create<ChatState>((set) => ({
     })),
 
   clearMessages: () => set({ messages: [] }),
+
+  _setFavorites: (favs) =>
+    set((state) => ({
+      userProfile: { ...state.userProfile, favorites: favs },
+    })),
 }));
+
+/**
+ * Hook to hydrate the store from localStorage after mount.
+ * Prevents hydration mismatch by ensuring server and client
+ * both start with null/[] initial values.
+ */
+export function useHydrateStore() {
+  const setNationality = useChatStore((s) => s.setNationality);
+  const _setFavorites = useChatStore((s) => s._setFavorites);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    try {
+      const storedNat = localStorage.getItem("advisor_nationality");
+      if (storedNat === "qatari" || storedNat === "non_qatari") {
+        setNationality(storedNat);
+      }
+    } catch {
+      /* noop */
+    }
+
+    try {
+      const storedFavs = localStorage.getItem("advisor_favorites");
+      if (storedFavs) {
+        const favs = JSON.parse(storedFavs);
+        if (Array.isArray(favs)) {
+          _setFavorites(favs);
+        }
+      }
+    } catch {
+      /* noop */
+    }
+
+    setHydrated(true);
+  }, [setNationality, _setFavorites]);
+
+  return hydrated;
+}
 
 export function createBotMessage(
   text: string,

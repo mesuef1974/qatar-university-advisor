@@ -4,11 +4,22 @@ import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import ChatView from "@/components/chat/ChatView";
-import { useChatStore, createUserMessage, createBotMessage } from "@/store/chat-store";
+import { useChatStore, useHydrateStore, createUserMessage, createBotMessage } from "@/store/chat-store";
 import { useCallback } from "react";
 
 export default function ChatPage() {
+  const hydrated = useHydrateStore();
   const { addMessage, setIsTyping, userProfile } = useChatStore();
+
+  if (!hydrated) {
+    return (
+      <div className="flex items-center justify-center h-dvh">
+        <div className="animate-pulse text-muted-foreground text-sm">
+          جاري التحميل...
+        </div>
+      </div>
+    );
+  }
 
   const handleSidebarMessage = useCallback(
     async (text: string) => {
