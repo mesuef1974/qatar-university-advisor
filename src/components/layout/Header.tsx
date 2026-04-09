@@ -10,8 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import Image from "next/image";
 import {
-  GraduationCap,
   Menu,
   Sun,
   Moon,
@@ -56,8 +56,15 @@ export default function Header() {
 
         {/* Logo + name */}
         <div className="flex items-center gap-3 flex-1 min-w-0">
-          <div className="w-10 h-10 rounded-xl flex-shrink-0 bg-gold/18 border-[1.5px] border-gold/40 flex items-center justify-center">
-            <GraduationCap className="h-[22px] w-[22px] text-gold" />
+          <div className="w-10 h-10 rounded-xl flex-shrink-0 bg-gold/18 border-[1.5px] border-gold/40 flex items-center justify-center overflow-hidden">
+            <Image
+              src="/logo-192.png"
+              alt="المستشار الجامعي القطري"
+              width={40}
+              height={40}
+              className="object-contain"
+              priority
+            />
           </div>
 
           <div className="flex-1 min-w-0">

@@ -24,6 +24,10 @@ export const metadata: Metadata = {
     "Education City",
   ],
   authors: [{ name: "شركة أذكياء للبرمجيات | Azkia" }],
+  icons: {
+    icon: "/favicon.png",
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     title: "المستشار الجامعي القطري",
     description: "مستشارك الذكي لاختيار الجامعة والتخصص في قطر",
