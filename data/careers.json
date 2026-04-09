@@ -1,0 +1,186 @@
+{
+  "careers": {
+    "engineering": {
+      "nameAr": "الهندسة",
+      "nameEn": "Engineering",
+      "paths": [
+        {
+          "title": "مهندس مدني",
+          "titleEn": "Civil Engineer",
+          "description": "تصميم وإشراف على مشاريع البناء والبنية التحتية",
+          "salaryRange": { "entry": "15,000-20,000", "mid": "25,000-35,000", "senior": "40,000-60,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي",
+          "topEmployers": ["أشغال", "قطر للبترول", "HBK Contracting", "QDVC"],
+          "relatedMajors": ["هندسة مدنية", "هندسة معمارية"],
+          "universities": ["QU", "TAMU_Q"]
+        },
+        {
+          "title": "مهندس برمجيات",
+          "titleEn": "Software Engineer",
+          "description": "تطوير التطبيقات والأنظمة البرمجية",
+          "salaryRange": { "entry": "18,000-25,000", "mid": "30,000-45,000", "senior": "50,000-80,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي جداً",
+          "topEmployers": ["Qatar Computing Research Institute", "Ooredoo", "Qatar Airways IT"],
+          "relatedMajors": ["علوم الحاسوب", "هندسة البرمجيات", "نظم المعلومات"],
+          "universities": ["CMU_Q", "QU", "ORYX_LJMU"]
+        }
+      ]
+    },
+    "medicine": {
+      "nameAr": "الطب والصحة",
+      "nameEn": "Medicine & Health",
+      "paths": [
+        {
+          "title": "طبيب عام",
+          "titleEn": "General Physician",
+          "description": "تشخيص وعلاج الأمراض العامة",
+          "salaryRange": { "entry": "25,000-35,000", "mid": "40,000-55,000", "senior": "60,000-100,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي جداً",
+          "topEmployers": ["حمد الطبية", "سدرة", "الأهلي"],
+          "relatedMajors": ["طب بشري"],
+          "universities": ["WCM_Q", "QU"]
+        },
+        {
+          "title": "صيدلي",
+          "titleEn": "Pharmacist",
+          "description": "صرف الأدوية والاستشارات الدوائية",
+          "salaryRange": { "entry": "15,000-20,000", "mid": "25,000-35,000", "senior": "40,000-55,000" },
+          "currency": "QAR/شهر",
+          "demand": "متوسط-عالي",
+          "topEmployers": ["حمد الطبية", "صيدلية العزيزية", "Nasser Pharmacy"],
+          "relatedMajors": ["صيدلة"],
+          "universities": ["QU"]
+        }
+      ]
+    },
+    "business": {
+      "nameAr": "الأعمال والإدارة",
+      "nameEn": "Business & Management",
+      "paths": [
+        {
+          "title": "محاسب",
+          "titleEn": "Accountant",
+          "description": "إعداد القوائم المالية والتدقيق والضرائب",
+          "salaryRange": { "entry": "12,000-18,000", "mid": "22,000-32,000", "senior": "35,000-50,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي",
+          "topEmployers": ["Deloitte Qatar", "KPMG", "PwC", "EY"],
+          "relatedMajors": ["محاسبة", "مالية"],
+          "universities": ["QU", "AFG_ABERDEEN", "UDST"]
+        },
+        {
+          "title": "مدير مشاريع",
+          "titleEn": "Project Manager",
+          "description": "إدارة وتخطيط المشاريع والفرق",
+          "salaryRange": { "entry": "18,000-25,000", "mid": "30,000-45,000", "senior": "50,000-75,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي",
+          "topEmployers": ["قطر للبترول", "قطر غاز", "RasGas"],
+          "relatedMajors": ["إدارة أعمال", "إدارة مشاريع"],
+          "universities": ["QU", "CMU_Q", "HEC_Q"]
+        }
+      ]
+    },
+    "law": {
+      "nameAr": "القانون",
+      "nameEn": "Law",
+      "paths": [
+        {
+          "title": "محامي",
+          "titleEn": "Lawyer",
+          "description": "الاستشارات القانونية والترافع أمام المحاكم",
+          "salaryRange": { "entry": "15,000-22,000", "mid": "28,000-40,000", "senior": "45,000-80,000" },
+          "currency": "QAR/شهر",
+          "demand": "متوسط",
+          "topEmployers": ["النيابة العامة", "وزارة العدل", "مكاتب محاماة خاصة"],
+          "relatedMajors": ["قانون", "حقوق"],
+          "universities": ["QU"]
+        }
+      ]
+    },
+    "it": {
+      "nameAr": "تقنية المعلومات",
+      "nameEn": "Information Technology",
+      "paths": [
+        {
+          "title": "محلل أمن سيبراني",
+          "titleEn": "Cybersecurity Analyst",
+          "description": "حماية الأنظمة والشبكات من التهديدات الإلكترونية",
+          "salaryRange": { "entry": "20,000-28,000", "mid": "35,000-50,000", "senior": "55,000-85,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي جداً — نمو 35%",
+          "topEmployers": ["NCSA", "Q-CERT", "Ooredoo", "QNB"],
+          "relatedMajors": ["أمن سيبراني", "علوم الحاسوب"],
+          "universities": ["CMU_Q", "QU", "ORYX_LJMU"]
+        },
+        {
+          "title": "مطور ذكاء اصطناعي",
+          "titleEn": "AI Developer",
+          "description": "تطوير نماذج وتطبيقات الذكاء الاصطناعي",
+          "salaryRange": { "entry": "22,000-30,000", "mid": "38,000-55,000", "senior": "60,000-100,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي جداً — أعلى طلب",
+          "topEmployers": ["QCRI", "Sidra AI Lab", "Qatar Computing"],
+          "relatedMajors": ["ذكاء اصطناعي", "علوم الحاسوب", "علوم البيانات"],
+          "universities": ["CMU_Q", "QU", "HBKU"]
+        }
+      ]
+    },
+    "education": {
+      "nameAr": "التربية والتعليم",
+      "nameEn": "Education",
+      "paths": [
+        {
+          "title": "معلم",
+          "titleEn": "Teacher",
+          "description": "التدريس في المدارس الحكومية والخاصة",
+          "salaryRange": { "entry": "12,000-16,000", "mid": "18,000-25,000", "senior": "28,000-40,000" },
+          "currency": "QAR/شهر",
+          "demand": "عالي",
+          "topEmployers": ["وزارة التعليم", "المدارس الخاصة", "أكاديمية قطر"],
+          "relatedMajors": ["تربية", "تعليم ابتدائي"],
+          "universities": ["QU", "ASTATE_Q"]
+        }
+      ]
+    },
+    "media": {
+      "nameAr": "الإعلام والاتصال",
+      "nameEn": "Media & Communication",
+      "paths": [
+        {
+          "title": "صحفي / إعلامي",
+          "titleEn": "Journalist",
+          "description": "إنتاج المحتوى الإعلامي والتقارير الصحفية",
+          "salaryRange": { "entry": "14,000-20,000", "mid": "24,000-35,000", "senior": "38,000-55,000" },
+          "currency": "QAR/شهر",
+          "demand": "متوسط",
+          "topEmployers": ["الجزيرة", "beIN", "QNA", "Qatar Tribune"],
+          "relatedMajors": ["صحافة", "إعلام", "اتصال"],
+          "universities": ["NU_Q", "QU"]
+        }
+      ]
+    },
+    "arts": {
+      "nameAr": "الفنون والتصميم",
+      "nameEn": "Arts & Design",
+      "paths": [
+        {
+          "title": "مصمم جرافيك / UX",
+          "titleEn": "Graphic / UX Designer",
+          "description": "تصميم الواجهات والهويات البصرية",
+          "salaryRange": { "entry": "12,000-18,000", "mid": "22,000-32,000", "senior": "35,000-50,000" },
+          "currency": "QAR/شهر",
+          "demand": "متوسط-عالي",
+          "topEmployers": ["Qatar Museums", "Katara", "وكالات تسويق"],
+          "relatedMajors": ["تصميم", "فنون", "غرافيك"],
+          "universities": ["VCU_Q"]
+        }
+      ]
+    }
+  },
+  "lastUpdated": "2026-04-09",
+  "source": "بيانات تقريبية مبنية على سوق العمل القطري 2025-2026"
+}

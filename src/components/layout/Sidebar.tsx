@@ -16,6 +16,7 @@ import {
   GitCompareArrows,
   Award,
   Calculator,
+  Briefcase,
   Zap,
   HelpCircle,
   Shield,
@@ -29,6 +30,7 @@ const SECTIONS = [
   { label: "المقارنة", href: "/compare", icon: GitCompareArrows },
   { label: "المنح", href: "/scholarships", icon: Award },
   { label: "حاسبة القبول", href: "/calculator", icon: Calculator },
+  { label: "المسارات المهنية", href: "/careers", icon: Briefcase },
 ];
 
 const TOP_QUESTIONS = [
