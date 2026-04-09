@@ -1,6 +1,6 @@
 /**
  * Integration Tests — Circuit Breaker
- * T-FIX-009: شركة النخبوية للبرمجيات
+ * T-FIX-009: شركة أذكياء للبرمجيات
  *
  * ملاحظة: CircuitBreaker يستخدم CONFIG عالمي بـ FAILURE_THRESHOLD=3 و RESET_TIMEOUT_MS=30000
  * نستخدم instances منفصلة لكل اختبار مع التحكم في الـ state مباشرة عند الحاجة

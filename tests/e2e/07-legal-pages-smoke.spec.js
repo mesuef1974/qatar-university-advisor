@@ -1,7 +1,7 @@
 /**
  * E2E Test — QR-010-003: Smoke Test لصفحات Legal
  * التحقق أن صفحات Privacy Policy و Terms of Service تُحمَّل بدون أخطاء
- * شركة النخبوية للبرمجيات | 2026-04-04
+ * شركة أذكياء للبرمجيات | 2026-04-04
  */
 
 import { test, expect } from '@playwright/test';

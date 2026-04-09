@@ -1,6 +1,6 @@
 # وثيقة متطلبات المنتج — المرحلة ب
 ## PRD: ENG-003 + CI-001
-### Qatar University Advisor | شركة النخبوية للبرمجيات
+### Qatar University Advisor | شركة أذكياء للبرمجيات
 **الإصدار:** 1.0 | **التاريخ:** 2026-04-04 | **السري:** داخلي
 
 ---
@@ -70,5 +70,5 @@
 
 ---
 
-*المسؤول: elite-engineering (ENG-003) + elite-devops (CI-001)*
+*المسؤول: azkia-engineering (ENG-003) + azkia-devops (CI-001)*
 *الموعد: 2026-04-11 | الفرع: feature/ENG-003-health-endpoint*

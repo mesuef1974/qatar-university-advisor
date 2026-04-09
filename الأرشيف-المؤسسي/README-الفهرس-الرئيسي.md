@@ -1,5 +1,5 @@
 # 📁 الأرشيف المؤسسي — المرشد الجامعي الذكي
-## شركة النخبوية للبرمجيات
+## شركة أذكياء للبرمجيات
 ### نظام إدارة الوثائق | Document Management System
 
 ---
@@ -193,5 +193,5 @@ CEO:          يعتمد الوثائق الاستراتيجية
 
 ---
 
-*شركة النخبوية للبرمجيات | Preserving Knowledge, Enabling Excellence*
+*شركة أذكياء للبرمجيات | Preserving Knowledge, Enabling Excellence*
 *آخر تحديث: 2026-04-07*

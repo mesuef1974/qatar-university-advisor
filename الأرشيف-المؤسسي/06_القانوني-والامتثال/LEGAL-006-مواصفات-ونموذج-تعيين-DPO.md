@@ -1,6 +1,6 @@
 # مواصفات ونموذج تعيين مسؤول حماية البيانات (DPO)
 # Data Protection Officer — Specifications & Appointment Template
-## Qatar University Advisor | شركة النخبوية للبرمجيات
+## Qatar University Advisor | شركة أذكياء للبرمجيات
 **رقم المرجع:** LEGAL-006-DPO-2026 | **التاريخ:** 2026-04-04
 
 ---
@@ -88,11 +88,11 @@
 ## القسم الرابع: الموقع التنظيمي / Organizational Position
 
 ```
-المدير العام (elite-ceo)
+المدير العام (azkia-ceo)
   │
-  ├── المستشار القانوني الأعلى (elite-legal-counsel)
+  ├── المستشار القانوني الأعلى (azkia-legal-counsel)
   │     │
-  │     ├── الدائرة القانونية (elite-legal)
+  │     ├── الدائرة القانونية (azkia-legal)
   │     └── مسؤول حماية البيانات (DPO) ← يرفع تقاريره هنا
   │           │
   │           └── يتواصل مع ← NCSA (الهيئة الوطنية)
@@ -112,8 +112,8 @@
 ### Engagement Agreement — Data Protection Officer
 
 **الطرف الأول (المتحكم) / First Party (Controller):**
-شركة النخبوية للبرمجيات، سجل تجاري رقم [يُملأ]، الدوحة، قطر
-Elite Software Company, CR No. [TBD], Doha, Qatar
+شركة أذكياء للبرمجيات، سجل تجاري رقم [يُملأ]، الدوحة، قطر
+Azkia, CR No. [TBD], Doha, Qatar
 
 **الطرف الثاني (DPO) / Second Party (DPO):**
 [الاسم الكامل / Full Name]
@@ -195,7 +195,7 @@ This agreement is governed by the laws of the State of Qatar. Any dispute shall 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⚖️ مُراجَع ومعتمد قانونياً
-المستشار القانوني: elite-legal-counsel
+المستشار القانوني: azkia-legal-counsel
 التاريخ: 2026-04-04
 رقم المراجعة: REV-2026-006
 الحكم: ✅ متوافق — جاهز للاستخدام عند اختيار DPO
@@ -204,4 +204,4 @@ This agreement is governed by the laws of the State of Qatar. Any dispute shall 
 
 ---
 
-*شركة النخبوية للبرمجيات | elite-legal-counsel | 2026-04-04*
+*شركة أذكياء للبرمجيات | azkia-legal-counsel | 2026-04-04*

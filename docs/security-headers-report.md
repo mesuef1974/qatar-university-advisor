@@ -1,5 +1,5 @@
 # تقرير Security Headers
-## Qatar University Advisor | شركة النخبوية للبرمجيات
+## Qatar University Advisor | شركة أذكياء للبرمجيات
 
 ### Headers المُطبَّقة:
 

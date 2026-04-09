@@ -3,7 +3,7 @@
  * ════════════════════════════════
  * اختبار سلسلة الاحتياط: Claude -> Static -> Graceful Error
  *
- * Elite Software Company | FAANG Standards
+ * Azkia | FAANG Standards
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 

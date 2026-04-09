@@ -1,6 +1,6 @@
 /**
  * Integration Tests — User Profiler
- * T-FIX-009: شركة النخبوية للبرمجيات
+ * T-FIX-009: شركة أذكياء للبرمجيات
  */
 
 import { describe, it, expect, vi } from 'vitest';

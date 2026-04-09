@@ -3,7 +3,7 @@
  * ENG-003: Health Check Endpoint
  * يفحص حالة جميع الخدمات — Supabase + Memory + Redis
  * GET /api/health → 200 healthy | 503 degraded/unhealthy
- * شركة النخبوية للبرمجيات
+ * شركة أذكياء للبرمجيات
  */
 
 import { createClient } from '@supabase/supabase-js';

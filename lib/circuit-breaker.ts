@@ -9,7 +9,7 @@
  *   OPEN    → تم اكتشاف فشل، يرفض الطلبات لـ 30 ثانية
  *   HALF    → اختبار تجريبي بعد انتهاء فترة الانتظار
  *
- * شركة النخبوية للبرمجيات | FAANG Standards
+ * شركة أذكياء للبرمجيات | FAANG Standards
  */
 
 import { logger } from './logger.js';

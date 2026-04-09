@@ -1,7 +1,7 @@
 /**
  * E2E Test — QA-002: اختبارات الوصولية (Accessibility)
  * WCAG 2.1 Level AA — فحص تلقائي باستخدام axe-core
- * شركة النخبوية للبرمجيات | 2026-04-04
+ * شركة أذكياء للبرمجيات | 2026-04-04
  */
 
 import { test, expect } from '@playwright/test';

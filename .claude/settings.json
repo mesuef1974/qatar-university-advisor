@@ -15,18 +15,18 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo '🏢 Elite Software Company v4.0 — Session Started' && node C:/Users/mesue/.claude/elite-company/elite-cli.js health"
+            "command": "echo '🏢 Azkia v4.0 — Session Started' && node C:/Users/mesue/.claude/azkia-company/azkia-cli.js health"
           }
         ]
       }
     ],
     "UserPromptSubmit": [
       {
-        "matcher": "^/elite-",
+        "matcher": "^/azkia-",
         "hooks": [
           {
             "type": "command",
-            "command": "echo '🎯 Elite v4.0 — Skill invoked'"
+            "command": "echo '🎯 Azkia v4.0 — Skill invoked'"
           }
         ]
       },
@@ -46,7 +46,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cd C:/Users/mesue/.claude/elite-company && node v3/tools/skill-versioning.js snapshot 2>/dev/null || true"
+            "command": "cd C:/Users/mesue/.claude/azkia-company && node v3/tools/skill-versioning.js snapshot 2>/dev/null || true"
           }
         ]
       },
@@ -66,15 +66,15 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cd C:/Users/mesue/.claude/elite-company && node v3/tools/backup-system.js backup 2>/dev/null || true"
+            "command": "cd C:/Users/mesue/.claude/azkia-company && node v3/tools/backup-system.js backup 2>/dev/null || true"
           }
         ]
       }
     ]
   },
-  "_elite_company": {
+  "_azkia_company": {
     "project_id": "qatar-university-advisor",
-    "company_path": "C:/Users/mesue/.claude/elite-company/",
+    "company_path": "C:/Users/mesue/.claude/azkia-company/",
     "version": "4.0"
   }
 }

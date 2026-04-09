@@ -1,7 +1,7 @@
 /**
  * Supabase Client — Unit Tests
  * QA-A1: رفع Test Coverage إلى 70%
- * elite-qa | 2026-04-05
+ * azkia-qa | 2026-04-05
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';

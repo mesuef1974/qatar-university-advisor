@@ -2,7 +2,7 @@
 /**
  * Performance Test — QA-003: اختبار حمل WhatsApp Webhook
  * السيناريو: محاكاة رسائل واردة من WhatsApp
- * شركة النخبوية للبرمجيات | 2026-04-04
+ * شركة أذكياء للبرمجيات | 2026-04-04
  *
  * التشغيل:
  *   k6 run tests/performance/k6-webhook.js

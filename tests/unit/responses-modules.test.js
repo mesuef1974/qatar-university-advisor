@@ -1,7 +1,7 @@
 /**
  * Responses Modules — Unit Tests
  * QA-A1: اختبارات responses/*.js (5 ملفات × 3 حالات)
- * elite-qa | 2026-04-05
+ * azkia-qa | 2026-04-05
  */
 
 import { describe, it, expect } from 'vitest';

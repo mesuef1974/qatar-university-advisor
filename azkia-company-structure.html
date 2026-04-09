@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شركة أذكياء للبرمجيات — الهيكل التنظيمي</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --maroon: #800020;
+    --maroon-light: #a0284a;
+    --maroon-dark: #5c0018;
+    --gold: #d4a843;
+    --gold-light: #e8c97a;
+    --bg: #ffffff;
+    --bg-card: #fafafa;
+    --bg-section: #f5f0eb;
+    --text: #1a1a2e;
+    --text-muted: #555;
+    --border: #e0d5cc;
+    --shadow: rgba(128,0,32,0.08);
+    --gradient-start: #800020;
+    --gradient-end: #5c0018;
+  }
+  [data-theme="dark"] {
+    --bg: #0f0a12;
+    --bg-card: #1a1420;
+    --bg-section: #150e1a;
+    --text: #f0e8f5;
+    --text-muted: #a89bb5;
+    --border: #3a2840;
+    --shadow: rgba(212,168,67,0.1);
+    --gradient-start: #a0284a;
+    --gradient-end: #800020;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: all 0.4s ease;
+    line-height: 1.7;
+  }
+  /* Theme Toggle */
+  .theme-toggle {
+    position: fixed; top: 20px; left: 20px; z-index: 1000;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--maroon), var(--maroon-dark));
+    border: 2px solid var(--gold);
+    color: var(--gold); font-size: 22px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px var(--shadow);
+    transition: all 0.3s;
+  }
+  .theme-toggle:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(128,0,32,0.3); }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: white; padding: 60px 20px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: ''; position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(212,168,67,0.08) 0%, transparent 60%);
+    animation: pulse 8s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .header h1 { font-size: 2.8em; margin-bottom: 10px; position: relative; }
+  .header .gold-bar { width: 100px; height: 4px; background: var(--gold); margin: 15px auto; border-radius: 2px; }
+  .header p { font-size: 1.2em; opacity: 0.9; position: relative; }
+  .header .stats-bar {
+    display: flex; justify-content: center; gap: 40px; margin-top: 30px;
+    flex-wrap: wrap; position: relative;
+  }
+  .header .stat { text-align: center; }
+  .header .stat-num { font-size: 2.5em; font-weight: 800; color: var(--gold); }
+  .header .stat-label { font-size: 0.9em; opacity: 0.85; }
+
+  /* Container */
+  .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+
+  /* Section */
+  .section {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 40px; margin-bottom: 40px;
+    box-shadow: 0 4px 24px var(--shadow);
+    transition: all 0.3s;
+  }
+  .section:hover { box-shadow: 0 8px 40px var(--shadow); }
+  .section-title {
+    font-size: 1.8em; color: var(--maroon); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  [data-theme="dark"] .section-title { color: var(--gold); }
+  .section-subtitle { color: var(--text-muted); margin-bottom: 30px; font-size: 1.05em; }
+
+  /* Org Chart */
+  .org-chart { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .org-node {
+    background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
+    color: white; padding: 16px 32px; border-radius: 12px;
+    text-align: center; min-width: 200px; position: relative;
+    box-shadow: 0 4px 16px rgba(128,0,32,0.25);
+    transition: transform 0.3s;
+  }
+  .org-node:hover { transform: translateY(-3px); }
+  .org-node.gold {
+    background: linear-gradient(135deg, var(--gold), #b8922e);
+    color: var(--maroon-dark);
+  }
+  .org-node .title { font-weight: 700; font-size: 1.1em; }
+  .org-node .subtitle { font-size: 0.85em; opacity: 0.85; margin-top: 4px; }
+  .org-connector {
+    width: 3px; height: 30px;
+    background: linear-gradient(to bottom, var(--maroon), var(--gold));
+  }
+  .org-row {
+    display: flex; justify-content: center; gap: 20px;
+    flex-wrap: wrap; position: relative; padding-top: 30px;
+  }
+  .org-row::before {
+    content: ''; position: absolute; top: 0; left: 10%; right: 10%;
+    height: 3px; background: linear-gradient(90deg, transparent, var(--maroon), var(--gold), var(--maroon), transparent);
+  }
+  .org-branch {
+    display: flex; flex-direction: column; align-items: center; gap: 0;
+  }
+  .org-branch .branch-connector { width: 3px; height: 20px; background: var(--maroon); }
+
+  /* Department Cards */
+  .dept-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .dept-card {
+    background: var(--bg-section); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px; transition: all 0.3s;
+    border-right: 4px solid var(--maroon);
+  }
+  .dept-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px var(--shadow); }
+  .dept-card .dept-icon { font-size: 2em; margin-bottom: 8px; }
+  .dept-card .dept-name { font-weight: 700; font-size: 1.1em; color: var(--maroon); }
+  [data-theme="dark"] .dept-card .dept-name { color: var(--gold); }
+  .dept-card .dept-count {
+    display: inline-block; background: var(--maroon); color: white;
+    padding: 2px 12px; border-radius: 20px; font-size: 0.85em; margin-top: 8px;
+  }
+  .dept-card .dept-skill { color: var(--text-muted); font-size: 0.85em; margin-top: 6px; font-family: monospace; }
+
+  /* Tables */
+  .table-container { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    background: linear-gradient(135deg, var(--maroon), var(--maroon-dark));
+    color: white; padding: 14px 16px; text-align: right; font-weight: 600;
+  }
+  td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: var(--bg-section); }
+  .highlight-row td { background: rgba(128,0,32,0.05); font-weight: 700; }
+  [data-theme="dark"] .highlight-row td { background: rgba(212,168,67,0.08); }
+
+  /* Charts */
+  .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
+  .chart-box {
+    background: var(--bg-section); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px;
+  }
+  .chart-box h3 { color: var(--maroon); margin-bottom: 16px; }
+  [data-theme="dark"] .chart-box h3 { color: var(--gold); }
+
+  /* Comparison Cards */
+  .comparison-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media(max-width:900px) { .comparison-grid { grid-template-columns: 1fr; } }
+  .comp-card {
+    border-radius: 16px; padding: 32px; text-align: center;
+    border: 2px solid var(--border); transition: all 0.3s;
+  }
+  .comp-card:hover { transform: translateY(-6px); }
+  .comp-card.us { border-color: #3b82f6; }
+  .comp-card.remote { border-color: #10b981; }
+  .comp-card.qatar { border-color: var(--maroon); background: rgba(128,0,32,0.04); }
+  [data-theme="dark"] .comp-card.qatar { background: rgba(128,0,32,0.15); }
+  .comp-card .flag { font-size: 3em; }
+  .comp-card .location { font-size: 1.3em; font-weight: 700; margin: 8px 0; }
+  .comp-card .price { font-size: 2.2em; font-weight: 800; color: var(--maroon); }
+  [data-theme="dark"] .comp-card .price { color: var(--gold); }
+  .comp-card .period { color: var(--text-muted); }
+  .comp-card .detail { margin-top: 16px; font-size: 0.95em; color: var(--text-muted); }
+  .comp-card .badge {
+    display: inline-block; padding: 4px 16px; border-radius: 20px;
+    font-size: 0.85em; margin-top: 12px; font-weight: 600;
+  }
+  .comp-card.qatar .badge { background: var(--maroon); color: white; }
+
+  /* Footer */
+  .footer {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: white; text-align: center; padding: 40px 20px; margin-top: 40px;
+  }
+  .footer .gold-text { color: var(--gold); font-weight: 700; }
+
+  /* Responsive */
+  @media(max-width:768px) {
+    .header h1 { font-size: 1.8em; }
+    .section { padding: 24px; }
+    .charts-grid { grid-template-columns: 1fr; }
+    .org-row { gap: 10px; }
+    .org-node { min-width: 140px; padding: 10px 16px; font-size: 0.9em; }
+  }
+
+  /* Nav */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg-card); border-bottom: 2px solid var(--border);
+    padding: 12px 20px; display: flex; justify-content: center;
+    gap: 8px; flex-wrap: wrap; backdrop-filter: blur(12px);
+  }
+  .nav a {
+    color: var(--text); text-decoration: none; padding: 8px 16px;
+    border-radius: 8px; font-size: 0.9em; transition: all 0.3s;
+    border: 1px solid transparent;
+  }
+  .nav a:hover { background: var(--bg-section); border-color: var(--maroon); color: var(--maroon); }
+  [data-theme="dark"] .nav a:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* Animate on scroll */
+  .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="تبديل المظهر">🌙</button>
+
+<!-- Header -->
+<header class="header">
+  <h1>شركة أذكياء للبرمجيات</h1>
+  <div class="gold-bar"></div>
+  <p>Azkia — Excellence in Every Line of Code</p>
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">28</div><div class="stat-label">قسم متخصص</div></div>
+    <div class="stat"><div class="stat-num">75</div><div class="stat-label">موظف</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">C-Suite</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">قطاعات</div></div>
+  </div>
+</header>
+
+<!-- Nav -->
+<nav class="nav">
+  <a href="#org-chart">الهيكل التنظيمي</a>
+  <a href="#departments">الأقسام</a>
+  <a href="#headcount">الموظفون</a>
+  <a href="#charts">الرسوم البيانية</a>
+  <a href="#costs">التكاليف</a>
+  <a href="#comparison">المقارنة</a>
+</nav>
+
+<div class="container">
+
+<!-- Org Chart -->
+<section class="section fade-in" id="org-chart">
+  <div class="section-title">🏛️ الهيكل التنظيمي</div>
+  <div class="section-subtitle">المخطط الهرمي لشركة أذكياء للبرمجيات — 28 قسماً</div>
+
+  <div class="org-chart">
+    <div class="org-node gold">
+      <div class="title">مجلس الإدارة</div>
+      <div class="subtitle">Board of Directors</div>
+    </div>
+    <div class="org-connector"></div>
+    <div class="org-node">
+      <div class="title">👔 المدير التنفيذي (CEO)</div>
+      <div class="subtitle">azkia-ceo</div>
+    </div>
+    <div class="org-connector"></div>
+
+    <!-- Direct Reports -->
+    <div class="org-row">
+      <div class="org-branch">
+        <div class="branch-connector"></div>
+        <div class="org-node" style="background:linear-gradient(135deg,#6b21a8,#9333ea);font-size:0.9em;">
+          <div class="title">📝 السكرتاريا (3)</div>
+        </div>
+      </div>
+      <div class="org-branch">
+        <div class="branch-connector"></div>
+        <div class="org-node" style="background:linear-gradient(135deg,#6b21a8,#9333ea);font-size:0.9em;">
+          <div class="title">📁 الأرشيف (2)</div>
+        </div>
+      </div>
+      <div class="org-branch">
+        <div class="branch-connector"></div>
+        <div class="org-node" style="background:linear-gradient(135deg,#6b21a8,#9333ea);font-size:0.9em;">
+          <div class="title">📊 التخطيط الاستراتيجي (3)</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:30px"></div>
+
+    <!-- C-Suite Row -->
+    <div class="org-row">
+      <div class="org-branch">
+        <div class="branch-connector"></div>
+        <div class="org-node" style="background:linear-gradient(135deg,#0369a1,#0ea5e9);">
+          <div class="title">🔧 CTO — نائب تقني</div>
+          <div class="subtitle">27 موظفاً</div>
+        </div>
+      </div>
+      <div class="org-branch">
+        <div class="branch-connector"></div>
+        <div class="org-node" style="background:linear-gradient(135deg,#b45309,#f59e0b);">
+          <div class="title">🎨 CPO — نائب المنتج</div>
+          <div class="subtitle">18 موظفاً</div>
+        </div>
+      </div>
+      <div class="org-branch">
+        <div class="branch-connector"></div>
+        <div class="org-node" style="background:linear-gradient(135deg,#047857,#10b981);">
+          <div class="title">📈 COO — نائب الأعمال</div>
+          <div class="subtitle">26 موظفاً</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Departments -->
+<section class="section fade-in" id="departments">
+  <div class="section-title">🏢 الأقسام الـ 28</div>
+  <div class="section-subtitle">كل قسم بعدد موظفيه ومهارته التقنية</div>
+
+  <h3 style="color:var(--maroon);margin:20px 0 16px;">🔧 القطاع التقني (CTO) — 27 موظفاً</h3>
+  <div class="dept-grid">
+    <div class="dept-card"><div class="dept-icon">💻</div><div class="dept-name">الهندسة</div><div class="dept-count">12 موظفاً</div><div class="dept-skill">azkia-engineering</div></div>
+    <div class="dept-card"><div class="dept-icon">⚙️</div><div class="dept-name">DevOps/SRE</div><div class="dept-count">4 موظفين</div><div class="dept-skill">azkia-devops</div></div>
+    <div class="dept-card"><div class="dept-icon">🔒</div><div class="dept-name">الأمن السيبراني</div><div class="dept-count">3 موظفين</div><div class="dept-skill">azkia-security</div></div>
+    <div class="dept-card"><div class="dept-icon">🔬</div><div class="dept-name">R&D والابتكار</div><div class="dept-count">3 موظفين</div><div class="dept-skill">azkia-rnd</div></div>
+    <div class="dept-card"><div class="dept-icon">⚡</div><div class="dept-name">الأداء والمراقبة</div><div class="dept-count">2 موظفان</div><div class="dept-skill">azkia-performance</div></div>
+    <div class="dept-card"><div class="dept-icon">📱</div><div class="dept-name">PWA</div><div class="dept-count">1 موظف</div><div class="dept-skill">azkia-pwa</div></div>
+    <div class="dept-card"><div class="dept-icon">🏗️</div><div class="dept-name">TypeScript/Code Quality</div><div class="dept-count">1 موظف</div><div class="dept-skill">azkia-typescript</div></div>
+    <div class="dept-card"><div class="dept-icon">🔄</div><div class="dept-name">SDLC</div><div class="dept-count">1 موظف</div><div class="dept-skill">azkia-sdlc</div></div>
+  </div>
+
+  <h3 style="color:var(--maroon);margin:30px 0 16px;">🎨 قطاع المنتج والتصميم (CPO) — 18 موظفاً</h3>
+  <div class="dept-grid">
+    <div class="dept-card"><div class="dept-icon">📋</div><div class="dept-name">المنتجات</div><div class="dept-count">3 موظفين</div><div class="dept-skill">azkia-product</div></div>
+    <div class="dept-card"><div class="dept-icon">🎨</div><div class="dept-name">تجربة المستخدم</div><div class="dept-count">4 موظفين</div><div class="dept-skill">azkia-ux</div></div>
+    <div class="dept-card"><div class="dept-icon">📊</div><div class="dept-name">تحليل الأعمال</div><div class="dept-count">3 موظفين</div><div class="dept-skill">azkia-ba</div></div>
+    <div class="dept-card"><div class="dept-icon">✍️</div><div class="dept-name">المحتوى</div><div class="dept-count">2 موظفان</div><div class="dept-skill">azkia-content</div></div>
+    <div class="dept-card"><div class="dept-icon">✅</div><div class="dept-name">ضمان الجودة</div><div class="dept-count">4 موظفين</div><div class="dept-skill">azkia-qa</div></div>
+    <div class="dept-card"><div class="dept-icon">🧪</div><div class="dept-name">الجودة المتقدمة</div><div class="dept-count">2 موظفان</div><div class="dept-skill">azkia-qa-advanced</div></div>
+  </div>
+
+  <h3 style="color:var(--maroon);margin:30px 0 16px;">📈 قطاع الأعمال والعمليات (COO) — 26 موظفاً</h3>
+  <div class="dept-grid">
+    <div class="dept-card"><div class="dept-icon">🤖</div><div class="dept-name">البيانات والذكاء الاصطناعي</div><div class="dept-count">3 موظفين</div><div class="dept-skill">azkia-data-ai</div></div>
+    <div class="dept-card"><div class="dept-icon">📢</div><div class="dept-name">التسويق</div><div class="dept-count">3 موظفين</div><div class="dept-skill">azkia-marketing</div></div>
+    <div class="dept-card"><div class="dept-icon">💰</div><div class="dept-name">المبيعات</div><div class="dept-count">3 موظفين</div><div class="dept-skill">azkia-sales</div></div>
+    <div class="dept-card"><div class="dept-icon">🤝</div><div class="dept-name">علاقات المطورين</div><div class="dept-count">2 موظفان</div><div class="dept-skill">azkia-devrel</div></div>
+    <div class="dept-card"><div class="dept-icon">🎯</div><div class="dept-name">نجاح العملاء</div><div class="dept-count">2 موظفان</div><div class="dept-skill">azkia-customer-success</div></div>
+    <div class="dept-card"><div class="dept-icon">📁</div><div class="dept-name">العمليات</div><div class="dept-count">3 موظفين</div><div class="dept-skill">azkia-operations</div></div>
+    <div class="dept-card"><div class="dept-icon">👥</div><div class="dept-name">الموارد البشرية</div><div class="dept-count">3 موظفين</div><div class="dept-skill">azkia-hr</div></div>
+    <div class="dept-card"><div class="dept-icon">📚</div><div class="dept-name">التدريب والتطوير</div><div class="dept-count">2 موظفان</div><div class="dept-skill">azkia-lnd</div></div>
+    <div class="dept-card"><div class="dept-icon">💼</div><div class="dept-name">المالية</div><div class="dept-count">3 موظفين</div><div class="dept-skill">azkia-finance</div></div>
+    <div class="dept-card"><div class="dept-icon">⚖️</div><div class="dept-name">القانوني والامتثال</div><div class="dept-count">2 موظفان</div><div class="dept-skill">azkia-legal</div></div>
+  </div>
+</section>
+
+<!-- Headcount Table -->
+<section class="section fade-in" id="headcount">
+  <div class="section-title">👥 جدول الموظفين التفصيلي</div>
+  <div class="section-subtitle">75 موظفاً موزعين على 28 قسماً</div>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr><th>#</th><th>القسم</th><th>العدد</th><th>القطاع</th><th>% من الإجمالي</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>الهندسة</td><td><strong>12</strong></td><td>تقني</td><td>16%</td></tr>
+        <tr><td>2</td><td>DevOps/SRE</td><td><strong>4</strong></td><td>تقني</td><td>5.3%</td></tr>
+        <tr><td>3</td><td>تجربة المستخدم</td><td><strong>4</strong></td><td>تصميم</td><td>5.3%</td></tr>
+        <tr><td>4</td><td>ضمان الجودة</td><td><strong>4</strong></td><td>جودة</td><td>5.3%</td></tr>
+        <tr><td>5</td><td>C-Suite</td><td><strong>4</strong></td><td>قيادة</td><td>5.3%</td></tr>
+        <tr><td>6</td><td>الأمن السيبراني</td><td><strong>3</strong></td><td>تقني</td><td>4%</td></tr>
+        <tr><td>7</td><td>R&D</td><td><strong>3</strong></td><td>تقني</td><td>4%</td></tr>
+        <tr><td>8</td><td>المنتجات</td><td><strong>3</strong></td><td>منتج</td><td>4%</td></tr>
+        <tr><td>9</td><td>تحليل الأعمال</td><td><strong>3</strong></td><td>تحليل</td><td>4%</td></tr>
+        <tr><td>10</td><td>التسويق</td><td><strong>3</strong></td><td>أعمال</td><td>4%</td></tr>
+        <tr><td>11</td><td>المبيعات</td><td><strong>3</strong></td><td>أعمال</td><td>4%</td></tr>
+        <tr><td>12</td><td>العمليات</td><td><strong>3</strong></td><td>إدارة</td><td>4%</td></tr>
+        <tr><td>13</td><td>الموارد البشرية</td><td><strong>3</strong></td><td>إدارة</td><td>4%</td></tr>
+        <tr><td>14</td><td>المالية</td><td><strong>3</strong></td><td>مالية</td><td>4%</td></tr>
+        <tr><td>15</td><td>التخطيط الاستراتيجي</td><td><strong>3</strong></td><td>إدارة</td><td>4%</td></tr>
+        <tr><td>16</td><td>السكرتاريا</td><td><strong>3</strong></td><td>إدارة</td><td>4%</td></tr>
+        <tr><td>17</td><td>البيانات/AI</td><td><strong>3</strong></td><td>تقني</td><td>4%</td></tr>
+        <tr><td>18</td><td>الأداء والمراقبة</td><td><strong>2</strong></td><td>تقني</td><td>2.7%</td></tr>
+        <tr><td>19</td><td>المحتوى</td><td><strong>2</strong></td><td>محتوى</td><td>2.7%</td></tr>
+        <tr><td>20</td><td>الجودة المتقدمة</td><td><strong>2</strong></td><td>جودة</td><td>2.7%</td></tr>
+        <tr><td>21</td><td>علاقات المطورين</td><td><strong>2</strong></td><td>أعمال</td><td>2.7%</td></tr>
+        <tr><td>22</td><td>نجاح العملاء</td><td><strong>2</strong></td><td>أعمال</td><td>2.7%</td></tr>
+        <tr><td>23</td><td>التدريب والتطوير</td><td><strong>2</strong></td><td>إدارة</td><td>2.7%</td></tr>
+        <tr><td>24</td><td>القانوني</td><td><strong>2</strong></td><td>قانوني</td><td>2.7%</td></tr>
+        <tr><td>25</td><td>الأرشيف</td><td><strong>2</strong></td><td>إدارة</td><td>2.7%</td></tr>
+        <tr><td>26-28</td><td>PWA + TS + SDLC</td><td><strong>3</strong></td><td>تقني</td><td>4%</td></tr>
+        <tr class="highlight-row"><td></td><td><strong>الإجمالي</strong></td><td><strong>75</strong></td><td></td><td><strong>100%</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Charts -->
+<section class="section fade-in" id="charts">
+  <div class="section-title">📊 الرسوم البيانية</div>
+  <div class="section-subtitle">توزيع الموظفين والتكاليف بصرياً</div>
+  <div class="charts-grid">
+    <div class="chart-box">
+      <h3>توزيع الموظفين حسب القطاع</h3>
+      <canvas id="sectorChart"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>أكبر 10 أقسام بعدد الموظفين</h3>
+      <canvas id="deptChart"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>مقارنة تكاليف التشغيل السنوية</h3>
+      <canvas id="costChart"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>توزيع تكاليف التشغيل (قطر)</h3>
+      <canvas id="costBreakdownChart"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- Cost Comparison -->
+<section class="section fade-in" id="costs">
+  <div class="section-title">💰 تكاليف التشغيل السنوية — التفصيل</div>
+  <div class="section-subtitle">مقارنة بين ثلاثة سيناريوهات</div>
+  <div class="table-container">
+    <table>
+      <thead><tr><th>البند</th><th>🇺🇸 Silicon Valley</th><th>🌍 Remote</th><th>🇶🇦 قطر</th></tr></thead>
+      <tbody>
+        <tr><td>الرواتب</td><td>$11,490,000</td><td>$7,200,000</td><td>$6,420,000</td></tr>
+        <tr><td>بدلات / Benefits</td><td>$3,447,000</td><td>$1,440,000</td><td>$1,280,000</td></tr>
+        <tr><td>المكاتب</td><td>$720,000</td><td>$60,000</td><td>$237,000</td></tr>
+        <tr><td>البنية السحابية</td><td>$180,000</td><td>$180,000</td><td>$180,000</td></tr>
+        <tr><td>رخص البرمجيات</td><td>$120,000</td><td>$120,000</td><td>$120,000</td></tr>
+        <tr><td>سفر ومؤتمرات</td><td>$100,000</td><td>$200,000</td><td>$100,000</td></tr>
+        <tr><td>أخرى</td><td>$305,000</td><td>$400,000</td><td>$163,000</td></tr>
+        <tr class="highlight-row"><td><strong>الإجمالي</strong></td><td><strong>$16,362,000</strong></td><td><strong>$9,600,000</strong></td><td><strong>$8,500,000</strong></td></tr>
+        <tr><td><strong>شهرياً</strong></td><td><strong>$1,363,500</strong></td><td><strong>$800,000</strong></td><td><strong>$708,000</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Comparison Cards -->
+<section class="section fade-in" id="comparison">
+  <div class="section-title">🌍 المقارنة النهائية</div>
+  <div class="section-subtitle">أي سيناريو يناسب شركتك؟</div>
+  <div class="comparison-grid">
+    <div class="comp-card us">
+      <div class="flag">🇺🇸</div>
+      <div class="location">Silicon Valley</div>
+      <div class="price">$16.4M</div>
+      <div class="period">/ سنة</div>
+      <div class="detail">
+        $1.36M شهرياً<br>
+        $218K لكل موظف<br>
+        ضريبة: 25-37%
+      </div>
+      <div class="badge" style="background:#3b82f6;color:white;">أفضل Talent Pool</div>
+    </div>
+    <div class="comp-card remote">
+      <div class="flag">🌍</div>
+      <div class="location">Remote-First</div>
+      <div class="price">$9.6M</div>
+      <div class="period">/ سنة</div>
+      <div class="detail">
+        $800K شهرياً<br>
+        $128K لكل موظف<br>
+        ضريبة: متغيرة
+      </div>
+      <div class="badge" style="background:#10b981;color:white;">أكثر مرونة</div>
+    </div>
+    <div class="comp-card qatar">
+      <div class="flag">🇶🇦</div>
+      <div class="location">الدوحة، قطر</div>
+      <div class="price">$8.5M</div>
+      <div class="period">/ سنة</div>
+      <div class="detail">
+        $708K شهرياً<br>
+        $113K لكل موظف<br>
+        ضريبة: <strong>0%</strong>
+      </div>
+      <div class="badge">الأفضل تكلفة + 0% ضريبة</div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div style="font-size:1.4em;margin-bottom:8px;" class="gold-text">شركة أذكياء للبرمجيات</div>
+  <div>Azkia</div>
+  <div style="margin-top:8px;opacity:0.8;">28 قسماً | 75 موظفاً | FAANG Standards | ISO 27001</div>
+  <div style="margin-top:16px;" class="gold-text">Excellence in Every Line of Code</div>
+  <div style="margin-top:8px;opacity:0.6;font-size:0.85em;">2026-04-04</div>
+</footer>
+
+<script>
+// Theme Toggle
+function toggleTheme() {
+  const body = document.body;
+  const btn = document.getElementById('themeBtn');
+  if (body.getAttribute('data-theme') === 'dark') {
+    body.removeAttribute('data-theme');
+    btn.textContent = '🌙';
+  } else {
+    body.setAttribute('data-theme', 'dark');
+    btn.textContent = '☀️';
+  }
+  updateCharts();
+}
+
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Charts
+const isDark = () => document.body.getAttribute('data-theme') === 'dark';
+const txtColor = () => isDark() ? '#f0e8f5' : '#1a1a2e';
+const gridColor = () => isDark() ? '#3a2840' : '#e0d5cc';
+
+let charts = {};
+
+function createCharts() {
+  const commonOpts = {
+    responsive: true,
+    plugins: { legend: { labels: { color: txtColor(), font: { size: 13 } } } },
+  };
+
+  // Sector Doughnut
+  charts.sector = new Chart(document.getElementById('sectorChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['القيادة والتخطيط', 'القطاع التقني', 'المنتج والتصميم', 'الأعمال والعمليات'],
+      datasets: [{
+        data: [12, 27, 18, 22],
+        backgroundColor: ['#6b21a8', '#0ea5e9', '#f59e0b', '#10b981'],
+        borderWidth: 3,
+        borderColor: isDark() ? '#0f0a12' : '#ffffff',
+      }]
+    },
+    options: { ...commonOpts, cutout: '55%' }
+  });
+
+  // Department Bar
+  charts.dept = new Chart(document.getElementById('deptChart'), {
+    type: 'bar',
+    data: {
+      labels: ['الهندسة','DevOps','UX/UI','QA','C-Suite','Security','R&D','Products','BA','Marketing'],
+      datasets: [{
+        label: 'عدد الموظفين',
+        data: [12,4,4,4,4,3,3,3,3,3],
+        backgroundColor: 'rgba(128,0,32,0.75)',
+        borderColor: '#800020',
+        borderWidth: 1,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      ...commonOpts, indexAxis: 'y',
+      scales: {
+        x: { ticks: { color: txtColor() }, grid: { color: gridColor() } },
+        y: { ticks: { color: txtColor() }, grid: { color: gridColor() } }
+      }
+    }
+  });
+
+  // Cost Comparison Bar
+  charts.cost = new Chart(document.getElementById('costChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Silicon Valley 🇺🇸', 'Remote 🌍', 'قطر 🇶🇦'],
+      datasets: [{
+        label: 'مليون دولار / سنة',
+        data: [16.4, 9.6, 8.5],
+        backgroundColor: ['#3b82f6', '#10b981', '#800020'],
+        borderRadius: 8,
+      }]
+    },
+    options: {
+      ...commonOpts,
+      scales: {
+        x: { ticks: { color: txtColor() }, grid: { color: gridColor() } },
+        y: { ticks: { color: txtColor(), callback: v => '$' + v + 'M' }, grid: { color: gridColor() } }
+      }
+    }
+  });
+
+  // Cost Breakdown Pie (Qatar)
+  charts.breakdown = new Chart(document.getElementById('costBreakdownChart'), {
+    type: 'pie',
+    data: {
+      labels: ['الرواتب', 'بدلات وتأمين', 'مكاتب', 'بنية سحابية', 'رخص برمجية', 'أخرى'],
+      datasets: [{
+        data: [6420, 1280, 237, 180, 120, 263],
+        backgroundColor: ['#800020','#a0284a','#d4a843','#0ea5e9','#6b21a8','#10b981'],
+        borderWidth: 2,
+        borderColor: isDark() ? '#0f0a12' : '#ffffff',
+      }]
+    },
+    options: commonOpts
+  });
+}
+
+function updateCharts() {
+  Object.values(charts).forEach(c => c.destroy());
+  createCharts();
+}
+
+createCharts();
+</script>
+</body>
+</html>

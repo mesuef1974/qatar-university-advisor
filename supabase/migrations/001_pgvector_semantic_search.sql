@@ -1,6 +1,6 @@
 -- ══════════════════════════════════════════════════════════════
 -- Migration 001: pgvector Semantic Search
--- Qatar University Advisor — شركة النخبوية للبرمجيات
+-- Qatar University Advisor — شركة أذكياء للبرمجيات
 -- تفعيل البحث الدلالي بـ OpenAI/Gemini embeddings
 -- ══════════════════════════════════════════════════════════════
 

@@ -13,9 +13,9 @@
 ## الأطراف / Parties
 
 **الطرف الأول (مراقب البيانات) / First Party (Data Controller):**
-شركة النخبوية للبرمجيات (Elite Software Company)
+شركة أذكياء للبرمجيات (Azkia)
 العنوان: الدوحة، دولة قطر
-البريد الإلكتروني: legal@elite-software.qa
+البريد الإلكتروني: legal@azkia-software.qa
 (يُشار إليه لاحقاً بـ "المراقب" / hereinafter referred to as the "Controller")
 
 **الطرف الثاني (معالج البيانات) / Second Party (Data Processor):**
@@ -40,9 +40,9 @@ Whereas the Controller utilizes the Processor's services to provide hosting and 
 
 Any data relating to an identified or identifiable natural person, including but not limited to: IP addresses, session cookies, browser metadata, and access logs, as defined in Article (2) of the PDPPL.
 
-**1.2** "المراقب" / "Controller": الشخص الطبيعي أو الاعتباري الذي يحدد أغراض ووسائل معالجة البيانات الشخصية، وهو في هذه الاتفاقية شركة النخبوية للبرمجيات.
+**1.2** "المراقب" / "Controller": الشخص الطبيعي أو الاعتباري الذي يحدد أغراض ووسائل معالجة البيانات الشخصية، وهو في هذه الاتفاقية شركة أذكياء للبرمجيات.
 
-The natural or legal person that determines the purposes and means of processing personal data, which in this Agreement is Elite Software Company.
+The natural or legal person that determines the purposes and means of processing personal data, which in this Agreement is Azkia.
 
 **1.3** "المعالج" / "Processor": الشخص الطبيعي أو الاعتباري الذي يعالج البيانات الشخصية نيابةً عن المراقب، وهو في هذه الاتفاقية شركة Vercel Inc.
 
@@ -373,7 +373,7 @@ Doha, State of Qatar. The language of arbitration shall be Arabic with English t
 
 ### الطرف الأول — المراقب / First Party — Controller
 
-**شركة النخبوية للبرمجيات / Elite Software Company**
+**شركة أذكياء للبرمجيات / Azkia**
 
 | | |
 |---|---|
@@ -402,7 +402,7 @@ Doha, State of Qatar. The language of arbitration shall be Arabic with English t
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⚖️ مُراجَع ومعتمد قانونياً
-المستشار القانوني: elite-legal-counsel
+المستشار القانوني: azkia-legal-counsel
 التاريخ: 2026-04-04
 الحكم: ⚠️ متوافق مع تحفظات — يستلزم توقيع الطرف الآخر
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

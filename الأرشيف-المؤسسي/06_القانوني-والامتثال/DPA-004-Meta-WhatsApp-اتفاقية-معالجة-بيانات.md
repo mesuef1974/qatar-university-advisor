@@ -5,9 +5,9 @@
 
 | | الطرف الأول — مُتحكِّم البيانات / First Party — Data Controller | الطرف الثاني — مُعالِج البيانات / Second Party — Data Processor |
 |---|---|---|
-| **الاسم / Name** | شركة النخبوية للبرمجيات (Elite Software Company) | Meta Platforms, Inc. (WhatsApp Business API) |
+| **الاسم / Name** | شركة أذكياء للبرمجيات (Azkia) | Meta Platforms, Inc. (WhatsApp Business API) |
 | **العنوان / Address** | الدوحة، دولة قطر | 1 Hacker Way, Menlo Park, CA 94025, USA |
-| **الممثل القانوني / Legal Representative** | المدير التنفيذي — elite-ceo | Meta Legal — WhatsApp Business |
+| **الممثل القانوني / Legal Representative** | المدير التنفيذي — azkia-ceo | Meta Legal — WhatsApp Business |
 | **رقم الاتفاقية / Agreement No.** | DPA-004 | |
 | **تاريخ السريان / Effective Date** | 2026-04-04 | |
 
@@ -17,7 +17,7 @@
 
 ### 1.1 التعريفات بالعربية
 
-- **المُتحكِّم بالبيانات (Data Controller):** شركة النخبوية للبرمجيات، الطرف الذي يُحدد أغراض ووسائل معالجة البيانات الشخصية وفقاً للمادة (2) من قانون حماية خصوصية البيانات الشخصية القطري رقم (13) لسنة 2016 (PDPPL).
+- **المُتحكِّم بالبيانات (Data Controller):** شركة أذكياء للبرمجيات، الطرف الذي يُحدد أغراض ووسائل معالجة البيانات الشخصية وفقاً للمادة (2) من قانون حماية خصوصية البيانات الشخصية القطري رقم (13) لسنة 2016 (PDPPL).
 - **مُعالِج البيانات (Data Processor):** شركة Meta Platforms, Inc.، الطرف الذي يُعالج البيانات الشخصية نيابةً عن المُتحكِّم عبر منصة WhatsApp Business API.
 - **البيانات الشخصية (Personal Data):** أي معلومات تتعلق بشخص طبيعي مُحدَّد أو يمكن تحديده، بما في ذلك أرقام الهواتف وأسماء الملفات الشخصية ومحتوى الرسائل والبيانات الوصفية، وفقاً للمادة (1) من قانون PDPPL.
 - **المعالجة (Processing):** أي عملية أو مجموعة عمليات تُجرى على البيانات الشخصية، سواء بوسائل آلية أو غير آلية، بما في ذلك الجمع والتسجيل والتخزين والإرسال والاسترجاع والإفصاح والمسح والتدمير.
@@ -29,7 +29,7 @@
 
 ### 1.1 Definitions in English
 
-- **Data Controller:** Elite Software Company, the party that determines the purposes and means of processing personal data pursuant to Article (2) of Qatar Personal Data Privacy Protection Law No. (13) of 2016 (PDPPL).
+- **Data Controller:** Azkia, the party that determines the purposes and means of processing personal data pursuant to Article (2) of Qatar Personal Data Privacy Protection Law No. (13) of 2016 (PDPPL).
 - **Data Processor:** Meta Platforms, Inc., the party that processes personal data on behalf of the Controller through the WhatsApp Business API platform.
 - **Personal Data:** Any information relating to an identified or identifiable natural person, including phone numbers, profile names, message content, and metadata, as defined in Article (1) of the PDPPL.
 - **Processing:** Any operation or set of operations performed on personal data, whether by automated or non-automated means, including collection, recording, storage, transmission, retrieval, disclosure, erasure, and destruction.
@@ -427,7 +427,7 @@ Pursuant to Articles (19) and (20) of the PDPPL:
 
 | | |
 |---|---|
-| **الاسم / Name** | شركة النخبوية للبرمجيات / Elite Software Company |
+| **الاسم / Name** | شركة أذكياء للبرمجيات / Azkia |
 | **الممثل / Representative** | ______________________________ |
 | **المنصب / Title** | المدير التنفيذي / CEO |
 | **التوقيع / Signature** | ______________________________ |
@@ -450,7 +450,7 @@ Pursuant to Articles (19) and (20) of the PDPPL:
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⚖️ مُراجَع ومعتمد قانونياً
-المستشار القانوني: elite-legal-counsel
+المستشار القانوني: azkia-legal-counsel
 التاريخ: 2026-04-04
 الحكم: ⚠️ متوافق مع تحفظات — يستلزم توقيع الطرف الآخر
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -460,4 +460,4 @@ Pursuant to Articles (19) and (20) of the PDPPL:
 
 *نهاية الاتفاقية / End of Agreement*
 *DPA-004 — Meta Platforms / WhatsApp Business API*
-*شركة النخبوية للبرمجيات — القسم القانوني والامتثال*
+*شركة أذكياء للبرمجيات — القسم القانوني والامتثال*

@@ -1,7 +1,7 @@
 /**
  * T-FIX-004: Input Sanitizer — Prompt Injection Defense (TypeScript)
  * يحمي النظام من محاولات التلاعب بـ Claude AI
- * شركة النخبوية للبرمجيات | OWASP A03:2021
+ * شركة أذكياء للبرمجيات | OWASP A03:2021
  */
 
 import type { SanitizeResult } from '../types/index.js';

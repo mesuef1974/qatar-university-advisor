@@ -398,4 +398,4 @@ git push origin feat/compare-universities-export
 
 ## الثغرات الأمنية
 
-إذا اكتشفت ثغرة أمنية، **لا ترفع Issue عاماً**. تواصل مباشرةً مع فريق الأمن عبر: security@elite-software.qa أو راجع `.github/SECURITY.md` للتفاصيل الكاملة. سيتم الرد خلال 48 ساعة.
+إذا اكتشفت ثغرة أمنية، **لا ترفع Issue عاماً**. تواصل مباشرةً مع فريق الأمن عبر: security@azkia-software.qa أو راجع `.github/SECURITY.md` للتفاصيل الكاملة. سيتم الرد خلال 48 ساعة.

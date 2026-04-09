@@ -37,3 +37,10 @@ ConsoleApp1/
 # Playwright
 playwright-report/
 test-results/coverage/
+
+# Next.js
+.next/
+out/
+
+# Coverage
+coverage/

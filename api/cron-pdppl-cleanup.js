@@ -7,7 +7,7 @@
  * 1. المستخدمون الذين طلبوا الحذف (deletion_requested = true)
  * 2. المستخدمون الذين تجاوزت بياناتهم فترة الاحتفاظ (data_retention_until < NOW())
  *
- * شركة النخبوية للبرمجيات | ISO 27001
+ * شركة أذكياء للبرمجيات | ISO 27001
  *
  * ملاحظة التوافق مع schema.sql:
  *   - جدول users: consent_given، consent_date، data_retention_until

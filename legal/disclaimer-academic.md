@@ -1,12 +1,12 @@
 # إخلاء المسؤولية الأكاديمي
 ## Academic Disclaimer — Qatar University Advisor
-## شركة النخبوية للبرمجيات | Elite Software Company W.L.L.
+## شركة أذكياء للبرمجيات | Azkia W.L.L.
 
 | البند | التفاصيل |
 |-------|----------|
 | **رقم الإصدار (Version)** | 2.0 |
 | **تاريخ السريان (Effective Date)** | 2026-04-04 |
-| **الاسم القانوني (Legal Name)** | شركة النخبوية للبرمجيات ذ.م.م — Elite Software Company W.L.L. |
+| **الاسم القانوني (Legal Name)** | شركة أذكياء للبرمجيات ذ.م.م — Azkia W.L.L. |
 
 ---
 
@@ -19,7 +19,7 @@
 - **ليست قراراً رسمياً**: لا تُعدّ المعلومات المقدمة قراراً رسمياً للقبول أو الرفض من أي جامعة.
 - **تتغير المتطلبات**: قد تتغير شروط القبول والمواعيد والمنح دون إشعار مسبق.
 - **تحقق من المصدر الرسمي**: يجب التحقق من جميع المعلومات مباشرة من الجامعة أو الجهة المختصة.
-- **لا مسؤولية**: لا تتحمل شركة النخبوية للبرمجيات ذ.م.م (Elite Software Company W.L.L.) أي مسؤولية عن قرارات اتُّخذت بناءً على المعلومات المقدمة.
+- **لا مسؤولية**: لا تتحمل شركة أذكياء للبرمجيات ذ.م.م (Azkia W.L.L.) أي مسؤولية عن قرارات اتُّخذت بناءً على المعلومات المقدمة.
 
 ### إفصاح الذكاء الاصطناعي (AI Disclosure):
 
@@ -35,7 +35,7 @@
 
 ### معلومات التواصل (Contact Information):
 
-- **البريد الإلكتروني**: legal@elite-software.qa
+- **البريد الإلكتروني**: legal@azkia-software.qa
 - **الموقع الإلكتروني**: https://qatar-university-advisor.vercel.app
 - **العنوان**: دولة قطر — الدوحة
 
@@ -45,14 +45,14 @@
 
 ⚠️ **DISCLAIMER**
 
-**Legal Entity**: Elite Software Company W.L.L. (شركة النخبوية للبرمجيات ذ.م.م)
+**Legal Entity**: Azkia W.L.L. (شركة أذكياء للبرمجيات ذ.م.م)
 
 Information provided through this Academic Advisor is for **general guidance purposes only** and is based on publicly available data.
 
 - **Not an Official Decision**: The information provided does not constitute an official admission or rejection decision from any university.
 - **Requirements May Change**: Admission requirements, deadlines, and scholarships may change without prior notice.
 - **Verify with Official Sources**: All information must be verified directly with the university or relevant authority.
-- **No Liability**: Elite Software Company W.L.L. bears no responsibility for decisions made based on the information provided.
+- **No Liability**: Azkia W.L.L. bears no responsibility for decisions made based on the information provided.
 
 ### AI Disclosure:
 
@@ -68,6 +68,6 @@ For more details on how your personal data is processed, please refer to the [Pr
 
 ### Contact Information:
 
-- **Email**: legal@elite-software.qa
+- **Email**: legal@azkia-software.qa
 - **Website**: https://qatar-university-advisor.vercel.app
 - **Address**: State of Qatar — Doha

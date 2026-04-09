@@ -10,7 +10,7 @@
  *   2. Claude AI (مع Circuit Breaker)
  *   3. رسالة خطأ ودية
  *
- * شركة النخبوية للبرمجيات | Elite Software Company
+ * شركة أذكياء للبرمجيات | Azkia
  */
 
 import { getAIResponseWithFallback } from '../lib/ai-fallback.js';

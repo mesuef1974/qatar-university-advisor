@@ -1,6 +1,6 @@
 /**
  * Integration Tests — Input Sanitizer (T-FIX-004)
- * T-FIX-009: شركة النخبوية للبرمجيات
+ * T-FIX-009: شركة أذكياء للبرمجيات
  *
  * يختبر: sanitizeInput, getInjectionResponse من lib/sanitizer.js
  * MAX_LENGTH = 1000 حرف

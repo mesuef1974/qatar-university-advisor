@@ -1,0 +1,155 @@
+"use client";
+
+import { useTheme } from "next-themes";
+import { useChatStore } from "@/store/chat-store";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  GraduationCap,
+  Menu,
+  Sun,
+  Moon,
+  Monitor,
+  Star,
+  Globe,
+} from "lucide-react";
+
+export default function Header() {
+  const { theme, setTheme } = useTheme();
+  const {
+    userProfile,
+    activeView,
+    setActiveView,
+    sidebarOpen,
+    setSidebarOpen,
+    setNationality,
+  } = useChatStore();
+
+  const isQatari = userProfile.nationality === "qatari";
+
+  const themeIcon =
+    theme === "dark" ? (
+      <Moon className="h-4 w-4" />
+    ) : theme === "light" ? (
+      <Sun className="h-4 w-4" />
+    ) : (
+      <Monitor className="h-4 w-4" />
+    );
+
+  return (
+    <header className="bg-gradient-to-l from-maroon via-maroon-dark to-maroon-dark shadow-lg relative flex-shrink-0">
+      <div className="flex items-center gap-3 h-[60px] px-4">
+        {/* Hamburger */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-10 w-10 rounded-xl bg-white/8 border border-white/12 text-white hover:bg-white/15 hover:text-white"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label="القائمة الجانبية"
+        >
+          <Menu className="h-[18px] w-[18px]" />
+        </Button>
+
+        {/* Logo + name */}
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div className="w-10 h-10 rounded-xl flex-shrink-0 bg-gold/18 border-[1.5px] border-gold/40 flex items-center justify-center">
+            <GraduationCap className="h-[22px] w-[22px] text-gold" />
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-bold text-[15px] text-white leading-tight">
+                المستشار الجامعي القطري
+              </span>
+
+              {/* Nationality badge */}
+              {userProfile.nationality && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger
+                    className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-lg cursor-pointer transition-colors ${
+                      isQatari
+                        ? "border border-gold/50 bg-gold/20 text-gold-light"
+                        : "border border-white/22 bg-white/12 text-white/90"
+                    }`}
+                  >
+                    <Globe className="h-3 w-3" />
+                    {isQatari ? "قطري" : "مقيم"}
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start">
+                    <DropdownMenuItem onClick={() => setNationality("qatari")}>
+                      قطري / قطرية
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => setNationality("non_qatari")}
+                    >
+                      مقيم في قطر
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+            </div>
+            <p className="text-[11px] text-white/55 mt-0.5">
+              {userProfile.grade
+                ? `معدل ${userProfile.grade}% · ${userProfile.track || ""}`
+                : "23 جامعة · قاعدة معرفة شاملة"}
+            </p>
+          </div>
+        </div>
+
+        {/* Theme toggle */}
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            className="h-9 w-9 rounded-xl bg-white/8 border border-white/12 text-white hover:bg-white/15 inline-flex items-center justify-center cursor-pointer"
+          >
+            {themeIcon}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => setTheme("light")}>
+              <Sun className="ml-2 h-4 w-4" />
+              فاتح
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("dark")}>
+              <Moon className="ml-2 h-4 w-4" />
+              داكن
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("system")}>
+              <Monitor className="ml-2 h-4 w-4" />
+              تلقائي
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* Universities button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className={`h-9 w-9 rounded-xl border transition-colors ${
+            activeView === "universities"
+              ? "bg-gold/20 border-gold/50"
+              : "bg-white/8 border-white/12"
+          } text-white hover:bg-gold/20 hover:text-white`}
+          onClick={() =>
+            setActiveView(
+              activeView === "universities" ? "chat" : "universities"
+            )
+          }
+          aria-label="الجامعات"
+        >
+          <Star
+            className={`h-[17px] w-[17px] ${
+              activeView === "universities" ? "text-gold fill-gold" : ""
+            }`}
+          />
+        </Button>
+      </div>
+
+      {/* Gold accent underline */}
+      <div className="h-0.5 bg-gradient-to-l from-transparent via-gold/60 to-transparent" />
+    </header>
+  );
+}

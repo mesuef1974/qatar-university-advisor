@@ -1,6 +1,6 @@
 # نموذج التسجيل لدى الهيئة الوطنية للأمن السيبراني
 # NCSA Registration Application Form
-## Qatar University Advisor | شركة النخبوية للبرمجيات
+## Qatar University Advisor | شركة أذكياء للبرمجيات
 **رقم المرجع:** NCSA-REG-2026-001 | **التاريخ:** 2026-04-04
 
 ---
@@ -10,7 +10,7 @@
 
 | البند / Field | البيانات / Data |
 |---------------|----------------|
-| **اسم الجهة / Entity Name** | شركة النخبوية للبرمجيات / Elite Software Company |
+| **اسم الجهة / Entity Name** | شركة أذكياء للبرمجيات / Azkia |
 | **السجل التجاري / Commercial Registration** | [يُملأ] |
 | **نوع الجهة / Entity Type** | شركة ذات مسؤولية محدودة / Limited Liability Company |
 | **العنوان / Address** | الدوحة، دولة قطر / Doha, State of Qatar |
@@ -18,7 +18,7 @@
 | **الهاتف / Phone** | [يُملأ] |
 | **الموقع الإلكتروني / Website** | [يُملأ] |
 | **الممثل القانوني / Legal Representative** | المدير العام (CEO) |
-| **المستشار القانوني / Legal Counsel** | elite-legal-counsel |
+| **المستشار القانوني / Legal Counsel** | azkia-legal-counsel |
 
 ---
 
@@ -103,9 +103,9 @@
 ## القسم الخامس: الإقرار والتوقيع
 ## Section 5: Declaration & Signature
 
-> **نُقرّ بأن جميع المعلومات الواردة في هذا النموذج صحيحة ودقيقة، وأن شركة النخبوية للبرمجيات تلتزم بالامتثال الكامل لقانون حماية خصوصية البيانات الشخصية (القانون رقم 13 لسنة 2016) وجميع اللوائح الصادرة عن الهيئة الوطنية للأمن السيبراني.**
+> **نُقرّ بأن جميع المعلومات الواردة في هذا النموذج صحيحة ودقيقة، وأن شركة أذكياء للبرمجيات تلتزم بالامتثال الكامل لقانون حماية خصوصية البيانات الشخصية (القانون رقم 13 لسنة 2016) وجميع اللوائح الصادرة عن الهيئة الوطنية للأمن السيبراني.**
 >
-> **We hereby declare that all information provided in this form is accurate and complete, and that Elite Software Company commits to full compliance with the Personal Data Privacy Protection Law (Law No. 13 of 2016) and all regulations issued by the National Cyber Security Agency.**
+> **We hereby declare that all information provided in this form is accurate and complete, and that Azkia commits to full compliance with the Personal Data Privacy Protection Law (Law No. 13 of 2016) and all regulations issued by the National Cyber Security Agency.**
 
 ---
 
@@ -119,7 +119,7 @@
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⚖️ مُراجَع ومعتمد قانونياً
-المستشار القانوني: elite-legal-counsel
+المستشار القانوني: azkia-legal-counsel
 التاريخ: 2026-04-04
 رقم المراجعة: REV-2026-005
 الحكم: ✅ متوافق — جاهز للتقديم بعد استكمال DPA + DPO
@@ -128,4 +128,4 @@
 
 ---
 
-*شركة النخبوية للبرمجيات | elite-legal + elite-legal-counsel | 2026-04-04*
+*شركة أذكياء للبرمجيات | azkia-legal + azkia-legal-counsel | 2026-04-04*
