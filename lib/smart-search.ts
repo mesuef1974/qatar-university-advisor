@@ -66,13 +66,21 @@ export function parseQuery(text: string): SearchQuery {
   }
 
   // كشف النية
-  const intent = detectIntent(normalized);
+  let intent = detectIntent(normalized);
 
   // استخراج التخصص
   const major = detectMajor(normalized);
 
-  // استخراج المعدل — regex for numbers like 85, 85%, 3.5
+  // استخراج المعدل — regex for numbers like 85, 85%, 89.92
   const gpa = extractGPA(normalized);
+
+  // إذا النص فقط رقم/نسبة مئوية بدون كلمات أخرى → النية check_admission
+  if (gpa && intent === 'find_university') {
+    const textWithoutNumber = normalized.replace(/[\d.,٪%]+/g, '').trim();
+    if (textWithoutNumber.length < 5) {
+      intent = 'check_admission';
+    }
+  }
 
   // استخراج الجنسية
   const nationality = detectNationality(normalized);
@@ -167,6 +175,28 @@ export function searchUniversities(
 
     if (score > 0) {
       results.push({ id, university: uni, matchScore: score, matchReasons: reasons });
+    }
+  }
+
+  // إذا النية check_admission ولا يوجد نتائج → ابحث في كل الجامعات بالمعدل فقط
+  if (query.intent === 'check_admission' && query.gpa && results.length === 0) {
+    for (const [id, uni] of Object.entries(universities)) {
+      const gpaMatch = matchGPA(query.gpa, query.nationality, uni);
+      if (gpaMatch === true) {
+        results.push({
+          id,
+          university: uni,
+          matchScore: 50,
+          matchReasons: [`المعدل ${query.gpa}% يكفي للقبول`],
+        });
+      } else if (gpaMatch === false) {
+        results.push({
+          id,
+          university: uni,
+          matchScore: 10,
+          matchReasons: [`المعدل ${query.gpa}% قد لا يكفي`],
+        });
+      }
     }
   }
 
@@ -266,17 +296,35 @@ function detectMajor(text: string): string | null {
 }
 
 function extractGPA(text: string): number | null {
-  // Match patterns: "معدلي 85", "85%", "معدل 90", "3.5 GPA"
-  const percentMatch = text.match(/(\d{2,3})\s*%/);
-  if (percentMatch) return parseInt(percentMatch[1], 10);
+  // Match patterns: "89.92%", "85%", "85.5%"  (decimal or integer with %)
+  const percentMatch = text.match(/(\d{2,3}[.,]\d+)\s*%/) || text.match(/(\d{2,3})\s*%/);
+  if (percentMatch) {
+    const val = parseFloat(percentMatch[1].replace(',', '.'));
+    if (val >= 50 && val <= 100) return Math.round(val);
+  }
 
-  const gradeMatch = text.match(/معدل[يه]?\s*(\d{2,3})/);
-  if (gradeMatch) return parseInt(gradeMatch[1], 10);
+  // "معدلي 85.5" or "معدلي 85"
+  const gradeMatch = text.match(/معدل[يه]?\s*(\d{2,3}[.,]\d+)/) || text.match(/معدل[يه]?\s*(\d{2,3})/);
+  if (gradeMatch) {
+    const val = parseFloat(gradeMatch[1].replace(',', '.'));
+    if (val >= 50 && val <= 100) return Math.round(val);
+  }
 
-  const gpaMatch = text.match(/(\d{2,3})\s*(?:معدل|درجة|نسبة)/);
-  if (gpaMatch) return parseInt(gpaMatch[1], 10);
+  // "85 معدل" or "85.5 نسبة"
+  const gpaMatch = text.match(/(\d{2,3}[.,]\d+)\s*(?:معدل|درجة|نسبة)/) || text.match(/(\d{2,3})\s*(?:معدل|درجة|نسبة)/);
+  if (gpaMatch) {
+    const val = parseFloat(gpaMatch[1].replace(',', '.'));
+    if (val >= 50 && val <= 100) return Math.round(val);
+  }
 
-  // Standalone 2-3 digit number that looks like a GPA (60-100)
+  // Standalone decimal number like "89.92" (no % but looks like a GPA)
+  const decimalMatch = text.match(/\b(\d{2,3}[.,]\d+)\b/);
+  if (decimalMatch) {
+    const val = parseFloat(decimalMatch[1].replace(',', '.'));
+    if (val >= 50 && val <= 100) return Math.round(val);
+  }
+
+  // Standalone 2-3 digit integer that looks like a GPA (50-100)
   const standaloneMatch = text.match(/\b(\d{2,3})\b/);
   if (standaloneMatch) {
     const val = parseInt(standaloneMatch[1], 10);

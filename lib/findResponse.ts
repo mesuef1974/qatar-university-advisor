@@ -428,10 +428,12 @@ function findResponse(text: string): FindResult {
   if (q.includes('جامعات') || q.includes('خيارات') || q.includes('متاح') || q.includes('كل الجامعات') || q.includes('قائمة'))
     return { type: 'response', key: 'general_list' };
 
-  // Grade-based recommendation
-  const gm: RegExpMatchArray | null = q.match(/(\d{2,3})\s*%?/);
-  if (gm && (q.includes('%') || q.includes('معدل') || /^\d{2,3}$/.test(q.trim()))) {
-    const g: number = parseInt(gm[1], 10);
+  // Grade-based recommendation — يدعم أرقام عشرية مثل 89.92%
+  const gmDecimal: RegExpMatchArray | null = q.match(/(\d{2,3}[.,]\d+)\s*%?/);
+  const gmInt: RegExpMatchArray | null = q.match(/(\d{2,3})\s*%?/);
+  const gm = gmDecimal || gmInt;
+  if (gm && (q.includes('%') || q.includes('معدل') || /^\d{2,3}([.,]\d+)?$/.test(q.trim()))) {
+    const g: number = Math.round(parseFloat(gm[1].replace(',', '.')));
     if (g >= 50 && g <= 100) {
       const track: string | null = q.includes('علمي') ? 'علمي' : q.includes('أدبي') || q.includes('ادبي') ? 'أدبي' : null;
       return { type: 'grade', grade: g, track };

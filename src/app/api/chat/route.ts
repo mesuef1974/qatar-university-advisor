@@ -97,7 +97,10 @@ export async function POST(request: NextRequest) {
 
       // إذا وُجدت نتائج عالية الجودة (score > 70 للأولى أو > 40 مع نية واضحة)
       const topScore = searchResults.length > 0 ? searchResults[0].matchScore : 0;
-      const hasStrongMatch = topScore > 70 || (topScore > 40 && query.intent !== "find_university");
+      const hasStrongMatch =
+        topScore > 70 ||
+        (topScore > 40 && query.intent !== "find_university") ||
+        (query.intent === 'check_admission' && query.gpa !== null && query.gpa !== undefined);
 
       if (hasStrongMatch && searchResults.length > 0) {
         const smartResponse = formatSmartResponse(query, searchResults);
