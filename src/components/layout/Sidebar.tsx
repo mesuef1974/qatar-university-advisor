@@ -181,7 +181,7 @@ export default function Sidebar({ onSendMessage }: SidebarProps) {
             </Link>
           </div>
           <p className="text-[11px] text-muted-foreground text-center mt-4">
-            &copy; 2026 المستشار الجامعي القطري
+            &copy; 2026 شركة أذكياء للبرمجيات | Azkia Software Co.
           </p>
         </div>
       </SheetContent>
