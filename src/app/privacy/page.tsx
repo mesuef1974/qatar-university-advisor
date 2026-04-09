@@ -23,8 +23,8 @@ const SECTIONS = [
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-dvh bg-background flex flex-col">
-      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white sticky top-0 z-10 shadow-md">
+    <div className="h-dvh bg-background flex flex-col">
+      <header className="flex-shrink-0 bg-gradient-to-l from-maroon to-maroon-dark text-white shadow-md">
         <div className="max-w-3xl mx-auto px-4 py-4 flex items-center gap-3">
           <Link href="/chat">
             <Button
@@ -40,7 +40,7 @@ export default function PrivacyPage() {
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-4 py-8 space-y-6 flex-1">
+      <main className="max-w-3xl mx-auto px-4 py-8 space-y-6 flex-1 overflow-y-auto">
         {/* Legal compliance banner */}
         <Card className="bg-maroon-light dark:bg-maroon/10 border-maroon/20">
           <CardContent className="py-4 flex items-start gap-3">
@@ -217,9 +217,7 @@ export default function PrivacyPage() {
           </CardContent>
         </Card>
       </main>
-      <div className="sticky bottom-0 z-40 mt-auto">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }

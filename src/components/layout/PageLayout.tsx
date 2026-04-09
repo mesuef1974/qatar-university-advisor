@@ -8,14 +8,14 @@ export default function PageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col min-h-dvh">
-      {/* Main content — scrollable */}
-      <main className="flex-1">{children}</main>
+    <div className="h-dvh flex flex-col">
+      {/* Main content — scrollable area between fixed header and footer */}
+      <main className="flex-1 overflow-y-auto">
+        {children}
+      </main>
 
-      {/* Sticky Footer */}
-      <div className="sticky bottom-0 z-40">
-        <Footer />
-      </div>
+      {/* Footer — always at bottom */}
+      <Footer />
     </div>
   );
 }

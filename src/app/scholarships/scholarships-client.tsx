@@ -179,7 +179,7 @@ export default function ScholarshipsClient({
     <PageLayout>
     <div className="bg-background">
       {/* Header */}
-      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white sticky top-0 z-50">
+      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3 mb-4">
             <Link href="/chat">

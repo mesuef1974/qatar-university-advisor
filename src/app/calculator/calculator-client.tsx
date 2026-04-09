@@ -216,7 +216,7 @@ export default function CalculatorClient({
     <PageLayout>
     <div className="bg-background">
       {/* Header */}
-      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white sticky top-0 z-50">
+      <header className="bg-gradient-to-l from-maroon to-maroon-dark text-white">
         <div className="max-w-3xl mx-auto px-4 py-5">
           <div className="flex items-center gap-3 mb-5">
             <Link href="/chat">

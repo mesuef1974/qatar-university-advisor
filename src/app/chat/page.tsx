@@ -52,7 +52,7 @@ function ChatPageInner() {
   );
 
   return (
-    <div className="flex flex-col h-dvh">
+    <div className="h-dvh flex flex-col">
       {!hydrated ? (
         <div className="flex-1 flex items-center justify-center">
           <div className="animate-pulse text-muted-foreground text-sm">
@@ -61,14 +61,18 @@ function ChatPageInner() {
         </div>
       ) : (
         <>
-          <div className="sticky top-0 z-50">
+          {/* Header — sticky at top */}
+          <div className="flex-shrink-0">
             <Header />
           </div>
           <Sidebar onSendMessage={handleSidebarMessage} />
-          <ChatView initialQuery={initialQuery || undefined} />
+          {/* Main content — takes remaining space */}
+          <div className="flex-1 overflow-y-auto min-h-0">
+            <ChatView initialQuery={initialQuery || undefined} />
+          </div>
 
-          {/* Legal footer */}
-          <footer className="flex items-center justify-center gap-4 py-1.5 px-4 bg-card border-t border-border flex-shrink-0">
+          {/* Legal footer — always at bottom */}
+          <footer className="flex-shrink-0 flex items-center justify-center gap-4 py-1.5 px-4 bg-card border-t border-border">
             <Link
               href="/privacy"
               className="text-[11px] text-muted-foreground hover:text-maroon dark:hover:text-primary transition-colors"
