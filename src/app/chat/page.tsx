@@ -47,38 +47,38 @@ export default function ChatPage() {
     [addMessage, setIsTyping, userProfile.nationality]
   );
 
-  if (!hydrated) {
-    return (
-      <div className="flex items-center justify-center h-dvh">
-        <div className="animate-pulse text-muted-foreground text-sm">
-          جاري التحميل...
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col h-dvh">
-      <Header />
-      <Sidebar onSendMessage={handleSidebarMessage} />
-      <ChatView />
+      {!hydrated ? (
+        <div className="flex-1 flex items-center justify-center">
+          <div className="animate-pulse text-muted-foreground text-sm">
+            جاري التحميل...
+          </div>
+        </div>
+      ) : (
+        <>
+          <Header />
+          <Sidebar onSendMessage={handleSidebarMessage} />
+          <ChatView />
 
-      {/* Legal footer */}
-      <footer className="flex items-center justify-center gap-4 py-1.5 px-4 bg-card border-t border-border flex-shrink-0">
-        <Link
-          href="/privacy"
-          className="text-[11px] text-muted-foreground hover:text-maroon dark:hover:text-primary transition-colors"
-        >
-          سياسة الخصوصية
-        </Link>
-        <span className="text-[11px] text-border">&middot;</span>
-        <Link
-          href="/terms"
-          className="text-[11px] text-muted-foreground hover:text-maroon dark:hover:text-primary transition-colors"
-        >
-          شروط الاستخدام
-        </Link>
-      </footer>
+          {/* Legal footer */}
+          <footer className="flex items-center justify-center gap-4 py-1.5 px-4 bg-card border-t border-border flex-shrink-0">
+            <Link
+              href="/privacy"
+              className="text-[11px] text-muted-foreground hover:text-maroon dark:hover:text-primary transition-colors"
+            >
+              سياسة الخصوصية
+            </Link>
+            <span className="text-[11px] text-border">&middot;</span>
+            <Link
+              href="/terms"
+              className="text-[11px] text-muted-foreground hover:text-maroon dark:hover:text-primary transition-colors"
+            >
+              شروط الاستخدام
+            </Link>
+          </footer>
+        </>
+      )}
     </div>
   );
 }
