@@ -54,7 +54,7 @@ export default function ChatView({ initialQuery }: ChatViewProps) {
   } = useChatStore();
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [initialQuerySent, setInitialQuerySent] = useState(false);
+  const [lastSentQuery, setLastSentQuery] = useState<string | null>(null);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -116,11 +116,11 @@ export default function ChatView({ initialQuery }: ChatViewProps) {
 
   // Auto-send initial query from URL parameter
   useEffect(() => {
-    if (initialQuery && !initialQuerySent && userProfile.nationality && messages.length <= 1) {
-      setInitialQuerySent(true);
+    if (initialQuery && initialQuery !== lastSentQuery && userProfile.nationality) {
+      setLastSentQuery(initialQuery);
       sendMessage(initialQuery);
     }
-  }, [initialQuery, initialQuerySent, userProfile.nationality, messages.length, sendMessage]);
+  }, [initialQuery, lastSentQuery, userProfile.nationality, sendMessage]);
 
   // If no nationality selected, show picker
   if (!userProfile.nationality) {
