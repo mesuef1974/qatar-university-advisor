@@ -101,7 +101,7 @@ export default function UniversityDetailClient({ id, university }: Props) {
       <main className="max-w-4xl mx-auto px-4 py-6 space-y-4">
         {/* Colleges / Programs */}
         {(() => {
-          const programs = university.colleges && university.colleges.length > 0
+          const items = university.colleges && university.colleges.length > 0
             ? university.colleges
             : Array.isArray((university as Record<string, unknown>).programs)
               ? ((university as Record<string, unknown>).programs as string[])
@@ -109,19 +109,23 @@ export default function UniversityDetailClient({ id, university }: Props) {
           const label = university.colleges && university.colleges.length > 0
             ? "الكليات"
             : "التخصصات";
-          return programs.length > 0 ? (
+          const getDisplayName = (item: string | { name?: string; nameAr?: string; nameEn?: string }): string => {
+            if (typeof item === 'string') return item;
+            return item.name || item.nameAr || item.nameEn || '';
+          };
+          return items.length > 0 ? (
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-base flex items-center gap-2">
                   <Building2 className="h-4 w-4 text-maroon dark:text-primary" />
-                  {label} ({programs.length})
+                  {label} ({items.length})
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {programs.map((item) => (
-                    <Badge key={item} variant="outline" className="text-[12px]">
-                      {item}
+                  {items.map((item) => (
+                    <Badge key={getDisplayName(item)} variant="outline" className="text-[12px]">
+                      {getDisplayName(item)}
                     </Badge>
                   ))}
                 </div>

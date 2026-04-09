@@ -112,15 +112,19 @@ export default function UniversityCard({ id, university }: UniversityCardProps) 
             : Array.isArray((university as Record<string, unknown>).programs)
               ? ((university as Record<string, unknown>).programs as string[])
               : [];
+          const getDisplayName = (item: string | { name?: string; nameAr?: string; nameEn?: string }): string => {
+            if (typeof item === 'string') return item;
+            return item.name || item.nameAr || item.nameEn || '';
+          };
           return items.length > 0 ? (
             <div className="flex flex-wrap gap-1">
               {items.slice(0, 4).map((item) => (
                 <Badge
-                  key={item}
+                  key={getDisplayName(item)}
                   variant="secondary"
                   className="text-[10px] font-normal"
                 >
-                  {item}
+                  {getDisplayName(item)}
                 </Badge>
               ))}
               {items.length > 4 && (

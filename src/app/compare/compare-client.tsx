@@ -56,11 +56,17 @@ export default function CompareClient({ universities }: CompareClientProps) {
   // Get available universities (not already selected)
   const available = universities.filter(([id]) => !selected.includes(id));
 
-  // Helper to extract programs/colleges
+  // Helper to extract programs/colleges as display names
+  const getDisplayName = (item: string | { name?: string; nameAr?: string; nameEn?: string }): string => {
+    if (typeof item === 'string') return item;
+    return item.name || item.nameAr || item.nameEn || '';
+  };
   const getPrograms = (uni: University): string[] => {
-    if (uni.colleges && uni.colleges.length > 0) return uni.colleges;
+    if (uni.colleges && uni.colleges.length > 0)
+      return uni.colleges.map((c) => getDisplayName(c));
     const programs = (uni as Record<string, unknown>).programs;
-    if (Array.isArray(programs)) return programs as string[];
+    if (Array.isArray(programs))
+      return programs.map((p: unknown) => getDisplayName(p as string | { name?: string; nameAr?: string; nameEn?: string }));
     return [];
   };
 

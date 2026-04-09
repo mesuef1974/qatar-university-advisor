@@ -19,7 +19,7 @@ export interface University {
     };
   };
   applicationDeadlines?: Record<string, unknown>;
-  colleges?: string[];
+  colleges?: (string | { name: string; nameEn?: string; [key: string]: unknown })[];
   scholarships?: Record<string, unknown>;
   tuitionFees?: Record<string, unknown>;
   [key: string]: unknown;

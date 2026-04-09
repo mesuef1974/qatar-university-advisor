@@ -19,6 +19,12 @@
       "location": "الدوحة — حي الطريق الغربي",
       "type": "حكومية",
       "founded": 1977,
+      "teachingLanguage": "العربية والإنجليزية (حسب التخصص والكلية)",
+      "campusDescription": "أكبر حرم جامعي في قطر — يضم مرافق بحثية ومكتبات ومنشآت رياضية وقاعات طعام ومحطة مترو داخلية",
+      "hasStudentHousing": true,
+      "studentHousingDetails": "سكن طلابي داخل الحرم مع مواصلات يومية ومرافق خدمية وأمن على مدار الساعة",
+      "transportation": "مواصلات داخلية مجانية بين السكن والمباني الأكاديمية + محطة مترو داخل الحرم",
+      "studentActivities": "أكثر من 50 نادياً طلابياً + أنشطة رياضية وثقافية واجتماعية + برامج تطوعية",
 
       "admissionRequirements": {
         "qatari": {
@@ -26,15 +32,22 @@
           "scientificTrack": { "minGPA": 70, "englishLevel": "IELTS 5.0+" },
           "literaryTrack": { "minGPA": 70, "englishLevel": "IELTS 4.5+" },
           "commercialTrack": { "minGPA": 70, "englishLevel": "IELTS 4.5+" },
-          "notes": "80% للصيدلة، 85% للطب"
+          "notes": "80% للصيدلة، 85% للطب، 85% لطب الأسنان"
         },
         "nonQatari": {
           "minGPA": 80,
-          "additionalRequirements": "شهادة ثانوية معادلة معتمدة"
+          "additionalRequirements": "شهادة ثانوية معادلة معتمدة",
+          "accepted": true
+        },
+        "englishRequirements": {
+          "IELTS": "5.0-6.5 (حسب التخصص والكلية)",
+          "TOEFL": "61-79 (حسب التخصص والكلية)"
         }
       },
 
       "applicationDeadlines": {
+        "fall": "فبراير - مايو (البكالوريوس) | ديسمبر - فبراير (الدراسات العليا)",
+        "spring": "أكتوبر - نوفمبر (البكالوريوس)",
         "fallSemester2026": {
           "open": "2025-02-01",
           "close": "2025-05-31",
@@ -48,17 +61,136 @@
       },
 
       "colleges": [
-        "كلية الهندسة",
-        "كلية الطب",
-        "كلية الأعمال والاقتصاد",
-        "كلية الحاسوب والعلوم",
-        "كلية الحقوق",
-        "كلية الصيدلة",
-        "كلية العلوم الصحية",
-        "كلية الفنون والعلوم",
-        "كلية التربية",
-        "كلية الشريعة والدراسات الإسلامية"
+        {
+          "name": "كلية الهندسة",
+          "nameEn": "College of Engineering",
+          "founded": 1980,
+          "departments": ["العمارة والتخطيط العمراني", "الهندسة الكيميائية", "الهندسة المدنية والبيئية", "هندسة الحاسوب وعلومه", "الهندسة الكهربائية", "الهندسة الميكانيكية والصناعية"],
+          "majors": [
+            {"name": "هندسة معمارية", "nameEn": "Architecture", "duration": "5 سنوات", "description": "تصميم المباني والمنشآت المعمارية"},
+            {"name": "هندسة كيميائية", "nameEn": "Chemical Engineering", "duration": "4-5 سنوات", "description": "تصميم العمليات الكيميائية الصناعية"},
+            {"name": "هندسة مدنية", "nameEn": "Civil Engineering", "duration": "4-5 سنوات", "description": "تصميم وبناء البنية التحتية والمنشآت"},
+            {"name": "هندسة بيئية", "nameEn": "Environmental Engineering", "duration": "4-5 سنوات", "description": "حماية البيئة ومعالجة المياه والنفايات"},
+            {"name": "هندسة حاسوب", "nameEn": "Computer Engineering", "duration": "4-5 سنوات", "description": "تصميم وتطوير أنظمة الحاسوب والبرمجيات"},
+            {"name": "علوم الحاسوب", "nameEn": "Computer Science", "duration": "4 سنوات", "description": "البرمجة والخوارزميات والذكاء الاصطناعي"},
+            {"name": "هندسة كهربائية", "nameEn": "Electrical Engineering", "duration": "4-5 سنوات", "description": "أنظمة الطاقة والإلكترونيات والاتصالات"},
+            {"name": "هندسة ميكانيكية", "nameEn": "Mechanical Engineering", "duration": "4-5 سنوات", "description": "تصميم الآلات والأنظمة الميكانيكية"},
+            {"name": "هندسة صناعية ونظم", "nameEn": "Industrial & Systems Engineering", "duration": "4-5 سنوات", "description": "تحسين العمليات الإنتاجية والأنظمة"}
+          ]
+        },
+        {
+          "name": "كلية الطب",
+          "nameEn": "College of Medicine",
+          "majors": [
+            {"name": "طب بشري", "nameEn": "Doctor of Medicine (MD)", "duration": "6 سنوات", "description": "إعداد أطباء مؤهلين لممارسة الطب البشري", "minGPA": 85}
+          ]
+        },
+        {
+          "name": "كلية الأعمال والاقتصاد",
+          "nameEn": "College of Business and Economics",
+          "accreditation": "AACSB",
+          "majors": [
+            {"name": "محاسبة", "nameEn": "Accounting", "duration": "4 سنوات", "description": "المحاسبة المالية والتدقيق — معتمد من CPA, CIMA, ACCA"},
+            {"name": "تمويل", "nameEn": "Finance", "duration": "4 سنوات", "description": "إدارة الاستثمارات والأسواق المالية — معتمد من CFA"},
+            {"name": "اقتصاد", "nameEn": "Economics", "duration": "4 سنوات", "description": "التحليل الاقتصادي والسياسات المالية"},
+            {"name": "إدارة أعمال", "nameEn": "Management", "duration": "4 سنوات", "description": "إدارة المنظمات والموارد البشرية"},
+            {"name": "تسويق", "nameEn": "Marketing", "duration": "4 سنوات", "description": "التسويق الرقمي وإدارة العلامات التجارية — معتمد من DMI, CIM"},
+            {"name": "نظم معلومات إدارية", "nameEn": "Management Information Systems", "duration": "4 سنوات", "description": "تكنولوجيا المعلومات في بيئة الأعمال"}
+          ]
+        },
+        {
+          "name": "كلية الفنون والعلوم",
+          "nameEn": "College of Arts and Sciences",
+          "note": "أكبر كلية في الجامعة — 10 أقسام و17 تخصصاً",
+          "majors": [
+            {"name": "لغة عربية", "nameEn": "Arabic Language", "duration": "4 سنوات", "description": "دراسة اللغة العربية وآدابها"},
+            {"name": "لغة إنجليزية", "nameEn": "English Language", "duration": "4 سنوات", "description": "اللغويات والأدب الإنجليزي والترجمة"},
+            {"name": "تاريخ", "nameEn": "History", "duration": "4 سنوات", "description": "التاريخ الإسلامي والعربي والعالمي"},
+            {"name": "إعلام", "nameEn": "Mass Communication", "duration": "4 سنوات", "description": "الصحافة والإعلام الرقمي والعلاقات العامة"},
+            {"name": "علم اجتماع", "nameEn": "Sociology", "duration": "4 سنوات", "description": "دراسة المجتمع والظواهر الاجتماعية"},
+            {"name": "علوم سياسية", "nameEn": "Political Science", "duration": "4 سنوات", "description": "السياسة والعلاقات الدولية"},
+            {"name": "رياضيات", "nameEn": "Mathematics", "duration": "4 سنوات", "description": "الرياضيات البحتة والتطبيقية"},
+            {"name": "إحصاء", "nameEn": "Statistics", "duration": "4 سنوات", "description": "التحليل الإحصائي وعلم البيانات"},
+            {"name": "فيزياء", "nameEn": "Physics", "duration": "4 سنوات", "description": "الفيزياء النظرية والتطبيقية"},
+            {"name": "كيمياء", "nameEn": "Chemistry", "duration": "4 سنوات", "description": "الكيمياء التحليلية والعضوية والفيزيائية"},
+            {"name": "أحياء", "nameEn": "Biological Sciences", "duration": "4 سنوات", "description": "علم الأحياء والكائنات الحية"},
+            {"name": "علوم بيئية", "nameEn": "Environmental Sciences", "duration": "4 سنوات", "description": "البيئة والموارد الطبيعية"},
+            {"name": "علم نفس", "nameEn": "Psychology", "duration": "4 سنوات", "description": "دراسة السلوك الإنساني والصحة النفسية"},
+            {"name": "شؤون دولية", "nameEn": "International Affairs", "duration": "4 سنوات", "description": "الدبلوماسية والعلاقات الدولية"}
+          ]
+        },
+        {
+          "name": "كلية القانون",
+          "nameEn": "College of Law",
+          "founded": 2004,
+          "majors": [
+            {"name": "قانون", "nameEn": "Law (LLB)", "duration": "4 سنوات", "description": "القانون المدني والجنائي والدولي"}
+          ],
+          "graduate": ["ماجستير القانون الخاص", "ماجستير القانون العام"]
+        },
+        {
+          "name": "كلية الصيدلة",
+          "nameEn": "College of Pharmacy",
+          "majors": [
+            {"name": "صيدلة", "nameEn": "Pharmacy (BSc)", "duration": "5 سنوات", "description": "إعداد صيادلة مؤهلين — معدل 80%+ مطلوب", "minGPA": 80},
+            {"name": "دكتور صيدلة", "nameEn": "Doctor of Pharmacy (PharmD)", "duration": "6 سنوات", "description": "صيدلة سريرية متقدمة"}
+          ]
+        },
+        {
+          "name": "كلية العلوم الصحية",
+          "nameEn": "College of Health Sciences",
+          "majors": [
+            {"name": "علوم طبية حيوية", "nameEn": "Biomedical Sciences", "duration": "4 سنوات", "description": "العلوم المخبرية والتشخيصية الطبية"},
+            {"name": "تغذية بشرية", "nameEn": "Human Nutrition", "duration": "4 سنوات", "description": "علوم التغذية والحمية"},
+            {"name": "صحة عامة", "nameEn": "Public Health", "duration": "4 سنوات", "description": "الوقاية وتعزيز الصحة المجتمعية"}
+          ]
+        },
+        {
+          "name": "كلية التربية",
+          "nameEn": "College of Education",
+          "founded": 1973,
+          "note": "أقدم كلية في الجامعة",
+          "majors": [
+            {"name": "تعليم ابتدائي", "nameEn": "Primary Education", "duration": "4 سنوات", "description": "إعداد معلمي المرحلة الابتدائية"},
+            {"name": "تعليم ثانوي", "nameEn": "Secondary Education", "duration": "4 سنوات", "description": "إعداد معلمي المرحلة الثانوية"},
+            {"name": "تربية خاصة", "nameEn": "Special Education", "duration": "4 سنوات", "description": "تعليم ذوي الاحتياجات الخاصة"}
+          ],
+          "graduate": ["ماجستير القيادة التربوية", "ماجستير التربية الخاصة", "ماجستير المناهج والتعليم والتقييم"]
+        },
+        {
+          "name": "كلية الشريعة والدراسات الإسلامية",
+          "nameEn": "College of Sharia and Islamic Studies",
+          "founded": 1977,
+          "majors": [
+            {"name": "شريعة إسلامية", "nameEn": "Islamic Law (Sharia)", "duration": "4 سنوات", "description": "الفقه الإسلامي وأصوله"},
+            {"name": "دعوة وإعلام", "nameEn": "Da'wa and Media", "duration": "4 سنوات", "description": "الدعوة الإسلامية والإعلام الديني"},
+            {"name": "مصارف وتأمين", "nameEn": "Banking and Insurance", "duration": "4 سنوات", "description": "التمويل الإسلامي والمصرفية الشرعية"}
+          ]
+        },
+        {
+          "name": "كلية طب الأسنان",
+          "nameEn": "College of Dental Medicine",
+          "majors": [
+            {"name": "طب أسنان", "nameEn": "Doctor of Dental Medicine (DMD)", "duration": "6 سنوات", "description": "إعداد أطباء أسنان مؤهلين — 25 مقعداً فقط", "minGPA": 85}
+          ]
+        },
+        {
+          "name": "كلية التمريض",
+          "nameEn": "College of Nursing",
+          "majors": [
+            {"name": "تمريض", "nameEn": "Nursing (BSN)", "duration": "4 سنوات", "description": "إعداد ممرضين مؤهلين وفق المعايير الدولية"}
+          ]
+        }
       ],
+
+      "totalPrograms": {
+        "undergraduate": 51,
+        "graduate": 45,
+        "masters": 33,
+        "phd": 7,
+        "diplomas": 4,
+        "pharmD": 1
+      },
 
       "scholarships": {
         "qatari": {
@@ -75,14 +207,23 @@
 
       "tuitionFees": {
         "qatari": 0,
+        "qatariNote": "مجاني بالكامل للقطريين",
         "nonQatari": {
           "perCredit": "QAR 1,100-1,400 حسب الكلية",
-          "perYear": "QAR 33,000-42,000 (تقريباً حسب الكلية)"
+          "details": {
+            "humanitiesAndLaw": "QAR 1,100/ساعة (التربية، القانون، الشريعة، الآداب)",
+            "businessAndHealth": "QAR 1,200/ساعة (الأعمال، العلوم الصحية، التمريض، العلوم)",
+            "engineeringAndMedicine": "QAR 1,400/ساعة (الهندسة، الطب، الصيدلة، طب الأسنان)"
+          },
+          "perYear": "QAR 33,000-42,000 (تقريباً 12-15 ساعة/فصل)",
+          "additionalFees": "رسوم تكنولوجيا + أنشطة طلابية: QAR 1,000-3,000/فصل"
         }
       },
 
-      "lastUpdated": "2026-04-04",
-      "dataSource": "official website",
+      "keywords": ["جامعة قطر", "QU", "هندسة", "طب", "قانون", "أعمال", "صيدلة", "تمريض", "طب أسنان", "تربية", "شريعة", "علوم", "حكومية", "مجاني للقطريين", "أكبر جامعة في قطر"],
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "qu.edu.qa",
       "academicYear": "2025-2026"
     },
 
@@ -93,35 +234,94 @@
       "website": "https://www.qatar.cmu.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
+      "founded": 2004,
+      "teachingLanguage": "الإنجليزية",
+      "campusDescription": "حرم جامعي حديث في المدينة التعليمية مع مختبرات تقنية متطورة ومكتبة مشتركة",
+      "hasStudentHousing": true,
+      "studentHousingDetails": "سكن طلابي عبر مؤسسة قطر في المدينة التعليمية",
+      "transportation": "حافلات مؤسسة قطر المجانية + مترو الدوحة",
+      "studentActivities": "أندية تقنية وريادية + مسابقات برمجة + أنشطة ثقافية ورياضية",
 
-      "programs": [
-        "علوم الحاسوب (Computer Science)",
-        "نظم المعلومات (Information Systems)",
-        "الأعمال والإدارة (Business Administration)",
-        "علوم الأحياء الحسابية (Computational Biology)",
-        "الذكاء الاصطناعي (Artificial Intelligence)"
+      "colleges": [
+        {
+          "name": "كلية علوم الحاسوب",
+          "nameEn": "School of Computer Science",
+          "majors": [
+            {"name": "علوم الحاسوب", "nameEn": "Computer Science (BS)", "duration": "4 سنوات", "description": "البرمجة والخوارزميات والأنظمة — من أقوى برامج CS عالمياً"},
+            {"name": "الذكاء الاصطناعي", "nameEn": "Artificial Intelligence (BS)", "duration": "4 سنوات", "description": "تعلم الآلة والتعلم العميق وأنظمة الذكاء الاصطناعي"}
+          ],
+          "note": "طلاب CS و AI يتقدمون لبرنامج Computing at CMU-Q مشترك ويختارون التخصص بعد السنة الأولى"
+        },
+        {
+          "name": "كلية ديتريتش للعلوم الإنسانية والاجتماعية",
+          "nameEn": "Dietrich College of Humanities and Social Sciences",
+          "majors": [
+            {"name": "علوم الأحياء الحسابية", "nameEn": "Computational Biology (BS)", "duration": "4 سنوات", "description": "الجمع بين الحوسبة وعلم الأحياء لحل مشكلات طبية وبيولوجية"}
+          ]
+        },
+        {
+          "name": "كلية تيبر للأعمال",
+          "nameEn": "Tepper School of Business",
+          "majors": [
+            {"name": "إدارة الأعمال", "nameEn": "Business Administration (BS)", "duration": "4 سنوات", "description": "إدارة تحليلية مع تركيز على التكنولوجيا والبيانات"}
+          ]
+        },
+        {
+          "name": "نظم المعلومات",
+          "nameEn": "Information Systems",
+          "majors": [
+            {"name": "نظم المعلومات", "nameEn": "Information Systems (BS)", "duration": "4 سنوات", "description": "تصميم وإدارة أنظمة المعلومات في المؤسسات"}
+          ]
+        }
       ],
 
       "admissionRequirements": {
+        "qatari": {
+          "minGPA": 90,
+          "notes": "منح كاملة متاحة للقطريين المتميزين"
+        },
+        "nonQatari": {
+          "minGPA": 90,
+          "accepted": true
+        },
         "sat": "SAT: 1350+ (Reading+Math)",
         "gpa": "معدل 90%+ في الثانوية",
         "english": "TOEFL 100+ أو IELTS 7.0+",
         "essays": "مقالات شخصية + توصيات",
-        "deadline": "20 نوفمبر (Early Decision) | 1 فبراير (Regular Decision)"
+        "applicationMethod": "Common App",
+        "englishRequirements": {
+          "IELTS": "7.0+",
+          "TOEFL": "100+"
+        }
+      },
+
+      "applicationDeadlines": {
+        "earlyDecision": "20 نوفمبر",
+        "regularDecision": "1 فبراير",
+        "fall": "نوفمبر (Early) | فبراير (Regular)",
+        "note": "التقديم عبر Common App — قبول خريف 2026 مغلق حالياً"
       },
 
       "tuitionFees": {
-        "perYear": "USD 69,702 (2026-2027)",
-        "qatariScholarship": "منح كاملة للقطريين المتميزين"
+        "perYear": "USD 58,000-69,702 (نفس رسوم الحرم الرئيسي في بيتسبرغ)",
+        "qatari": "منح كاملة متاحة عبر مؤسسة قطر",
+        "nonQatari": {
+          "perYear": "USD 58,000-69,702",
+          "financialAid": "متاحة حسب الحاجة المالية"
+        }
       },
 
       "scholarships": {
+        "qatarFoundation": "منح حسب الحاجة المالية من مؤسسة قطر لجميع الجنسيات",
         "merit": "Merit Scholarships تصل إلى 100% للقطريين",
-        "financial": "Need-based aid للغير قطريين"
+        "needBased": "Need-based aid للأمريكيين وغيرهم",
+        "types": "5 أنواع من المساعدات المالية حسب الجنسية والحاجة والتميز"
       },
 
-      "lastUpdated": "2026-04-04",
-      "dataSource": "official website",
+      "keywords": ["كارنيغي ميلون", "CMU", "حاسوب", "ذكاء اصطناعي", "أعمال", "نظم معلومات", "أمريكية", "المدينة التعليمية", "برمجة", "تقنية"],
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "qatar.cmu.edu",
       "academicYear": "2025-2026"
     },
 
@@ -132,28 +332,60 @@
       "website": "https://www.qatar.tamu.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
+      "founded": 2003,
+      "teachingLanguage": "الإنجليزية",
+      "campusDescription": "حرم جامعي هندسي متطور في المدينة التعليمية مع مختبرات بحثية عالمية",
+      "hasStudentHousing": true,
+      "studentHousingDetails": "سكن عبر مؤسسة قطر في المدينة التعليمية",
 
-      "programs": [
-        "الهندسة الكيميائية",
-        "الهندسة الكهربائية",
-        "الهندسة الميكانيكية",
-        "هندسة البترول"
+      "importantNotice": "تم الإعلان في فبراير 2024 عن إيقاف العمليات تدريجياً — الإغلاق النهائي 31 أغسطس 2028. القبول الجامعي مغلق — البرامج العليا فقط متاحة.",
+
+      "colleges": [
+        {
+          "name": "كلية الهندسة",
+          "nameEn": "College of Engineering",
+          "majors": [
+            {"name": "هندسة كيميائية", "nameEn": "Chemical Engineering (BSc)", "duration": "4 سنوات", "description": "هندسة العمليات الكيميائية والبترولية", "status": "القبول مغلق"},
+            {"name": "هندسة كهربائية", "nameEn": "Electrical Engineering (BSc)", "duration": "4 سنوات", "description": "أنظمة الطاقة والإلكترونيات", "status": "القبول مغلق"},
+            {"name": "هندسة ميكانيكية", "nameEn": "Mechanical Engineering (BSc)", "duration": "4 سنوات", "description": "تصميم الأنظمة الميكانيكية والحرارية", "status": "القبول مغلق"},
+            {"name": "هندسة بترول", "nameEn": "Petroleum Engineering (BSc)", "duration": "4 سنوات", "description": "استخراج وإنتاج النفط والغاز", "status": "القبول مغلق"}
+          ],
+          "graduate": [
+            {"name": "ماجستير الهندسة الميكانيكية", "nameEn": "MS Mechanical Engineering", "status": "متاح"},
+            {"name": "ماجستير الهندسة الكيميائية", "nameEn": "MS Chemical Engineering", "status": "متاح"},
+            {"name": "دكتوراه (بالتعاون مع مراكز أبحاث مؤسسة قطر)", "nameEn": "PhD Programs", "status": "متاح"}
+          ]
+        }
       ],
 
       "admissionRequirements": {
-        "gpa": "معدل 85%+ في الثانوية (المسار العلمي)",
-        "sat": "SAT: 1200+ أو ACT: 26+",
-        "english": "TOEFL 79+ أو IELTS 6.5+",
-        "math": "مستوى رياضيات متقدم"
+        "undergraduate": "القبول الجامعي مغلق نهائياً",
+        "graduate": {
+          "gpa": "GPA 3.0+ في البكالوريوس",
+          "english": "TOEFL 79+ أو IELTS 6.5+",
+          "deadline": "قبول خريف وربيع"
+        },
+        "englishRequirements": {
+          "IELTS": "6.5+",
+          "TOEFL": "79+"
+        }
+      },
+
+      "tuitionFees": {
+        "graduate": "USD 535/ساعة معتمدة (إجمالي ~USD 16,000 للماجستير)",
+        "undergraduateHistorical": "QAR 90,000-100,000/سنة (لم يعد متاحاً)"
       },
 
       "scholarships": {
         "qatari": "تمويل حكومي قطري للمواطنين",
-        "merit": "منح الجدارة للمتميزين"
+        "merit": "منح الجدارة للمتميزين",
+        "graduate": "مساعدات بحثية وتدريسية للدراسات العليا"
       },
 
-      "lastUpdated": "2026-04-04",
-      "dataSource": "official website",
+      "keywords": ["تكساس إي آند إم", "TAMU", "هندسة", "بترول", "كيميائية", "ميكانيكية", "كهربائية", "أمريكية", "المدينة التعليمية", "يُغلق 2028"],
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "qatar.tamu.edu",
       "academicYear": "2025-2026"
     },
 
@@ -164,24 +396,71 @@
       "website": "https://qatar-weill.cornell.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
+      "founded": 2001,
+      "teachingLanguage": "الإنجليزية",
+      "campusDescription": "حرم طبي متطور في المدينة التعليمية مع مرافق سريرية ومختبرات بحثية",
+      "hasStudentHousing": true,
+      "studentHousingDetails": "سكن عبر مؤسسة قطر في المدينة التعليمية",
 
-      "programs": ["طب بشري (MD) — 6 سنوات"],
+      "colleges": [
+        {
+          "name": "كلية الطب",
+          "nameEn": "College of Medicine",
+          "majors": [
+            {"name": "طب بشري — البرنامج الطبي من 6 سنوات", "nameEn": "Six-Year Medical Program (MD)", "duration": "6 سنوات (سنتان تمهيد + 4 سنوات طب)", "description": "سنتان من العلوم الأساسية والإنسانيات تليهما 4 سنوات طب سريري — نفس الشهادة من كورنيل نيويورك"},
+            {"name": "طب بشري — البرنامج الطبي من 4 سنوات", "nameEn": "Four-Year Medical Program (MD)", "duration": "4 سنوات", "description": "للطلاب الحاصلين على بكالوريوس في العلوم — MCAT مطلوب"},
+            {"name": "البرنامج التأسيسي", "nameEn": "Foundation Program", "duration": "سنة واحدة", "description": "برنامج تأسيسي مكثف كمسار للالتحاق بالبرنامج الطبي"}
+          ]
+        }
+      ],
 
       "admissionRequirements": {
+        "qatari": {
+          "minGPA": 95,
+          "notes": "منح مؤسسة قطر متاحة"
+        },
+        "nonQatari": {
+          "minGPA": 95,
+          "accepted": true,
+          "notes": "طلاب من 30+ دولة"
+        },
         "gpa": "معدل 95%+ في الثانوية العلمية",
         "sat": "SAT: 1500+ موصى به",
         "english": "TOEFL 100+ أو IELTS 7.5+",
-        "mcat": "MCAT مطلوب للتحويل من جامعات أخرى",
-        "extras": "مقابلة شخصية + تجربة طبية + أنشطة طوعية"
+        "mcat": "MCAT مطلوب للبرنامج الطبي من 4 سنوات",
+        "extras": "مقابلة شخصية + تجربة طبية + أنشطة طوعية",
+        "applicationMethod": "تطبيق WCM-Q الخاص (ليس AMCAS)",
+        "applicationFee": "QAR 180 (~USD 50)",
+        "englishRequirements": {
+          "IELTS": "7.5+",
+          "TOEFL": "100+"
+        }
+      },
+
+      "applicationDeadlines": {
+        "sixYearProgram": "ديسمبر - فبراير تقريباً",
+        "fourYearProgram": "أكتوبر - يناير تقريباً"
       },
 
       "tuitionFees": {
-        "perYear": "USD 71,266/سنة",
-        "note": "الرسوم USD 71,266/سنة — المنح ليست تلقائية لجميع الطلاب. يجب التقديم على المنح بشكل منفصل."
+        "perYear": "USD 71,266/سنة (2025-2026)",
+        "qatari": "منح مؤسسة قطر متاحة — ليست تلقائية",
+        "nonQatari": {
+          "perYear": "USD 71,266",
+          "financialAid": "منح حسب الحاجة المالية — يجب التقديم بشكل منفصل"
+        }
       },
 
-      "lastUpdated": "2026-04-04",
-      "dataSource": "official website",
+      "scholarships": {
+        "qatarFoundation": "منح حسب الحاجة من مؤسسة قطر",
+        "merit": "منح التميز الأكاديمي",
+        "note": "المنح ليست تلقائية — يجب التقديم عليها بشكل منفصل"
+      },
+
+      "keywords": ["وايل كورنيل", "WCM-Q", "طب", "طب بشري", "MD", "أمريكية", "المدينة التعليمية", "كلية طب", "أعلى معايير قبول"],
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "qatar-weill.cornell.edu",
       "academicYear": "2025-2026"
     },
 
@@ -192,20 +471,72 @@
       "website": "https://www.qatar.northwestern.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
+      "founded": 2008,
+      "teachingLanguage": "الإنجليزية",
+      "campusDescription": "حرم جامعي إعلامي حديث في المدينة التعليمية مع استوديوهات إنتاج ومعامل صحافة رقمية",
+      "hasStudentHousing": true,
+      "studentHousingDetails": "سكن عبر مؤسسة قطر في المدينة التعليمية",
 
-      "programs": [
-        "الصحافة والإعلام",
-        "الاتصال الاستراتيجي"
+      "colleges": [
+        {
+          "name": "كلية الإعلام والاتصال",
+          "nameEn": "School of Communication",
+          "majors": [
+            {"name": "صحافة وإعلام", "nameEn": "Journalism and Communication (BS)", "duration": "4 سنوات", "description": "الصحافة الرقمية والمرئية والمكتوبة والتحقيقية"},
+            {"name": "اتصال استراتيجي", "nameEn": "Communication (BS)", "duration": "4 سنوات", "description": "الاتصال المؤسسي والعلاقات العامة والتواصل الرقمي"}
+          ],
+          "minors": ["دراسات أفريقية", "السينما والتصميم", "الإعلام والسياسة", "دراسات الشرق الأوسط", "الاتصال الاستراتيجي"],
+          "executiveEducation": "برنامج التعليم التنفيذي"
+        }
       ],
 
       "admissionRequirements": {
+        "qatari": {
+          "minGPA": 80,
+          "notes": "منح مؤسسة قطر متاحة"
+        },
+        "nonQatari": {
+          "minGPA": 80,
+          "accepted": true
+        },
         "gpa": "معدل 80%+",
         "english": "TOEFL 95+ أو IELTS 7.0+",
-        "portfolio": "أعمال إبداعية (للإعلام)"
+        "sat": "اختياري (test-optional لدورة 2025-26)",
+        "portfolio": "أعمال إبداعية (للإعلام)",
+        "applicationMethod": "Early Action أو Regular Decision أو Transfer",
+        "englishRequirements": {
+          "IELTS": "7.0+",
+          "TOEFL": "95+"
+        }
       },
 
-      "lastUpdated": "2026-04-04",
-      "dataSource": "official website",
+      "applicationDeadlines": {
+        "earlyAction": "نوفمبر — الإعلان منتصف ديسمبر",
+        "regularDecision": "يناير — الإعلان 1 أبريل",
+        "transfer": "مارس — الإعلان منتصف أبريل",
+        "fall": "نوفمبر (Early) | يناير (Regular)"
+      },
+
+      "tuitionFees": {
+        "perYear": "USD 71,521 / QAR 260,336 (2025-2026)",
+        "note": "نفس رسوم الحرم الرئيسي في إيفانستون",
+        "qatari": "منح مؤسسة قطر حسب الحاجة",
+        "nonQatari": {
+          "perYear": "USD 71,521",
+          "financialAid": "سياسة need-aware لجميع الطلاب"
+        }
+      },
+
+      "scholarships": {
+        "qatarFoundation": "منح حسب الحاجة من مؤسسة قطر",
+        "needAware": "سياسة need-aware — المساعدة المالية تؤثر على القبول",
+        "note": "يجب تقديم طلب مساعدة مالية منفصل"
+      },
+
+      "keywords": ["نورث ويسترن", "NU-Q", "صحافة", "إعلام", "اتصال", "أمريكية", "المدينة التعليمية", "إعلام رقمي", "علاقات عامة"],
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "qatar.northwestern.edu",
       "academicYear": "2025-2026"
     },
 
@@ -216,20 +547,73 @@
       "website": "https://www.qatar.georgetown.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
+      "founded": 2005,
+      "teachingLanguage": "الإنجليزية",
+      "campusDescription": "حرم جامعي في المدينة التعليمية — بيئة دولية متعددة الثقافات مع طلاب من 70+ دولة",
+      "hasStudentHousing": true,
+      "studentHousingDetails": "سكن عبر مؤسسة قطر في المدينة التعليمية",
 
-      "programs": [
-        "الشؤون الدولية",
-        "الاقتصاد السياسي"
+      "colleges": [
+        {
+          "name": "كلية الشؤون الخارجية (SFS)",
+          "nameEn": "School of Foreign Service",
+          "degree": "بكالوريوس العلوم في الخدمة الخارجية (BSFS)",
+          "majors": [
+            {"name": "الثقافة والسياسة", "nameEn": "Culture and Politics", "duration": "4 سنوات", "description": "العلاقة بين الثقافة والسلطة والسياسة العالمية"},
+            {"name": "الاقتصاد الدولي", "nameEn": "International Economics", "duration": "4 سنوات", "description": "الاقتصاد العالمي والتجارة والتنمية"},
+            {"name": "التاريخ الدولي", "nameEn": "International History", "duration": "4 سنوات", "description": "التاريخ الدبلوماسي والسياسي العالمي"},
+            {"name": "السياسة الدولية", "nameEn": "International Politics", "duration": "4 سنوات", "description": "العلاقات الدولية والأمن والدبلوماسية"},
+            {"name": "العلوم والتكنولوجيا والشؤون الدولية", "nameEn": "Science, Technology & International Affairs (STIA)", "duration": "4 سنوات", "description": "تقاطع العلوم والتكنولوجيا مع السياسة الدولية"}
+          ]
+        }
       ],
 
       "admissionRequirements": {
+        "qatari": {
+          "minGPA": 85,
+          "notes": "منح مؤسسة قطر متاحة"
+        },
+        "nonQatari": {
+          "minGPA": 85,
+          "accepted": true
+        },
         "gpa": "معدل 85%+",
-        "sat": "SAT موصى به",
-        "english": "TOEFL 100+ أو IELTS 7.0+"
+        "sat": "مرن (flexible testing policy لخريف 2026)",
+        "english": "مستوى عالٍ جداً مطلوب — جميع المقررات بالإنجليزية",
+        "applicationMethod": "Early Action أو Regular Decision",
+        "englishRequirements": {
+          "IELTS": "7.0+",
+          "TOEFL": "100+"
+        }
       },
 
-      "lastUpdated": "2026-04-04",
-      "dataSource": "official website",
+      "applicationDeadlines": {
+        "earlyAction": "نوفمبر — الإعلان 15 ديسمبر",
+        "regularDecision": "يناير — الإعلان أوائل أبريل",
+        "fall": "نوفمبر (Early) | يناير (Regular)"
+      },
+
+      "tuitionFees": {
+        "perYear": "USD 71,136 / QAR 259,648 (2025-2026)",
+        "note": "نفس رسوم الحرم الرئيسي في واشنطن — تُعدّل سنوياً",
+        "qatari": "منح مؤسسة قطر حسب الحاجة",
+        "nonQatari": {
+          "perYear": "USD 71,136",
+          "financialAid": "منح حسب الحاجة ومنح تميز"
+        }
+      },
+
+      "scholarships": {
+        "needBased": "منح حسب الحاجة المالية",
+        "meritBased": "منح التميز الأكاديمي",
+        "governmentSponsorship": "رعايات حكومية وخاصة مقبولة — يجب الإبلاغ عنها",
+        "qatarFoundation": "منح مؤسسة قطر"
+      },
+
+      "keywords": ["جورجتاون", "GU-Q", "شؤون دولية", "سياسة", "اقتصاد", "تاريخ", "دبلوماسية", "أمريكية", "المدينة التعليمية", "SFS"],
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "qatar.georgetown.edu",
       "academicYear": "2025-2026"
     },
 
@@ -237,23 +621,57 @@
       "nameAr": "جامعة HEC باريس — قطر",
       "nameEn": "HEC Paris in Qatar",
       "logoUrl": "https://www.hec.edu/themes/custom/hec_theme/logo.svg",
-      "website": "https://www.hec.edu/en/qatar",
+      "website": "https://www.qatar.exed.hec.edu",
       "location": "المدينة التعليمية",
       "type": "فرنسية — فرع قطر",
+      "founded": 2010,
+      "teachingLanguage": "الإنجليزية",
+      "campusDescription": "حرم جامعي تنفيذي في المدينة التعليمية — لمحترفي الأعمال",
+      "hasStudentHousing": false,
+      "note": "برامج تنفيذية للمحترفين فقط — لا توجد برامج بكالوريوس",
 
-      "programs": [
-        "Executive MBA (دوام جزئي — 15-18 شهر)",
-        "ماجستير الإدارة"
+      "colleges": [
+        {
+          "name": "التعليم التنفيذي",
+          "nameEn": "Executive Education",
+          "majors": [
+            {"name": "ماجستير إدارة الأعمال التنفيذي", "nameEn": "Executive MBA (EMBA)", "duration": "15-18 شهراً (دوام جزئي)", "description": "برنامج EMBA للمديرين التنفيذيين — متاح في الدوحة والرياض وباريس"},
+            {"name": "ماجستير إدارة الوحدات الاستراتيجية", "nameEn": "Specialized Master (SBUM)", "duration": "12-15 شهراً", "description": "إدارة الوحدات الاستراتيجية للمديرين"}
+          ],
+          "shortPrograms": "برامج قصيرة وورش عمل تنفيذية للقيادة والإدارة"
+        }
       ],
 
       "admissionRequirements": {
         "gmat": "GMAT 600+ موصى به",
         "experience": "خبرة عمل 8 سنوات+ (منها 5 سنوات إدارية)",
-        "english": "TOEFL 100+ أو IELTS 7.0+"
+        "english": "TOEFL 100+ أو IELTS 7.0+ (إذا لم تكن الدراسة بالإنجليزية)",
+        "process": "نموذج أولي + طلب إلكتروني (5 مقالات + توصيتان + سيرة ذاتية)",
+        "contact": "qatar-admissions@hec.fr",
+        "englishRequirements": {
+          "IELTS": "7.0+",
+          "TOEFL": "100+"
+        }
       },
 
-      "lastUpdated": "2026-04-04",
-      "dataSource": "official website",
+      "applicationDeadlines": {
+        "rolling": "القبول مفتوح طوال السنة على أساس دوري — 4-6 أسابيع لإكمال العملية"
+      },
+
+      "tuitionFees": {
+        "emba": "USD 118,000 (البرنامج كاملاً)",
+        "note": "منح جزئية وإعفاءات متاحة"
+      },
+
+      "scholarships": {
+        "partial": "منح جزئية وإعفاءات من الرسوم متاحة",
+        "corporate": "برامج تمويل مؤسسي للشركات الراعية"
+      },
+
+      "keywords": ["HEC باريس", "HEC-Q", "MBA", "إدارة أعمال", "تنفيذي", "فرنسية", "المدينة التعليمية", "قيادة", "EMBA"],
+
+      "lastUpdated": "2026-04-09",
+      "dataSource": "qatar.exed.hec.edu",
       "academicYear": "2025-2026"
     },
 
@@ -264,31 +682,123 @@
       "website": "https://www.hbku.edu.qa",
       "location": "المدينة التعليمية",
       "type": "حكومية بحثية",
+      "founded": 2010,
+      "teachingLanguage": "الإنجليزية",
+      "campusDescription": "حرم بحثي متطور في المدينة التعليمية — جامعة بحثية رائدة تابعة لمؤسسة قطر",
+      "hasStudentHousing": true,
+      "studentHousingDetails": "سكن عبر مؤسسة قطر في المدينة التعليمية",
+      "studentActivities": "مجتمع بحثي دولي + مؤتمرات علمية + أنشطة طلابية",
 
-      "admissionRequirements": {
-        "gpa": "جيد جداً+",
-        "ielts": "6.5+",
-        "sat": "اختياري"
-      },
-
-      "programs": [
-        "الأمن السيبراني",
-        "علوم البيانات والذكاء الاصطناعي",
-        "الطاقة المستدامة",
-        "الدراسات الإسلامية",
-        "القانون",
-        "السياسات العامة"
+      "colleges": [
+        {
+          "name": "كلية العلوم والهندسة",
+          "nameEn": "College of Science and Engineering (CSE)",
+          "note": "16 برنامجاً — بكالوريوس وماجستير ودكتوراه",
+          "undergraduate": [
+            {"name": "هندسة حاسوب", "nameEn": "Computer Engineering (BS)", "duration": "4 سنوات", "description": "تصميم أنظمة الحاسوب — يمكن أخذ مقررات من CMU-Q و TAMU-Q"},
+            {"name": "هندسة كيميائية", "nameEn": "Chemical Engineering (BS)", "duration": "4 سنوات", "description": "العمليات الكيميائية والصناعية"},
+            {"name": "هندسة ميكانيكية", "nameEn": "Mechanical Engineering (BS)", "duration": "4 سنوات", "description": "الأنظمة الميكانيكية والطاقة"}
+          ],
+          "graduate": [
+            {"name": "أمن سيبراني", "nameEn": "MS Cybersecurity", "description": "حماية الأنظمة والشبكات"},
+            {"name": "علوم البيانات والذكاء الاصطناعي", "nameEn": "MS Data Science & AI", "description": "تحليل البيانات والتعلم الآلي"},
+            {"name": "طاقة مستدامة", "nameEn": "MS Sustainable Energy", "description": "الطاقة المتجددة والاستدامة"},
+            {"name": "علوم وهندسة الحاسوب", "nameEn": "MS/PhD Computer Science & Engineering", "description": "بحث متقدم في الحوسبة"}
+          ]
+        },
+        {
+          "name": "كلية الدراسات الإسلامية",
+          "nameEn": "College of Islamic Studies (CIS)",
+          "graduate": [
+            {"name": "أخلاقيات إسلامية تطبيقية", "nameEn": "MA Applied Islamic Ethics", "description": "تطبيق الأخلاق الإسلامية في القضايا المعاصرة"},
+            {"name": "دراسات إسلامية معاصرة", "nameEn": "MA Contemporary Islamic Studies", "description": "الفكر الإسلامي المعاصر"},
+            {"name": "تمويل إسلامي", "nameEn": "MS Islamic Finance", "description": "المصرفية والمالية الإسلامية"},
+            {"name": "علم نفس إرشادي", "nameEn": "MA Counseling Psychology", "description": "الإرشاد النفسي"},
+            {"name": "دكتوراه الدراسات الإسلامية", "nameEn": "PhD Islamic Studies", "description": "بحث متقدم في العلوم الإسلامية"}
+          ]
+        },
+        {
+          "name": "كلية القانون",
+          "nameEn": "College of Law",
+          "graduate": [
+            {"name": "دكتور في القانون", "nameEn": "Juris Doctor (JD)", "description": "برنامج الدكتوراه المهنية في القانون"},
+            {"name": "ماجستير القانون", "nameEn": "LLM", "description": "ماجستير القانون المتقدم"},
+            {"name": "دكتوراه القانون", "nameEn": "PhD Law", "description": "بحث قانوني متقدم"}
+          ]
+        },
+        {
+          "name": "كلية السياسات العامة",
+          "nameEn": "College of Public Policy",
+          "graduate": [
+            {"name": "إدارة عامة", "nameEn": "Master of Public Administration", "description": "الإدارة والسياسات الحكومية"},
+            {"name": "سياسات عالمية", "nameEn": "MA Global Policy", "description": "السياسات الدولية والحوكمة"}
+          ]
+        },
+        {
+          "name": "كلية العلوم الصحية والحيوية",
+          "nameEn": "College of Health and Life Sciences",
+          "graduate": [
+            {"name": "علوم جينومية", "nameEn": "MS Genomics", "description": "علم الجينوم والطب الدقيق"},
+            {"name": "علوم طبية حيوية", "nameEn": "MS/PhD Biomedical Sciences", "description": "البحث الطبي الحيوي"}
+          ]
+        },
+        {
+          "name": "كلية العلوم الإنسانية والاجتماعية",
+          "nameEn": "College of Humanities and Social Sciences",
+          "graduate": [
+            {"name": "ترجمة", "nameEn": "MA Translation Studies", "description": "الترجمة التحريرية والفورية"},
+            {"name": "إنسانيات رقمية", "nameEn": "MA Digital Humanities", "description": "التكنولوجيا والعلوم الإنسانية"},
+            {"name": "شؤون عالمية", "nameEn": "MA Global Affairs", "description": "العلاقات الدولية والسياسات"}
+          ]
+        }
       ],
 
-      "scholarships": "منح كاملة لجميع الجنسيات",
-      "applicationDeadlines": "أكتوبر - مارس",
+      "totalPrograms": {
+        "undergraduate": 3,
+        "graduate": 40,
+        "note": "جامعة بحثية تركز على الدراسات العليا"
+      },
+
+      "admissionRequirements": {
+        "undergraduate": {
+          "gpa": "سجل أكاديمي قوي + مقررات متقدمة في الرياضيات والعلوم",
+          "ielts": "مطلوب",
+          "sat": "اختياري (مشجع)",
+          "deadline": "1 أكتوبر - 1 مارس (خريف)"
+        },
+        "graduate": {
+          "gpa": "بكالوريوس بتقدير جيد جداً+",
+          "ielts": "6.5+",
+          "extras": "بيان شخصي + توصيات + كشوف درجات"
+        },
+        "englishRequirements": {
+          "IELTS": "6.5+",
+          "TOEFL": "79+"
+        }
+      },
+
+      "applicationDeadlines": {
+        "undergraduate": "1 أكتوبر - 1 مارس",
+        "graduate": "أكتوبر - مايو (تواريخ متعددة: 1 أكتوبر، 1 فبراير، 15 مارس، 3 مايو)",
+        "fall": "أكتوبر - مارس"
+      },
 
       "tuitionFees": {
         "perCredit": "QAR 2,000/ساعة",
-        "note": "منح كاملة متاحة لجميع الجنسيات"
+        "perYear": "QAR 70,000-100,000 (حسب البرنامج)",
+        "note": "منح كاملة متاحة لجميع الجنسيات — تغطي الرسوم والسكن والمعيشة"
       },
 
-      "lastUpdated": "2026-04-08",
+      "scholarships": {
+        "fullScholarship": "منح كاملة لجميع الجنسيات — تشمل الرسوم والسكن والمعيشة",
+        "merit": "منح تميز أكاديمي",
+        "tuitionWaivers": "إعفاءات من الرسوم",
+        "stipend": "مكافآت شهرية للباحثين"
+      },
+
+      "keywords": ["حمد بن خليفة", "HBKU", "بحثية", "أمن سيبراني", "ذكاء اصطناعي", "قانون", "إسلامية", "سياسات", "صحة", "المدينة التعليمية", "منح كاملة", "دراسات عليا"],
+
+      "lastUpdated": "2026-04-09",
       "dataSource": "hbku.edu.qa",
       "academicYear": "2025-2026"
     },
@@ -300,27 +810,88 @@
       "website": "https://www.udst.edu.qa",
       "location": "الدوحة",
       "type": "حكومية تطبيقية",
+      "founded": 2022,
+      "formerName": "كلية شمال الأطلنطي في قطر (CNA-Q) — تحولت لجامعة بقرار أميري 2022",
+      "teachingLanguage": "الإنجليزية (معظم البرامج)",
+      "campusDescription": "أول جامعة وطنية متخصصة في التعليم التطبيقي والتقني والمهني في قطر",
+      "hasStudentHousing": false,
+      "studentHousingDetails": "غير متوفر — الجامعة في منطقة حضرية",
+      "transportation": "قريبة من محطات مترو الدوحة",
+      "studentActivities": "أندية طلابية متنوعة + فعاليات مهنية + تدريب عملي",
 
-      "admissionRequirements": {
-        "gpa": "60%+",
-        "ielts": "5.0+"
-      },
-
-      "programs": [
-        "الأعمال",
-        "الحوسبة وتكنولوجيا المعلومات",
-        "الهندسة والتكنولوجيا",
-        "العلوم الصحية"
+      "colleges": [
+        {
+          "name": "كلية الأعمال",
+          "nameEn": "College of Business",
+          "programs": ["دبلوم ادارة أعمال", "بكالوريوس إدارة أعمال", "بكالوريوس محاسبة", "بكالوريوس إدارة موارد بشرية", "بكالوريوس تسويق", "بكالوريوس لوجستيات وسلسلة إمداد", "ماجستير إدارة أعمال (MBA)"]
+        },
+        {
+          "name": "كلية الحوسبة وتكنولوجيا المعلومات",
+          "nameEn": "College of Computing and Information Technology",
+          "programs": ["دبلوم تكنولوجيا المعلومات", "بكالوريوس تكنولوجيا المعلومات", "بكالوريوس الأمن السيبراني", "بكالوريوس علوم البيانات", "بكالوريوس تطوير البرمجيات"]
+        },
+        {
+          "name": "كلية الهندسة والتكنولوجيا",
+          "nameEn": "College of Engineering and Technology",
+          "programs": ["دبلوم هندسة كهربائية", "دبلوم هندسة ميكانيكية", "دبلوم تكييف وتبريد", "بكالوريوس هندسة كهربائية تطبيقية", "بكالوريوس هندسة ميكانيكية تطبيقية", "بكالوريوس هندسة مدنية تطبيقية", "بكالوريوس إدارة المشاريع الهندسية"]
+        },
+        {
+          "name": "كلية العلوم الصحية",
+          "nameEn": "College of Health Sciences",
+          "programs": ["دبلوم صحة بيئية", "دبلوم رعاية تنفسية", "بكالوريوس تمريض", "بكالوريوس صحة عامة", "بكالوريوس علوم مختبرات طبية", "بكالوريوس إدارة صحية"]
+        },
+        {
+          "name": "كلية التعليم العام",
+          "nameEn": "College of General Education",
+          "programs": ["برنامج تأسيسي", "مقررات عامة"]
+        }
       ],
 
-      "scholarships": "القطريون وأبناء القطريات: إعفاء كامل",
-
-      "tuitionFees": {
-        "international": "USD 13,000-16,000/سنة",
-        "qatari": "إعفاء كامل"
+      "totalPrograms": {
+        "total": "80+ برنامجاً",
+        "types": "دبلوم + بكالوريوس + ماجستير"
       },
 
-      "lastUpdated": "2026-04-08",
+      "admissionRequirements": {
+        "qatari": {
+          "minGPA": 60,
+          "notes": "إعفاء كامل من الرسوم"
+        },
+        "nonQatari": {
+          "minGPA": 60,
+          "accepted": true
+        },
+        "gpa": "60%+ في الثانوية",
+        "ielts": "5.0+ (حسب البرنامج)",
+        "englishRequirements": {
+          "IELTS": "5.0-6.0 (حسب البرنامج)",
+          "TOEFL": "61+ (حسب البرنامج)"
+        }
+      },
+
+      "applicationDeadlines": {
+        "fall": "مارس - يوليو",
+        "spring": "أكتوبر - ديسمبر",
+        "note": "قبول خريف 2026 مفتوح حالياً"
+      },
+
+      "tuitionFees": {
+        "qatari": "إعفاء كامل (القطريون وأبناء القطريات)",
+        "nonQatari": {
+          "perYear": "USD 13,000-16,000/سنة (حسب البرنامج)",
+          "diploma": "أقل تكلفة من البكالوريوس"
+        }
+      },
+
+      "scholarships": {
+        "qatari": "إعفاء كامل من الرسوم للقطريين وأبناء القطريات",
+        "merit": "منح أكاديمية للمتفوقين",
+        "note": "رسوم معقولة مقارنة بالجامعات الأخرى"
+      },
+
+      "keywords": ["الدوحة للعلوم", "UDST", "تطبيقية", "هندسة", "أعمال", "حوسبة", "صحة", "حكومية", "مجاني للقطريين", "دبلوم", "تقنية"],
+
+      "lastUpdated": "2026-04-09",
       "dataSource": "udst.edu.qa",
       "academicYear": "2025-2026"
     },
@@ -332,26 +903,98 @@
       "website": "https://www.lu.edu.qa",
       "location": "لوسيل، الدوحة",
       "type": "خاصة وطنية",
+      "founded": 2020,
+      "teachingLanguage": "العربية والإنجليزية والفرنسية (حسب البرنامج)",
+      "campusDescription": "جامعة خاصة حديثة في مدينة لوسيل المستقبلية — من أسرع الجامعات نمواً في قطر",
+      "hasStudentHousing": false,
 
-      "admissionRequirements": {
-        "gpa": "65%+",
-        "ielts": "5.5+"
-      },
-
-      "programs": [
-        "القانون (شراكة سوربون باريس)",
-        "التربية والآداب",
-        "التجارة والأعمال",
-        "تكنولوجيا المعلومات"
+      "colleges": [
+        {
+          "name": "كلية القانون",
+          "nameEn": "College of Law",
+          "partnership": "شراكة مع جامعة السوربون باريس 1",
+          "majors": [
+            {"name": "قانون عام", "nameEn": "Public Law (LLB)", "duration": "4 سنوات", "description": "القانون الدستوري والإداري والدولي العام"},
+            {"name": "قانون خاص", "nameEn": "Private Law (LLB)", "duration": "4 سنوات", "description": "القانون المدني والتجاري والعمل"}
+          ],
+          "graduate": [
+            {"name": "ماجستير القانون الدولي", "nameEn": "LLM International Law", "description": "بالشراكة مع السوربون باريس 1"},
+            {"name": "ماجستير العدالة الجنائية", "nameEn": "MA Criminal Justice", "description": "بالتعاون مع UNITAR"}
+          ]
+        },
+        {
+          "name": "كلية التربية والآداب",
+          "nameEn": "College of Education and Arts",
+          "majors": [
+            {"name": "تعليم اللغة الإنجليزية", "nameEn": "Teaching English Language (BEd)", "duration": "4 سنوات", "description": "إعداد معلمي اللغة الإنجليزية"},
+            {"name": "دراسات فرنسية", "nameEn": "French Studies (BA)", "duration": "4 سنوات", "description": "اللغة الفرنسية وآدابها وثقافتها"}
+          ],
+          "graduate": [
+            {"name": "ماجستير اللغويات التطبيقية", "nameEn": "MA Applied Linguistics", "description": "تعليم الإنجليزية لغير الناطقين بها"}
+          ]
+        },
+        {
+          "name": "كلية التجارة والأعمال",
+          "nameEn": "College of Commerce and Business",
+          "majors": [
+            {"name": "إدارة أعمال", "nameEn": "Business Administration (BBA)", "duration": "4 سنوات", "description": "الإدارة العامة والريادة"},
+            {"name": "تسويق وتوزيع", "nameEn": "Marketing and Distribution (BBA)", "duration": "4 سنوات", "description": "التسويق الرقمي والتوزيع"},
+            {"name": "إدارة الموارد البشرية", "nameEn": "Human Resources Management (BBA)", "duration": "4 سنوات", "description": "إدارة الموظفين والتطوير المؤسسي"},
+            {"name": "ابتكار وريادة أعمال", "nameEn": "Innovation & Entrepreneurship (BBA)", "duration": "4 سنوات", "description": "ريادة الأعمال والابتكار"}
+          ],
+          "graduate": [
+            {"name": "ماجستير التسويق الرقمي", "nameEn": "MA Digital Marketing", "description": "التسويق الإلكتروني والرقمي"},
+            {"name": "ماجستير الشؤون الدولية والسياسات العامة", "nameEn": "MA International Affairs & Public Policy", "description": "بالتعاون مع UNODC"}
+          ]
+        },
+        {
+          "name": "كلية تكنولوجيا المعلومات",
+          "nameEn": "College of Information Technology",
+          "majors": [
+            {"name": "تكنولوجيا المعلومات", "nameEn": "Information Technology (BA)", "duration": "4 سنوات", "description": "أنظمة المعلومات والشبكات"},
+            {"name": "أمن سيبراني", "nameEn": "Cybersecurity", "duration": "4 سنوات", "description": "حماية الأنظمة والبيانات"}
+          ]
+        }
       ],
 
-      "scholarships": "منح جزئية للمتفوقين",
-
-      "tuitionFees": {
-        "perYear": "QAR 60,000-75,000/سنة"
+      "admissionRequirements": {
+        "qatari": {
+          "minGPA": 65,
+          "notes": "منح حكومية كاملة متاحة (Qatar Scholarship)"
+        },
+        "nonQatari": {
+          "minGPA": 65,
+          "accepted": true
+        },
+        "gpa": "65%+ في الثانوية",
+        "ielts": "5.5+ (للبرامج الإنجليزية)",
+        "englishRequirements": {
+          "IELTS": "5.5+",
+          "TOEFL": "69+"
+        }
       },
 
-      "lastUpdated": "2026-04-08",
+      "applicationDeadlines": {
+        "fall": "أبريل - أغسطس",
+        "spring": "سبتمبر - أكتوبر",
+        "mastersDeadline": "أكتوبر 30 للربيع"
+      },
+
+      "tuitionFees": {
+        "perYear": "QAR 60,000-75,000/سنة",
+        "studentServicesFee": "QAR 2,500 (مرة واحدة)",
+        "qatari": "منح حكومية كاملة متاحة عبر Qatar Scholarship"
+      },
+
+      "scholarships": {
+        "qatarScholarship": "منحة قطر الحكومية الكاملة — تشمل الرسوم والسكن والسفر والمعيشة والتأمين",
+        "merit": "منح جزئية للمتفوقين",
+        "needBased": "منح حسب الحاجة المالية"
+      },
+
+      "keywords": ["لوسيل", "LU", "قانون", "أعمال", "تربية", "تكنولوجيا", "سوربون", "خاصة", "فرنسية", "أمن سيبراني"],
+
+      "lastUpdated": "2026-04-09",
       "dataSource": "lu.edu.qa",
       "academicYear": "2025-2026"
     },
@@ -363,29 +1006,66 @@
       "website": "https://qatar.vcu.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فنون وتصميم",
+      "founded": 1998,
+      "teachingLanguage": "الإنجليزية",
+      "campusDescription": "حرم فني في المدينة التعليمية — يضم مكتبة مواد فريدة (الوحيدة من نوعها في الخليج) مع آلاف العينات من حول العالم",
+      "hasStudentHousing": true,
+      "studentHousingDetails": "سكن عبر مؤسسة قطر في المدينة التعليمية",
 
-      "admissionRequirements": {
-        "gpa": "80%+",
-        "ielts": "6.0+",
-        "portfolio": "مطلوب لبرامج BFA"
-      },
-
-      "programs": [
-        "تصميم الجرافيك",
-        "التصميم الداخلي",
-        "الوسائط المتحركة",
-        "الرسم والطباعة",
-        "تاريخ الفن"
+      "colleges": [
+        {
+          "name": "كلية الفنون",
+          "nameEn": "School of the Arts",
+          "undergraduate": [
+            {"name": "تصميم الجرافيك", "nameEn": "Graphic Design (BFA)", "duration": "4 سنوات", "description": "التصميم البصري والهوية البصرية والطباعة"},
+            {"name": "التصميم الداخلي", "nameEn": "Interior Design (BFA)", "duration": "4 سنوات", "description": "تصميم المساحات الداخلية والمعمارية"},
+            {"name": "الرسم والطباعة", "nameEn": "Painting and Printmaking (BFA)", "duration": "4 سنوات", "description": "الفنون الجميلة والرسم والطباعة الفنية"},
+            {"name": "الوسائط المتحركة", "nameEn": "Kinetic Imaging (BFA)", "duration": "4 سنوات", "description": "الرسوم المتحركة والفيديو والوسائط الرقمية"},
+            {"name": "تاريخ الفن", "nameEn": "Art History (BA)", "duration": "4 سنوات", "description": "دراسة تاريخ الفنون والنقد الفني"}
+          ],
+          "graduate": [
+            {"name": "ماجستير الفنون الجميلة في التصميم", "nameEn": "MFA in Design", "description": "تصميم متقدم للمحترفين"}
+          ]
+        }
       ],
 
-      "scholarships": "منح مؤسسة قطر",
-      "applicationDeadlines": "15 يناير",
-
-      "tuitionFees": {
-        "perYear": "USD 36,836/سنة"
+      "admissionRequirements": {
+        "qatari": {
+          "minGPA": 80,
+          "notes": "منح مؤسسة قطر متاحة"
+        },
+        "nonQatari": {
+          "minGPA": 80,
+          "accepted": true
+        },
+        "gpa": "80%+",
+        "ielts": "6.0+",
+        "portfolio": "ملف أعمال فنية مطلوب لبرامج BFA",
+        "englishRequirements": {
+          "IELTS": "6.0+",
+          "TOEFL": "79+"
+        }
       },
 
-      "lastUpdated": "2026-04-08",
+      "applicationDeadlines": {
+        "priority": "15 يناير",
+        "fall": "يناير - مارس"
+      },
+
+      "tuitionFees": {
+        "perYear": "USD 36,836/سنة (2024-2025)",
+        "note": "رسوم 2026-2027 تُعلن في مايو 2026",
+        "qatari": "منح مؤسسة قطر حسب الحاجة"
+      },
+
+      "scholarships": {
+        "qatarFoundation": "منح مؤسسة قطر حسب الحاجة المالية",
+        "merit": "منح التميز الفني"
+      },
+
+      "keywords": ["VCUarts", "فنون", "تصميم", "جرافيك", "تصميم داخلي", "رسوم متحركة", "أمريكية", "المدينة التعليمية", "فنون جميلة"],
+
+      "lastUpdated": "2026-04-09",
       "dataSource": "qatar.vcu.edu",
       "academicYear": "2025-2026"
     },
@@ -397,24 +1077,71 @@
       "website": "https://www.ccq.edu.qa",
       "location": "الدوحة",
       "type": "حكومية",
+      "founded": 2010,
+      "teachingLanguage": "العربية والإنجليزية",
+      "campusDescription": "كلية مجتمعية حكومية — بوابة مرنة للتعليم العالي ومسار تحويل للجامعات",
+      "hasStudentHousing": false,
 
-      "admissionRequirements": {
-        "gpa": "60%+",
-        "ielts": "4.5+"
-      },
-
-      "programs": [
-        "دبلوم مشارك",
-        "بكالوريوس تطبيقي"
+      "colleges": [
+        {
+          "name": "البرامج الأكاديمية",
+          "nameEn": "Academic Programs",
+          "associateDegrees": [
+            {"name": "دبلوم مشارك في الآداب", "nameEn": "Associate of Arts (AA)", "duration": "سنتان", "description": "إعداد أكاديمي للتحويل لجامعات الآداب"},
+            {"name": "دبلوم مشارك في العلوم", "nameEn": "Associate of Science (AS)", "duration": "سنتان", "description": "إعداد علمي للتحويل لجامعات العلوم والهندسة"},
+            {"name": "دبلوم مشارك تطبيقي في إدارة الأعمال", "nameEn": "AAS Business Administration", "duration": "سنتان", "description": "مهارات عملية في إدارة الأعمال"},
+            {"name": "دبلوم مشارك تطبيقي في تكنولوجيا المعلومات", "nameEn": "AAS Information Technology", "duration": "سنتان", "description": "مهارات تقنية عملية"},
+            {"name": "دبلوم مشارك تطبيقي في التكنولوجيا الهندسية", "nameEn": "AAS Engineering Technology", "duration": "سنتان", "description": "أساسيات الهندسة التطبيقية"}
+          ],
+          "bachelorDegrees": [
+            {"name": "بكالوريوس تكنولوجيا المعلومات", "nameEn": "BS Information Technology", "duration": "4 سنوات (2+2)", "description": "تكنولوجيا المعلومات التطبيقية"},
+            {"name": "بكالوريوس الأمن السيبراني", "nameEn": "BS Cybersecurity", "duration": "4 سنوات (2+2)", "description": "حماية الأنظمة والشبكات"},
+            {"name": "بكالوريوس الإدارة العامة", "nameEn": "BS Public Administration", "duration": "4 سنوات (2+2)", "description": "الإدارة الحكومية والعامة"},
+            {"name": "بكالوريوس اللوجستيات وسلسلة الإمداد", "nameEn": "BS Logistics & Supply Chain", "duration": "4 سنوات (2+2)", "description": "إدارة سلاسل الإمداد والتوزيع"},
+            {"name": "بكالوريوس التكنولوجيا الهندسية", "nameEn": "BS Engineering Technology", "duration": "4 سنوات (2+2)", "description": "الهندسة التطبيقية"}
+          ],
+          "transferProgram": "خطة 2+2 — سنتان في CCQ ثم تحويل لجامعة 4 سنوات (جامعة قطر وغيرها)"
+        }
       ],
 
-      "scholarships": "مجانية للقطريين — قبول مرن وانتقال لاحق للجامعة",
-      "applicationDeadlines": "طوال السنة",
+      "admissionRequirements": {
+        "qatari": {
+          "minGPA": 60,
+          "notes": "قبول مرن — أفضل نقطة دخول للطلاب"
+        },
+        "nonQatari": {
+          "minGPA": 60,
+          "accepted": true
+        },
+        "gpa": "60%+",
+        "ielts": "4.5+",
+        "englishRequirements": {
+          "IELTS": "4.5+",
+          "TOEFL": "45+"
+        }
+      },
+
+      "applicationDeadlines": {
+        "note": "القبول مفتوح طوال السنة تقريباً",
+        "fall": "مايو - أغسطس",
+        "spring": "نوفمبر - يناير"
+      },
 
       "tuitionFees": {
         "qatari": 0,
-        "international": "رسوم رمزية"
+        "qatariNote": "مجانية بالكامل للقطريين",
+        "nonQatari": {
+          "note": "رسوم رمزية ومعقولة — أقل تكلفة بين المؤسسات الحكومية"
+        }
       },
+
+      "scholarships": {
+        "qatari": "مجاني بالكامل",
+        "transfer": "إمكانية التحويل لجامعة قطر والجامعات الأخرى بعد الدبلوم",
+        "note": "أفضل خيار اقتصادي — مع مسار تحويل مضمون"
+      },
+
+      "keywords": ["كلية المجتمع", "CCQ", "دبلوم", "تحويل", "حكومية", "مجاني", "أمن سيبراني", "تكنولوجيا", "أعمال", "قبول مرن", "2+2"],
 
       "lastUpdated": "2026-04-09",
       "dataSource": "ccq.edu.qa",
@@ -456,6 +1183,9 @@
         "maintenanceTech": "8,000-14,000 ريال/شهر"
       },
 
+      "teachingLanguage": "الإنجليزية",
+      "keywords": ["طيران", "طيار", "صيانة طائرات", "الخطوط القطرية", "CPL", "رخصة طيران", "مطار"],
+
       "lastUpdated": "2026-04-09",
       "dataSource": "qaa.edu.qa",
       "academicYear": "2025-2026"
@@ -494,6 +1224,9 @@
         "salary": "12,000-16,000 ريال",
         "studyAbroad": "ساندهيرست (بريطانيا) | ويست بوينت (أمريكا) | سان سير (فرنسا)"
       },
+
+      "teachingLanguage": "العربية والإنجليزية",
+      "keywords": ["عسكرية", "جيش", "ضابط", "قوات مسلحة", "ساندهيرست", "قطري فقط", "راتب أثناء الدراسة"],
 
       "lastUpdated": "2026-04-09",
       "dataSource": "official sources",
@@ -538,6 +1271,9 @@
         "salary": "12,000-18,000 ريال"
       },
 
+      "teachingLanguage": "العربية",
+      "keywords": ["شرطة", "أمن", "ضابط شرطة", "محقق", "جوازات", "مرور", "قطري فقط", "راتب أثناء الدراسة"],
+
       "lastUpdated": "2026-04-09",
       "dataSource": "official sources",
       "academicYear": "2025-2026"
@@ -571,6 +1307,9 @@
       "tuitionFees": {
         "note": "مجانية + راتب شهري"
       },
+
+      "teachingLanguage": "العربية والإنجليزية",
+      "keywords": ["طيران حربي", "مقاتل", "F-16", "Typhoon", "قوات جوية", "طيار مقاتل", "قطري فقط"],
 
       "lastUpdated": "2026-04-09",
       "dataSource": "official sources",
@@ -607,6 +1346,9 @@
         "salary": "12,000-18,000 ريال"
       },
 
+      "teachingLanguage": "العربية والفرنسية",
+      "keywords": ["بحرية", "خفر سواحل", "سفن حربية", "مهندس بحري", "فرنسا", "قطري فقط"],
+
       "lastUpdated": "2026-04-09",
       "dataSource": "official sources",
       "academicYear": "2025-2026"
@@ -641,6 +1383,8 @@
 
       "certifications": ["CEH", "CISSP", "CompTIA Security+", "OSCP"],
 
+      "keywords": ["أمن سيبراني", "اختراق أخلاقي", "تحليل جنائي رقمي", "استخبارات", "CEH", "CISSP"],
+
       "lastUpdated": "2026-04-09",
       "dataSource": "official sources",
       "academicYear": "2025-2026"
@@ -673,6 +1417,9 @@
         "perCredit": "QAR 7,000/ساعة"
       },
 
+      "teachingLanguage": "العربية (الأساسية) والإنجليزية",
+      "keywords": ["معهد الدوحة", "دراسات عليا", "ماجستير", "علوم اجتماعية", "إنسانيات", "إدارة عامة", "عربية"],
+
       "lastUpdated": "2026-04-09",
       "dataSource": "dohainstitute.edu.qa",
       "academicYear": "2025-2026"
@@ -684,36 +1431,74 @@
       "logoUrl": "https://alfaleh.edu.qa/wp-content/uploads/2021/04/logo.png",
       "website": "https://www.afg.qa",
       "admissionsUrl": "https://www.abdn.ac.uk/qatar/apply/index.php",
-      "location": "مشيرب — الدوحة",
+      "location": "مشيرب — الدوحة (+ حرم جديد قيد الإنشاء)",
       "type": "بريطانية — شراكة دولية",
+      "founded": 2017,
+      "teachingLanguage": "الإنجليزية",
+      "campusDescription": "أول جامعة بريطانية بحرم مستقل في قطر — حرم مشيرب في قلب الدوحة + حرم جديد يستوعب 4000 طالب",
+      "hasStudentHousing": false,
+      "partnership": "شراكة بين مجموعة الفلاح التعليمية وجامعة أبردين البريطانية",
 
-      "programs": [
-        "المحاسبة والمالية (BSc Accountancy & Finance)",
-        "إدارة الأعمال (BA Business Management)",
-        "إدارة الأعمال ونظم المعلومات (BA Business Management & Information Systems)",
-        "إدارة الأعمال والعلاقات الدولية (BA Business Management & International Relations)",
-        "إدارة الأعمال والدراسات القانونية (BA Business Management & Legal Studies)",
-        "ماجستير إدارة الأعمال (MBA)",
-        "ماجستير إدارة الأعمال الدولية (MSc International Business Management)",
-        "ماجستير القانون التجاري الدولي (LLM International Commercial Law)",
-        "ماجستير إدارة الموارد البشرية الدولية (MSc International HRM)",
-        "علوم الحاسوب والذكاء الاصطناعي (قريباً)",
-        "الأمن السيبراني (قريباً)",
-        "الاستدامة (قريباً)"
+      "colleges": [
+        {
+          "name": "البرامج الأكاديمية",
+          "nameEn": "Academic Programs",
+          "undergraduate": [
+            {"name": "محاسبة ومالية", "nameEn": "BSc Accountancy & Finance", "duration": "4 سنوات", "description": "محاسبة مهنية وتمويل — شهادة بريطانية"},
+            {"name": "إدارة أعمال", "nameEn": "BA Business Management", "duration": "4 سنوات", "description": "إدارة الأعمال والقيادة المؤسسية"},
+            {"name": "إدارة أعمال ونظم معلومات", "nameEn": "BA Business Management & Information Systems", "duration": "4 سنوات", "description": "دمج الإدارة مع تكنولوجيا المعلومات"},
+            {"name": "إدارة أعمال وعلاقات دولية", "nameEn": "BA Business Management & International Relations", "duration": "4 سنوات", "description": "الأعمال الدولية والدبلوماسية"},
+            {"name": "إدارة أعمال ودراسات قانونية", "nameEn": "BA Business Management & Legal Studies", "duration": "4 سنوات", "description": "الأعمال والقانون التجاري"},
+            {"name": "علوم الحاسوب والذكاء الاصطناعي", "nameEn": "BSc Computer Science & AI", "duration": "4 سنوات", "description": "الحوسبة والذكاء الاصطناعي", "status": "جديد 2025"},
+            {"name": "أمن سيبراني", "nameEn": "BSc Cybersecurity", "duration": "4 سنوات", "description": "حماية الأنظمة والشبكات", "status": "جديد 2025"},
+            {"name": "صحة عامة", "nameEn": "BSc Public Health", "duration": "4 سنوات", "description": "الصحة العامة والوقاية"},
+            {"name": "اتصال", "nameEn": "BA Communication", "duration": "4 سنوات", "description": "الاتصال والإعلام"},
+            {"name": "قانون", "nameEn": "LLB Law", "duration": "4 سنوات", "description": "القانون البريطاني والدولي", "status": "جديد"},
+            {"name": "عقارات", "nameEn": "BSc Real Estate", "duration": "4 سنوات", "description": "إدارة العقارات والتطوير", "status": "جديد"},
+            {"name": "استدامة", "nameEn": "BSc Sustainability", "duration": "4 سنوات", "description": "الاستدامة البيئية والتنمية", "status": "جديد"}
+          ],
+          "graduate": [
+            {"name": "ماجستير إدارة الأعمال", "nameEn": "MBA", "description": "إدارة الأعمال المتقدمة"},
+            {"name": "ماجستير إدارة الأعمال الدولية", "nameEn": "MSc International Business Management", "description": "الأعمال الدولية"},
+            {"name": "ماجستير القانون التجاري الدولي", "nameEn": "LLM International Commercial Law", "description": "القانون التجاري"},
+            {"name": "ماجستير إدارة الموارد البشرية الدولية", "nameEn": "MSc International HRM", "description": "إدارة الموارد البشرية"}
+          ],
+          "totalPrograms": "22 برنامجاً (مع البرامج الجديدة)"
+        }
       ],
 
       "admissionRequirements": {
+        "qatari": {
+          "minGPA": 70,
+          "notes": "منح حكومية متاحة"
+        },
+        "nonQatari": {
+          "minGPA": 70,
+          "accepted": true
+        },
         "gpa": "70%+ في الثانوية",
         "ielts": "5.5+ للبكالوريوس | 6.5+ للماجستير",
-        "applicationFee": "QAR 400"
+        "applicationFee": "QAR 400",
+        "contact": "info@afg-aberdeen.edu.qa",
+        "phone": "4420 1000",
+        "englishRequirements": {
+          "IELTS": "5.5+ (بكالوريوس) | 6.5+ (ماجستير)",
+          "TOEFL": "69+ (بكالوريوس) | 79+ (ماجستير)"
+        }
       },
 
       "tuitionFees": {
         "registrationFee": "QAR 2,100",
-        "note": "تواصل مع القبول للرسوم التفصيلية حسب البرنامج"
+        "note": "تواصل مع القبول للرسوم التفصيلية حسب البرنامج — شهادة بريطانية معتمدة"
       },
 
-      "scholarships": "منح حكومية للقطريين + خصومات للمتفوقين",
+      "scholarships": {
+        "qatari": "منح حكومية للقطريين",
+        "merit": "خصومات للمتفوقين أكاديمياً",
+        "note": "شهادة من جامعة أبردين البريطانية (Top 200 عالمياً)"
+      },
+
+      "keywords": ["AFG", "أبردين", "بريطانية", "أعمال", "محاسبة", "قانون", "حاسوب", "ذكاء اصطناعي", "أمن سيبراني", "مشيرب"],
 
       "lastUpdated": "2026-04-09",
       "dataSource": "abdn.ac.uk/qatar + alfaleh.edu.qa",
@@ -727,29 +1512,60 @@
       "website": "https://www.oryx.edu.qa",
       "location": "الدوحة",
       "type": "بريطانية — شراكة دولية",
+      "founded": 2020,
+      "teachingLanguage": "الإنجليزية",
+      "campusDescription": "كلية STEM متخصصة بشراكة مع جامعة ليفربول جون مورز البريطانية — مرخصة من وزارة التعليم",
+      "hasStudentHousing": false,
+      "partnership": "شراكة مع Liverpool John Moores University (LJMU)",
 
-      "programs": [
-        "هندسة البرمجيات (BSc Software Engineering)",
-        "علوم الحاسوب (BSc Computer Science)",
-        "الأمن السيبراني (BSc Cybersecurity)",
-        "الذكاء الاصطناعي (BSc Artificial Intelligence)",
-        "إدارة الأعمال (BA Business Management)",
-        "المحاسبة والمالية (BSc Accounting & Finance)",
-        "الهندسة الميكانيكية (BEng Mechanical Engineering)",
-        "الهندسة الكهربائية والإلكترونية (BEng Electrical & Electronic Engineering)"
+      "colleges": [
+        {
+          "name": "البرامج الأكاديمية",
+          "nameEn": "Academic Programs",
+          "focus": "تركيز على العلوم والتكنولوجيا والهندسة والرياضيات (STEM)",
+          "undergraduate": [
+            {"name": "هندسة البرمجيات", "nameEn": "BSc (Hons) Software Engineering", "duration": "3-4 سنوات", "description": "تطوير البرمجيات وهندسة الأنظمة"},
+            {"name": "علوم الحاسوب", "nameEn": "BSc (Hons) Computer Science", "duration": "3-4 سنوات", "description": "البرمجة والخوارزميات والأنظمة"},
+            {"name": "أمن سيبراني", "nameEn": "BSc (Hons) Cybersecurity", "duration": "3-4 سنوات", "description": "حماية الأنظمة والشبكات الرقمية"},
+            {"name": "ذكاء اصطناعي", "nameEn": "BSc (Hons) Artificial Intelligence", "duration": "3-4 سنوات", "description": "تعلم الآلة والأنظمة الذكية"},
+            {"name": "إدارة أعمال", "nameEn": "BA (Hons) Business Management", "duration": "3-4 سنوات", "description": "إدارة الأعمال والقيادة"},
+            {"name": "محاسبة ومالية", "nameEn": "BSc (Hons) Accounting & Finance", "duration": "3-4 سنوات", "description": "المحاسبة المهنية والتمويل"},
+            {"name": "هندسة ميكانيكية", "nameEn": "BEng (Hons) Mechanical Engineering", "duration": "4 سنوات", "description": "تصميم الأنظمة الميكانيكية"},
+            {"name": "هندسة كهربائية وإلكترونية", "nameEn": "BEng (Hons) Electrical & Electronic Engineering", "duration": "4 سنوات", "description": "الإلكترونيات والطاقة"}
+          ]
+        }
       ],
 
       "admissionRequirements": {
+        "qatari": {
+          "minGPA": 60,
+          "notes": "منح تصل 40%"
+        },
+        "nonQatari": {
+          "minGPA": 60,
+          "accepted": true
+        },
         "gpa": "60%+ في الثانوية",
         "ielts": "5.5+ للبكالوريوس",
-        "notes": "شهادة LJMU بريطانية معتمدة"
+        "applicationFee": "مجاني حالياً (عرض محدود)",
+        "englishRequirements": {
+          "IELTS": "5.5+",
+          "TOEFL": "69+"
+        }
       },
 
       "tuitionFees": {
-        "note": "رسوم تنافسية — تواصل مع القبول للتفاصيل"
+        "note": "رسوم تنافسية بالريال القطري — تواصل مع القبول للتفاصيل",
+        "degree": "شهادة BSc/BEng (Hons) من LJMU البريطانية"
       },
 
-      "scholarships": "منح تصل إلى 40% + منح Education Above All كاملة",
+      "scholarships": {
+        "merit": "منح تصل إلى 40% للطلاب المتميزين",
+        "educationAboveAll": "منح كاملة بشراكة Education Above All (50% من الكلية + 50% من المؤسسة)",
+        "eligibility": "دخل أسرة أقل من QAR 15,000/شهر للمنحة الكاملة"
+      },
+
+      "keywords": ["أوريكس", "LJMU", "بريطانية", "هندسة", "حاسوب", "ذكاء اصطناعي", "أمن سيبراني", "برمجيات", "STEM"],
 
       "lastUpdated": "2026-04-09",
       "dataSource": "oryx.edu.qa",
@@ -785,6 +1601,9 @@
 
       "scholarships": "منح حكومية كاملة للقطريين + منح للشركات وغير القطريين",
 
+      "teachingLanguage": "الإنجليزية",
+      "keywords": ["الريان", "ضيافة", "سياحة", "أعمال دولية", "فندقة", "ديربي", "بريطانية"],
+
       "lastUpdated": "2026-04-09",
       "dataSource": "ariu.edu.qa",
       "academicYear": "2025-2026"
@@ -818,6 +1637,9 @@
 
       "scholarships": "منح أداء أكاديمي متميز + خصومات شركات",
 
+      "teachingLanguage": "الإنجليزية",
+      "keywords": ["برزان", "سوينبرن", "أسترالية", "حاسوب", "تكنولوجيا", "أعمال", "هندسة"],
+
       "lastUpdated": "2026-04-09",
       "dataSource": "buc.edu.qa",
       "academicYear": "2025-2026"
@@ -830,26 +1652,62 @@
       "website": "https://www.astateqatar.com",
       "location": "الدوحة",
       "type": "أمريكية — فرع قطر",
+      "founded": 2017,
+      "teachingLanguage": "الإنجليزية",
+      "campusDescription": "جامعة أمريكية معتمدة في الدوحة — طلاب من 60+ دولة",
+      "hasStudentHousing": false,
 
-      "programs": [
-        "علوم الحاسوب (BSc Computer Science)",
-        "علم النفس (BA Psychology)",
-        "التربية الخاصة (BSc Education in Special Education K-12)",
-        "التكنولوجيا الرقمية والتصميم (BSc Digital Technology & Design)",
-        "إدارة النظم الهندسية (BSc Engineering Management Systems)"
+      "importantNotice": "تحولت للتعليم عن بُعد اعتباراً من 30 مارس 2026 بتوجيه من وزارة التعليم — حتى إشعار آخر",
+
+      "colleges": [
+        {
+          "name": "البرامج الأكاديمية",
+          "nameEn": "Academic Programs",
+          "undergraduate": [
+            {"name": "علوم الحاسوب", "nameEn": "BSc Computer Science", "duration": "4 سنوات", "description": "البرمجة والخوارزميات وتطوير البرمجيات"},
+            {"name": "علم النفس", "nameEn": "BA Psychology", "duration": "4 سنوات", "description": "علم النفس والسلوك البشري"},
+            {"name": "تربية خاصة", "nameEn": "BSc Education in Special Education K-12", "duration": "4 سنوات", "description": "إعداد معلمي التربية الخاصة"},
+            {"name": "التكنولوجيا الرقمية والتصميم", "nameEn": "BSc Digital Technology & Design", "duration": "4 سنوات", "description": "التصميم الرقمي والتكنولوجيا الإبداعية"},
+            {"name": "إدارة النظم الهندسية", "nameEn": "BSc Engineering Management Systems", "duration": "4 سنوات", "description": "إدارة المشاريع والأنظمة الهندسية"}
+          ],
+          "graduate": [
+            {"name": "ماجستير التربية في القيادة التعليمية", "nameEn": "MSEd Educational Leadership", "description": "القيادة والإدارة التعليمية"}
+          ]
+        }
       ],
 
       "admissionRequirements": {
+        "qatari": {
+          "minGPA": 75,
+          "notes": "خصم 15% على الرسوم"
+        },
+        "nonQatari": {
+          "minGPA": 75,
+          "accepted": true
+        },
         "gpa": "75%+ في الثانوية (77-79% لبعض البرامج)",
         "ielts": "5.5+ أو TOEFL 61+ أو iTEP 3.5+",
-        "notes": "شهادة أمريكية معتمدة — طلاب من 60+ دولة"
+        "englishRequirements": {
+          "IELTS": "5.5-6.0",
+          "TOEFL": "61-79+",
+          "iTEP": "3.5+"
+        }
       },
 
       "tuitionFees": {
-        "note": "تواصل مع القبول — الرسوم تُدفع في بداية كل فصل"
+        "undergraduate": "USD 14,068-21,094/سنة (حسب الساعات)",
+        "graduate": "USD 11,726+/سنة",
+        "note": "الرسوم تُدفع في بداية كل فصل"
       },
 
-      "scholarships": "منح 15% للقطريين + منح رياضية + منح المستجدين المتفوقين",
+      "scholarships": {
+        "qatari": "خصم 15% للقطريين",
+        "athletic": "منح رياضية",
+        "freshmen": "منح المستجدين المتفوقين",
+        "note": "شهادة أمريكية معتمدة بالكامل"
+      },
+
+      "keywords": ["أركنساس ستيت", "A-State", "أمريكية", "حاسوب", "علم نفس", "تربية خاصة", "تصميم رقمي", "هندسة"],
 
       "lastUpdated": "2026-04-09",
       "dataSource": "astateqatar.com",
@@ -894,6 +1752,9 @@
 
       "scholarships": "خصم 10% للتقديم المبكر + منح حسب البرنامج",
 
+      "teachingLanguage": "الإنجليزية",
+      "keywords": ["ألستر", "CUQ", "عمارة", "ذكاء اصطناعي", "هندسة طبية", "قانون", "علم نفس", "بريطانية", "لوسيل"],
+
       "lastUpdated": "2026-04-09",
       "dataSource": "cuq-ulster.edu.qa",
       "academicYear": "2025-2026"
@@ -928,6 +1789,9 @@
 
       "scholarships": "خصم 10% للشركات الشريكة + منح أداء أكاديمي متميز",
 
+      "teachingLanguage": "الإنجليزية",
+      "keywords": ["MIE", "بيون", "هندية", "أرخص", "إدارة أعمال", "محاسبة", "تربية", "بنوك"],
+
       "lastUpdated": "2026-04-09",
       "dataSource": "miesppu.edu.qa",
       "academicYear": "2025-2026"
@@ -960,6 +1824,9 @@
       },
 
       "scholarships": "منح من مركز قطر للمال + دعم حكومي للقطريين",
+
+      "teachingLanguage": "الإنجليزية",
+      "keywords": ["مالية", "بنوك", "QFBA", "نورثمبريا", "قطر للمال", "QFC", "تمويل"],
 
       "lastUpdated": "2026-04-09",
       "dataSource": "qfba.edu.qa + northumbria.ac.uk",
@@ -996,6 +1863,9 @@
 
       "scholarships": "منح إنتاج أفلام + دعم مالي للمشاريع السينمائية",
 
+      "teachingLanguage": "الإنجليزية والعربية",
+      "keywords": ["أفلام", "سينما", "إخراج", "رسوم متحركة", "كتارا", "تصوير", "Gobelins", "La Fémis"],
+
       "lastUpdated": "2026-04-09",
       "dataSource": "dohafilm.com",
       "academicYear": "2025-2026"
@@ -1028,6 +1898,9 @@
 
       "scholarships": "تمويل كامل من مؤسسة قطر لمعظم الطلاب",
       "applicationDeadlines": "فبراير - مايو",
+
+      "teachingLanguage": "الإنجليزية",
+      "keywords": ["تأسيسي", "ABP", "المدينة التعليمية", "مؤسسة قطر", "STEM", "تحضيري", "جسر أكاديمي"],
 
       "lastUpdated": "2026-04-09",
       "dataSource": "abp.edu.qa + qf.org.qa",
@@ -1063,6 +1936,9 @@
 
       "scholarships": "منح جزئية متاحة — تحويل مضمون لجامعات NCUK الشريكة",
       "applicationDeadlines": "طوال السنة",
+
+      "teachingLanguage": "الإنجليزية",
+      "keywords": ["تأسيسي", "UFC", "NCUK", "سنة تأسيسية", "100+ جامعة", "بريطانيا", "تحويل دولي"],
 
       "lastUpdated": "2026-04-09",
       "dataSource": "ufc.edu.qa + ncuk.ac.uk",
@@ -1111,8 +1987,13 @@
   },
 
   "quickAnswers": {
-    "ما هي أفضل جامعة في قطر": "تعتمد على تخصصك. للطب: WCM-Q، للهندسة: TAMU-Q، للأعمال: CMU-Q أو HEC، للإعلام: NU-Q، للجميع: جامعة قطر.",
-    "شروط القبول في جامعة قطر": "للقطريين: معدل 70%+ (80% للصيدلة، 85% للطب). لغير القطريين: معدل 80%+. مع اجتياز مستوى اللغة الإنجليزية.",
-    "هل القبول مفتوح الآن": "قبول الفصل الدراسي الأول 2025/2026 مفتوح من فبراير حتى مايو. راجع موقع الجامعة للتأكيد."
+    "ما هي أفضل جامعة في قطر": "تعتمد على تخصصك. للطب: WCM-Q أو كلية الطب بجامعة قطر، للهندسة: جامعة قطر أو HBKU، للأعمال: CMU-Q أو HEC، للإعلام: NU-Q، للحاسوب والذكاء الاصطناعي: CMU-Q، للقانون والسياسة: GU-Q، للفنون: VCUarts، للتطبيقي: UDST.",
+    "شروط القبول في جامعة قطر": "للقطريين: معدل 70%+ (80% للصيدلة، 85% للطب وطب الأسنان). لغير القطريين: معدل 80%+. IELTS 5.0-6.5 حسب التخصص.",
+    "هل القبول مفتوح الآن": "قبول خريف 2026 مفتوح في معظم الجامعات. جامعة قطر: فبراير-مايو. UDST: مارس-يوليو. المدينة التعليمية: نوفمبر-فبراير. راجع مواقع الجامعات للتأكيد.",
+    "أرخص جامعة في قطر": "مجاني للقطريين: جامعة قطر، UDST، كلية المجتمع (CCQ)، الكليات العسكرية. أرخص للمقيمين: CCQ ثم MIE-SPPU (QAR 12,000/سنة) ثم UDST.",
+    "أفضل جامعة للحاسوب في قطر": "CMU-Q (الأقوى عالمياً في CS)، HBKU (أمن سيبراني وAI)، جامعة قطر (أكبر عدد تخصصات)، Oryx-LJMU (شهادة بريطانية بسعر معقول).",
+    "جامعات المدينة التعليمية": "CMU-Q (حاسوب وأعمال)، WCM-Q (طب)، NU-Q (إعلام)، GU-Q (شؤون دولية)، VCUarts (فنون)، HEC (MBA تنفيذي)، HBKU (بحثية)، ABP (تأسيسي).",
+    "هل TAMU-Q يقبل طلاب جدد": "لا — أعلنت الجامعة إيقاف العمليات تدريجياً والإغلاق النهائي 31 أغسطس 2028. القبول الجامعي مغلق — البرامج العليا فقط.",
+    "منح دراسية في قطر": "المنحة الحكومية الكاملة للقطريين (وزارة التعليم)، منح مؤسسة قطر (جميع الجنسيات — المدينة التعليمية)، منح QatarEnergy (هندسة)، منح HBKU الكاملة، منحة Qatar Scholarship بجامعة لوسيل."
   }
 }
