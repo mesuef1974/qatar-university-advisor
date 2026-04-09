@@ -9,6 +9,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAIResponseWithFallback } from "@lib/ai-fallback.js";
 import { sanitizeInput, getInjectionResponse } from "@lib/sanitizer";
 import { logger } from "@lib/logger.js";
+import { parseQuery, searchUniversities, formatSmartResponse } from "@lib/smart-search";
+import universitiesData from "../../../../data/universities.json";
 
 // Rate limiting — in-memory sliding window
 const rateLimitMap = new Map<string, { count: number; windowStart: number }>();
@@ -84,6 +86,36 @@ export async function POST(request: NextRequest) {
       userProfile.nationality = nationality;
     }
 
+    // ── Smart Search: محاولة الرد من البيانات المحلية أولاً ──
+    try {
+      const query = parseQuery(sanitized);
+      if (nationality === "qatari" || nationality === "non_qatari") {
+        query.nationality = nationality;
+      }
+      const universities = universitiesData.universities as Record<string, Record<string, unknown>>;
+      const searchResults = searchUniversities(query, universities);
+
+      // إذا وُجدت نتائج عالية الجودة (score > 70 للأولى أو > 40 مع نية واضحة)
+      const topScore = searchResults.length > 0 ? searchResults[0].matchScore : 0;
+      const hasStrongMatch = topScore > 70 || (topScore > 40 && query.intent !== "find_university");
+
+      if (hasStrongMatch && searchResults.length > 0) {
+        const smartResponse = formatSmartResponse(query, searchResults);
+        if (smartResponse) {
+          logger.info(`[chat-api] Smart search hit — score: ${topScore}, intent: ${query.intent}`);
+          return NextResponse.json({
+            answer: smartResponse.text,
+            suggestions: smartResponse.suggestions,
+            source: "smart_search",
+          });
+        }
+      }
+    } catch (searchErr: unknown) {
+      const searchMsg = searchErr instanceof Error ? searchErr.message : "Unknown";
+      logger.warn(`[chat-api] Smart search failed, falling back to AI: ${searchMsg}`);
+    }
+
+    // ── AI Fallback: Claude أو الردود الثابتة ──
     const result = await getAIResponseWithFallback(
       sanitized,
       userProfile,

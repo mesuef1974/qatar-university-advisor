@@ -15,6 +15,7 @@ import {
   Building2,
   GitCompareArrows,
   Award,
+  Calculator,
   Zap,
   HelpCircle,
   Shield,
@@ -27,6 +28,7 @@ const SECTIONS = [
   { label: "الجامعات", href: "/universities", icon: Building2 },
   { label: "المقارنة", href: "/compare", icon: GitCompareArrows },
   { label: "المنح", href: "/scholarships", icon: Award },
+  { label: "حاسبة القبول", href: "/calculator", icon: Calculator },
 ];
 
 const TOP_QUESTIONS = [

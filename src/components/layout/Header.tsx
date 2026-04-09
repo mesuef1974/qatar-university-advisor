@@ -18,6 +18,7 @@ import {
   Monitor,
   Star,
   Globe,
+  Calculator,
 } from "lucide-react";
 
 export default function Header() {
@@ -130,6 +131,18 @@ export default function Header() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        {/* Calculator button */}
+        <Link href="/calculator">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9 rounded-xl border transition-colors bg-white/8 border-white/12 text-white hover:bg-gold/20 hover:text-white"
+            aria-label="حاسبة القبول"
+          >
+            <Calculator className="h-[17px] w-[17px]" />
+          </Button>
+        </Link>
 
         {/* Universities button */}
         <Link href="/universities">

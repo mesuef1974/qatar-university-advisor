@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,6 +28,7 @@ import {
   Building2,
   Globe,
   Banknote,
+  Filter,
 } from "lucide-react";
 import type { University } from "@/types/university";
 
@@ -35,8 +36,108 @@ interface CompareClientProps {
   universities: [string, University][];
 }
 
+type SpecialtyFilter = "all" | "engineering" | "medicine" | "business" | "cs" | "law" | "arts" | "education";
+type BudgetFilter = "all" | "free" | "under50k" | "under100k";
+type GPAFilter = "all" | "70-80" | "80-90" | "90+";
+
+const SPECIALTY_OPTIONS: { value: SpecialtyFilter; label: string }[] = [
+  { value: "all", label: "الكل" },
+  { value: "engineering", label: "هندسة" },
+  { value: "medicine", label: "طب" },
+  { value: "business", label: "اعمال" },
+  { value: "cs", label: "حاسوب" },
+  { value: "law", label: "قانون" },
+  { value: "arts", label: "فنون وتصميم" },
+  { value: "education", label: "تربية" },
+];
+
+const BUDGET_OPTIONS: { value: BudgetFilter; label: string }[] = [
+  { value: "all", label: "الكل" },
+  { value: "free", label: "مجاني" },
+  { value: "under50k", label: "اقل من 50K" },
+  { value: "under100k", label: "اقل من 100K" },
+];
+
+const GPA_OPTIONS: { value: GPAFilter; label: string }[] = [
+  { value: "all", label: "الكل" },
+  { value: "70-80", label: "70-80" },
+  { value: "80-90", label: "80-90" },
+  { value: "90+", label: "90+" },
+];
+
+// Check if a university has programs matching a specialty filter
+function matchesSpecialty(uni: University, filter: SpecialtyFilter): boolean {
+  if (filter === "all") return true;
+  const keywords: Record<string, string[]> = {
+    engineering: ["هندسة", "Engineering"],
+    medicine: ["طب", "Medicine", "صيدلة", "Pharmacy", "تمريض", "Nursing", "صح", "Health"],
+    business: ["اعمال", "Business", "اقتصاد", "Economics", "ادارة", "Management", "محاسبة", "تسويق", "تمويل", "مال"],
+    cs: ["حاسوب", "Computer", "معلومات", "Information", "ذكاء اصطناعي", "سيبراني", "Cyber"],
+    law: ["قانون", "Law"],
+    arts: ["فنون", "Arts", "تصميم", "Design", "إعلام", "اعلام", "افلام", "Film"],
+    education: ["تربية", "Education", "تعليم"],
+  };
+  const kws = keywords[filter] || [];
+  const text = JSON.stringify(uni.colleges || []) + " " + JSON.stringify((uni as Record<string, unknown>).programs || []) + " " + (uni.type || "") + " " + JSON.stringify(uni.keywords || []);
+  return kws.some((kw) => text.includes(kw));
+}
+
+// Check if a university matches a budget filter
+function matchesBudget(uni: University, filter: BudgetFilter): boolean {
+  if (filter === "all") return true;
+  const fees = uni.tuitionFees;
+  if (!fees) return filter === "free"; // no fees info, assume might be free/military
+
+  if (filter === "free") {
+    if (typeof fees === "object" && "qatari" in fees && fees.qatari === 0) return true;
+    const str = JSON.stringify(fees).toLowerCase();
+    return str.includes("مجاني") || str.includes("free");
+  }
+
+  // Try extracting a numeric yearly fee
+  const str = JSON.stringify(fees);
+  const nums = str.match(/(\d[\d,]*)/g);
+  if (!nums) return true; // can't determine, include it
+
+  // Find the smallest yearly-ish fee (QAR)
+  const parsed = nums.map((n) => parseInt(n.replace(/,/g, ""), 10)).filter((n) => n > 1000);
+  if (parsed.length === 0) return true;
+  const minFee = Math.min(...parsed);
+
+  if (filter === "under50k") return minFee < 50000;
+  if (filter === "under100k") return minFee < 100000;
+  return true;
+}
+
+// Check if a university matches a GPA filter
+function matchesGPA(uni: University, filter: GPAFilter): boolean {
+  if (filter === "all") return true;
+  const req = uni.admissionRequirements;
+  if (!req) return true; // include unknowns
+
+  let minGPA: number | null = null;
+  if (req.qatari?.minGPA) minGPA = req.qatari.minGPA;
+  else {
+    const raw = req as Record<string, unknown>;
+    if (typeof raw.gpa === "string") {
+      const m = (raw.gpa as string).match(/(\d+)/);
+      if (m) minGPA = parseInt(m[1], 10);
+    }
+  }
+
+  if (minGPA === null) return true;
+
+  if (filter === "70-80") return minGPA >= 60 && minGPA <= 80;
+  if (filter === "80-90") return minGPA > 80 && minGPA <= 90;
+  if (filter === "90+") return minGPA > 90;
+  return true;
+}
+
 export default function CompareClient({ universities }: CompareClientProps) {
   const [selected, setSelected] = useState<string[]>([]);
+  const [specialtyFilter, setSpecialtyFilter] = useState<SpecialtyFilter>("all");
+  const [budgetFilter, setBudgetFilter] = useState<BudgetFilter>("all");
+  const [gpaFilter, setGPAFilter] = useState<GPAFilter>("all");
 
   const addUniversity = (id: string) => {
     if (selected.length < 3 && !selected.includes(id)) {
@@ -53,8 +154,19 @@ export default function CompareClient({ universities }: CompareClientProps) {
     return entry ? entry[1] : undefined;
   };
 
+  // Filter universities based on smart filters, then exclude already selected
+  const filteredUniversities = useMemo(() => {
+    return universities.filter(([, uni]) => {
+      return (
+        matchesSpecialty(uni, specialtyFilter) &&
+        matchesBudget(uni, budgetFilter) &&
+        matchesGPA(uni, gpaFilter)
+      );
+    });
+  }, [universities, specialtyFilter, budgetFilter, gpaFilter]);
+
   // Get available universities (not already selected)
-  const available = universities.filter(([id]) => !selected.includes(id));
+  const available = filteredUniversities.filter(([id]) => !selected.includes(id));
 
   // Helper to extract programs/colleges as display names
   const getDisplayName = (item: string | { name?: string; nameAr?: string; nameEn?: string }): string => {
@@ -156,6 +268,66 @@ export default function CompareClient({ universities }: CompareClientProps) {
             </div>
           </div>
 
+          {/* Smart Filters */}
+          <div className="mb-4 space-y-2">
+            <div className="flex items-center gap-1.5 text-[11px] text-white/60 font-semibold">
+              <Filter className="h-3 w-3" />
+              فلترة الجامعات
+            </div>
+            {/* Specialty filter */}
+            <div className="flex flex-wrap gap-1.5">
+              {SPECIALTY_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => setSpecialtyFilter(opt.value)}
+                  className={`px-3 py-1.5 rounded-lg text-[11px] font-bold transition-colors cursor-pointer ${
+                    specialtyFilter === opt.value
+                      ? "bg-gold text-maroon-dark"
+                      : "bg-white/10 text-white/70 hover:bg-white/20"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+            {/* Budget + GPA row */}
+            <div className="flex flex-wrap gap-1.5">
+              <span className="text-[10px] text-white/50 self-center ml-1">الميزانية:</span>
+              {BUDGET_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => setBudgetFilter(opt.value)}
+                  className={`px-3 py-1.5 rounded-lg text-[11px] font-bold transition-colors cursor-pointer ${
+                    budgetFilter === opt.value
+                      ? "bg-gold text-maroon-dark"
+                      : "bg-white/10 text-white/70 hover:bg-white/20"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+              <span className="text-[10px] text-white/50 self-center mr-2 ml-1">المعدل:</span>
+              {GPA_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => setGPAFilter(opt.value)}
+                  className={`px-3 py-1.5 rounded-lg text-[11px] font-bold transition-colors cursor-pointer ${
+                    gpaFilter === opt.value
+                      ? "bg-gold text-maroon-dark"
+                      : "bg-white/10 text-white/70 hover:bg-white/20"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+            {(specialtyFilter !== "all" || budgetFilter !== "all" || gpaFilter !== "all") && (
+              <p className="text-[11px] text-gold/80">
+                {filteredUniversities.length} جامعة مطابقة للفلاتر
+              </p>
+            )}
+          </div>
+
           {/* University selector */}
           <div className="flex flex-wrap gap-2 items-center">
             {selected.map((id) => {
@@ -204,7 +376,7 @@ export default function CompareClient({ universities }: CompareClientProps) {
 
             {/* Quick picks */}
             <div className="flex flex-wrap justify-center gap-2 max-w-lg mx-auto">
-              {universities.slice(0, 6).map(([id, uni]) => (
+              {filteredUniversities.slice(0, 6).map(([id, uni]) => (
                 <Button
                   key={id}
                   variant="outline"
