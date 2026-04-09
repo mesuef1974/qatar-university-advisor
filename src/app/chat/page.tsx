@@ -76,6 +76,9 @@ export default function ChatPage() {
             >
               شروط الاستخدام
             </Link>
+            <p className="text-[10px] text-muted-foreground/60">
+              © 2026 شركة أذكياء للبرمجيات | Azkia Software Co.
+            </p>
           </footer>
         </>
       )}
