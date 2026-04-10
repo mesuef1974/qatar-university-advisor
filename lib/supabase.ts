@@ -85,14 +85,64 @@ export type UserProfileUpdate = Partial<
 // ──────────────────────────────────────────────────────────
 // Client initialization
 // ──────────────────────────────────────────────────────────
+//
+// SECURITY (DEC-SEC-002 / RLS hotfix 2026-04-10):
+// This module is SERVER-ONLY. It uses SUPABASE_SERVICE_ROLE_KEY which
+// bypasses Row-Level Security. It must NEVER be imported from a client
+// component, page, or any code that runs in the browser.
+//
+// - Do NOT prefix the env var with NEXT_PUBLIC_* — that would ship the
+//   service role key to the browser bundle.
+// - Do NOT use the anon key for backend writes. After migration 003
+//   (USING(TRUE) → strict RLS), anon key can no longer read/write on
+//   behalf of the backend.
+// - All writes/reads performed by webhook handlers, cron jobs, admin
+//   routes, and health checks go through this client.
+// ──────────────────────────────────────────────────────────
 
 const supabaseUrl: string = process.env.SUPABASE_URL || '';
-const supabaseAnonKey: string = process.env.SUPABASE_ANON_KEY || '';
+const supabaseServiceRoleKey: string =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
-// Create client only if credentials are available
+/**
+ * Returns a server-only Supabase client that uses the SERVICE_ROLE_KEY
+ * and therefore bypasses RLS. Throws loudly if the required env vars are
+ * missing, so misconfiguration is caught at call time instead of silently
+ * degrading.
+ *
+ * SECURITY: Never import or call this from client components.
+ * Reference: DEC-SEC-002 (RLS hotfix 2026-04-10).
+ */
+export function getSupabaseServerClient(): SupabaseClient {
+  if (!supabaseUrl || !supabaseServiceRoleKey) {
+    throw new Error(
+      'Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY env vars. ' +
+        'Ensure SUPABASE_SERVICE_ROLE_KEY is set in Vercel (server-side only, ' +
+        'without NEXT_PUBLIC_ prefix). See DEPLOY_RLS_HOTFIX_STEPS.md.'
+    );
+  }
+
+  return createClient(supabaseUrl, supabaseServiceRoleKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  });
+}
+
+// Backward-compat singleton. Existing modules
+// (lib/consent-manager.js, lib/knowledge-base.js, lib/semantic-search.js,
+//  api-legacy/admin.js, src/app/api/admin/route.ts, tests) import `supabase`
+// directly and gracefully handle a null client when env vars are missing.
+// We preserve that behavior while switching the key to SERVICE_ROLE_KEY.
 const supabase: SupabaseClient | null =
-  supabaseUrl && supabaseAnonKey
-    ? createClient(supabaseUrl, supabaseAnonKey)
+  supabaseUrl && supabaseServiceRoleKey
+    ? createClient(supabaseUrl, supabaseServiceRoleKey, {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false,
+        },
+      })
     : null;
 
 // ──────────────────────────────────────────────────────────

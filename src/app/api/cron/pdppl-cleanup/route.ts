@@ -17,9 +17,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  // SECURITY (DEC-SEC-002 / RLS hotfix 2026-04-10): cron must use
+  // SERVICE_ROLE_KEY to bypass RLS. Anon key would fail under migration 003.
   const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseServiceKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl || !supabaseServiceKey) {
     return NextResponse.json(
