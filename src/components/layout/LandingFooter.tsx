@@ -83,26 +83,28 @@ export default function LandingFooter() {
           </div>
         </div>
 
-        {/* Divider + Copyright */}
+        {/* Divider + Copyright + Azkia Credit */}
         <div className="border-t border-border mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <span className="text-[11px] text-muted-foreground/70">
+            &copy; 2026 المستشار الجامعي القطري — جميع الحقوق محفوظة
+          </span>
           <div className="flex items-center gap-2">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-label="Azkia Logo"
-            >
-              <path d="M12 2L2 20h6l1.5-3h5l1.5 3h6L12 2z" fill="#8A1538" />
-              <path d="M12 8l-2.5 5h5L12 8z" fill="#C5A55A" />
-            </svg>
             <span className="text-[12px] text-muted-foreground">
-              &copy; 2026 شركة أذكياء للبرمجيات | Azkia Software Co.
+              تطوير وتقديم
+            </span>
+            <Image
+              src="/azkia-logo.svg"
+              alt="شعار شركة أذكياء للبرمجيات"
+              width={22}
+              height={22}
+              className="h-[22px] w-[22px] opacity-90 hover:opacity-100 transition-opacity dark:brightness-110"
+              unoptimized
+            />
+            <span className="text-[12px] font-medium text-foreground/80">
+              شركة أذكياء للبرمجيات
+              <span className="text-muted-foreground/70"> | Azkia Software Co.</span>
             </span>
           </div>
-          <span className="text-[11px] text-muted-foreground/50">
-            جميع الحقوق محفوظة
-          </span>
         </div>
       </div>
     </footer>

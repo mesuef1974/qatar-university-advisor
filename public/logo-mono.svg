@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="مُرشدي - Qatar University Advisor (monochrome)">
+  <title>مُرشدي — Qatar University Advisor (Monochrome)</title>
+  <desc>Monochrome print version of the astrolabe mark. All elements rendered in #000000.</desc>
+
+  <!-- Outer compass circle -->
+  <circle cx="128" cy="128" r="110" fill="none" stroke="#000000" stroke-width="4"/>
+
+  <!-- Mid celestial ring (dashed) -->
+  <circle cx="128" cy="128" r="96" fill="none" stroke="#000000" stroke-width="1.25" stroke-dasharray="2 5" opacity="0.45"/>
+
+  <!-- Inner guide ring -->
+  <circle cx="128" cy="128" r="82" fill="none" stroke="#000000" stroke-width="1" opacity="0.35"/>
+
+  <!-- Radial axes -->
+  <g stroke="#000000" stroke-width="1.25" opacity="0.35">
+    <line x1="128" y1="22"  x2="128" y2="42"/>
+    <line x1="128" y1="214" x2="128" y2="234"/>
+    <line x1="22"  y1="128" x2="42"  y2="128"/>
+    <line x1="214" y1="128" x2="234" y2="128"/>
+  </g>
+
+  <!-- Cardinal ticks -->
+  <g fill="#000000">
+    <circle cx="128" cy="18"  r="4.5"/>
+    <circle cx="128" cy="238" r="4.5"/>
+    <circle cx="18"  cy="128" r="4.5"/>
+    <circle cx="238" cy="128" r="4.5"/>
+  </g>
+
+  <!-- Ordinal ticks -->
+  <g fill="#000000" opacity="0.55">
+    <circle cx="206" cy="50"  r="2.75"/>
+    <circle cx="206" cy="206" r="2.75"/>
+    <circle cx="50"  cy="206" r="2.75"/>
+    <circle cx="50"  cy="50"  r="2.75"/>
+  </g>
+
+  <!-- Outer 8-point star -->
+  <polygon
+    points="128.00,56.00 138.72,102.13 178.91,77.09 153.87,117.28 200.00,128.00 153.87,138.72 178.91,178.91 138.72,153.87 128.00,200.00 117.28,153.87 77.09,178.91 102.13,138.72 56.00,128.00 102.13,117.28 77.09,77.09 117.28,102.13"
+    fill="#000000" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter"/>
+
+  <!-- Inner 8-point star — rendered as outlined (white hole) for mono contrast -->
+  <polygon
+    points="135.02,92.69 135.78,116.36 157.93,108.00 141.73,125.27 163.31,135.02 139.64,135.78 148.00,157.93 130.73,141.73 120.98,163.31 120.22,139.64 98.07,148.00 114.27,130.73 92.69,120.98 116.36,120.22 108.00,98.07 125.27,114.27"
+    fill="#FFFFFF"/>
+
+  <!-- Center dot -->
+  <circle cx="128" cy="128" r="5" fill="#000000"/>
+
+  <!-- North indicator triangle -->
+  <path d="M 128,4 L 134,18 L 122,18 Z" fill="#000000"/>
+</svg>

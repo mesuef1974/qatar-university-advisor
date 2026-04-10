@@ -184,9 +184,19 @@ export default function Sidebar({ onSendMessage }: SidebarProps) {
               حقوق البيانات
             </Link>
           </div>
-          <p className="text-[11px] text-muted-foreground text-center mt-4">
-            &copy; 2026 شركة أذكياء للبرمجيات | Azkia Software Co.
-          </p>
+          <div className="flex items-center justify-center gap-1.5 mt-4">
+            <Image
+              src="/azkia-logo.svg"
+              alt="شعار شركة أذكياء للبرمجيات"
+              width={16}
+              height={16}
+              className="h-4 w-4 opacity-80 dark:brightness-110"
+              unoptimized
+            />
+            <p className="text-[11px] text-muted-foreground text-center">
+              &copy; 2026 شركة أذكياء للبرمجيات | Azkia Software Co.
+            </p>
+          </div>
         </div>
       </SheetContent>
     </Sheet>

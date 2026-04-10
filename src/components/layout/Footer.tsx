@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -24,16 +25,14 @@ export default function Footer() {
         حقوق البيانات
       </Link>
       <div className="flex items-center gap-1.5 mr-2">
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          aria-label="Azkia Logo"
-        >
-          <path d="M12 2L2 20h6l1.5-3h5l1.5 3h6L12 2z" fill="#8A1538" />
-          <path d="M12 8l-2.5 5h5L12 8z" fill="#C5A55A" />
-        </svg>
+        <Image
+          src="/azkia-logo.svg"
+          alt="شعار شركة أذكياء للبرمجيات"
+          width={16}
+          height={16}
+          className="h-4 w-4 opacity-80 hover:opacity-100 transition-opacity dark:brightness-110"
+          unoptimized
+        />
         <span className="text-[10px] text-muted-foreground/60">
           &copy; 2026 شركة أذكياء للبرمجيات | Azkia Software Co.
         </span>

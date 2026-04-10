@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "@/components/layout/Header";
@@ -87,12 +88,14 @@ function ChatPageInner() {
               شروط الاستخدام
             </Link>
             <div className="flex items-center justify-center gap-1.5 mt-0.5">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Azkia Logo">
-                {/* Geometric A shape - triangle */}
-                <path d="M12 2L2 20h6l1.5-3h5l1.5 3h6L12 2z" fill="#8A1538" />
-                {/* Inner gold accent - small diamond */}
-                <path d="M12 8l-2.5 5h5L12 8z" fill="#C5A55A" />
-              </svg>
+              <Image
+                src="/azkia-logo.svg"
+                alt="شعار شركة أذكياء للبرمجيات"
+                width={18}
+                height={18}
+                className="h-[18px] w-[18px] opacity-80 hover:opacity-100 transition-opacity dark:brightness-110"
+                unoptimized
+              />
               <span className="text-[10px] text-muted-foreground/60">
                 © 2026 شركة أذكياء للبرمجيات | Azkia Software Co.
               </span>
