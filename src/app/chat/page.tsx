@@ -74,6 +74,21 @@ function ChatPageInner() {
 
           {/* Legal footer — always at bottom */}
           <footer className="flex-shrink-0 flex items-center justify-center gap-4 py-1.5 px-4 bg-card border-t border-border">
+            {/* App brand — Qatar University Advisor */}
+            <div className="flex items-center gap-1.5">
+              <Image
+                src="/logo-mark.svg"
+                alt="المستشار الجامعي القطري"
+                width={16}
+                height={16}
+                className="h-4 w-4 opacity-90 dark:brightness-110 dark:opacity-95"
+                unoptimized
+              />
+              <span className="text-[11px] font-semibold text-foreground/80">
+                المستشار الجامعي القطري
+              </span>
+            </div>
+            <span className="text-[11px] text-border">&middot;</span>
             <Link
               href="/privacy"
               className="text-[11px] text-muted-foreground hover:text-maroon dark:hover:text-primary transition-colors"

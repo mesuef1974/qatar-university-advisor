@@ -4,6 +4,21 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <footer className="flex items-center justify-center gap-4 py-2 px-4 bg-card/95 backdrop-blur-sm border-t border-border flex-shrink-0">
+      {/* App brand — Qatar University Advisor */}
+      <div className="flex items-center gap-1.5">
+        <Image
+          src="/logo-mark.svg"
+          alt="المستشار الجامعي القطري"
+          width={18}
+          height={18}
+          className="h-[18px] w-[18px] opacity-90 dark:brightness-110 dark:opacity-95"
+          unoptimized
+        />
+        <span className="text-[11px] font-semibold text-foreground/80">
+          المستشار الجامعي القطري
+        </span>
+      </div>
+      <span className="text-[11px] text-border">&middot;</span>
       <Link
         href="/privacy"
         className="text-[11px] text-muted-foreground hover:text-maroon dark:hover:text-primary transition-colors"

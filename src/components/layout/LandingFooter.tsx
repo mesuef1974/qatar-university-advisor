@@ -24,19 +24,14 @@ export default function LandingFooter() {
           {/* Brand Column */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-white p-0.5 shadow-sm border border-border flex items-center justify-center overflow-hidden">
-                <Image
-                  src="/logo-192.png"
-                  alt="المستشار الجامعي القطري"
-                  width={40}
-                  height={40}
-                  unoptimized
-                  className="object-contain rounded-lg"
-                />
-              </div>
-              <span className="font-bold text-[14px] text-foreground">
-                المستشار الجامعي القطري
-              </span>
+              <Image
+                src="/logo.svg"
+                alt="المستشار الجامعي القطري — Qatar University Advisor"
+                width={200}
+                height={60}
+                unoptimized
+                className="object-contain h-14 w-auto opacity-95 dark:brightness-110"
+              />
             </div>
             <p className="text-[13px] text-muted-foreground leading-relaxed max-w-xs">
               مرشدك الذكي لاختيار الجامعة والتخصص في دولة قطر. معلومات شاملة ومحدثة
