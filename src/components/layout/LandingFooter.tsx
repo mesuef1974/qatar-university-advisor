@@ -25,13 +25,22 @@ export default function LandingFooter() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <Image
-                src="/logo.svg"
-                alt="المستشار الجامعي القطري — Qatar University Advisor"
-                width={200}
-                height={60}
+                src="/logo-mark.svg"
+                alt=""
+                aria-hidden="true"
+                width={48}
+                height={48}
                 unoptimized
-                className="object-contain h-14 w-auto opacity-95 dark:brightness-110"
+                className="h-12 w-12 object-contain opacity-95 dark:brightness-110"
               />
+              <div className="leading-tight">
+                <div className="text-base font-bold text-[#0E2841] dark:text-white">
+                  المستشار الجامعي القطري
+                </div>
+                <div className="text-[11px] font-medium text-[#156082] dark:text-blue-300 tracking-wide">
+                  Qatar University Advisor
+                </div>
+              </div>
             </div>
             <p className="text-[13px] text-muted-foreground leading-relaxed max-w-xs">
               مرشدك الذكي لاختيار الجامعة والتخصص في دولة قطر. معلومات شاملة ومحدثة

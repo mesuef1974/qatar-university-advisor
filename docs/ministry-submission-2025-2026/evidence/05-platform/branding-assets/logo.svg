@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" width="800" height="240" role="img" aria-label="مُرشدي - Qatar University Advisor">
-  <title>مُرشدي — Qatar University Advisor</title>
-  <desc>Primary horizontal lockup: astrolabe mark with bilingual wordmark (Arabic primary, English secondary).</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120" role="img" aria-label="Qatar University Advisor">
+  <title>Qatar University Advisor</title>
+  <desc>Primary horizontal lockup: astrolabe mark (compass + 8-point star) with English wordmark. Bilingual Arabic context is rendered in HTML beside the SVG to keep the asset universal and scale-safe.</desc>
 
-  <!-- ============ ICON (right side, RTL anchor) — 200x200 scaled from 256 viewBox ============ -->
-  <g transform="translate(580 20) scale(0.78125)">
+  <!-- ============ ICON MARK (left side) — 96x96 scaled from 256 viewBox ============ -->
+  <g transform="translate(12 12) scale(0.375)">
     <!-- Outer compass circle -->
     <circle cx="128" cy="128" r="110" fill="none" stroke="#156082" stroke-width="4"/>
-    <!-- Mid celestial ring -->
+    <!-- Mid celestial ring (dashed) -->
     <circle cx="128" cy="128" r="96" fill="none" stroke="#156082" stroke-width="1.25" stroke-dasharray="2 5" opacity="0.45"/>
     <!-- Inner guide ring -->
     <circle cx="128" cy="128" r="82" fill="none" stroke="#156082" stroke-width="1" opacity="0.35"/>
@@ -42,26 +42,24 @@
     <!-- Center dot -->
     <circle cx="128" cy="128" r="7" fill="#FFFFFF"/>
     <circle cx="128" cy="128" r="4" fill="#E97132"/>
-    <!-- North triangle -->
+    <!-- North indicator -->
     <path d="M 128,4 L 134,18 L 122,18 Z" fill="#E97132"/>
   </g>
 
-  <!-- ============ WORDMARK (left side) ============ -->
-  <!-- Arabic: "مُرشدي" — Readex Pro Bold 72px, #0E2841 -->
-  <text x="540" y="125"
-        font-family="'Readex Pro','Noto Sans Arabic','Segoe UI',sans-serif"
-        font-weight="700"
-        font-size="72"
-        fill="#0E2841"
-        text-anchor="end"
-        direction="rtl">مُرشدي</text>
+  <!-- ============ ENGLISH WORDMARK (right of mark) ============ -->
+  <!-- Line 1: "Qatar University" — Inter SemiBold 22px, #156082 -->
+  <text x="120" y="56"
+        font-family="'Inter','Segoe UI',Arial,sans-serif"
+        font-weight="600"
+        font-size="22"
+        letter-spacing="0.3"
+        fill="#156082">Qatar University</text>
 
-  <!-- English tagline: "Qatar University Advisor" — Inter Medium 24px, #156082 -->
-  <text x="540" y="165"
+  <!-- Line 2: "Advisor" — Inter Medium 22px, #0E2841 -->
+  <text x="120" y="84"
         font-family="'Inter','Segoe UI',Arial,sans-serif"
         font-weight="500"
-        font-size="24"
-        letter-spacing="0.5"
-        fill="#156082"
-        text-anchor="end">Qatar University Advisor</text>
+        font-size="22"
+        letter-spacing="0.3"
+        fill="#0E2841">Advisor</text>
 </svg>
