@@ -52,14 +52,17 @@ An AI-powered advisor that helps Qatari students choose the right university and
 
 | Layer | Technology |
 |---|---|
-| Frontend | React 19, Vite 8 |
-| Styling | CSS Modules + custom design system |
-| AI | Google Gemini AI (optional) |
+| Frontend | Next.js 16 (App Router), React 19 |
+| Styling | Tailwind CSS v4 + shadcn/ui |
+| AI | Google Gemini AI (primary, free) + Anthropic Claude (fallback) |
 | Messaging | WhatsApp Cloud API (Meta) via `graph.facebook.com/v21.0` |
-| Backend (Serverless) | Vercel Serverless Functions (Node.js) |
-| Security | HMAC-SHA256 webhook signature verification, rate limiting |
-| Testing | Vitest |
-| Linting | ESLint 9 |
+| Backend (Serverless) | Vercel Serverless Functions (Next.js API Routes) |
+| Database | Supabase (PostgreSQL + pgvector for semantic search) |
+| Rate Limiting / Dedup | Upstash Redis (distributed, survives cold starts) |
+| Security | HMAC-SHA256 webhook verification, CSP, PII anonymization, Prompt Injection defense |
+| State Management | Zustand |
+| Testing | Vitest + Playwright (E2E) |
+| Linting | ESLint 9 + TypeScript strict |
 
 ---
 
