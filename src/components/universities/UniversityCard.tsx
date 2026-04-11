@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -23,7 +24,17 @@ interface UniversityCardProps {
   university: University;
 }
 
+function getInitials(nameEn: string): string {
+  return nameEn
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0] ?? "")
+    .join("")
+    .toUpperCase();
+}
+
 export default function UniversityCard({ id, university }: UniversityCardProps) {
+  const [logoError, setLogoError] = useState(false);
   const typeColor =
     university.type === "حكومية"
       ? "bg-maroon/10 text-maroon dark:bg-maroon/20 dark:text-primary border-maroon/20"
@@ -36,18 +47,20 @@ export default function UniversityCard({ id, university }: UniversityCardProps) 
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-3 flex-1 min-w-0">
-            {university.logoUrl && (
-              <div className="w-12 h-12 rounded-lg bg-white p-1 shadow-sm flex-shrink-0 overflow-hidden border border-gray-100">
+            <div className="w-12 h-12 rounded-lg bg-white p-1 shadow-sm flex-shrink-0 overflow-hidden border border-gray-100 flex items-center justify-center">
+              {university.logoUrl && !logoError ? (
                 <img
                   src={university.logoUrl}
                   alt={university.nameAr}
                   className="w-full h-full object-contain"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                  }}
+                  onError={() => setLogoError(true)}
                 />
-              </div>
-            )}
+              ) : (
+                <span className="text-maroon font-bold text-[11px] text-center leading-tight">
+                  {getInitials(university.nameEn)}
+                </span>
+              )}
+            </div>
             <div className="flex-1 min-w-0">
               <CardTitle className="text-base font-bold leading-tight">
                 {university.nameAr}

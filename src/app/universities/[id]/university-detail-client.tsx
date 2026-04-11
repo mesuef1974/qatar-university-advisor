@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +33,17 @@ interface Props {
   university: University;
 }
 
+function getInitials(nameEn: string): string {
+  return nameEn
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0] ?? "")
+    .join("")
+    .toUpperCase();
+}
+
 export default function UniversityDetailClient({ id, university }: Props) {
+  const [logoError, setLogoError] = useState(false);
   void id; // available for future use
 
   return (
@@ -51,18 +62,20 @@ export default function UniversityDetailClient({ id, university }: Props) {
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            {university.logoUrl && (
-              <div className="w-16 h-16 rounded-xl bg-white p-1.5 shadow-sm flex-shrink-0 overflow-hidden">
+            <div className="w-16 h-16 rounded-xl bg-white p-1.5 shadow-sm flex-shrink-0 overflow-hidden flex items-center justify-center">
+              {university.logoUrl && !logoError ? (
                 <img
                   src={university.logoUrl}
                   alt={university.nameAr}
                   className="w-full h-full object-contain"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).parentElement!.style.display = 'none';
-                  }}
+                  onError={() => setLogoError(true)}
                 />
-              </div>
-            )}
+              ) : (
+                <span className="text-maroon font-bold text-sm text-center leading-tight">
+                  {getInitials(university.nameEn)}
+                </span>
+              )}
+            </div>
             <div className="flex-1">
               <h1 className="text-xl font-bold">{university.nameAr}</h1>
               <p className="text-[13px] text-white/65">

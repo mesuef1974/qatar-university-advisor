@@ -153,6 +153,9 @@ export default function CompareClient({ universities }: CompareClientProps) {
   const [specialtyFilter, setSpecialtyFilter] = useState<SpecialtyFilter>("all");
   const [budgetFilter, setBudgetFilter] = useState<BudgetFilter>("all");
   const [gpaFilter, setGPAFilter] = useState<GPAFilter>("all");
+  const [logoErrors, setLogoErrors] = useState<Record<string, boolean>>({});
+
+  const markLogoError = (id: string) => setLogoErrors(prev => ({ ...prev, [id]: true }));
 
   const addUniversity = (id: string) => {
     if (selected.length < 3 && !selected.includes(id)) {
@@ -355,9 +358,13 @@ export default function CompareClient({ universities }: CompareClientProps) {
     { label: "مواعيد التقديم", icon: <Calendar className="h-4 w-4" />, getValue: (uni) => getDeadlines(uni) },
   ];
 
-  const getLogoPath = (id: string): string => {
-    return `/logos/${id}.png`;
+  const getLogoUrl = (id: string): string | null => {
+    const entry = universities.find(([uid]) => uid === id);
+    return entry?.[1]?.logoUrl ?? null;
   };
+
+  const getInitials = (nameEn: string): string =>
+    nameEn.split(/\s+/).slice(0, 2).map(w => w[0] ?? "").join("").toUpperCase();
 
   return (
     <PageLayout>
@@ -512,17 +519,21 @@ export default function CompareClient({ universities }: CompareClientProps) {
                   <Card key={id} className="text-center py-3">
                     <CardContent className="p-3 flex flex-col items-center gap-2">
                       <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center overflow-hidden">
-                        <Image
-                          src={getLogoPath(id)}
-                          alt={uni.nameAr}
-                          width={48}
-                          height={48}
-                          className="object-contain"
-                          unoptimized
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).style.display = 'none';
-                          }}
-                        />
+                        {getLogoUrl(id) && !logoErrors[id] ? (
+                          <Image
+                            src={getLogoUrl(id)!}
+                            alt={uni.nameAr}
+                            width={48}
+                            height={48}
+                            className="object-contain"
+                            unoptimized
+                            onError={() => markLogoError(id)}
+                          />
+                        ) : (
+                          <span className="text-maroon font-bold text-[11px] text-center leading-tight">
+                            {getInitials(uni.nameEn)}
+                          </span>
+                        )}
                       </div>
                       <h3 className="text-[13px] font-bold">{uni.nameAr}</h3>
                       <div className="flex flex-wrap gap-1 justify-center">
@@ -570,17 +581,21 @@ export default function CompareClient({ universities }: CompareClientProps) {
                           <th key={id} className="p-3 text-center min-w-[160px]">
                             <div className="flex flex-col items-center gap-1.5">
                               <div className="w-10 h-10 rounded-full bg-background border flex items-center justify-center overflow-hidden">
-                                <Image
-                                  src={getLogoPath(id)}
-                                  alt={uni.nameAr}
-                                  width={40}
-                                  height={40}
-                                  className="object-contain"
-                                  unoptimized
-                                  onError={(e) => {
-                                    (e.target as HTMLImageElement).style.display = 'none';
-                                  }}
-                                />
+                                {getLogoUrl(id) && !logoErrors[id] ? (
+                                  <Image
+                                    src={getLogoUrl(id)!}
+                                    alt={uni.nameAr}
+                                    width={40}
+                                    height={40}
+                                    className="object-contain"
+                                    unoptimized
+                                    onError={() => markLogoError(id)}
+                                  />
+                                ) : (
+                                  <span className="text-maroon font-bold text-[10px] text-center leading-tight">
+                                    {getInitials(uni.nameEn)}
+                                  </span>
+                                )}
                               </div>
                               <span className="font-bold text-[12px]">{uni.nameAr}</span>
                             </div>
