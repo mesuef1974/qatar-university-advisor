@@ -9,18 +9,18 @@ vi.mock('../../lib/supabase.js', () => ({
   isSupabaseAvailable: vi.fn().mockReturnValue(false),
 }));
 
-// Mock fetch للـ Claude API
+// Mock fetch للـ Gemini API
 const mockFetch = vi.fn();
 globalThis.fetch = mockFetch;
 
 describe('Semantic Search — generateEmbedding', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.stubEnv('ANTHROPIC_API_KEY', 'test-key');
+    vi.stubEnv('GOOGLE_API_KEY', 'test-key');
   });
 
-  it('يُرجع null عند غياب ANTHROPIC_API_KEY', async () => {
-    vi.stubEnv('ANTHROPIC_API_KEY', '');
+  it('يُرجع null عند غياب GOOGLE_API_KEY', async () => {
+    vi.stubEnv('GOOGLE_API_KEY', '');
     const { generateEmbedding } = await import('../../lib/semantic-search.js');
     const result = await generateEmbedding('نص تجريبي');
     expect(result).toBeNull();

@@ -1,7 +1,7 @@
 /**
  * Unit Tests — AI Fallback System
  * ════════════════════════════════
- * اختبار سلسلة الاحتياط: AI (Gemini/Claude) -> Static -> Graceful Error
+ * اختبار سلسلة الاحتياط: AI (Gemini) -> Static -> Graceful Error
  *
  * Azkia | FAANG Standards
  */
@@ -69,7 +69,7 @@ describe('AI Fallback System', () => {
   // ══════════════════════════════════════════
   // Level 1: AI succeeds
   // ══════════════════════════════════════════
-  describe('Level 1 — AI API (Gemini/Claude)', () => {
+  describe('Level 1 — Gemini API', () => {
     it('returns AI response when API succeeds', async () => {
       getAIResponse.mockResolvedValueOnce({
         text: 'رد ذكي من الذكاء الاصطناعي',

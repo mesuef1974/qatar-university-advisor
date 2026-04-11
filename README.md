@@ -54,7 +54,7 @@ An AI-powered advisor that helps Qatari students choose the right university and
 |---|---|
 | Frontend | Next.js 16 (App Router), React 19 |
 | Styling | Tailwind CSS v4 + shadcn/ui |
-| AI | Google Gemini AI (primary, free) + Anthropic Claude (fallback) |
+| AI | Google Gemini AI |
 | Messaging | WhatsApp Cloud API (Meta) via `graph.facebook.com/v21.0` |
 | Backend (Serverless) | Vercel Serverless Functions (Next.js API Routes) |
 | Database | Supabase (PostgreSQL + pgvector for semantic search) |
@@ -132,8 +132,7 @@ npm run build
 | `WHATSAPP_PHONE_ID` | معرف رقم الهاتف من Facebook Developers → تطبيقك → WhatsApp → API Setup | نعم |
 | `WEBHOOK_VERIFY_TOKEN` | نص سري تختاره بنفسك، يُستخدم مرة واحدة عند ربط الـ Webhook | نعم |
 | `WEBHOOK_APP_SECRET` | App Secret من Facebook Developers → App Settings → Basic | نعم (الإنتاج) |
-| `GEMINI_API_KEY` | مفتاح Google Gemini AI (مجاني) من [aistudio.google.com](https://aistudio.google.com/app/apikey) — **الأولوية الأولى** | لا (موصى به) |
-| `ANTHROPIC_API_KEY` | مفتاح Claude AI (مدفوع) من [console.anthropic.com](https://console.anthropic.com/settings/keys) — احتياطي إذا فشل Gemini | لا (اختياري) |
+| `GEMINI_API_KEY` | مفتاح Google Gemini AI (مجاني) من [aistudio.google.com](https://aistudio.google.com/app/apikey) | لا (موصى به) |
 
 > **تنبيه:** لا ترفع `.env.local` إلى Git. تأكد أنه مدرج في `.gitignore`.
 >

@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
         botStatus: {
           vercel: "operational",
           whatsapp: "operational",
-          claude: "operational",
+          gemini: "operational",
           supabase: circuitStatus.isHealthy ? "operational" : "degraded",
         },
       },
