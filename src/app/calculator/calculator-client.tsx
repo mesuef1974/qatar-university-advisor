@@ -13,7 +13,6 @@ import { Badge } from "@/components/ui/badge";
 import {
   ArrowRight,
   Calculator,
-  GraduationCap,
   Building2,
   TrendingUp,
   TrendingDown,
@@ -336,7 +335,16 @@ export default function CalculatorClient({
         {/* No GPA entered */}
         {(!gpa || isNaN(gpa)) && (
           <div className="text-center py-16">
-            <GraduationCap className="h-12 w-12 text-muted-foreground/30 mx-auto mb-4" />
+            <div className="w-16 h-16 mx-auto mb-4 opacity-30">
+              <Image
+                src="/logo-192.png"
+                alt="المستشار الجامعي القطري"
+                width={64}
+                height={64}
+                unoptimized
+                className="object-contain"
+              />
+            </div>
             <h2 className="text-lg font-bold mb-2">ادخل معدلك التراكمي</h2>
             <p className="text-muted-foreground text-sm">
               ادخل معدلك في الخانة اعلاه لعرض الجامعات المتاحة لك
