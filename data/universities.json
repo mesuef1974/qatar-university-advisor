@@ -11,7 +11,7 @@
     "QU": {
       "nameAr": "جامعة قطر",
       "nameEn": "Qatar University",
-      "logoUrl": "https://www.qu.edu.qa/Style%20Library/assets/images/qulogo.png",
+      "logoUrl": "/logos/QU.svg",
       "website": "https://www.qu.edu.qa",
       "admissionsUrl": "https://www.qu.edu.qa/ar/admissions",
       "location": "الدوحة — حي الطريق الغربي",
@@ -534,7 +534,7 @@
     "CMU_Q": {
       "nameAr": "جامعة كارنيغي ميلون — قطر",
       "nameEn": "Carnegie Mellon University Qatar",
-      "logoUrl": "https://www.qatar.cmu.edu/wp-content/uploads/2024/12/cropped-site-logo.png",
+      "logoUrl": "/logos/CMU_Q.svg",
       "website": "https://www.qatar.cmu.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
@@ -694,7 +694,7 @@
     "TAMU_Q": {
       "nameAr": "جامعة تكساس إي آند إم — قطر",
       "nameEn": "Texas A&M University at Qatar",
-      "logoUrl": "https://www.qatar.tamu.edu/assets/img/elements/TAMU-logo-white.png",
+      "logoUrl": "/logos/TAMU_Q.svg",
       "website": "https://www.qatar.tamu.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
@@ -827,7 +827,7 @@
     "WCM_Q": {
       "nameAr": "جامعة وايل كورنيل الطبية — قطر",
       "nameEn": "Weill Cornell Medicine-Qatar",
-      "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Weill_Cornell_Medicine_logo.svg/320px-Weill_Cornell_Medicine_logo.svg.png",
+      "logoUrl": "/logos/WCM_Q.svg",
       "website": "https://qatar-weill.cornell.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
@@ -949,7 +949,7 @@
     "NU_Q": {
       "nameAr": "جامعة نورث ويسترن — قطر",
       "nameEn": "Northwestern University in Qatar",
-      "logoUrl": "https://common.qatar.northwestern.edu/images/logos/NUQ-vertical-white.svg",
+      "logoUrl": "/logos/NU_Q.svg",
       "website": "https://www.qatar.northwestern.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
@@ -1071,7 +1071,7 @@
     "GU_Q": {
       "nameAr": "جامعة جورجتاون — قطر",
       "nameEn": "Georgetown University in Qatar",
-      "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Georgetown_University_Seal.svg/200px-Georgetown_University_Seal.svg.png",
+      "logoUrl": "/logos/GU_Q.svg",
       "website": "https://www.qatar.georgetown.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فرع قطر",
@@ -1206,7 +1206,7 @@
     "HEC_Q": {
       "nameAr": "جامعة HEC باريس — قطر",
       "nameEn": "HEC Paris in Qatar",
-      "logoUrl": "https://www.hec.edu/themes/custom/hec_theme/logo.svg",
+      "logoUrl": "/logos/HEC_Q.svg",
       "website": "https://www.qatar.exed.hec.edu",
       "location": "المدينة التعليمية",
       "type": "فرنسية — فرع قطر",
@@ -1300,7 +1300,7 @@
     "HBKU": {
       "nameAr": "جامعة حمد بن خليفة",
       "nameEn": "Hamad Bin Khalifa University",
-      "logoUrl": "https://www.hbku.edu.qa/themes/custom/hbku/images/logo-white.svg",
+      "logoUrl": "/logos/HBKU.svg",
       "website": "https://www.hbku.edu.qa",
       "location": "المدينة التعليمية",
       "type": "حكومية بحثية",
@@ -1560,7 +1560,7 @@
     "UDST": {
       "nameAr": "جامعة الدوحة للعلوم والتكنولوجيا",
       "nameEn": "University of Doha for Science and Technology",
-      "logoUrl": "https://www.udst.edu.qa/themes/custom/cnaq/logo.png",
+      "logoUrl": "/logos/UDST.svg",
       "website": "https://www.udst.edu.qa",
       "location": "الدوحة",
       "type": "حكومية تطبيقية",
@@ -1728,7 +1728,7 @@
     "LU": {
       "nameAr": "جامعة لوسيل",
       "nameEn": "Lusail University",
-      "logoUrl": "https://lu.edu.qa/img/lu-logo.webp",
+      "logoUrl": "/logos/LU.svg",
       "website": "https://www.lu.edu.qa",
       "location": "لوسيل، الدوحة",
       "type": "خاصة وطنية",
@@ -1937,7 +1937,7 @@
     "VCU_Q": {
       "nameAr": "جامعة فرجينيا كومنولث للفنون — قطر",
       "nameEn": "VCUarts Qatar",
-      "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/VCU_brandmark.svg/200px-VCU_brandmark.svg.png",
+      "logoUrl": "/logos/VCU_Q.svg",
       "website": "https://qatar.vcu.edu",
       "location": "المدينة التعليمية",
       "type": "أمريكية — فنون وتصميم",
@@ -2073,7 +2073,7 @@
     "CCQ": {
       "nameAr": "كلية المجتمع في قطر",
       "nameEn": "Community College of Qatar",
-      "logoUrl": "https://www.community.edu.qa/Style%20Library/CCQ-Assets/img/fullLogo.svg",
+      "logoUrl": "/logos/CCQ.svg",
       "website": "https://www.ccq.edu.qa",
       "location": "الدوحة",
       "type": "حكومية",
@@ -2231,7 +2231,7 @@
     "QAA": {
       "nameAr": "أكاديمية قطر لعلوم الطيران",
       "nameEn": "Qatar Aeronautical Academy",
-      "logoUrl": "https://www.qaa.edu.qa/Style%20Library/QAA-Assets/img/logo.png",
+      "logoUrl": "/logos/QAA.svg",
       "website": "https://www.qaa.edu.qa",
       "location": "مطار الدوحة",
       "type": "تخصصية — بالتعاون مع الخطوط القطرية",
@@ -2357,7 +2357,8 @@
       },
       "lastUpdated": "2026-04-09",
       "dataSource": "official sources",
-      "academicYear": "2025-2026"
+      "academicYear": "2025-2026",
+      "logoUrl": "/logos/ABMMC.svg"
     },
     "POLICE": {
       "nameAr": "أكاديمية الشرطة",
@@ -2425,7 +2426,8 @@
       },
       "lastUpdated": "2026-04-09",
       "dataSource": "official sources",
-      "academicYear": "2025-2026"
+      "academicYear": "2025-2026",
+      "logoUrl": "/logos/POLICE.svg"
     },
     "AIRFORCE": {
       "nameAr": "الكلية الجوية — كلية الزعيم محمد العطية",
@@ -2487,7 +2489,8 @@
       },
       "lastUpdated": "2026-04-09",
       "dataSource": "official sources",
-      "academicYear": "2025-2026"
+      "academicYear": "2025-2026",
+      "logoUrl": "/logos/AIRFORCE.svg"
     },
     "NAVAL": {
       "nameAr": "الأكاديمية البحرية — أكاديمية الغانم",
@@ -2545,7 +2548,8 @@
       },
       "lastUpdated": "2026-04-09",
       "dataSource": "official sources",
-      "academicYear": "2025-2026"
+      "academicYear": "2025-2026",
+      "logoUrl": "/logos/NAVAL.svg"
     },
     "CYBER": {
       "nameAr": "أكاديمية الأمن السيبراني",
@@ -2609,12 +2613,13 @@
       },
       "lastUpdated": "2026-04-09",
       "dataSource": "official sources",
-      "academicYear": "2025-2026"
+      "academicYear": "2025-2026",
+      "logoUrl": "/logos/CYBER.svg"
     },
     "DOHA_INSTITUTE": {
       "nameAr": "معهد الدوحة للدراسات العليا",
       "nameEn": "Doha Institute for Graduate Studies",
-      "logoUrl": "https://www.dohainstitute.edu.qa/Style%20Library/DI-Styles/images/top-logo.svg",
+      "logoUrl": "/logos/DOHA_INSTITUTE.svg",
       "website": "https://www.dohainstitute.edu.qa",
       "location": "الدوحة",
       "type": "خاصة غير ربحية — دراسات عليا",
@@ -2670,7 +2675,7 @@
     "AFG_ABERDEEN": {
       "nameAr": "كلية AFG بالتعاون مع جامعة أبردين",
       "nameEn": "AFG College with University of Aberdeen",
-      "logoUrl": "https://alfaleh.edu.qa/wp-content/uploads/2021/04/logo.png",
+      "logoUrl": "/logos/AFG_ABERDEEN.svg",
       "website": "https://www.afg.qa",
       "admissionsUrl": "https://www.abdn.ac.uk/qatar/apply/index.php",
       "location": "مشيرب — الدوحة (+ حرم جديد قيد الإنشاء)",
@@ -2866,7 +2871,7 @@
     "ORYX_LJMU": {
       "nameAr": "كلية أوريكس العالمية",
       "nameEn": "Oryx Universal College with LJMU",
-      "logoUrl": "https://oryx.edu.qa/wp-content/uploads/2025/07/Logo-_V_03-800x203.png",
+      "logoUrl": "/logos/ORYX_LJMU.svg",
       "website": "https://www.oryx.edu.qa",
       "location": "الدوحة",
       "type": "بريطانية — شراكة دولية",
@@ -3004,7 +3009,7 @@
     "ARIU": {
       "nameAr": "كلية الريان الدولية الجامعية",
       "nameEn": "Al Rayyan International University College",
-      "logoUrl": "https://ariu.edu.qa/wp-content/uploads/2022/12/logo-new-1-3.png",
+      "logoUrl": "/logos/ARIU.svg",
       "website": "https://www.ariu.edu.qa",
       "location": "الريان",
       "type": "بريطانية — شراكة دولية",
@@ -3064,7 +3069,7 @@
     "BUC": {
       "nameAr": "كلية برزان الجامعية",
       "nameEn": "Barzan University College",
-      "logoUrl": "https://www.buc.edu.qa/wp-content/uploads/2022/11/BUC-logo.png",
+      "logoUrl": "/logos/BUC.svg",
       "website": "https://www.buc.edu.qa",
       "location": "الدوحة",
       "type": "أسترالية — شراكة دولية",
@@ -3124,7 +3129,7 @@
     "ASTATE_Q": {
       "nameAr": "جامعة أركنساس ستيت — قطر",
       "nameEn": "Arkansas State University Qatar",
-      "logoUrl": "https://astateqatar.com/wp-content/uploads/2025/10/ASTATE-Qatar-Landscape-Black@4x.png",
+      "logoUrl": "/logos/ASTATE_Q.svg",
       "website": "https://www.astateqatar.com",
       "location": "الدوحة",
       "type": "أمريكية — فرع قطر",
@@ -3247,7 +3252,7 @@
     "CUQ_ULSTER": {
       "nameAr": "كلية CUQ بالتعاون مع جامعة ألستر",
       "nameEn": "CUQ Ulster University",
-      "logoUrl": "https://cuq-ulster.edu.qa/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-09-at-11.34.09-AM.jpeg",
+      "logoUrl": "/logos/CUQ_ULSTER.svg",
       "website": "https://www.cuq-ulster.edu.qa",
       "location": "لوسيل",
       "type": "بريطانية — شراكة دولية",
@@ -3324,7 +3329,7 @@
     "MIE_SPPU": {
       "nameAr": "معهد MIE بالتعاون مع جامعة بيون — قطر",
       "nameEn": "MIE-SPPU Pune University Qatar",
-      "logoUrl": "https://www.miesppu.edu.qa/wp-content/uploads/mie-sppu-logo.png",
+      "logoUrl": "/logos/MIE_SPPU.svg",
       "website": "https://www.miesppu.edu.qa",
       "location": "الدوحة",
       "type": "هندية — فرع قطر",
@@ -3387,7 +3392,7 @@
     "QFBA": {
       "nameAr": "أكاديمية قطر للمال والأعمال",
       "nameEn": "QFBA with Northumbria University",
-      "logoUrl": "https://www.qfba.edu.qa/wp-content/uploads/2021/01/QFBA-logo.png",
+      "logoUrl": "/logos/QFBA.svg",
       "website": "https://www.qfba.edu.qa",
       "admissionsUrl": "https://nu.qfba.edu.qa/academic-programs",
       "location": "الخليج الغربي — الدوحة",
@@ -3446,7 +3451,7 @@
     "DFI": {
       "nameAr": "معهد الدوحة للأفلام",
       "nameEn": "Doha Film Institute",
-      "logoUrl": "https://www.dohafilminstitute.com/sites/default/files/dfi-logo.png",
+      "logoUrl": "/logos/DFI.svg",
       "website": "https://www.dohafilminstitute.com",
       "location": "كتارا — الدوحة",
       "type": "متخصصة — سينما وإعلام",
@@ -3510,7 +3515,7 @@
     "ABP": {
       "nameAr": "البرنامج التأسيسي الأكاديمي",
       "nameEn": "Academic Bridge Program",
-      "logoUrl": "https://www.abp.edu.qa/Style%20Library/ABP-Assets/img/logo.png",
+      "logoUrl": "/logos/ABP.svg",
       "website": "https://www.abp.edu.qa",
       "location": "المدينة التعليمية",
       "type": "تأسيسي — مؤسسة قطر",
@@ -3571,7 +3576,7 @@
     "UFC": {
       "nameAr": "كلية التأسيس الجامعي",
       "nameEn": "University Foundation College",
-      "logoUrl": "https://ufc.edu.qa/wp-content/uploads/2024/04/UFC-Logo-1.jpg",
+      "logoUrl": "/logos/UFC.svg",
       "website": "https://www.ufc.edu.qa",
       "location": "الدوحة",
       "type": "تأسيسي — NCUK",
