@@ -184,6 +184,7 @@ export default function CalculatorClient({
   const [gpaInput, setGpaInput] = useState("");
   const [nationality, setNationality] = useState<Nationality>("qatari");
   const [track, setTrack] = useState<Track>("scientific");
+  const [logoErrors, setLogoErrors] = useState<Record<string, boolean>>({});
 
   const gpa = gpaInput ? parseFloat(gpaInput) : null;
 
@@ -397,7 +398,7 @@ export default function CalculatorClient({
                       <div className="flex items-start gap-3">
                         {/* Logo */}
                         <div className="w-11 h-11 rounded-xl bg-white dark:bg-white/10 border border-border flex-shrink-0 flex items-center justify-center overflow-hidden p-1">
-                          {result.university.logoUrl ? (
+                          {result.university.logoUrl && !logoErrors[result.university.nameEn] ? (
                             <Image
                               src={result.university.logoUrl}
                               alt={result.university.nameAr}
@@ -405,6 +406,12 @@ export default function CalculatorClient({
                               height={36}
                               unoptimized
                               className="object-contain"
+                              onError={() =>
+                                setLogoErrors((prev) => ({
+                                  ...prev,
+                                  [result.university.nameEn]: true,
+                                }))
+                              }
                             />
                           ) : (
                             <Building2 className="h-5 w-5 text-muted-foreground" />

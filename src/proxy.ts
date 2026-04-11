@@ -1,14 +1,14 @@
 /**
- * Next.js Middleware — Qatar University Advisor
+ * Next.js Proxy — Qatar University Advisor
  * ═══════════════════════════════════════════════
  * Protects the /admin panel from search-engine indexing and caching.
  * General security headers are already set in next.config.ts;
- * this middleware adds admin-specific overrides at the edge.
+ * this proxy adds admin-specific overrides at the edge.
  */
 
 import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(request: NextRequest): NextResponse {
+export function proxy(request: NextRequest): NextResponse {
   const response = NextResponse.next();
   const { pathname } = request.nextUrl;
 
