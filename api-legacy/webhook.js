@@ -1,6 +1,6 @@
 /* global process, Buffer */
 import crypto from 'crypto';
-import { processMessage } from '../lib/findResponse.js';
+import { processMessage } from '../lib/findResponse';
 import { sendResponseWithSuggestions, markAsRead } from '../lib/whatsapp';
 import { requireEnv } from '../lib/validateEnv.js';
 

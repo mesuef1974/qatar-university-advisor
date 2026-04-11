@@ -362,6 +362,10 @@ async function logQuery(query: string, matchedKey: string | null, source: string
 
 /**
  * Get top queries (for admin dashboard)
+ *
+ * Fetches at most 10_000 recent rows from `analytics` to avoid loading the
+ * entire table into memory, then aggregates counts in JavaScript. For larger
+ * datasets a dedicated Postgres view / RPC function should be used instead.
  */
 async function getTopQueries(limit: number = 20): Promise<QueryCount[]> {
   if (!supabase) return [];
@@ -370,7 +374,9 @@ async function getTopQueries(limit: number = 20): Promise<QueryCount[]> {
     const { data } = await supabase
       .from('analytics')
       .select('matched_key')
-      .not('matched_key', 'is', null);
+      .not('matched_key', 'is', null)
+      .order('created_at', { ascending: false })
+      .limit(10_000);
 
     if (!data) return [];
 
