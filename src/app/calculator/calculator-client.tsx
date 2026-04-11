@@ -398,7 +398,7 @@ export default function CalculatorClient({
                       <div className="flex items-start gap-3">
                         {/* Logo */}
                         <div className="w-11 h-11 rounded-xl bg-white dark:bg-white/10 border border-border flex-shrink-0 flex items-center justify-center overflow-hidden p-1">
-                          {result.university.logoUrl && !logoErrors[result.university.nameEn] ? (
+                          {result.university.logoUrl && !logoErrors[result.id] ? (
                             <Image
                               src={result.university.logoUrl}
                               alt={result.university.nameAr}
@@ -409,7 +409,7 @@ export default function CalculatorClient({
                               onError={() =>
                                 setLogoErrors((prev) => ({
                                   ...prev,
-                                  [result.university.nameEn]: true,
+                                  [result.id]: true,
                                 }))
                               }
                             />
