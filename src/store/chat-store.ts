@@ -137,6 +137,7 @@ export function useHydrateStore() {
       /* noop */
     }
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHydrated(true);
   }, [setNationality, _setFavorites]);
 

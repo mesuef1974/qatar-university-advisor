@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Legacy code (Vite/React era) — not part of the active Next.js app
+    "src-legacy/**",
+    "api-legacy/**",
+    // Generated coverage reports — not source code
+    "coverage/**",
   ]),
 ]);
 
