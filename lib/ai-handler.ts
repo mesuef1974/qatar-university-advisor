@@ -245,11 +245,12 @@ function parseAIResponse(aiText: string): AIResponse {
 
 // ────────────────────────────────────────────────────────────────────────────
 // Main export — أولوية: Gemini (مجاني) ← Claude (احتياطي مدفوع) ← null
-// مع Retry تلقائي مرتين + Timeout لكل مزود
+// Timeout مضبوط على 4 ثوانٍ لكل محاولة بمحاولة واحدة فقط لكل مزود
+// بما يضمن عدم تجاوز حد Vercel البالغ 10 ثوانٍ
 // ────────────────────────────────────────────────────────────────────────────
 async function getAIResponse(userMessage: string, conversationHistory: ConversationMessage[] = [], dbContext?: string): Promise<AIResponse | null> {
-  const MAX_RETRIES: number = 2;
-  const TIMEOUT_MS: number  = 8000;
+  const MAX_RETRIES: number = 1;
+  const TIMEOUT_MS: number  = 4000;
 
   // ── المزود الأول: Gemini (مجاني) ──────────────────────────────────────────
   if (process.env.GEMINI_API_KEY) {
@@ -270,10 +271,6 @@ async function getAIResponse(userMessage: string, conversationHistory: Conversat
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : String(err);
         console.warn(`[AI] Gemini attempt ${attempt} failed: ${message}`);
-      }
-
-      if (attempt < MAX_RETRIES) {
-        await new Promise<void>((r) => setTimeout(r, 500 * attempt));
       }
     }
     console.warn('[AI] Gemini failed — falling back to Claude if available');
@@ -298,10 +295,6 @@ async function getAIResponse(userMessage: string, conversationHistory: Conversat
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : String(err);
         console.warn(`[AI] Claude attempt ${attempt} failed: ${message}`);
-      }
-
-      if (attempt < MAX_RETRIES) {
-        await new Promise<void>((r) => setTimeout(r, 500 * attempt));
       }
     }
     console.error('[AI] All Claude attempts failed');

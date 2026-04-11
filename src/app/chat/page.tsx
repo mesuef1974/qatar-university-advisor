@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import ChatView from "@/components/chat/ChatView";
+import { ChatErrorBoundary } from "@/components/chat/ChatErrorBoundary";
 import { useChatStore, useHydrateStore, createUserMessage, createBotMessage } from "@/store/chat-store";
 import { useCallback } from "react";
 
@@ -69,7 +70,9 @@ function ChatPageInner() {
           <Sidebar onSendMessage={handleSidebarMessage} />
           {/* Main content — takes remaining space */}
           <div className="flex-1 overflow-y-auto min-h-0">
-            <ChatView initialQuery={initialQuery || undefined} />
+            <ChatErrorBoundary>
+              <ChatView initialQuery={initialQuery || undefined} />
+            </ChatErrorBoundary>
           </div>
 
           {/* Legal footer — always at bottom */}

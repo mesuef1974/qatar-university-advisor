@@ -9,10 +9,50 @@ import crypto from "crypto";
 import { processMessage } from "@lib/findResponse";
 import { sendResponseWithSuggestions, markAsRead } from "@lib/whatsapp";
 import { isRateLimited } from "@lib/rate-limiter-upstash";
+import { Redis } from "@upstash/redis";
 
-// Dedup to avoid processing duplicate webhooks
-const processed = new Set<string>();
-const MAX_PROCESSED = 1000;
+// ── Persistent dedup via Upstash Redis (TTL = 5 minutes) ──────────────────
+// Falls back to an in-memory Set when Upstash is not configured (local dev).
+const DEDUP_TTL_SECONDS = 300;
+
+let _redis: Redis | null = null;
+function getRedis(): Redis | null {
+  if (
+    !process.env.UPSTASH_REDIS_REST_URL ||
+    !process.env.UPSTASH_REDIS_REST_TOKEN
+  ) {
+    return null;
+  }
+  if (!_redis) {
+    _redis = Redis.fromEnv();
+  }
+  return _redis;
+}
+
+// Fallback in-memory dedup (used only when Upstash is not configured)
+const _localProcessed = new Set<string>();
+const LOCAL_MAX = 1000;
+
+async function isDuplicate(messageId: string): Promise<boolean> {
+  const redis = getRedis();
+  if (redis) {
+    // SET NX PX — atomic: returns 1 if key was newly set, null if already exists
+    const result = await redis
+      .set(`wh:dedup:${messageId}`, "1", { nx: true, ex: DEDUP_TTL_SECONDS })
+      .catch(() => null);
+    // null means key already existed → duplicate
+    return result === null;
+  }
+
+  // In-memory fallback
+  if (_localProcessed.has(messageId)) return true;
+  _localProcessed.add(messageId);
+  if (_localProcessed.size > LOCAL_MAX) {
+    const first = _localProcessed.values().next().value;
+    if (first) _localProcessed.delete(first);
+  }
+  return false;
+}
 
 function maskPhone(phone: string): string {
   if (!phone || phone.length < 4) return "***";
@@ -100,14 +140,9 @@ export async function POST(request: NextRequest) {
   const message = entry.messages[0];
   const from = message.from;
 
-  // Dedup check
-  if (processed.has(message.id)) {
+  // Persistent dedup check (Upstash Redis → in-memory fallback)
+  if (await isDuplicate(message.id).catch(() => false)) {
     return new NextResponse("OK", { status: 200 });
-  }
-  processed.add(message.id);
-  if (processed.size > MAX_PROCESSED) {
-    const first = processed.values().next().value;
-    if (first) processed.delete(first);
   }
 
   try {
