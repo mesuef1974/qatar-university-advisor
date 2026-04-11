@@ -16,7 +16,7 @@ import { getAIResponse } from './ai-handler';
 import { sanitizeInput, getInjectionResponse } from './sanitizer';
 import { addNationalityContext } from './nationality-advisor.js';
 import { getFromKnowledgeBase, saveToKnowledgeCache, semanticSearch } from './knowledge-base.js';
-import { fetchDbContext } from './db-context.js';
+import { fetchDbContext } from './db-context';
 import { STAGES, getNextStage, getStagePrompt, generateFinalReport, isConversationComplete } from './conversation-state.js';
 import {
   buildUserProfile,
