@@ -6,7 +6,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
-import { processMessage } from "@lib/findResponse.js";
+import { processMessage } from "@lib/findResponse";
 import { sendResponseWithSuggestions, markAsRead } from "@lib/whatsapp";
 import { isRateLimited } from "@lib/rate-limiter-upstash";
 
