@@ -8,33 +8,11 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { processMessage } from "@lib/findResponse.js";
 import { sendResponseWithSuggestions, markAsRead } from "@lib/whatsapp";
+import { isRateLimited } from "@lib/rate-limiter-upstash";
 
 // Dedup to avoid processing duplicate webhooks
 const processed = new Set<string>();
 const MAX_PROCESSED = 1000;
-
-// Rate limiting
-const rateLimitMap = new Map<string, { count: number; windowStart: number }>();
-const RL_WINDOW_MS = 60_000;
-const RL_MAX_REQS = 60;
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const record = rateLimitMap.get(ip);
-
-  if (!record || now - record.windowStart > RL_WINDOW_MS) {
-    rateLimitMap.set(ip, { count: 1, windowStart: now });
-    if (rateLimitMap.size > 10_000) {
-      for (const [k, v] of rateLimitMap) {
-        if (now - v.windowStart > RL_WINDOW_MS) rateLimitMap.delete(k);
-      }
-    }
-    return false;
-  }
-
-  record.count += 1;
-  return record.count > RL_MAX_REQS;
-}
 
 function maskPhone(phone: string): string {
   if (!phone || phone.length < 4) return "***";
@@ -86,7 +64,7 @@ export async function POST(request: NextRequest) {
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0].trim() || "unknown";
 
-  if (isRateLimited(ip)) {
+  if (await isRateLimited("webhook", ip)) {
     return new NextResponse("Too Many Requests", { status: 429 });
   }
 
