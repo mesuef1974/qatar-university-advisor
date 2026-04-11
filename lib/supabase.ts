@@ -375,7 +375,7 @@ async function getTopQueries(limit: number = 20): Promise<QueryCount[]> {
       .from('analytics')
       .select('matched_key')
       .not('matched_key', 'is', null)
-      .order('id', { ascending: false })
+      .order('created_at', { ascending: false })
       .limit(10_000);
 
     if (!data) return [];

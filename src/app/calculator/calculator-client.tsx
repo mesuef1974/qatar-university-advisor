@@ -13,7 +13,6 @@ import { Badge } from "@/components/ui/badge";
 import {
   ArrowRight,
   Calculator,
-  GraduationCap,
   Building2,
   TrendingUp,
   TrendingDown,
@@ -60,8 +59,10 @@ function extractMinGPA(
   // Structured qatari/nonQatari sub-objects
   if (nationality === "qatari" && req.qatari && typeof req.qatari === "object") {
     const qObj = req.qatari as Record<string, unknown>;
-    // Try track-specific GPA first, then fall back to commercialTrack (for technological), then general minGPA
-    const trackSection = qObj[trackKey] ?? qObj["commercialTrack"];
+    // Try track-specific GPA first; only use commercialTrack as an alias for technological
+    const trackSection =
+      qObj[trackKey] ??
+      (track === "technological" ? qObj["commercialTrack"] : undefined);
     if (trackSection && typeof trackSection === "object") {
       const ts = trackSection as Record<string, unknown>;
       if (typeof ts.minGPA === "number") return ts.minGPA;
@@ -335,7 +336,16 @@ export default function CalculatorClient({
         {/* No GPA entered */}
         {(!gpa || isNaN(gpa)) && (
           <div className="text-center py-16">
-            <GraduationCap className="h-12 w-12 text-muted-foreground/30 mx-auto mb-4" />
+            <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <Image
+                src="/logo-192.png"
+                alt="المستشار الجامعي القطري"
+                width={64}
+                height={64}
+                unoptimized
+                className="object-contain opacity-30"
+              />
+            </div>
             <h2 className="text-lg font-bold mb-2">ادخل معدلك التراكمي</h2>
             <p className="text-muted-foreground text-sm">
               ادخل معدلك في الخانة اعلاه لعرض الجامعات المتاحة لك

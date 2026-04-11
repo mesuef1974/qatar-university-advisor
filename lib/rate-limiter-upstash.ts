@@ -12,6 +12,7 @@
 
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
+import { logger } from './logger.js';
 
 type LimiterType = 'chat' | 'webhook';
 
@@ -71,7 +72,7 @@ export async function isRateLimited(
   } catch {
     // If Upstash is temporarily unreachable, fail open to avoid blocking
     // legitimate traffic. Log to aid debugging.
-    console.warn(`[rate-limiter] Upstash check failed for ${type} — failing open`);
+    logger.warn('[rate-limiter] Upstash check failed — failing open', { type, identifier });
     return false;
   }
 }
