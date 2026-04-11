@@ -54,5 +54,5 @@ jobs:
         run: |
           npm run build
           echo "=== Bundle Sizes ==="
-          find dist -name "*.js" -exec ls -lh {} \; | sort -k5 -rh | head -20
-          find dist -name "*.css" -exec ls -lh {} \;
+          find .next/static -name "*.js" -exec ls -lh {} \; | sort -k5 -rh | head -20
+          find .next/static -name "*.css" -exec ls -lh {} \;
