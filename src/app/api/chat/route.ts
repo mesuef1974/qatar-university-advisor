@@ -3,15 +3,17 @@
  * POST /api/chat
  * Body: { question: string, nationality?: string }
  * Response: { answer: string, suggestions: string[], source: string }
+ *
+ * Pipeline: identical to the WhatsApp webhook handler — both channels now
+ * go through processMessage() which handles knowledge-cache lookup,
+ * semantic search, keyword matching, DB context, and Gemini AI fallback.
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getAIResponseWithFallback } from "@lib/ai-fallback.js";
 import { sanitizeInput, getInjectionResponse } from "@lib/sanitizer";
 import { logger } from "@lib/logger.js";
-import { parseQuery, searchUniversities, formatSmartResponse } from "@lib/smart-search";
 import { isRateLimited } from "@lib/rate-limiter-upstash";
-import universitiesData from "../../../../data/universities.json";
+import { processMessage } from "@lib/findResponse";
 
 export async function POST(request: NextRequest) {
   // Rate limiting — distributed via Upstash Redis (falls back to open if unconfigured)
@@ -58,57 +60,23 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Build user profile context for AI
-    const userProfile: Record<string, string> = {};
-    if (nationality === "qatari" || nationality === "non_qatari") {
-      userProfile.nationality = nationality;
-    }
+    // Validate nationality before passing to processMessage
+    const validNationality =
+      nationality === "qatari" || nationality === "non_qatari"
+        ? nationality
+        : undefined;
 
-    // ── Smart Search: محاولة الرد من البيانات المحلية أولاً ──
-    try {
-      const query = parseQuery(sanitized);
-      if (nationality === "qatari" || nationality === "non_qatari") {
-        query.nationality = nationality;
-      }
-      const universities = universitiesData.universities as Record<string, Record<string, unknown>>;
-      const searchResults = searchUniversities(query, universities);
+    // Unified pipeline: same as WhatsApp webhook — knowledge cache → semantic
+    // search → keyword matching → DB context → Gemini AI fallback.
+    // phone=null skips user-tracking (no Supabase user row for web sessions).
+    const response = await processMessage(sanitized, null, validNationality);
 
-      // إذا وُجدت نتائج عالية الجودة (score > 70 للأولى أو > 40 مع نية واضحة)
-      const topScore = searchResults.length > 0 ? searchResults[0].matchScore : 0;
-      const hasStrongMatch =
-        topScore > 70 ||
-        (topScore > 40 && query.intent !== "find_university") ||
-        (query.intent === 'check_admission' && query.gpa !== null && query.gpa !== undefined);
-
-      if (hasStrongMatch && searchResults.length > 0) {
-        const smartResponse = formatSmartResponse(query, searchResults);
-        if (smartResponse) {
-          logger.info(`[chat-api] Smart search hit — score: ${topScore}, intent: ${query.intent}`);
-          return NextResponse.json({
-            answer: smartResponse.text,
-            suggestions: smartResponse.suggestions,
-            source: "smart_search",
-          });
-        }
-      }
-    } catch (searchErr: unknown) {
-      const searchMsg = searchErr instanceof Error ? searchErr.message : "Unknown";
-      logger.warn(`[chat-api] Smart search failed, falling back to AI: ${searchMsg}`);
-    }
-
-    // ── AI Fallback: Gemini أو الردود الثابتة ──
-    const result = await getAIResponseWithFallback(
-      sanitized,
-      userProfile,
-      []
-    );
-
-    logger.info(`[chat-api] Response source: ${result.fallbackLevel}`);
+    logger.info("[chat-api] Response delivered via unified pipeline");
 
     return NextResponse.json({
-      answer: result.text,
-      suggestions: result.suggestions || [],
-      source: result.fallbackLevel,
+      answer: response.text,
+      suggestions: response.suggestions || [],
+      source: "advisor",
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";

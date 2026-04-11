@@ -245,27 +245,45 @@ $$ LANGUAGE plpgsql;
 -- ─────────────────────────────────────────
 -- 14. Row Level Security (RLS) — أمان البيانات
 -- ─────────────────────────────────────────
+-- SECURITY (DEC-SEC-002 / Migration 003):
+-- PII tables have RLS enabled with NO policies → deny by default for anon.
+-- The backend uses SUPABASE_SERVICE_ROLE_KEY which bypasses RLS entirely.
+-- Reference tables have scoped SELECT-only policies for anon.
 ALTER TABLE users               ENABLE ROW LEVEL SECURITY;
 ALTER TABLE conversations       ENABLE ROW LEVEL SECURITY;
 ALTER TABLE knowledge_cache     ENABLE ROW LEVEL SECURITY;
 ALTER TABLE analytics           ENABLE ROW LEVEL SECURITY;
 ALTER TABLE favorites           ENABLE ROW LEVEL SECURITY;
 
--- السماح بالقراءة والكتابة عبر service role فقط (Vercel backend)
--- الـ anon key يقرأ فقط من الجداول العامة
-CREATE POLICY "service_role_all" ON users            FOR ALL USING (TRUE);
-CREATE POLICY "service_role_all" ON conversations    FOR ALL USING (TRUE);
-CREATE POLICY "service_role_all" ON knowledge_cache  FOR ALL USING (TRUE);
-CREATE POLICY "service_role_all" ON analytics        FOR ALL USING (TRUE);
-CREATE POLICY "service_role_all" ON favorites        FOR ALL USING (TRUE);
+-- PII جداول — لا يوجد policy للـ anon → رفض افتراضي (PDPPL §5.3)
+-- الوصول فقط عبر SUPABASE_SERVICE_ROLE_KEY في الـ backend
+REVOKE ALL ON users           FROM anon, authenticated;
+REVOKE ALL ON conversations   FROM anon, authenticated;
+REVOKE ALL ON knowledge_cache FROM anon, authenticated;
+REVOKE ALL ON analytics       FROM anon, authenticated;
+REVOKE ALL ON favorites       FROM anon, authenticated;
 
--- الجداول العامة (بيانات الجامعات) — قراءة للجميع
-CREATE POLICY "public_read" ON universities           FOR SELECT USING (TRUE);
-CREATE POLICY "public_read" ON programs               FOR SELECT USING (TRUE);
-CREATE POLICY "public_read" ON admission_requirements FOR SELECT USING (TRUE);
-CREATE POLICY "public_read" ON tuition_fees           FOR SELECT USING (TRUE);
-CREATE POLICY "public_read" ON scholarships           FOR SELECT USING (TRUE);
-CREATE POLICY "public_read" ON salary_data            FOR SELECT USING (TRUE);
+-- الجداول العامة — SELECT فقط للصفوف النشطة
+CREATE POLICY "public_read_active_universities" ON universities
+  FOR SELECT TO anon, authenticated USING (is_active = TRUE);
+CREATE POLICY "public_read_active_programs" ON programs
+  FOR SELECT TO anon, authenticated USING (is_active = TRUE);
+CREATE POLICY "public_read_admission_requirements" ON admission_requirements
+  FOR SELECT TO anon, authenticated USING (TRUE);
+CREATE POLICY "public_read_tuition_fees" ON tuition_fees
+  FOR SELECT TO anon, authenticated USING (TRUE);
+CREATE POLICY "public_read_active_scholarships" ON scholarships
+  FOR SELECT TO anon, authenticated USING (is_active = TRUE);
+CREATE POLICY "public_read_salary_data" ON salary_data
+  FOR SELECT TO anon, authenticated USING (TRUE);
+
+-- منح الحد الأدنى من الصلاحيات لجداول المرجعية العامة
+GRANT SELECT ON universities            TO anon, authenticated;
+GRANT SELECT ON programs                TO anon, authenticated;
+GRANT SELECT ON admission_requirements  TO anon, authenticated;
+GRANT SELECT ON tuition_fees            TO anon, authenticated;
+GRANT SELECT ON scholarships            TO anon, authenticated;
+GRANT SELECT ON salary_data             TO anon, authenticated;
 
 -- ─────────────────────────────────────────
 -- 15. موافقات المستخدمين (PDPPL Article 7)
@@ -291,7 +309,8 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_consents_active
 CREATE INDEX IF NOT EXISTS idx_consents_phone ON user_consents(phone);
 
 ALTER TABLE user_consents ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "service_role_all" ON user_consents FOR ALL USING (TRUE);
+-- PII — لا policy للـ anon → رفض افتراضي (DEC-SEC-002)
+REVOKE ALL ON user_consents FROM anon, authenticated;
 
 -- ─────────────────────────────────────────
 -- 16. فهارس إضافية على الجداول الأكاديمية

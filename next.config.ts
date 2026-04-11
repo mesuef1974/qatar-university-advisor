@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Security headers
+  // Security headers applied to every route.
+  // Content-Security-Policy is intentionally absent here — it is generated
+  // per-request with a unique nonce in src/middleware.ts so that 'unsafe-inline'
+  // can be removed from script-src and replaced with 'nonce-<random>'.
   async headers() {
     return [
       {
@@ -13,11 +16,6 @@ const nextConfig: NextConfig = {
           {
             key: "Referrer-Policy",
             value: "strict-origin-when-cross-origin",
-          },
-          {
-            key: "Content-Security-Policy",
-            value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://generativelanguage.googleapis.com https://graph.facebook.com https://*.upstash.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
           },
           {
             key: "Permissions-Policy",

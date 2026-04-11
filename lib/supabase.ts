@@ -363,14 +363,26 @@ async function logQuery(query: string, matchedKey: string | null, source: string
 /**
  * Get top queries (for admin dashboard)
  *
- * Fetches at most 10_000 recent rows from `analytics` to avoid loading the
- * entire table into memory, then aggregates counts in JavaScript. For larger
- * datasets a dedicated Postgres view / RPC function should be used instead.
+ * Uses the `get_top_queries` Postgres RPC (migration 004) which runs a
+ * GROUP BY aggregation server-side. Falls back to in-memory counting if the
+ * RPC is not yet available (e.g., migration not yet applied on a staging DB).
  */
 async function getTopQueries(limit: number = 20): Promise<QueryCount[]> {
   if (!supabase) return [];
 
   try {
+    // Preferred: server-side GROUP BY via RPC (migration 004)
+    const { data: rpcData, error: rpcError } = await supabase
+      .rpc('get_top_queries', { limit_count: limit });
+
+    if (!rpcError && rpcData) {
+      return (rpcData as Array<{ key: string; count: number }>).map((row) => ({
+        key: String(row.key),
+        count: Number(row.count),
+      }));
+    }
+
+    // Fallback: in-memory aggregation (works before migration 004 is applied)
     const { data } = await supabase
       .from('analytics')
       .select('matched_key')
@@ -380,7 +392,6 @@ async function getTopQueries(limit: number = 20): Promise<QueryCount[]> {
 
     if (!data) return [];
 
-    // Count occurrences
     const counts: Record<string, number> = {};
     (data as Array<{ matched_key: string }>).forEach((row) => {
       counts[row.matched_key] = (counts[row.matched_key] || 0) + 1;

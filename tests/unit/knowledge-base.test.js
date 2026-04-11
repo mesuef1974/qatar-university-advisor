@@ -46,7 +46,8 @@ import {
 
 beforeEach(() => {
   vi.clearAllMocks();
-  process.env.GOOGLE_API_KEY = 'test-key';
+  process.env.GEMINI_API_KEY = 'test-key';
+  delete process.env.GOOGLE_API_KEY;
 });
 
 // ══════════════════════════════════════════════════════
@@ -130,21 +131,22 @@ describe('getFromKnowledgeBase — البحث الرئيسي', () => {
 
 // ══════════════════════════════════════════════════════
 describe('generateEmbedding — توليد Embedding', () => {
-  it('يُرجع null عند عدم وجود GOOGLE_API_KEY', async () => {
+  it('يُرجع null عند عدم وجود أي مفتاح API', async () => {
+    delete process.env.GEMINI_API_KEY;
     delete process.env.GOOGLE_API_KEY;
     const result = await generateEmbedding('اختبار');
     expect(result).toBeNull();
   });
 
   it('يُرجع null عند فشل الـ API', async () => {
-    process.env.GOOGLE_API_KEY = 'test-key';
+    process.env.GEMINI_API_KEY = 'test-key';
     mockFetch.mockResolvedValueOnce({ ok: false });
     const result = await generateEmbedding('اختبار');
     expect(result).toBeNull();
   });
 
   it('يُرجع المتجه عند نجاح الـ API', async () => {
-    process.env.GOOGLE_API_KEY = 'test-key';
+    process.env.GEMINI_API_KEY = 'test-key';
     const fakeVector = [0.1, 0.2, 0.3];
     mockFetch.mockResolvedValueOnce({
       ok: true,

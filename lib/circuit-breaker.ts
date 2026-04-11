@@ -57,6 +57,18 @@ const CONFIG: CircuitBreakerOptions = {
   logPrefix:         '[CircuitBreaker]',
 };
 
+// NOTE (QA-PERF-002 / Serverless limitation):
+// This circuit breaker stores state in process memory. In a Vercel Serverless
+// environment, each invocation may be a separate process instance, meaning the
+// failure count is NOT shared across concurrent instances. As a result, the
+// breaker opens independently per instance rather than at a cluster level.
+//
+// For true distributed circuit breaking, the state (failureCount, openedAt,
+// state) should be persisted in Upstash Redis. This is a known limitation;
+// the current implementation still provides per-instance protection and
+// prevents cascading failures within a single warm instance.
+// Track as: QA-PERF-002 "Move CircuitBreaker state to Upstash Redis"
+
 // ══════════════════════════════════════════
 // Q-15-03: Alerting — SWOT recommendation
 // ══════════════════════════════════════════
