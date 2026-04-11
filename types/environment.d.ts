@@ -12,6 +12,8 @@ declare namespace NodeJS {
 
     // Gemini AI
     GEMINI_API_KEY:              string;
+    /** @deprecated Use GEMINI_API_KEY instead. Accepted as a fallback alias. */
+    GOOGLE_API_KEY?:             string;
 
     // WhatsApp
     WHATSAPP_TOKEN:              string;

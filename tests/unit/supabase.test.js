@@ -20,7 +20,8 @@ vi.mock('../../lib/circuit-breaker.js', () => ({
 
 // Mock @supabase/supabase-js
 const mockFrom = vi.fn();
-const mockSupabaseClient = { from: mockFrom };
+const mockRpc = vi.fn();
+const mockSupabaseClient = { from: mockFrom, rpc: mockRpc };
 
 vi.mock('@supabase/supabase-js', () => ({
   createClient: vi.fn(() => mockSupabaseClient),
@@ -260,7 +261,28 @@ describe('Supabase Client', () => {
   // getTopQueries
   // ═══════════════════════════════════════
   describe('getTopQueries()', () => {
-    it('should return sorted query counts', async () => {
+    it('يستخدم RPC ويُرجع النتائج مرتبة', async () => {
+      // RPC succeeds → return server-side aggregated data
+      mockRpc.mockResolvedValue({
+        data: [
+          { key: 'qu',  count: 3 },
+          { key: 'wcm', count: 2 },
+          { key: 'cmu', count: 1 },
+        ],
+        error: null,
+      });
+
+      const result = await supabaseModule.getTopQueries(3);
+      expect(result[0]).toEqual({ key: 'qu',  count: 3 });
+      expect(result[1]).toEqual({ key: 'wcm', count: 2 });
+      expect(result).toHaveLength(3);
+      expect(mockRpc).toHaveBeenCalledWith('get_top_queries', { limit_count: 3 });
+    });
+
+    it('يتراجع للتجميع في JS عند فشل RPC', async () => {
+      // RPC fails (e.g., migration 004 not yet applied) → JS fallback
+      mockRpc.mockResolvedValue({ data: null, error: { message: 'function does not exist' } });
+
       const mockData = [
         { matched_key: 'qu' },
         { matched_key: 'qu' },
@@ -269,15 +291,14 @@ describe('Supabase Client', () => {
         { matched_key: 'wcm' },
         { matched_key: 'cmu' },
       ];
-      // Chain: .from().select().not().order().limit()
       const mockLimit = vi.fn().mockResolvedValue({ data: mockData });
       const mockOrder = vi.fn().mockReturnValue({ limit: mockLimit });
-      const mockNot = vi.fn().mockReturnValue({ order: mockOrder });
+      const mockNot   = vi.fn().mockReturnValue({ order: mockOrder });
       const mockSelect = vi.fn().mockReturnValue({ not: mockNot });
       mockFrom.mockReturnValue({ select: mockSelect });
 
       const result = await supabaseModule.getTopQueries(3);
-      expect(result[0]).toEqual({ key: 'qu', count: 3 });
+      expect(result[0]).toEqual({ key: 'qu',  count: 3 });
       expect(result[1]).toEqual({ key: 'wcm', count: 2 });
       expect(result).toHaveLength(3);
     });

@@ -52,20 +52,26 @@ export async function GET(request: NextRequest) {
     if (err1) {
       results.errors.push(`Query deletion_requested: ${err1.message}`);
     } else if (requestedDeletion && requestedDeletion.length > 0) {
-      for (const user of requestedDeletion) {
-        await supabase.from("conversations").delete().eq("user_id", user.id);
-        await supabase.from("favorites").delete().eq("user_id", user.id);
+      const userIds = requestedDeletion.map((u) => u.id);
 
-        const { error: delErr } = await supabase
-          .from("users")
-          .delete()
-          .eq("id", user.id);
+      // Batch delete conversations and favorites before deleting users
+      const [convErr, favErr] = await Promise.all([
+        supabase.from("conversations").delete().in("user_id", userIds).then(({ error }) => error),
+        supabase.from("favorites").delete().in("user_id", userIds).then(({ error }) => error),
+      ]);
+      if (convErr) results.errors.push(`Batch delete conversations: ${convErr.message}`);
+      if (favErr)  results.errors.push(`Batch delete favorites: ${favErr.message}`);
 
-        if (delErr) {
-          results.errors.push(`Delete user ${user.id}: ${delErr.message}`);
-        } else {
-          results.deleted++;
-        }
+      // Batch delete users
+      const { error: delErr } = await supabase
+        .from("users")
+        .delete()
+        .in("id", userIds);
+
+      if (delErr) {
+        results.errors.push(`Batch delete users: ${delErr.message}`);
+      } else {
+        results.deleted += userIds.length;
       }
     }
 
@@ -79,6 +85,10 @@ export async function GET(request: NextRequest) {
     if (err2) {
       results.errors.push(`Query expired: ${err2.message}`);
     } else if (expiredUsers && expiredUsers.length > 0) {
+      const anonTimestamp = new Date().toISOString();
+      const successfullyAnonIds: string[] = [];
+
+      // Each anonymized user needs a unique random phone — updates run individually
       for (const user of expiredUsers) {
         const { error: anonErr } = await supabase
           .from("users")
@@ -94,22 +104,24 @@ export async function GET(request: NextRequest) {
             consent_given: false,
             consent_date: null,
             deletion_requested: true,
-            deletion_requested_at: new Date().toISOString(),
+            deletion_requested_at: anonTimestamp,
           })
           .eq("id", user.id);
 
         if (anonErr) {
-          results.errors.push(
-            `Anonymize user ${user.id}: ${anonErr.message}`
-          );
+          results.errors.push(`Anonymize user ${user.id}: ${anonErr.message}`);
         } else {
+          successfullyAnonIds.push(user.id);
           results.anonymized++;
-          await supabase
-            .from("conversations")
-            .delete()
-            .eq("user_id", user.id);
-          await supabase.from("favorites").delete().eq("user_id", user.id);
         }
+      }
+
+      // Batch delete conversations and favorites for all anonymized users
+      if (successfullyAnonIds.length > 0) {
+        await Promise.all([
+          supabase.from("conversations").delete().in("user_id", successfullyAnonIds),
+          supabase.from("favorites").delete().in("user_id", successfullyAnonIds),
+        ]);
       }
     }
 

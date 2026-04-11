@@ -16,10 +16,12 @@ globalThis.fetch = mockFetch;
 describe('Semantic Search — generateEmbedding', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.stubEnv('GOOGLE_API_KEY', 'test-key');
+    vi.stubEnv('GEMINI_API_KEY', 'test-key');
+    vi.stubEnv('GOOGLE_API_KEY', '');
   });
 
-  it('يُرجع null عند غياب GOOGLE_API_KEY', async () => {
+  it('يُرجع null عند غياب كلا المفتاحين GEMINI_API_KEY و GOOGLE_API_KEY', async () => {
+    vi.stubEnv('GEMINI_API_KEY', '');
     vi.stubEnv('GOOGLE_API_KEY', '');
     const { generateEmbedding } = await import('../../lib/semantic-search.js');
     const result = await generateEmbedding('نص تجريبي');
