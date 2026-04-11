@@ -28,7 +28,7 @@ interface CalculatorClientProps {
 }
 
 type Nationality = "qatari" | "non_qatari";
-type Track = "scientific" | "literary" | "commercial";
+type Track = "scientific" | "literary" | "technological";
 type MatchLevel = "excellent" | "good" | "possible" | "unlikely";
 
 interface CalculatorResult {
@@ -40,37 +40,58 @@ interface CalculatorResult {
   minGPA: number | null;
 }
 
+const TRACK_DATA_KEY: Record<Track, string> = {
+  scientific: "scientificTrack",
+  literary: "literaryTrack",
+  technological: "technologicalTrack",
+};
+
 // Extract a numeric GPA from various data shapes
 function extractMinGPA(
   uni: University,
-  nationality: Nationality
+  nationality: Nationality,
+  track: Track
 ): number | null {
   const req = uni.admissionRequirements;
   if (!req) return null;
 
+  const trackKey = TRACK_DATA_KEY[track];
+
   // Structured qatari/nonQatari sub-objects
-  if (nationality === "qatari" && req.qatari?.minGPA) {
-    return req.qatari.minGPA;
-  }
-  if (nationality === "non_qatari" && req.nonQatari?.minGPA) {
-    return req.nonQatari.minGPA;
-  }
-
-  // Fallback: try qatari even for non_qatari if nonQatari is missing
-  if (nationality === "non_qatari" && req.qatari?.minGPA) {
-    return req.qatari.minGPA;
-  }
-
-  // String-based gpa field — extract first number
-  const raw = req as Record<string, unknown>;
-  if (nationality === "qatari" && raw.qatari && typeof raw.qatari === "object") {
-    const qObj = raw.qatari as Record<string, unknown>;
+  if (nationality === "qatari" && req.qatari && typeof req.qatari === "object") {
+    const qObj = req.qatari as Record<string, unknown>;
+    // Try track-specific GPA first, then fall back to commercialTrack (for technological), then general minGPA
+    const trackSection = qObj[trackKey] ?? qObj["commercialTrack"];
+    if (trackSection && typeof trackSection === "object") {
+      const ts = trackSection as Record<string, unknown>;
+      if (typeof ts.minGPA === "number") return ts.minGPA;
+      if (typeof ts.minGPA === "string") {
+        const m = ts.minGPA.match(/(\d+)/);
+        if (m) return parseInt(m[1], 10);
+      }
+    }
+    if (typeof qObj.minGPA === "number") return qObj.minGPA;
     if (typeof qObj.minGPA === "string") {
       const m = qObj.minGPA.match(/(\d+)/);
       if (m) return parseInt(m[1], 10);
     }
   }
 
+  if (nationality === "non_qatari") {
+    if (req.nonQatari && typeof req.nonQatari === "object") {
+      const nqObj = req.nonQatari as Record<string, unknown>;
+      if (typeof nqObj.minGPA === "number") return nqObj.minGPA;
+      if (typeof nqObj.minGPA === "string") {
+        const m = nqObj.minGPA.match(/(\d+)/);
+        if (m) return parseInt(m[1], 10);
+      }
+    }
+    // Fallback: use qatari GPA for non_qatari if nonQatari section is missing
+    if (req.qatari?.minGPA) return req.qatari.minGPA;
+  }
+
+  // String-based gpa field — extract first number
+  const raw = req as Record<string, unknown>;
   if (typeof raw.gpa === "string") {
     const m = (raw.gpa as string).match(/(\d+)/);
     if (m) return parseInt(m[1], 10);
@@ -153,7 +174,7 @@ const NATIONALITY_OPTIONS: { value: Nationality; label: string }[] = [
 const TRACK_OPTIONS: { value: Track; label: string }[] = [
   { value: "scientific", label: "علمي" },
   { value: "literary", label: "ادبي" },
-  { value: "commercial", label: "تجاري" },
+  { value: "technological", label: "تكنولوجي" },
 ];
 
 export default function CalculatorClient({
@@ -171,7 +192,7 @@ export default function CalculatorClient({
     const items: CalculatorResult[] = [];
 
     for (const [id, uni] of universities) {
-      const minGPA = extractMinGPA(uni, nationality);
+      const minGPA = extractMinGPA(uni, nationality, track);
 
       if (minGPA === null) {
         // Show university without scoring
