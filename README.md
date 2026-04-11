@@ -129,7 +129,8 @@ npm run build
 | `WHATSAPP_PHONE_ID` | معرف رقم الهاتف من Facebook Developers → تطبيقك → WhatsApp → API Setup | نعم |
 | `WEBHOOK_VERIFY_TOKEN` | نص سري تختاره بنفسك، يُستخدم مرة واحدة عند ربط الـ Webhook | نعم |
 | `WEBHOOK_APP_SECRET` | App Secret من Facebook Developers → App Settings → Basic | نعم (الإنتاج) |
-| `GEMINI_API_KEY` | مفتاح Google Gemini AI من [aistudio.google.com](https://aistudio.google.com/app/apikey) | لا (اختياري) |
+| `GEMINI_API_KEY` | مفتاح Google Gemini AI (مجاني) من [aistudio.google.com](https://aistudio.google.com/app/apikey) — **الأولوية الأولى** | لا (موصى به) |
+| `ANTHROPIC_API_KEY` | مفتاح Claude AI (مدفوع) من [console.anthropic.com](https://console.anthropic.com/settings/keys) — احتياطي إذا فشل Gemini | لا (اختياري) |
 
 > **تنبيه:** لا ترفع `.env.local` إلى Git. تأكد أنه مدرج في `.gitignore`.
 >
