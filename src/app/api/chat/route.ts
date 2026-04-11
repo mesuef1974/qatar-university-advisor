@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Build user profile context for Claude
+    // Build user profile context for AI
     const userProfile: Record<string, string> = {};
     if (nationality === "qatari" || nationality === "non_qatari") {
       userProfile.nationality = nationality;
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
       logger.warn(`[chat-api] Smart search failed, falling back to AI: ${searchMsg}`);
     }
 
-    // ── AI Fallback: Claude أو الردود الثابتة ──
+    // ── AI Fallback: Gemini أو الردود الثابتة ──
     const result = await getAIResponseWithFallback(
       sanitized,
       userProfile,

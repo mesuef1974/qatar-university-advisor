@@ -134,7 +134,7 @@ export default function ChatBubble({ message }: ChatBubbleProps) {
           {message.time}
           {message.source && !isUser && (
             <span className="mr-2 opacity-50">
-              {message.source === "claude" && "AI"}
+              {message.source === "ai" && "AI"}
               {message.source === "knowledge_base" && "قاعدة المعرفة"}
               {message.source === "keyword" && "محلي"}
             </span>

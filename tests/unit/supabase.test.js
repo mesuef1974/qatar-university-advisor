@@ -28,7 +28,7 @@ vi.mock('@supabase/supabase-js', () => ({
 
 // Set env vars before import
 process.env.SUPABASE_URL = 'https://test.supabase.co';
-process.env.SUPABASE_ANON_KEY = 'test-anon-key';
+process.env.SUPABASE_SERVICE_ROLE_KEY = 'test-service-role-key';
 
 describe('Supabase Client', () => {
   let supabaseModule;
@@ -261,20 +261,20 @@ describe('Supabase Client', () => {
   // ═══════════════════════════════════════
   describe('getTopQueries()', () => {
     it('should return sorted query counts', async () => {
-      mockFrom.mockReturnValue({
-        select: vi.fn().mockReturnValue({
-          not: vi.fn().mockResolvedValue({
-            data: [
-              { matched_key: 'qu' },
-              { matched_key: 'qu' },
-              { matched_key: 'qu' },
-              { matched_key: 'wcm' },
-              { matched_key: 'wcm' },
-              { matched_key: 'cmu' },
-            ],
-          }),
-        }),
-      });
+      const mockData = [
+        { matched_key: 'qu' },
+        { matched_key: 'qu' },
+        { matched_key: 'qu' },
+        { matched_key: 'wcm' },
+        { matched_key: 'wcm' },
+        { matched_key: 'cmu' },
+      ];
+      // Chain: .from().select().not().order().limit()
+      const mockLimit = vi.fn().mockResolvedValue({ data: mockData });
+      const mockOrder = vi.fn().mockReturnValue({ limit: mockLimit });
+      const mockNot = vi.fn().mockReturnValue({ order: mockOrder });
+      const mockSelect = vi.fn().mockReturnValue({ not: mockNot });
+      mockFrom.mockReturnValue({ select: mockSelect });
 
       const result = await supabaseModule.getTopQueries(3);
       expect(result[0]).toEqual({ key: 'qu', count: 3 });

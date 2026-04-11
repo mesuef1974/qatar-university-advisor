@@ -7,8 +7,16 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { getStats, getTopQueries } from "@lib/supabase";
 import { getCircuitStatus } from "@lib/circuit-breaker";
+import { isRateLimited } from "@lib/rate-limiter-upstash";
 
 export async function GET(request: NextRequest) {
+  // Rate limiting — 10 req/min per IP to defend against brute-force
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0].trim() || "unknown";
+  if (await isRateLimited("chat", ip)) {
+    return NextResponse.json({ error: "Too Many Requests" }, { status: 429 });
+  }
+
   // CORS
   const allowedOrigin =
     process.env.ADMIN_ORIGIN ||
@@ -68,7 +76,7 @@ export async function GET(request: NextRequest) {
         botStatus: {
           vercel: "operational",
           whatsapp: "operational",
-          claude: "operational",
+          gemini: "operational",
           supabase: circuitStatus.isHealthy ? "operational" : "degraded",
         },
       },

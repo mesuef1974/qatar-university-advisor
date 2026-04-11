@@ -46,7 +46,7 @@ import {
 
 beforeEach(() => {
   vi.clearAllMocks();
-  process.env.ANTHROPIC_API_KEY = 'test-key';
+  process.env.GOOGLE_API_KEY = 'test-key';
 });
 
 // ══════════════════════════════════════════════════════
@@ -83,8 +83,10 @@ describe('normalizeText — تطبيع النص العربي', () => {
 // ══════════════════════════════════════════════════════
 describe('detectCategory — تصنيف السؤال تلقائياً', () => {
   it('يصنّف سؤال عن الجامعات بشكل صحيح', () => {
+    // 'شروط القبول في جامعة قطر' — يحتوي على كلمتي 'شروط' و'قبول' (admission × 2)
+    // و'جامعة' (universities × 1) → admission يفوز بنقطتين
     const result = detectCategory('ما هي شروط القبول في جامعة قطر');
-    expect(result).toBe('universities');
+    expect(result).toBe('admission');
   });
 
   it('يصنّف سؤال عن المنح بشكل صحيح', () => {
@@ -128,21 +130,21 @@ describe('getFromKnowledgeBase — البحث الرئيسي', () => {
 
 // ══════════════════════════════════════════════════════
 describe('generateEmbedding — توليد Embedding', () => {
-  it('يُرجع null عند عدم وجود ANTHROPIC_API_KEY', async () => {
-    delete process.env.ANTHROPIC_API_KEY;
+  it('يُرجع null عند عدم وجود GOOGLE_API_KEY', async () => {
+    delete process.env.GOOGLE_API_KEY;
     const result = await generateEmbedding('اختبار');
     expect(result).toBeNull();
   });
 
   it('يُرجع null عند فشل الـ API', async () => {
-    process.env.ANTHROPIC_API_KEY = 'test-key';
+    process.env.GOOGLE_API_KEY = 'test-key';
     mockFetch.mockResolvedValueOnce({ ok: false });
     const result = await generateEmbedding('اختبار');
     expect(result).toBeNull();
   });
 
   it('يُرجع المتجه عند نجاح الـ API', async () => {
-    process.env.ANTHROPIC_API_KEY = 'test-key';
+    process.env.GOOGLE_API_KEY = 'test-key';
     const fakeVector = [0.1, 0.2, 0.3];
     mockFetch.mockResolvedValueOnce({
       ok: true,

@@ -47,7 +47,7 @@ function createMockReqRes(method = 'GET') {
 }
 
 // Import handler and get access to mock internals
-import handler from '../../api/health.js';
+import handler from '../../api-legacy/health.js';
 import { createClient, __mockSelect } from '@supabase/supabase-js';
 
 beforeEach(() => {

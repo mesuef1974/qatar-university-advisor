@@ -154,7 +154,7 @@ export interface AdminDashboard {
   botStatus: {
     vercel:    'operational' | 'degraded' | 'down';
     whatsapp:  'operational' | 'degraded' | 'down';
-    claude:    'operational' | 'degraded' | 'down';
+    gemini:    'operational' | 'degraded' | 'down';
     supabase:  'operational' | 'degraded' | 'down';
   };
 }

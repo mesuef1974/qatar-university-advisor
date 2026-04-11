@@ -68,7 +68,7 @@ export declare function getFromKnowledgeBase(
   question: string,
 ): Promise<KnowledgeCacheHit | null>;
 
-/** Generate an embedding vector for a text (via Claude API) */
+/** Generate an embedding vector for a text (via Gemini API) */
 export declare function generateEmbedding(text: string): Promise<number[] | null>;
 
 /**

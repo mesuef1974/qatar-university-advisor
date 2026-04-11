@@ -3,6 +3,7 @@
 
 import { normalizeDialect } from './dialect-support.js';
 import { buildSystemPrompt } from './ai-system-prompt.js';
+import { logger } from './logger.js';
 
 // ══════════════════════════════════════════
 // Types & Interfaces
@@ -18,18 +19,6 @@ export interface ConversationMessage {
 export interface AIResponse {
   text: string;
   suggestions: string[];
-}
-
-/** Claude API message */
-interface ClaudeMessage {
-  role: 'user' | 'assistant';
-  content: string;
-}
-
-/** Claude API response shape */
-interface ClaudeAPIResponse {
-  content?: Array<{ type: string; text?: string }>;
-  error?: { message: string };
 }
 
 /** Gemini API content part */
@@ -56,10 +45,6 @@ interface GeminiAPIResponse {
 // ══════════════════════════════════════════
 // Constants
 // ══════════════════════════════════════════
-
-const CLAUDE_API_URL: string = 'https://api.anthropic.com/v1/messages';
-const CLAUDE_MODEL: string = 'claude-sonnet-4-20250514';
-const ANTHROPIC_VERSION: string = '2023-06-01';
 
 const GEMINI_MODEL: string = 'gemini-1.5-flash';
 const GEMINI_API_BASE: string = 'https://generativelanguage.googleapis.com/v1beta/models';
@@ -157,62 +142,12 @@ async function callGemini(userMessage: string, conversationHistory: Conversation
 
   if (!response.ok) {
     const err = await response.text().catch(() => String(response.status));
-    console.error(`Gemini API error ${response.status}:`, err);
+    logger.error(`Gemini API error ${response.status}:`, { error: err });
     return null;
   }
 
   const data: GeminiAPIResponse = await response.json();
   return data.candidates?.[0]?.content?.parts?.[0]?.text ?? null;
-}
-
-// ────────────────────────────────────────────────────────────────────────────
-// Single Claude API call (Anthropic) — احتياطي مدفوع
-// ────────────────────────────────────────────────────────────────────────────
-async function callClaude(userMessage: string, conversationHistory: ConversationMessage[] = [], dbContext?: string): Promise<string | null> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return null;
-
-  // Build messages: recent history (max 6 messages) + current message
-  // Sanitize PII from conversation history before sending to external API (PDPPL Art. 8)
-  const recentHistory: ClaudeMessage[] = conversationHistory.slice(-6).map((msg) => ({
-    role: (msg.role === 'user' ? 'user' : 'assistant') as 'user' | 'assistant',
-    content: typeof msg.content === 'string' ? sanitizePII(msg.content) : msg.content,
-  }));
-
-  // Strip PII before sending to external API (PDPPL Art. 8)
-  const sanitizedMessage: string = sanitizePII(userMessage);
-
-  // Normalize Qatari dialect to MSA for better comprehension
-  const normalizedMessage: string = normalizeDialect(sanitizedMessage);
-
-  const messages: ClaudeMessage[] = [
-    ...recentHistory,
-    { role: 'user', content: normalizedMessage },
-  ];
-
-  const response = await fetch(CLAUDE_API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': ANTHROPIC_VERSION,
-    },
-    body: JSON.stringify({
-      model: CLAUDE_MODEL,
-      max_tokens: 1024,
-      system: getSystemPrompt(dbContext),
-      messages,
-    }),
-  });
-
-  if (!response.ok) {
-    const err = await response.text().catch(() => String(response.status));
-    console.error(`Claude API error ${response.status}:`, err);
-    return null;
-  }
-
-  const data: ClaudeAPIResponse = await response.json();
-  return data.content?.[0]?.text ?? null;
 }
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -244,63 +179,36 @@ function parseAIResponse(aiText: string): AIResponse {
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-// Main export — أولوية: Gemini (مجاني) ← Claude (احتياطي مدفوع) ← null
-// Timeout مضبوط على 4 ثوانٍ لكل محاولة بمحاولة واحدة فقط لكل مزود
-// بما يضمن عدم تجاوز حد Vercel البالغ 10 ثوانٍ
+// Main export — Gemini (مجاني) ← ردود ثابتة ← null
+// Timeout مضبوط على 4 ثوانٍ بما يضمن عدم تجاوز حد Vercel البالغ 10 ثوانٍ
 // ────────────────────────────────────────────────────────────────────────────
 async function getAIResponse(userMessage: string, conversationHistory: ConversationMessage[] = [], dbContext?: string): Promise<AIResponse | null> {
-  const MAX_ATTEMPTS: number = 1;
-  const TIMEOUT_MS: number   = 4000;
+  const TIMEOUT_MS: number = 4000;
 
-  // ── المزود الأول: Gemini (مجاني) ──────────────────────────────────────────
+  // ── Gemini (مجاني) ──────────────────────────────────────────────────────
   if (process.env.GEMINI_API_KEY) {
-    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-      try {
-        const aiText = await withTimeout(
-          callGemini(userMessage, conversationHistory, dbContext),
-          TIMEOUT_MS,
-          `Gemini attempt ${attempt}`
-        );
+    try {
+      const aiText = await withTimeout(
+        callGemini(userMessage, conversationHistory, dbContext),
+        TIMEOUT_MS,
+        'Gemini'
+      );
 
-        if (aiText) {
-          console.log(`[AI] Gemini responded on attempt ${attempt}`);
-          return parseAIResponse(aiText);
-        }
-
-        console.warn(`[AI] Gemini attempt ${attempt}: empty response`);
-      } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : String(err);
-        console.warn(`[AI] Gemini attempt ${attempt} failed: ${message}`);
+      if (aiText) {
+        logger.info('[AI] Gemini responded successfully');
+        return parseAIResponse(aiText);
       }
+
+      logger.warn('[AI] Gemini returned empty response');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      logger.warn('[AI] Gemini failed', { error: message });
     }
-    console.warn('[AI] Gemini failed — falling back to Claude if available');
+    logger.error('[AI] Gemini failed — returning null for local fallback');
+  } else {
+    logger.error('[AI] No AI provider configured (GEMINI_API_KEY missing)');
   }
 
-  // ── المزود الثاني: Claude (احتياطي مدفوع) ─────────────────────────────────
-  if (process.env.ANTHROPIC_API_KEY) {
-    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-      try {
-        const aiText = await withTimeout(
-          callClaude(userMessage, conversationHistory, dbContext),
-          TIMEOUT_MS,
-          `Claude attempt ${attempt}`
-        );
-
-        if (aiText) {
-          console.log(`[AI] Claude responded on attempt ${attempt}`);
-          return parseAIResponse(aiText);
-        }
-
-        console.warn(`[AI] Claude attempt ${attempt}: empty response`);
-      } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : String(err);
-        console.warn(`[AI] Claude attempt ${attempt} failed: ${message}`);
-      }
-    }
-    console.error('[AI] All Claude attempts failed');
-  }
-
-  console.error('[AI] No AI provider available or all failed — returning null for local fallback');
   return null;
 }
 

@@ -82,7 +82,7 @@ describe('api/webhook handler', () => {
     process.env.WEBHOOK_APP_SECRET = '';
     process.env.NODE_ENV = 'development';
 
-    const mod = await import('../api/webhook.js');
+    const mod = await import('../api-legacy/webhook.js');
     handler = mod.default;
 
     const valMod = await import('../lib/validateEnv.js');
