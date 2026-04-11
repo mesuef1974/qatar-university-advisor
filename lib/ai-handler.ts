@@ -249,12 +249,12 @@ function parseAIResponse(aiText: string): AIResponse {
 // بما يضمن عدم تجاوز حد Vercel البالغ 10 ثوانٍ
 // ────────────────────────────────────────────────────────────────────────────
 async function getAIResponse(userMessage: string, conversationHistory: ConversationMessage[] = [], dbContext?: string): Promise<AIResponse | null> {
-  const MAX_RETRIES: number = 1;
-  const TIMEOUT_MS: number  = 4000;
+  const MAX_ATTEMPTS: number = 1;
+  const TIMEOUT_MS: number   = 4000;
 
   // ── المزود الأول: Gemini (مجاني) ──────────────────────────────────────────
   if (process.env.GEMINI_API_KEY) {
-    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
       try {
         const aiText = await withTimeout(
           callGemini(userMessage, conversationHistory, dbContext),
@@ -278,7 +278,7 @@ async function getAIResponse(userMessage: string, conversationHistory: Conversat
 
   // ── المزود الثاني: Claude (احتياطي مدفوع) ─────────────────────────────────
   if (process.env.ANTHROPIC_API_KEY) {
-    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
       try {
         const aiText = await withTimeout(
           callClaude(userMessage, conversationHistory, dbContext),

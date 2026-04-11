@@ -36,7 +36,7 @@ const LOCAL_MAX = 1000;
 async function isDuplicate(messageId: string): Promise<boolean> {
   const redis = getRedis();
   if (redis) {
-    // SET NX PX — atomic: returns 1 if key was newly set, null if already exists
+    // SET NX PX — atomic: returns 'OK' if key was newly set, null if already exists
     const result = await redis
       .set(`wh:dedup:${messageId}`, "1", { nx: true, ex: DEDUP_TTL_SECONDS })
       .catch(() => null);
