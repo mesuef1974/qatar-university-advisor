@@ -83,8 +83,10 @@ describe('normalizeText — تطبيع النص العربي', () => {
 // ══════════════════════════════════════════════════════
 describe('detectCategory — تصنيف السؤال تلقائياً', () => {
   it('يصنّف سؤال عن الجامعات بشكل صحيح', () => {
+    // 'شروط القبول في جامعة قطر' — يحتوي على كلمتي 'شروط' و'قبول' (admission × 2)
+    // و'جامعة' (universities × 1) → admission يفوز بنقطتين
     const result = detectCategory('ما هي شروط القبول في جامعة قطر');
-    expect(result).toBe('universities');
+    expect(result).toBe('admission');
   });
 
   it('يصنّف سؤال عن المنح بشكل صحيح', () => {

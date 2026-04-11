@@ -71,7 +71,7 @@ describe('security-headers', () => {
       addSecurityHeaders(res);
       const hstsCall = res.setHeader.mock.calls.find(c => c[0] === 'Strict-Transport-Security');
       expect(hstsCall).toBeTruthy();
-      expect(hstsCall[1]).toContain('max-age=31536000');
+      expect(hstsCall[1]).toContain('max-age=63072000');
       expect(hstsCall[1]).toContain('includeSubDomains');
     });
 

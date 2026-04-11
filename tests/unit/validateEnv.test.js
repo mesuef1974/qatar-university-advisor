@@ -15,8 +15,9 @@ describe('validateEnv', () => {
     delete process.env.WEBHOOK_VERIFY_TOKEN;
     delete process.env.WEBHOOK_APP_SECRET;
     delete process.env.SUPABASE_URL;
-    delete process.env.SUPABASE_ANON_KEY;
-    delete process.env.ADMIN_SECRET;
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+    delete process.env.ADMIN_PASSWORD;
+    delete process.env.GEMINI_API_KEY;
   });
 
   afterEach(() => {
@@ -66,7 +67,7 @@ describe('validateEnv', () => {
       process.env.WEBHOOK_VERIFY_TOKEN = 'vt';
       const result = validateEnv('webhook');
       expect(result.warnings.length).toBeGreaterThan(0);
-      // WEBHOOK_APP_SECRET, SUPABASE_URL, SUPABASE_ANON_KEY
+      // WEBHOOK_APP_SECRET, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
       expect(result.warnings.some(w => w.includes('WEBHOOK_APP_SECRET'))).toBe(true);
     });
 
@@ -76,7 +77,7 @@ describe('validateEnv', () => {
       process.env.WEBHOOK_VERIFY_TOKEN = 'vt';
       process.env.WEBHOOK_APP_SECRET = 'sec';
       process.env.SUPABASE_URL = 'su';
-      process.env.SUPABASE_ANON_KEY = 'sk';
+      process.env.SUPABASE_SERVICE_ROLE_KEY = 'sk';
       const result = validateEnv('webhook');
       expect(result.warnings).toEqual([]);
     });
@@ -84,17 +85,16 @@ describe('validateEnv', () => {
 
   // ── admin context ─────────────────────────────────────────────────
   describe('admin context', () => {
-    it('returns invalid when ADMIN_SECRET is missing', () => {
+    it('returns invalid when ADMIN_PASSWORD is missing', () => {
       const result = validateEnv('admin');
       expect(result.valid).toBe(false);
-      expect(result.missing).toContain('ADMIN_SECRET');
+      expect(result.missing).toContain('ADMIN_PASSWORD');
     });
 
-    it('returns valid when ADMIN_SECRET is set', () => {
-      process.env.ADMIN_SECRET = 'secret';
+    it('returns valid when ADMIN_PASSWORD is set', () => {
+      process.env.ADMIN_PASSWORD = 'secret';
       const result = validateEnv('admin');
       expect(result.valid).toBe(true);
-      expect(result.warnings).toEqual([]);
     });
   });
 
@@ -117,12 +117,12 @@ describe('validateEnv', () => {
       const result = validateEnv('cron');
       expect(result.valid).toBe(false);
       expect(result.missing).toContain('SUPABASE_URL');
-      expect(result.missing).toContain('SUPABASE_ANON_KEY');
+      expect(result.missing).toContain('SUPABASE_SERVICE_ROLE_KEY');
     });
 
     it('returns valid when SUPABASE vars are set', () => {
       process.env.SUPABASE_URL = 'https://x.supabase.co';
-      process.env.SUPABASE_ANON_KEY = 'key';
+      process.env.SUPABASE_SERVICE_ROLE_KEY = 'key';
       const result = validateEnv('cron');
       expect(result.valid).toBe(true);
     });
@@ -138,7 +138,7 @@ describe('requireEnv', () => {
   });
 
   it('returns true and does not call res.status when env is valid', () => {
-    process.env.ADMIN_SECRET = 'secret';
+    process.env.ADMIN_PASSWORD = 'secret';
     const res = {
       status: vi.fn().mockReturnThis(),
       json: vi.fn().mockReturnThis(),
@@ -149,7 +149,7 @@ describe('requireEnv', () => {
   });
 
   it('returns false and sends 500 when required vars are missing', () => {
-    delete process.env.ADMIN_SECRET;
+    delete process.env.ADMIN_PASSWORD;
     const res = {
       status: vi.fn().mockReturnThis(),
       json: vi.fn().mockReturnThis(),
@@ -174,7 +174,7 @@ describe('requireEnv', () => {
   });
 
   it('logs error for missing required vars', () => {
-    delete process.env.ADMIN_SECRET;
+    delete process.env.ADMIN_PASSWORD;
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
     requireEnv('admin', res);

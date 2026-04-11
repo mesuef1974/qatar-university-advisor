@@ -13,6 +13,7 @@
 /* global process */
 
 import { supabase } from './supabase';
+import { CATEGORY_KEYWORDS } from './category-keywords';
 
 // ──────────────────────────────────────────────────────
 // Types
@@ -83,17 +84,8 @@ interface SalaryRow {
 type Category = 'universities' | 'admission' | 'programs' | 'scholarships' | 'salary' | 'military' | 'general';
 
 // ──────────────────────────────────────────────────────
-// Category detection (mirrors knowledge-base.js logic)
+// Category detection — uses shared keyword map from category-keywords.ts
 // ──────────────────────────────────────────────────────
-
-const CATEGORY_KEYWORDS: Record<string, string[]> = {
-  universities: ['جامعة', 'كلية', 'معهد', 'hbku', 'qu', 'udst', 'cmu', 'cornell', 'georgetown', 'تسجيل', 'ملتحق'],
-  scholarships: ['منحة', 'منح', 'ابتعاث', 'بعثة', 'سبونسر', 'راعي', 'رعاية', 'طموح', 'أميري', 'مكافأة'],
-  salary: ['راتب', 'رواتب', 'أجر', 'مرتب', 'دخل', 'كسب', 'توظيف', 'وظيفة', 'وظائف', 'مهنة', 'عمل'],
-  admission: ['معدل', 'قبول', 'شروط', 'متطلبات', 'تقديم', 'درجة', 'نسبة', 'احتمال'],
-  programs: ['تخصص', 'برنامج', 'دراسة', 'هندسة', 'طب', 'قانون', 'أعمال', 'علوم', 'حاسوب', 'خطة'],
-  military: ['عسكري', 'جيش', 'شرطة', 'دفاع', 'أركان', 'ضابط'],
-};
 
 function normalizeText(text: string): string {
   return text

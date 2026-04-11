@@ -53,19 +53,28 @@ export async function GET(request: NextRequest) {
     services.supabase = { status: "not_configured" };
   }
 
-  // 2. Memory
+  // 2. Memory — expose only the status flag publicly; detailed metrics are
+  // available to internal callers that send the admin token.
   const mem = process.memoryUsage();
   const usedMB = Math.round(mem.heapUsed / 1024 / 1024);
   const totalMB = Math.round(mem.heapTotal / 1024 / 1024);
   const memStatus = usedMB > 450 ? "warning" : "healthy";
   if (memStatus === "warning" && overallStatus === "healthy")
     overallStatus = "degraded";
-  services.memory = {
-    status: memStatus,
-    used: `${usedMB}MB`,
-    total: `${totalMB}MB`,
-    rss: `${Math.round(mem.rss / 1024 / 1024)}MB`,
-  };
+
+  const adminToken = process.env.ADMIN_PASSWORD;
+  const authHeader = request.headers.get("authorization") || "";
+  const isAdmin =
+    adminToken && authHeader.replace("Bearer ", "").trim() === adminToken;
+
+  services.memory = isAdmin
+    ? {
+        status: memStatus,
+        used: `${usedMB}MB`,
+        total: `${totalMB}MB`,
+        rss: `${Math.round(mem.rss / 1024 / 1024)}MB`,
+      }
+    : { status: memStatus };
 
   // 3. Redis (skipped)
   services.redis = { status: "skipped" };

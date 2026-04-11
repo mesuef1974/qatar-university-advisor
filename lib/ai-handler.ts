@@ -3,6 +3,7 @@
 
 import { normalizeDialect } from './dialect-support.js';
 import { buildSystemPrompt } from './ai-system-prompt.js';
+import { logger } from './logger.js';
 
 // ══════════════════════════════════════════
 // Types & Interfaces
@@ -141,7 +142,7 @@ async function callGemini(userMessage: string, conversationHistory: Conversation
 
   if (!response.ok) {
     const err = await response.text().catch(() => String(response.status));
-    console.error(`Gemini API error ${response.status}:`, err);
+    logger.error(`Gemini API error ${response.status}:`, { error: err });
     return null;
   }
 
@@ -179,37 +180,35 @@ function parseAIResponse(aiText: string): AIResponse {
 
 // ────────────────────────────────────────────────────────────────────────────
 // Main export — Gemini (مجاني) ← ردود ثابتة ← null
-// Timeout مضبوط على 4 ثوانٍ لكل محاولة بما يضمن عدم تجاوز حد Vercel البالغ 10 ثوانٍ
+// Timeout مضبوط على 4 ثوانٍ بما يضمن عدم تجاوز حد Vercel البالغ 10 ثوانٍ
 // ────────────────────────────────────────────────────────────────────────────
 async function getAIResponse(userMessage: string, conversationHistory: ConversationMessage[] = [], dbContext?: string): Promise<AIResponse | null> {
-  const MAX_ATTEMPTS: number = 1;
-  const TIMEOUT_MS: number   = 4000;
+  const TIMEOUT_MS: number = 4000;
 
   // ── Gemini (مجاني) ──────────────────────────────────────────────────────
   if (process.env.GEMINI_API_KEY) {
-    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-      try {
-        const aiText = await withTimeout(
-          callGemini(userMessage, conversationHistory, dbContext),
-          TIMEOUT_MS,
-          `Gemini attempt ${attempt}`
-        );
+    try {
+      const aiText = await withTimeout(
+        callGemini(userMessage, conversationHistory, dbContext),
+        TIMEOUT_MS,
+        'Gemini'
+      );
 
-        if (aiText) {
-          console.log(`[AI] Gemini responded on attempt ${attempt}`);
-          return parseAIResponse(aiText);
-        }
-
-        console.warn(`[AI] Gemini attempt ${attempt}: empty response`);
-      } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : String(err);
-        console.warn(`[AI] Gemini attempt ${attempt} failed: ${message}`);
+      if (aiText) {
+        logger.info('[AI] Gemini responded successfully');
+        return parseAIResponse(aiText);
       }
+
+      logger.warn('[AI] Gemini returned empty response');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      logger.warn('[AI] Gemini failed', { error: message });
     }
-    console.error('[AI] All Gemini attempts failed');
+    logger.error('[AI] Gemini failed — returning null for local fallback');
+  } else {
+    logger.error('[AI] No AI provider configured (GEMINI_API_KEY missing)');
   }
 
-  console.error('[AI] No AI provider available or all failed — returning null for local fallback');
   return null;
 }
 

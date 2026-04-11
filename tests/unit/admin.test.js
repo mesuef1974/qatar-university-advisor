@@ -50,7 +50,7 @@ describe('api/admin handler', () => {
     process.env.ADMIN_PASSWORD = 'test-secret-123';
     process.env.ADMIN_ORIGIN = 'https://test.example.com';
 
-    const adminModule = await import('../../api/admin.js');
+    const adminModule = await import('../../api-legacy/admin.js');
     handler = adminModule.default;
 
     const validateEnvMod = await import('../../lib/validateEnv.js');
