@@ -58,6 +58,12 @@ describe('detectCategory', () => {
     expect(detectCategory('مرحبا')).toBe('general');
     expect(detectCategory('شكراً')).toBe('general');
   });
+
+  it('يُعيد أول فئة في حالة التعادل', () => {
+    // "جامعة" (universities) + "راتب" (salary) = تعادل 1-1
+    // universities تظهر أولاً في الكائن → تفوز
+    expect(detectCategory('جامعة والراتب')).toBe('universities');
+  });
 });
 
 // ──────────────────────────────────────────────────────────

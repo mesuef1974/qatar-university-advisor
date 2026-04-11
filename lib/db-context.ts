@@ -255,7 +255,7 @@ export async function fetchDbContext(question: string): Promise<string | null> {
           .order('name_ar');
 
         if (!error && unis && unis.length > 0) {
-          // Filter to active unis only (keep inactive ones for awareness like TAMU closing)
+          // جميع الجامعات (نشطة وغير نشطة) — الغير نشطة تُذكر للتوعية (مثل TAMU 2028)
           sections.push(formatUniversities(unis as unknown as UniversityRow[]));
         }
       }
