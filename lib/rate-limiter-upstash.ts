@@ -71,7 +71,7 @@ export async function isRateLimited(
   } catch {
     // If Upstash is temporarily unreachable, fail open to avoid blocking
     // legitimate traffic. Log to aid debugging.
-    console.warn(`[rate-limiter] Upstash check failed for ${type}:${identifier} — failing open`);
+    console.warn(`[rate-limiter] Upstash check failed for ${type} — failing open`);
     return false;
   }
 }

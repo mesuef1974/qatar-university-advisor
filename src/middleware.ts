@@ -25,7 +25,12 @@ export function middleware(request: NextRequest): NextResponse {
 }
 
 export const config = {
-  // Apply only to page routes — skip Next.js internals and static assets
+  // Apply only to page routes — skip Next.js internals and static assets.
+  // Excluded patterns:
+  //   _next/static   — compiled JS/CSS bundles
+  //   _next/image    — image optimisation API
+  //   favicon.ico    — browser favicon
+  //   *.ext          — any static file extension (images, fonts, styles, scripts)
   matcher: [
     "/((?!_next/static|_next/image|favicon\\.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|woff2?|ttf|eot)).*)",
   ],

@@ -363,7 +363,7 @@ async function logQuery(query: string, matchedKey: string | null, source: string
 /**
  * Get top queries (for admin dashboard)
  *
- * Fetches at most 10 000 recent rows from `analytics` to avoid loading the
+ * Fetches at most 10_000 recent rows from `analytics` to avoid loading the
  * entire table into memory, then aggregates counts in JavaScript. For larger
  * datasets a dedicated Postgres view / RPC function should be used instead.
  */
