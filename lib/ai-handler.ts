@@ -65,11 +65,18 @@ const GEMINI_MODEL: string = 'gemini-1.5-flash';
 const GEMINI_API_BASE: string = 'https://generativelanguage.googleapis.com/v1beta/models';
 
 // ────────────────────────────────────────────────────────────────────────────
-// System Prompt — يُبنى ديناميكياً من universities.json عبر buildSystemPrompt()
+// System Prompt — يُبنى ديناميكياً.
+// عند توفّر dbContext (بيانات حية من Supabase)، يُستخدم بدلاً من universities.json
+// وإلا يُعاد الاحتياط المُخزَّن مؤقتاً من universities.json.
 // ────────────────────────────────────────────────────────────────────────────
-// Cached system prompt — built once per cold start (includes full DB data)
+// Cached static system prompt — built once per cold start from universities.json
 let _cachedSystemPrompt: string | null = null;
-function getSystemPrompt(): string {
+function getSystemPrompt(dbContext?: string): string {
+  if (dbContext) {
+    // بيانات حية من Supabase — لا تُخزَّن مؤقتاً (تتغير بتغيّر السؤال)
+    return buildSystemPrompt(undefined, dbContext);
+  }
+  // احتياط ثابت: universities.json (مُخزَّن مؤقتاً لتجنّب تكرار القراءة)
   if (!_cachedSystemPrompt) {
     _cachedSystemPrompt = buildSystemPrompt();
   }
@@ -110,7 +117,7 @@ function withTimeout<T>(promise: Promise<T>, ms: number = 8000, label: string = 
 // النموذج: gemini-1.5-flash — سريع ومدعوم للعربية
 // للحصول على مفتاح مجاني: https://aistudio.google.com/app/apikey
 // ────────────────────────────────────────────────────────────────────────────
-async function callGemini(userMessage: string, conversationHistory: ConversationMessage[] = []): Promise<string | null> {
+async function callGemini(userMessage: string, conversationHistory: ConversationMessage[] = [], dbContext?: string): Promise<string | null> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
 
@@ -138,7 +145,7 @@ async function callGemini(userMessage: string, conversationHistory: Conversation
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       system_instruction: {
-        parts: [{ text: getSystemPrompt() }],
+        parts: [{ text: getSystemPrompt(dbContext) }],
       },
       contents,
       generationConfig: {
@@ -161,7 +168,7 @@ async function callGemini(userMessage: string, conversationHistory: Conversation
 // ────────────────────────────────────────────────────────────────────────────
 // Single Claude API call (Anthropic) — احتياطي مدفوع
 // ────────────────────────────────────────────────────────────────────────────
-async function callClaude(userMessage: string, conversationHistory: ConversationMessage[] = []): Promise<string | null> {
+async function callClaude(userMessage: string, conversationHistory: ConversationMessage[] = [], dbContext?: string): Promise<string | null> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return null;
 
@@ -193,7 +200,7 @@ async function callClaude(userMessage: string, conversationHistory: Conversation
     body: JSON.stringify({
       model: CLAUDE_MODEL,
       max_tokens: 1024,
-      system: getSystemPrompt(),
+      system: getSystemPrompt(dbContext),
       messages,
     }),
   });
@@ -240,7 +247,7 @@ function parseAIResponse(aiText: string): AIResponse {
 // Main export — أولوية: Gemini (مجاني) ← Claude (احتياطي مدفوع) ← null
 // مع Retry تلقائي مرتين + Timeout لكل مزود
 // ────────────────────────────────────────────────────────────────────────────
-async function getAIResponse(userMessage: string, conversationHistory: ConversationMessage[] = []): Promise<AIResponse | null> {
+async function getAIResponse(userMessage: string, conversationHistory: ConversationMessage[] = [], dbContext?: string): Promise<AIResponse | null> {
   const MAX_RETRIES: number = 2;
   const TIMEOUT_MS: number  = 8000;
 
@@ -249,7 +256,7 @@ async function getAIResponse(userMessage: string, conversationHistory: Conversat
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
       try {
         const aiText = await withTimeout(
-          callGemini(userMessage, conversationHistory),
+          callGemini(userMessage, conversationHistory, dbContext),
           TIMEOUT_MS,
           `Gemini attempt ${attempt}`
         );
@@ -277,7 +284,7 @@ async function getAIResponse(userMessage: string, conversationHistory: Conversat
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
       try {
         const aiText = await withTimeout(
-          callClaude(userMessage, conversationHistory),
+          callClaude(userMessage, conversationHistory, dbContext),
           TIMEOUT_MS,
           `Claude attempt ${attempt}`
         );

@@ -16,6 +16,7 @@ import { getAIResponse } from './ai-handler';
 import { sanitizeInput, getInjectionResponse } from './sanitizer';
 import { addNationalityContext } from './nationality-advisor.js';
 import { getFromKnowledgeBase, saveToKnowledgeCache, semanticSearch } from './knowledge-base.js';
+import { fetchDbContext } from './db-context.js';
 import { STAGES, getNextStage, getStagePrompt, generateFinalReport, isConversationComplete } from './conversation-state.js';
 import {
   buildUserProfile,
@@ -695,12 +696,16 @@ async function processMessage(
     }
 
     default: {
-      // 5. Claude AI Fallback
+      // 5. DB-first AI Fallback
+      // اجلب سياقاً مركّزاً من Supabase أولاً (مصدر الحقيقة الأول)
+      // ثم أرسله للـ AI بدلاً من ملف universities.json الثابت
+      const dbContext = await fetchDbContext(userText).catch(() => null) as string | null;
+
       const enrichedQuestion: string = profileContext
         ? `${profileContext}\n\nسؤال المستخدم: ${safeMessage}`
         : safeMessage;
 
-      const aiResponse = await getAIResponse(enrichedQuestion, conversationHistory).catch(() => null) as { text: string; suggestions?: string[] } | null;
+      const aiResponse = await getAIResponse(enrichedQuestion, conversationHistory, dbContext ?? undefined).catch(() => null) as { text: string; suggestions?: string[] } | null;
 
       if (aiResponse) {
         saveToKnowledgeCache(userText, aiResponse.text, aiResponse.suggestions).catch(() => {});
