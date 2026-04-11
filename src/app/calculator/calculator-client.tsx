@@ -153,7 +153,7 @@ const NATIONALITY_OPTIONS: { value: Nationality; label: string }[] = [
 const TRACK_OPTIONS: { value: Track; label: string }[] = [
   { value: "scientific", label: "علمي" },
   { value: "literary", label: "ادبي" },
-  { value: "commercial", label: "تجاري" },
+  { value: "commercial", label: "تكنولوجي" },
 ];
 
 export default function CalculatorClient({
