@@ -28,7 +28,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Dependency Review Action
         uses: actions/dependency-review-action@v4
@@ -45,7 +45,7 @@ jobs:
     steps:
       # الخطوة 1: استنساخ الكود
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # الخطوة 2: إعداد Node.js
       - name: Setup Node.js 20
