@@ -41,8 +41,9 @@ from or written to any file in this repository.
 
 - `RAILWAY_API_TOKEN` must live in your shell env or a secrets manager — never
   in committed files, `.env` fixtures, or `.claude/settings*.json`.
-- `.claude/settings.local.json` is git-ignored (see `.gitignore`). Treat it
-  as a local-only file that may contain tokens and never commit it.
+- Most of `.claude/` is git-ignored (see `.gitignore`): local state such as
+  `history.json` and `settings.local.json` must never be committed. Only
+  team-shared files (`settings.json`, `launch.json`, `skills/`) are tracked.
 - Rotate any token that was previously present in git history.
 
 ### Token rotation playbook
