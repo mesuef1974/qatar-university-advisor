@@ -51,7 +51,7 @@ If a token was leaked (e.g. pasted into a tracked file):
 
 1. Revoke the token at <https://railway.com/account/tokens>.
 2. Create a replacement token and update your local shell env.
-3. Verify with: `npx -y @railway/mcp-server --version` (should still start).
+3. Verify the new token by asking Claude to list your Railway projects.
 4. If the leak is in git history, a history-rewrite (`git filter-repo` or
    BFG) plus a coordinated force-push is required — do **not** attempt
    without team coordination.
