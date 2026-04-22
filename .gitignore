@@ -44,3 +44,11 @@ out/
 
 # Coverage
 coverage/
+
+# Claude Code — ignore local state (secrets, history, caches)
+# Keep only team-shared config and skills tracked
+.claude/*
+!.claude/settings.json
+!.claude/launch.json
+!.claude/skills/
+
