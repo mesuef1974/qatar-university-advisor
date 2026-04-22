@@ -44,3 +44,7 @@ out/
 
 # Coverage
 coverage/
+
+# Claude Code — local-only settings (may contain secrets)
+.claude/settings.local.json
+
