@@ -17,6 +17,7 @@ import { sanitizeInput, getInjectionResponse } from './sanitizer';
 import { addNationalityContext } from './nationality-advisor.js';
 import { getFromKnowledgeBase, saveToKnowledgeCache, semanticSearch } from './knowledge-base.js';
 import { fetchDbContext } from './db-context';
+import { tryDbListResponse } from './db-list-handler';
 import { STAGES, getNextStage, getStagePrompt, generateFinalReport, isConversationComplete } from './conversation-state.js';
 import {
   buildUserProfile,
@@ -648,6 +649,23 @@ async function processMessage(
       if (supabaseUser) saveMessage(supabaseUser.id, 'assistant', response.text).catch(() => {});
       return response;
     }
+  }
+
+  // 3.7. DB List Handler (DEC-AI-001 Phase 3) — DB-first for "list of universities" queries
+  // قراءة مباشرة من Supabase بدلاً من static JSON عند سؤال عن قائمة الجامعات
+  try {
+    const dbList = await tryDbListResponse(userText);
+    if (dbList) {
+      const response: ResponseWithSuggestions = {
+        text: dbList.text,
+        suggestions: dbList.suggestions.slice(0, 3),
+        source: 'db',
+      };
+      if (supabaseUser) saveMessage(supabaseUser.id, 'assistant', response.text).catch(() => {});
+      return response;
+    }
+  } catch {
+    // Fail-safe: continue to static path
   }
 
   // 4. Local keyword responses
