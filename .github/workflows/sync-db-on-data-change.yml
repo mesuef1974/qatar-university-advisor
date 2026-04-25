@@ -1,0 +1,48 @@
+name: Sync DB on data/ change
+
+# عند تعديل ملفات JSON في data/ → ETL تلقائي يحدّث Supabase
+# المرجع: DEC-AI-001 (Hybrid architecture — Option C)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/universities.json'
+      - 'data/careers.json'
+      - 'scripts/etl-universities.mjs'
+
+jobs:
+  generate-migration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate migration from data/universities.json
+        run: |
+          mkdir -p supabase/migrations
+          TIMESTAMP=$(date -u +"%Y%m%d%H%M%S")
+          node scripts/etl-universities.mjs > "supabase/migrations/${TIMESTAMP}_etl_auto_sync.sql"
+
+      - name: Show migration summary
+        run: |
+          echo "Generated migration:"
+          ls -la supabase/migrations/*etl_auto_sync.sql
+          wc -l supabase/migrations/*etl_auto_sync.sql
+
+      - name: Commit migration if changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore(etl): auto-sync DB migration from data/ change'
+          file_pattern: 'supabase/migrations/*_etl_auto_sync.sql'
+
+      # NOTE: Manual application required via Supabase MCP or SQL Editor.
+      # In production, you may want to use Supabase CLI to push automatically:
+      #   supabase db push
+      # but that requires SUPABASE_ACCESS_TOKEN secret.
+      - name: Notify (manual review needed)
+        run: |
+          echo "✅ Migration generated. Apply manually via Supabase SQL Editor or MCP."
+          echo "📄 File: supabase/migrations/$(ls -t supabase/migrations/*etl_auto_sync.sql | head -1)"
