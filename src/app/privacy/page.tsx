@@ -77,8 +77,12 @@ export default function PrivacyPage() {
           </CardHeader>
           <CardContent>
             <p className="text-[13px] text-muted-foreground leading-relaxed">
-              نحن في المستشار الجامعي القطري نلتزم بحماية خصوصية بياناتك الشخصية
-              وفقا لقانون حماية البيانات الشخصية القطري رقم 13 لسنة 2016 (PDPPL).
+              نحن في "المستشار الجامعي القطري" التابع لـ شركة أذكياء للبرمجيات
+              (محل التحكم في البيانات — دولة قطر) نلتزم بحماية خصوصية بياناتك
+              الشخصية وفقاً لقانون حماية البيانات الشخصية القطري رقم 13 لسنة
+              2016 (PDPPL). تشرح هذه الوثيقة الأساس القانوني للمعالجة، وفئات
+              البيانات، والمعالجين الفرعيين، ومدة الاحتفاظ، وحقوقك بموجب المواد
+              22–25 من القانون.
             </p>
           </CardContent>
         </Card>
@@ -93,11 +97,11 @@ export default function PrivacyPage() {
           </CardHeader>
           <CardContent>
             <ul className="space-y-2 text-[13px] text-muted-foreground">
-              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>رقم الهاتف (للتواصل عبر واتساب)</li>
-              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>المعدل الدراسي والمسار الاكاديمي (اختياري)</li>
-              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>الجنسية (قطري/مقيم)</li>
-              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>سجل المحادثات (لتحسين جودة النصائح)</li>
-              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>معلومات تقنية (IP، نوع المتصفح)</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>رقم الهاتف (للتواصل عبر واتساب — أساس قانوني: المادة 7 من PDPPL، الموافقة الصريحة)</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>المعدل الدراسي والمسار الأكاديمي (اختياري — لتخصيص التوصية)</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>الجنسية (قطري/مقيم — لاحتساب الرسوم وشروط القبول)</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>محتوى المحادثة (لتحسين جودة الردود — يُحتفظ بآخر 10 رسائل فقط)</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>معلومات تقنية محدودة (IP، نوع الجهاز — لأغراض الأمان وتوثيق الموافقة)</li>
             </ul>
           </CardContent>
         </Card>
@@ -112,9 +116,10 @@ export default function PrivacyPage() {
           </CardHeader>
           <CardContent>
             <ul className="space-y-2 text-[13px] text-muted-foreground">
-              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>تقديم نصائح جامعية مخصصة</li>
-              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>تحسين دقة الردود والتوصيات</li>
-              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>اغراض احصائية مجمّعة (بدون كشف الهوية)</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>تقديم استشارة جامعية مخصصة (الغرض الأساسي وفق المادة 7 من PDPPL)</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>تحسين دقة الردود والتوصيات بناءً على ملفك التعريفي</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>أغراض إحصائية مُجمّعة (بدون كشف الهوية الشخصية)</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>لا نستخدم بياناتك للتسويق أو نقلها إلى أطراف ثالثة لأغراض تجارية</li>
             </ul>
           </CardContent>
         </Card>
@@ -128,10 +133,16 @@ export default function PrivacyPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-[13px] text-muted-foreground leading-relaxed">
-              لا نبيع او نشارك بياناتك الشخصية مع اطراف ثالثة. نستخدم خدمات
-              سحابية آمنة (Supabase، Vercel) لتخزين ومعالجة البيانات.
+            <p className="text-[13px] text-muted-foreground leading-relaxed mb-2">
+              لا نبيع بياناتك الشخصية. نستعين بمعالجين فرعيين (Sub-processors)
+              مُلزَمين تعاقدياً بمعايير حماية معادلة لـ PDPPL:
             </p>
+            <ul className="space-y-2 text-[13px] text-muted-foreground">
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span><strong>Supabase</strong> — قاعدة بيانات PostgreSQL (مقر: الولايات المتحدة / الاتحاد الأوروبي)</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span><strong>Vercel</strong> — استضافة التطبيق وتشغيل الـ API (مقر: الولايات المتحدة)</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span><strong>Meta WhatsApp Business API</strong> — قناة المراسلة (مقر: أيرلندا / الولايات المتحدة)</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span><strong>Google Gemini API</strong> — المعالجة الذكية للردود (مقر: الولايات المتحدة)</li>
+            </ul>
           </CardContent>
         </Card>
 
@@ -145,8 +156,12 @@ export default function PrivacyPage() {
           </CardHeader>
           <CardContent>
             <p className="text-[13px] text-muted-foreground leading-relaxed">
-              نحتفظ ببياناتك لمدة 12 شهرا من آخر تفاعل. بعد ذلك، يتم حذفها
-              تلقائيا او اخفاء هويتها وفق آلية PDPPL.
+              وفقاً للمادة 17 من قانون PDPPL، نحتفظ ببياناتك طوال مدة استخدامك
+              للخدمة + 30 يوماً بعد طلب الحذف أو انتهاء الخدمة (للسماح
+              بالنسخ الاحتياطية والتدقيق القانوني). بعد انقضاء هذه المدة يتم
+              الحذف الكامل أو إخفاء الهوية (Anonymization) بشكل لا يمكن
+              عكسه. سجلات الموافقة (consent logs) تُحفظ مدة أطول للامتثال
+              القانوني.
             </p>
           </CardContent>
         </Card>
@@ -161,11 +176,11 @@ export default function PrivacyPage() {
           </CardHeader>
           <CardContent>
             <ul className="space-y-2 text-[13px] text-muted-foreground">
-              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>حق الوصول الى بياناتك</li>
-              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>حق تصحيح البيانات</li>
-              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>حق حذف البيانات</li>
-              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>حق سحب الموافقة</li>
-              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>حق نقل البيانات</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span><strong>المادة 22</strong> — حق الوصول إلى بياناتك والاطلاع على ما نعالجه عنك</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span><strong>المادة 23</strong> — حق تصحيح أو تحديث البيانات غير الدقيقة</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span><strong>المادة 24</strong> — حق حذف البيانات (الحق في النسيان)</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span><strong>المادة 25</strong> — حق الاعتراض على المعالجة وسحب الموافقة في أي وقت</li>
+              <li className="flex items-start gap-2"><span className="text-maroon dark:text-primary mt-1">&#9679;</span>حق نقل البيانات (Data Portability) بصيغة منظمة قابلة للقراءة الآلية</li>
             </ul>
           </CardContent>
         </Card>
@@ -180,8 +195,12 @@ export default function PrivacyPage() {
           </CardHeader>
           <CardContent>
             <p className="text-[13px] text-muted-foreground leading-relaxed">
-              نستخدم تشفير HTTPS وRow Level Security في قاعدة البيانات وآليات حماية
-              متقدمة ضد الاختراق.
+              نطبّق ضوابط أمنية تقنية وتنظيمية مناسبة وفق متطلبات PDPPL: تشفير
+              HTTPS/TLS أثناء النقل، Row Level Security في قاعدة البيانات،
+              فصل صارم بين مفاتيح الخدمة (Service Role) والمستخدم النهائي،
+              مراقبة مستمرة عبر Sentry، تدقيق دوري للصلاحيات، وخطة استجابة
+              للحوادث (DR Runbook) لإبلاغ السلطة المختصة خلال 72 ساعة عند
+              أي خرق محتمل.
             </p>
           </CardContent>
         </Card>
@@ -196,7 +215,13 @@ export default function PrivacyPage() {
           </CardHeader>
           <CardContent>
             <p className="text-[13px] text-muted-foreground leading-relaxed">
-              لاي استفسارات تتعلق بالخصوصية، تواصل معنا عبر{" "}
+              مسؤول حماية البيانات (DPO) في شركة أذكياء للبرمجيات — قطر:{" "}
+              <a href="mailto:dpo@azkia.qa" className="text-maroon dark:text-primary underline font-bold">
+                dpo@azkia.qa
+              </a>
+              . ساعات العمل: الأحد–الخميس، 9:00 ص – 5:00 م (بتوقيت الدوحة).
+              نلتزم بالرد على طلبات ممارسة الحقوق خلال 30 يوماً وفق المادة 26
+              من PDPPL. كما يمكنك تقديم طلباتك مباشرة عبر{" "}
               <Link href="/data-rights" className="text-maroon dark:text-primary underline font-bold">
                 صفحة حقوق البيانات
               </Link>.
