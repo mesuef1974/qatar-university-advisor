@@ -18,6 +18,7 @@ import { addNationalityContext } from './nationality-advisor.js';
 import { getFromKnowledgeBase, saveToKnowledgeCache, semanticSearch } from './knowledge-base.js';
 import { fetchDbContext } from './db-context';
 import { tryDbListResponse } from './db-list-handler';
+import { tryDbProgramsResponse } from './db-programs-handler';
 import { STAGES, getNextStage, getStagePrompt, generateFinalReport, isConversationComplete } from './conversation-state.js';
 import {
   buildUserProfile,
@@ -659,6 +660,22 @@ async function processMessage(
       const response: ResponseWithSuggestions = {
         text: dbList.text,
         suggestions: dbList.suggestions.slice(0, 3),
+        source: 'db',
+      };
+      if (supabaseUser) saveMessage(supabaseUser.id, 'assistant', response.text).catch(() => {});
+      return response;
+    }
+  } catch {
+    // Fail-safe: continue to static path
+  }
+
+  // 3.8. DB Programs Handler (DEC-AI-001 Phase 3 Expansion) — DB-first for "list of programs" queries
+  try {
+    const dbPrograms = await tryDbProgramsResponse(userText);
+    if (dbPrograms) {
+      const response: ResponseWithSuggestions = {
+        text: dbPrograms.text,
+        suggestions: dbPrograms.suggestions.slice(0, 3),
         source: 'db',
       };
       if (supabaseUser) saveMessage(supabaseUser.id, 'assistant', response.text).catch(() => {});

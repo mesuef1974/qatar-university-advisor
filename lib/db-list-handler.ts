@@ -45,7 +45,7 @@ const MILITARY_TRIGGERS = [
 ];
 
 // Char-by-char normalization (no regex with raw Arabic — avoids bundle issues).
-function normalizeArabic(s: string): string {
+export function normalizeArabic(s: string): string {
   let out = '';
   for (let i = 0; i < s.length; i++) {
     const code = s.charCodeAt(i);

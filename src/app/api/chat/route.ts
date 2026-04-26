@@ -12,6 +12,7 @@ import { logger } from "@lib/logger.js";
 import { parseQuery, searchUniversities, formatSmartResponse } from "@lib/smart-search";
 import { isRateLimited } from "@lib/rate-limiter-upstash";
 import { tryDbListResponse } from "@lib/db-list-handler";
+import { tryDbProgramsResponse } from "@lib/db-programs-handler";
 import universitiesData from "../../../../data/universities.json";
 
 export async function POST(request: NextRequest) {
@@ -81,6 +82,24 @@ export async function POST(request: NextRequest) {
     } catch (dbErr: unknown) {
       const dbMsg = dbErr instanceof Error ? dbErr.message : "Unknown";
       logger.warn(`[chat-api] DB list handler exception: ${dbMsg}`);
+    }
+
+    // ── DB-First Programs Handler (DEC-AI-001 Phase 3 Expansion) ──
+    // قراءة من Supabase مباشرة لأسئلة "قائمة التخصصات / البرامج المتاحة"
+    try {
+      const dbPrograms = await tryDbProgramsResponse(sanitized);
+      if (dbPrograms) {
+        logger.info(`[chat-api] DB programs hit — count: ${dbPrograms.count}`);
+        return NextResponse.json({
+          answer: dbPrograms.text,
+          suggestions: dbPrograms.suggestions,
+          source: "db",
+          count: dbPrograms.count,
+        });
+      }
+    } catch (dbErr: unknown) {
+      const dbMsg = dbErr instanceof Error ? dbErr.message : "Unknown";
+      logger.warn(`[chat-api] DB programs handler exception: ${dbMsg}`);
     }
 
     // ── Smart Search: محاولة الرد من البيانات المحلية أولاً ──
