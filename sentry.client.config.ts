@@ -6,7 +6,7 @@
  *
  * Reference: DEC-SEC-003 — Action #4
  */
-// @ts-expect-error -- @sentry/nextjs is installed by Vercel build; may not be present locally
+// (Sentry installed during npm install)
 import * as Sentry from "@sentry/nextjs";
 
 // Whitelist of safe query string parameters (everything else is dropped)

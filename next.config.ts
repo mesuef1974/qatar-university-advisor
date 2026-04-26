@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-// @ts-expect-error — package installed at build time on Vercel
+// (package installed during build)
 import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
@@ -44,15 +44,13 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["crypto"],
 };
 
-// Sentry wrapper — activates only when SENTRY_DSN env var is set
-// Source maps + automatic Vercel monitors enabled
+// Sentry wrapper — Sentry v10 + Turbopack compatible options only
+// (Removed v8-era options: hideSourceMaps, disableLogger, automaticVercelMonitors
+//  — all deprecated/renamed and not supported under Turbopack.)
 export default withSentryConfig(nextConfig, {
   org: process.env.SENTRY_ORG,
   project: process.env.SENTRY_PROJECT,
   silent: !process.env.CI,
   widenClientFileUpload: true,
   tunnelRoute: "/monitoring", // bypasses ad-blockers
-  hideSourceMaps: true,
-  disableLogger: true,
-  automaticVercelMonitors: true,
 });
