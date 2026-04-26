@@ -9,11 +9,18 @@ import crypto from "crypto";
 import { createClient } from "@supabase/supabase-js";
 
 export async function GET(request: NextRequest) {
-  // Auth — only Vercel Cron or CRON_SECRET
-  const cronSecret = process.env.CRON_SECRET || "";
+  // Auth — CRON_SECRET is required. Empty/unset = 500 hard fail (no silent bypass).
+  // Closes F-1 from PLATFORM_AUDIT_PoC_2026-04-26 (CVSS 8.6, A01:2021 Broken Access Control).
+  const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret) {
+    console.error("[cron/pdppl-cleanup] CRON_SECRET is not configured — refusing to run");
+    return NextResponse.json(
+      { error: "CRON_SECRET not configured" },
+      { status: 500 }
+    );
+  }
   const authHeader = request.headers.get("authorization") || "";
-
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+  if (authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
