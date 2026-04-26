@@ -11,7 +11,7 @@ import { sanitizeInput, getInjectionResponse } from "@lib/sanitizer";
 import { logger } from "@lib/logger.js";
 import { parseQuery, searchUniversities, formatSmartResponse } from "@lib/smart-search";
 import { isRateLimited } from "@lib/rate-limiter-upstash";
-import { tryDbListResponse, debugCodepoints } from "@lib/db-list-handler";
+import { tryDbListResponse } from "@lib/db-list-handler";
 import universitiesData from "../../../../data/universities.json";
 
 export async function POST(request: NextRequest) {
@@ -67,10 +67,10 @@ export async function POST(request: NextRequest) {
 
     // ── DB-First List Handler (DEC-AI-001 Phase 3) ──
     // قراءة من Supabase مباشرة لأسئلة "قائمة الجامعات / الكليات العسكرية"
-    let dbDebug = '';
     try {
       const dbList = await tryDbListResponse(sanitized);
       if (dbList) {
+        logger.info(`[chat-api] DB list hit — count: ${dbList.count}`);
         return NextResponse.json({
           answer: dbList.text,
           suggestions: dbList.suggestions,
@@ -78,11 +78,9 @@ export async function POST(request: NextRequest) {
           count: dbList.count,
         });
       }
-      dbDebug = debugCodepoints(sanitized);
     } catch (dbErr: unknown) {
       const dbMsg = dbErr instanceof Error ? dbErr.message : "Unknown";
-      logger.warn(`[chat-api] DB list handler EXCEPTION: ${dbMsg}`);
-      dbDebug = `EXCEPTION:${dbMsg}`;
+      logger.warn(`[chat-api] DB list handler exception: ${dbMsg}`);
     }
 
     // ── Smart Search: محاولة الرد من البيانات المحلية أولاً ──
@@ -130,7 +128,6 @@ export async function POST(request: NextRequest) {
       answer: result.text,
       suggestions: result.suggestions || [],
       source: result.fallbackLevel,
-      _dbg: dbDebug || undefined,
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
