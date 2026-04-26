@@ -44,24 +44,28 @@ const MILITARY_TRIGGERS = [
   'military colleges',
 ];
 
-function normalize(s: string): string {
-  return s
-    .toLowerCase()
-    // Arabic diacritics (tashkeel + dagger alif)
-    .replace(/[\u064B-\u065F\u0670]/g, '')
+// Char-by-char normalization (no regex with raw Arabic — avoids bundle issues).
+function normalizeArabic(s: string): string {
+  let out = '';
+  for (let i = 0; i < s.length; i++) {
+    const code = s.charCodeAt(i);
+    // Skip Arabic diacritics (tashkeel + dagger alif)
+    if ((code >= 0x064B && code <= 0x065F) || code === 0x0670) continue;
+    let ch = s[i];
     // Alif variants -> bare alif
-    .replace(/[\u0623\u0625\u0622\u0627]/g, '\u0627')
+    if (code === 0x0623 || code === 0x0625 || code === 0x0622) ch = '\u0627';
     // taa marbouta -> haa
-    .replace(/[\u0629\u0647]/g, '\u0647')
-    // yaa variants
-    .replace(/[\u064A\u0649]/g, '\u064A')
-    .replace(/\s+/g, ' ')
-    .trim();
+    else if (code === 0x0629) ch = '\u0647';
+    // alif maksura -> yaa
+    else if (code === 0x0649) ch = '\u064A';
+    out += ch;
+  }
+  return out.toLowerCase();
 }
 
 function matches(text: string, triggers: string[]): boolean {
-  const n = normalize(text);
-  return triggers.some((t) => n.includes(normalize(t)));
+  const n = normalizeArabic(text);
+  return triggers.some((t) => n.includes(normalizeArabic(t)));
 }
 
 // ──────────────────────────────────────────────────────
