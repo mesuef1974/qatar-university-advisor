@@ -101,3 +101,35 @@ export async function GET() {
 ## 5. Rollback
 
 إزالة `SENTRY_DSN` من Vercel → fail-silent (الكود لن يكسر).
+
+---
+
+## 6. Post-Signup Checklist (مرجع سريع للـ CEO)
+
+ملفات Sentry تم إنشاؤها مسبقاً (pre-staged) في الـ repo:
+- `sentry.client.config.ts`
+- `sentry.server.config.ts`
+- `sentry.edge.config.ts`
+- `instrumentation.ts`
+- `next.config.ts` (مغلّف بـ `withSentryConfig`)
+- `@sentry/nextjs` مضاف لـ `package.json`
+
+**الخطوات بعد الحصول على DSN من Sentry:**
+
+1. **أضف 5 env vars في Vercel** (Production + Preview):
+
+   | Variable | Source |
+   |---|---|
+   | `SENTRY_DSN` | Sentry → Project Settings → Client Keys |
+   | `NEXT_PUBLIC_SENTRY_DSN` | نفس DSN |
+   | `SENTRY_AUTH_TOKEN` | Sentry → User Auth Tokens (scopes: `project:releases`, `org:read`) |
+   | `SENTRY_ORG` | اسم منظمة Sentry (e.g. `qatar-university-advisor`) |
+   | `SENTRY_PROJECT` | اسم المشروع (e.g. `qatar-university-advisor`) |
+
+2. **شغّل redeploy** على Vercel (`Deployments → ⋯ → Redeploy`).
+   - npm install سيركّب `@sentry/nextjs` تلقائياً.
+   - Build سيرفع source maps إلى Sentry (`SENTRY_AUTH_TOKEN` مطلوب).
+
+3. **تحقّق سريع**: أضف route تجريبي مؤقت `/api/_test-sentry` (راجع §3.5) ثم احذفه فوراً بعد ظهور الخطأ في Sentry dashboard (يستغرق < 1 دقيقة).
+
+4. **PDPPL**: السكربتات الحالية تُسقط `phone, gpa, nationality, message, consent_text, email, ip` + headers الحساسة + query strings (whitelist: `page, limit` فقط) قبل الإرسال.
