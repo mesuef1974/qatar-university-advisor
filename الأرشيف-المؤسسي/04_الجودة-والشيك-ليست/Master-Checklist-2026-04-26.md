@@ -123,7 +123,7 @@ d139ae4  feat(consent): PDPPL Article 7 capture + privacy
 |---|---|---|
 | L4 | Sign 4 DPAs in vendor dashboards | Legal action |
 | L5 | Submit to NCSA | Legal action |
-| S1 | Sentry signup + DSN | New account creation |
+| ~~S1~~ | ✅ DONE — Sentry live (org=schoolos-2i, EU region, 4 events captured) | — |
 | S2 | Real WhatsApp test | Needs CEO phone |
 | C3 | Wire consent banner into webhook | Needs `lib/findResponse.ts` first-message logic refactor (P1, separate session) |
 
