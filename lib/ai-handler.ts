@@ -46,7 +46,7 @@ interface GeminiAPIResponse {
 // Constants
 // ══════════════════════════════════════════
 
-const GEMINI_MODEL: string = 'gemini-1.5-flash';
+const GEMINI_MODEL: string = 'gemini-2.5-flash';
 const GEMINI_API_BASE: string = 'https://generativelanguage.googleapis.com/v1beta/models';
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -99,7 +99,7 @@ function withTimeout<T>(promise: Promise<T>, ms: number = 8000, label: string = 
 
 // ────────────────────────────────────────────────────────────────────────────
 // Google Gemini API call (مجاني — 15 طلب/دقيقة، 1M token/يوم)
-// النموذج: gemini-1.5-flash — سريع ومدعوم للعربية
+// النموذج: gemini-2.5-flash — سريع ومدعوم للعربية
 // للحصول على مفتاح مجاني: https://aistudio.google.com/app/apikey
 // ────────────────────────────────────────────────────────────────────────────
 async function callGemini(userMessage: string, conversationHistory: ConversationMessage[] = [], dbContext?: string): Promise<string | null> {
