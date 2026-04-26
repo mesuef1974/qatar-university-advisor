@@ -12,11 +12,6 @@
 
 An AI-powered advisor that helps Qatari students choose the right university and major through an interactive web interface and an integrated WhatsApp bot.
 
-<!-- Status badges (will be activated after CI publishes coverage report — شيك-ليست-14 / C3) -->
-<!-- ![Coverage](https://img.shields.io/badge/coverage-pending-lightgrey) -->
-<!-- ![Tests](https://img.shields.io/badge/tests-535%20passing-brightgreen) -->
-<!-- ![PDPPL](https://img.shields.io/badge/PDPPL-in%20progress-yellow) -->
-
 </div>
 
 ---
