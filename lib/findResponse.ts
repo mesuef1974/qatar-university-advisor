@@ -19,6 +19,8 @@ import { getFromKnowledgeBase, saveToKnowledgeCache, semanticSearch } from './kn
 import { fetchDbContext } from './db-context';
 import { tryDbListResponse } from './db-list-handler';
 import { tryDbProgramsResponse } from './db-programs-handler';
+import { tryDbScholarshipsResponse } from './db-scholarships-handler';
+import { tryDbCareersResponse } from './db-careers-handler';
 import { STAGES, getNextStage, getStagePrompt, generateFinalReport, isConversationComplete } from './conversation-state.js';
 import {
   buildUserProfile,
@@ -676,6 +678,38 @@ async function processMessage(
       const response: ResponseWithSuggestions = {
         text: dbPrograms.text,
         suggestions: dbPrograms.suggestions.slice(0, 3),
+        source: 'db',
+      };
+      if (supabaseUser) saveMessage(supabaseUser.id, 'assistant', response.text).catch(() => {});
+      return response;
+    }
+  } catch {
+    // Fail-safe: continue to static path
+  }
+
+  // 3.9. DB Scholarships Handler (DEC-AI-001 Phase 3 Expansion) — DB-first for "scholarships / sponsorship" queries
+  try {
+    const dbScholarships = await tryDbScholarshipsResponse(userText);
+    if (dbScholarships) {
+      const response: ResponseWithSuggestions = {
+        text: dbScholarships.text,
+        suggestions: dbScholarships.suggestions.slice(0, 3),
+        source: 'db',
+      };
+      if (supabaseUser) saveMessage(supabaseUser.id, 'assistant', response.text).catch(() => {});
+      return response;
+    }
+  } catch {
+    // Fail-safe: continue to static path
+  }
+
+  // 3.10. DB Careers Handler (DEC-AI-001 Phase 3 Expansion) — DB-first for "salaries / careers / job market" queries
+  try {
+    const dbCareers = await tryDbCareersResponse(userText);
+    if (dbCareers) {
+      const response: ResponseWithSuggestions = {
+        text: dbCareers.text,
+        suggestions: dbCareers.suggestions.slice(0, 3),
         source: 'db',
       };
       if (supabaseUser) saveMessage(supabaseUser.id, 'assistant', response.text).catch(() => {});

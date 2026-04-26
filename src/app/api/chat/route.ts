@@ -13,6 +13,8 @@ import { parseQuery, searchUniversities, formatSmartResponse } from "@lib/smart-
 import { isRateLimited } from "@lib/rate-limiter-upstash";
 import { tryDbListResponse } from "@lib/db-list-handler";
 import { tryDbProgramsResponse } from "@lib/db-programs-handler";
+import { tryDbScholarshipsResponse } from "@lib/db-scholarships-handler";
+import { tryDbCareersResponse } from "@lib/db-careers-handler";
 import universitiesData from "../../../../data/universities.json";
 
 export async function POST(request: NextRequest) {
@@ -100,6 +102,44 @@ export async function POST(request: NextRequest) {
     } catch (dbErr: unknown) {
       const dbMsg = dbErr instanceof Error ? dbErr.message : "Unknown";
       logger.warn(`[chat-api] DB programs handler exception: ${dbMsg}`);
+    }
+
+    // ── DB-First Scholarships Handler (DEC-AI-001 Phase 3 Expansion) ──
+    // قراءة من Supabase مباشرة لأسئلة "المنح / الابتعاث / الرعاة"
+    try {
+      const dbScholarships = await tryDbScholarshipsResponse(sanitized);
+      if (dbScholarships) {
+        logger.info(`[chat-api] DB scholarships hit — count: ${dbScholarships.count}`);
+        return NextResponse.json({
+          answer: dbScholarships.text,
+          suggestions: dbScholarships.suggestions,
+          source: "db",
+          count: dbScholarships.count,
+        });
+      }
+    } catch (dbErr: unknown) {
+      const dbMsg = dbErr instanceof Error ? dbErr.message : "Unknown";
+      logger.warn(`[chat-api] DB scholarships handler exception: ${dbMsg}`);
+    }
+
+    // ──────────────────────────────────────────────────────────────
+    // ── DB-First Careers Handler (DEC-AI-001 Phase 3 Expansion) ──
+    // قراءة من Supabase مباشرة لأسئلة "الرواتب / الوظائف / المسارات المهنية"
+    // ──────────────────────────────────────────────────────────────
+    try {
+      const dbCareers = await tryDbCareersResponse(sanitized);
+      if (dbCareers) {
+        logger.info(`[chat-api] DB careers hit — count: ${dbCareers.count}`);
+        return NextResponse.json({
+          answer: dbCareers.text,
+          suggestions: dbCareers.suggestions,
+          source: "db",
+          count: dbCareers.count,
+        });
+      }
+    } catch (dbErr: unknown) {
+      const dbMsg = dbErr instanceof Error ? dbErr.message : "Unknown";
+      logger.warn(`[chat-api] DB careers handler exception: ${dbMsg}`);
     }
 
     // ── Smart Search: محاولة الرد من البيانات المحلية أولاً ──
