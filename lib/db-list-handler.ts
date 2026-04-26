@@ -47,10 +47,16 @@ const MILITARY_TRIGGERS = [
 function normalize(s: string): string {
   return s
     .toLowerCase()
-    .replace(/[ً-ٰٟ]/g, '')
-    .replace(/[أإآا]/g, 'ا')
-    .replace(/[ةه]/g, 'ه')
-    .replace(/[يى]/g, 'ي');
+    // Arabic diacritics (tashkeel + dagger alif)
+    .replace(/[\u064B-\u065F\u0670]/g, '')
+    // Alif variants -> bare alif
+    .replace(/[\u0623\u0625\u0622\u0627]/g, '\u0627')
+    // taa marbouta -> haa
+    .replace(/[\u0629\u0647]/g, '\u0647')
+    // yaa variants
+    .replace(/[\u064A\u0649]/g, '\u064A')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function matches(text: string, triggers: string[]): boolean {
