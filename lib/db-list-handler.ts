@@ -7,7 +7,7 @@
  * إذا فشل أو لم يطابق → يعود null والمستدعي يعود للـ static/AI.
  */
 
-import { supabase } from './supabase';
+import { getSupabaseServerClient } from './supabase';
 
 export interface DbListResponse {
   text: string;
@@ -97,19 +97,42 @@ function formatGroup(rows: UniRow[]): string[] {
 // Main entry point
 // ──────────────────────────────────────────────────────
 export async function tryDbListResponse(userText: string): Promise<DbListResponse | null> {
-  if (!supabase) return null;
+  // Match-first: avoid creating client unless needed
+  const isMilitary = matches(userText, MILITARY_TRIGGERS);
+  const isList = matches(userText, LIST_TRIGGERS);
+  if (!isMilitary && !isList) {
+    console.info('[db-list-handler] no trigger matched for input');
+    return null;
+  }
+
+  // Create client lazily via the explicit factory (works at runtime in any route).
+  let client;
+  try {
+    client = getSupabaseServerClient();
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error('[db-list-handler] getSupabaseServerClient failed:', msg);
+    return null;
+  }
 
   // ── 1. Military colleges only ────────────────────────
-  if (matches(userText, MILITARY_TRIGGERS)) {
+  if (isMilitary) {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from('universities')
         .select('slug, name_ar, short_name, type, location, is_active, closing_note')
         .eq('type', 'military')
         .eq('is_active', true)
         .order('name_ar');
 
-      if (error || !data || data.length === 0) return null;
+      if (error) {
+        console.error('[db-list-handler] military query error:', error.message);
+        return null;
+      }
+      if (!data || data.length === 0) {
+        console.info('[db-list-handler] military query returned 0 rows');
+        return null;
+      }
 
       const lines = formatGroup(data as UniRow[]);
       const text = `⚔️ **الكليات العسكرية في قطر** (${data.length})\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n${lines.join('\n')}\n\n💡 **اكتب اسم الكلية للتفاصيل** (مثل: "الكلية الجوية" أو "البحرية")\n\n📊 **المصدر:** قاعدة بيانات أذكياء — محدَّثة 2026-04-26`;
@@ -120,22 +143,31 @@ export async function tryDbListResponse(userText: string): Promise<DbListRespons
         source: 'db',
         count: data.length,
       };
-    } catch {
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error('[db-list-handler] military query exception:', msg);
       return null;
     }
   }
 
   // ── 2. All universities list ─────────────────────────
-  if (matches(userText, LIST_TRIGGERS)) {
+  if (isList) {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from('universities')
         .select('slug, name_ar, short_name, type, location, is_active, closing_note')
         .eq('is_active', true)
         .order('type')
         .order('name_ar');
 
-      if (error || !data || data.length === 0) return null;
+      if (error) {
+        console.error('[db-list-handler] list query error:', error.message);
+        return null;
+      }
+      if (!data || data.length === 0) {
+        console.info('[db-list-handler] list query returned 0 rows');
+        return null;
+      }
 
       const rows = data as UniRow[];
       const grouped: Record<string, UniRow[]> = {};
@@ -161,7 +193,9 @@ export async function tryDbListResponse(userText: string): Promise<DbListRespons
         source: 'db',
         count: rows.length,
       };
-    } catch {
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error('[db-list-handler] list query exception:', msg);
       return null;
     }
   }
