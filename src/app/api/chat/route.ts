@@ -21,6 +21,7 @@ import { tryDbProgramsResponse } from "@lib/db-programs-handler";
 import { tryDbScholarshipsResponse } from "@lib/db-scholarships-handler";
 import { tryDbCareersResponse } from "@lib/db-careers-handler";
 import { getUserProfileData, getConversationHistory, getOrCreateUser } from "@lib/supabase";
+import { semanticSearch } from "@lib/semantic-search";
 import universitiesData from "../../../../data/universities.json";
 
 // Web sessions are mapped to a synthetic phone "web:<sessionId>" so the
@@ -213,6 +214,27 @@ export async function POST(request: NextRequest) {
       logger.warn(`[chat-api] Smart search failed, falling back to AI: ${searchMsg}`);
     }
 
+    // ── RAG: Semantic Search context injection (best-effort) ──
+    // Pulls top-k semantically similar chunks from knowledge_embeddings and
+    // packs them into userProfile.ragContext so the AI prompt builder can
+    // surface them as authoritative context. Fail-soft: zero rows = no change.
+    try {
+      const ragHits = await semanticSearch(sanitized, { maxResults: 4, threshold: 0.65 });
+      if (Array.isArray(ragHits) && ragHits.length > 0) {
+        const ragContext = ragHits
+          .map((h: { content?: string }, i: number) => `[${i + 1}] ${h.content || ""}`)
+          .filter((s) => s.length > 5)
+          .join("\n");
+        if (ragContext) {
+          userProfile.ragContext = ragContext;
+          logger.info(`[chat-api] RAG hits: ${ragHits.length}`);
+        }
+      }
+    } catch (ragErr: unknown) {
+      const ragMsg = ragErr instanceof Error ? ragErr.message : "Unknown";
+      logger.warn(`[chat-api] RAG lookup failed (continuing without): ${ragMsg}`);
+    }
+
     // ── AI Fallback: Gemini أو الردود الثابتة ──
     const result = await getAIResponseWithFallback(
       sanitized,
@@ -220,7 +242,7 @@ export async function POST(request: NextRequest) {
       conversationHistory
     );
 
-    logger.info(`[chat-api] Response source: ${result.fallbackLevel} (history=${conversationHistory.length})`);
+    logger.info(`[chat-api] Response source: ${result.fallbackLevel} (history=${conversationHistory.length}, rag=${userProfile.ragContext ? "yes" : "no"})`);
 
     // Persist this turn for future context (fire-and-forget — never block user)
     if (webPhone) {
