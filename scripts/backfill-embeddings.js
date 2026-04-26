@@ -25,7 +25,7 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
   process.exit(1);
 }
 if (!GOOGLE_API_KEY) {
-  console.error('❌ Missing GOOGLE_API_KEY (needed for Gemini embedding-001)');
+  console.error('❌ Missing GOOGLE_API_KEY (needed for Gemini text-embedding-004)');
   process.exit(1);
 }
 
@@ -39,13 +39,14 @@ function sleep(ms) {
 
 async function embed(text) {
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/embedding-001:embedContent?key=${GOOGLE_API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${GOOGLE_API_KEY}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'models/embedding-001',
+        model: 'models/gemini-embedding-001',
         content: { parts: [{ text }] },
+        outputDimensionality: 768,
       }),
     },
   );
