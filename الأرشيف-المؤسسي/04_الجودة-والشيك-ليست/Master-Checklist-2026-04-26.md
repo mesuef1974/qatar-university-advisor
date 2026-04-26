@@ -86,8 +86,21 @@ Per agent batch:
 | Query | Source | Count | Verdict |
 |---|---|---|---|
 | "جميع الجامعات في قطر" | db | 30 | ✅ |
-| "جميع التخصصات في قطر" | db | 74 | ✅ NEW! |
+| "جميع التخصصات في قطر" | db | 74 | ✅ |
+| "المنح والابتعاث" | db | 10 | ✅ NEW! |
+| "الرواتب في قطر" | db | 22 | ✅ NEW! |
+| Consent gate (WhatsApp first message) | code-ready | — | ✅ NEW! |
 | `/api/health` | healthy | — | ✅ |
+
+## 🎯 BATCH 4 — Just Completed (3 more agents in parallel)
+
+| # | Task | Status |
+|---|---|---|
+| C6 | `lib/db-scholarships-handler.ts` (~196 lines) | ✅ done |
+| C7 | `lib/db-careers-handler.ts` (~165 lines) | ✅ done |
+| C8 | Consent gate in `lib/findResponse.ts` (+24 lines, PDPPL Article 7 enforcement) | ✅ done |
+
+**Production verified:** 4 DB-first paths + consent gate live at commit `efde03f`.
 
 ## 📦 Commits This Batch
 
