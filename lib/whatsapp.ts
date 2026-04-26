@@ -81,15 +81,54 @@ function getCredentials(): { phoneId: string; token: string } {
   return { phoneId, token };
 }
 
+// Retry policy for transient failures from Meta Cloud API.
+// Don't retry 4xx (token expired, malformed payload, etc.) — only transient.
+const MAX_ATTEMPTS = 3;
+const BASE_DELAY_MS = 1000;
+
+function isRetryable(status: number): boolean {
+  return status >= 500 || status === 408 || status === 429;
+}
+
+function backoffDelay(attempt: number): number {
+  const exp = BASE_DELAY_MS * Math.pow(2, attempt - 1);
+  const jitter = Math.random() * 250;
+  return exp + jitter;
+}
+
+async function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function sendPayload(phoneId: string, token: string, payload: WhatsAppPayload): Promise<Response> {
-  return fetch(`${WHATSAPP_API}/${phoneId}/messages`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
+  let lastError: unknown = null;
+
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    try {
+      const res = await fetch(`${WHATSAPP_API}/${phoneId}/messages`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok || !isRetryable(res.status) || attempt === MAX_ATTEMPTS) {
+        return res;
+      }
+
+      console.warn(`[whatsapp] attempt ${attempt}/${MAX_ATTEMPTS} got ${res.status} — retrying`);
+      await sleep(backoffDelay(attempt));
+    } catch (err) {
+      lastError = err;
+      if (attempt === MAX_ATTEMPTS) throw err;
+      console.warn(`[whatsapp] attempt ${attempt}/${MAX_ATTEMPTS} threw — retrying`);
+      await sleep(backoffDelay(attempt));
+    }
+  }
+
+  throw lastError ?? new Error('whatsapp: exhausted retries');
 }
 
 // ──────────────────────────────────────────────────────────
