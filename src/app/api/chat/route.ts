@@ -67,10 +67,11 @@ export async function POST(request: NextRequest) {
 
     // ── DB-First List Handler (DEC-AI-001 Phase 3) ──
     // قراءة من Supabase مباشرة لأسئلة "قائمة الجامعات / الكليات العسكرية"
+    logger.info(`[chat-api] DB-handler: invoking with q=${JSON.stringify(sanitized).slice(0, 120)}`);
     try {
       const dbList = await tryDbListResponse(sanitized);
+      logger.info(`[chat-api] DB-handler: result=${dbList ? `MATCH count=${dbList.count}` : 'null (no match or error)'}`);
       if (dbList) {
-        logger.info(`[chat-api] DB list hit — count: ${dbList.count}`);
         return NextResponse.json({
           answer: dbList.text,
           suggestions: dbList.suggestions,
@@ -80,7 +81,7 @@ export async function POST(request: NextRequest) {
       }
     } catch (dbErr: unknown) {
       const dbMsg = dbErr instanceof Error ? dbErr.message : "Unknown";
-      logger.warn(`[chat-api] DB list handler failed, falling back: ${dbMsg}`);
+      logger.warn(`[chat-api] DB list handler EXCEPTION: ${dbMsg}`);
     }
 
     // ── Smart Search: محاولة الرد من البيانات المحلية أولاً ──
