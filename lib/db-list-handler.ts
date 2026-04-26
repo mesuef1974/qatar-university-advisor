@@ -65,6 +65,13 @@ function normalizeArabic(s: string): string {
 
 function matches(text: string, triggers: string[]): boolean {
   const n = normalizeArabic(text);
+  // Debug log of codepoints (drop after diagnosis)
+  if (triggers === LIST_TRIGGERS) {
+    const inCodes = Array.from(n.slice(0, 30)).map((c) => c.charCodeAt(0).toString(16)).join(',');
+    const t0 = normalizeArabic(triggers[0]);
+    const t0Codes = Array.from(t0.slice(0, 30)).map((c) => c.charCodeAt(0).toString(16)).join(',');
+    console.log('[db-handler-debug] in=' + inCodes + ' | t0=' + t0Codes + ' | t0len=' + triggers[0].length);
+  }
   return triggers.some((t) => n.includes(normalizeArabic(t)));
 }
 
