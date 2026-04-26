@@ -11,6 +11,7 @@ import { sanitizeInput, getInjectionResponse } from "@lib/sanitizer";
 import { logger } from "@lib/logger.js";
 import { parseQuery, searchUniversities, formatSmartResponse } from "@lib/smart-search";
 import { isRateLimited } from "@lib/rate-limiter-upstash";
+import { tryDbListResponse } from "@lib/db-list-handler";
 import universitiesData from "../../../../data/universities.json";
 
 export async function POST(request: NextRequest) {
@@ -62,6 +63,24 @@ export async function POST(request: NextRequest) {
     const userProfile: Record<string, string> = {};
     if (nationality === "qatari" || nationality === "non_qatari") {
       userProfile.nationality = nationality;
+    }
+
+    // ── DB-First List Handler (DEC-AI-001 Phase 3) ──
+    // قراءة من Supabase مباشرة لأسئلة "قائمة الجامعات / الكليات العسكرية"
+    try {
+      const dbList = await tryDbListResponse(sanitized);
+      if (dbList) {
+        logger.info(`[chat-api] DB list hit — count: ${dbList.count}`);
+        return NextResponse.json({
+          answer: dbList.text,
+          suggestions: dbList.suggestions,
+          source: "db",
+          count: dbList.count,
+        });
+      }
+    } catch (dbErr: unknown) {
+      const dbMsg = dbErr instanceof Error ? dbErr.message : "Unknown";
+      logger.warn(`[chat-api] DB list handler failed, falling back: ${dbMsg}`);
     }
 
     // ── Smart Search: محاولة الرد من البيانات المحلية أولاً ──
