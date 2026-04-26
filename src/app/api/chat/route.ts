@@ -1,8 +1,13 @@
 /**
  * AI Chat Endpoint — Qatar University Advisor
  * POST /api/chat
- * Body: { question: string, nationality?: string }
+ * Body: { question: string, nationality?: string, sessionId?: string }
  * Response: { answer: string, suggestions: string[], source: string }
+ *
+ * Conversation memory (opt-in via sessionId): when the client provides a
+ * stable sessionId, we look up the user's profile_data + last 10 messages
+ * and inject them into the AI context. Without sessionId, behavior is
+ * unchanged (stateless).
  */
 
 import { NextRequest, NextResponse } from "next/server";
@@ -15,7 +20,15 @@ import { tryDbListResponse } from "@lib/db-list-handler";
 import { tryDbProgramsResponse } from "@lib/db-programs-handler";
 import { tryDbScholarshipsResponse } from "@lib/db-scholarships-handler";
 import { tryDbCareersResponse } from "@lib/db-careers-handler";
+import { getUserProfileData, getConversationHistory, getOrCreateUser } from "@lib/supabase";
+import { semanticSearch } from "@lib/semantic-search";
 import universitiesData from "../../../../data/universities.json";
+
+// Web sessions are mapped to a synthetic phone "web:<sessionId>" so the
+// existing users.phone PK can store them without schema changes.
+function sessionIdToPhone(sessionId: string): string {
+  return `web:${sessionId.slice(0, 64)}`;
+}
 
 export async function POST(request: NextRequest) {
   // Rate limiting — distributed via Upstash Redis (falls back to open if unconfigured)
@@ -27,7 +40,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Parse body
-  let body: { question?: string; nationality?: string };
+  let body: { question?: string; nationality?: string; sessionId?: string };
   try {
     body = await request.json();
   } catch {
@@ -37,7 +50,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { question, nationality } = body;
+  const { question, nationality, sessionId } = body;
 
   if (!question || typeof question !== "string" || !question.trim()) {
     return NextResponse.json(
@@ -66,6 +79,33 @@ export async function POST(request: NextRequest) {
     const userProfile: Record<string, string> = {};
     if (nationality === "qatari" || nationality === "non_qatari") {
       userProfile.nationality = nationality;
+    }
+
+    // ── Conversation Memory (opt-in via sessionId) ──
+    // Loads stored profile_data + last 10 messages from Supabase. Fail-soft:
+    // if Supabase is down or sessionId is missing, we proceed stateless.
+    let conversationHistory: Array<{ role: string; message: string }> = [];
+    let webPhone: string | null = null;
+    if (sessionId && typeof sessionId === "string" && sessionId.length >= 8) {
+      try {
+        webPhone = sessionIdToPhone(sessionId);
+        const user = await getOrCreateUser(webPhone, nationality ?? null);
+        if (user) {
+          const stored = await getUserProfileData(webPhone);
+          // stored fields override only if userProfile didn't already have them
+          for (const [k, v] of Object.entries(stored)) {
+            if (v !== undefined && v !== null && userProfile[k] === undefined) {
+              userProfile[k] = String(v);
+            }
+          }
+          const history = await getConversationHistory(user.id);
+          conversationHistory = history.map((m: { role: string; message: string }) => ({ role: m.role, message: m.message }));
+          logger.info(`[chat-api] Memory loaded — profile keys=${Object.keys(stored).length}, history=${conversationHistory.length}`);
+        }
+      } catch (memErr: unknown) {
+        const memMsg = memErr instanceof Error ? memErr.message : "Unknown";
+        logger.warn(`[chat-api] Memory load failed (continuing stateless): ${memMsg}`);
+      }
     }
 
     // ── DB-First List Handler (DEC-AI-001 Phase 3) ──
@@ -174,14 +214,52 @@ export async function POST(request: NextRequest) {
       logger.warn(`[chat-api] Smart search failed, falling back to AI: ${searchMsg}`);
     }
 
+    // ── RAG: Semantic Search context injection (best-effort) ──
+    // Pulls top-k semantically similar chunks from knowledge_embeddings and
+    // packs them into userProfile.ragContext so the AI prompt builder can
+    // surface them as authoritative context. Fail-soft: zero rows = no change.
+    try {
+      const ragHits = await semanticSearch(sanitized, { maxResults: 4, threshold: 0.65 });
+      if (Array.isArray(ragHits) && ragHits.length > 0) {
+        const ragContext = ragHits
+          .map((h: { content?: string }, i: number) => `[${i + 1}] ${h.content || ""}`)
+          .filter((s) => s.length > 5)
+          .join("\n");
+        if (ragContext) {
+          userProfile.ragContext = ragContext;
+          logger.info(`[chat-api] RAG hits: ${ragHits.length}`);
+        }
+      }
+    } catch (ragErr: unknown) {
+      const ragMsg = ragErr instanceof Error ? ragErr.message : "Unknown";
+      logger.warn(`[chat-api] RAG lookup failed (continuing without): ${ragMsg}`);
+    }
+
     // ── AI Fallback: Gemini أو الردود الثابتة ──
     const result = await getAIResponseWithFallback(
       sanitized,
       userProfile,
-      []
+      conversationHistory
     );
 
-    logger.info(`[chat-api] Response source: ${result.fallbackLevel}`);
+    logger.info(`[chat-api] Response source: ${result.fallbackLevel} (history=${conversationHistory.length}, rag=${userProfile.ragContext ? "yes" : "no"})`);
+
+    // Persist this turn for future context (fire-and-forget — never block user)
+    if (webPhone) {
+      void (async () => {
+        try {
+          const { saveMessage } = await import("@lib/supabase");
+          const user = await getOrCreateUser(webPhone, nationality ?? null);
+          if (user) {
+            await saveMessage(user.id, "user", sanitized);
+            await saveMessage(user.id, "assistant", result.text);
+          }
+        } catch (persistErr: unknown) {
+          const persistMsg = persistErr instanceof Error ? persistErr.message : "Unknown";
+          logger.warn(`[chat-api] Failed to persist turn: ${persistMsg}`);
+        }
+      })();
+    }
 
     return NextResponse.json({
       answer: result.text,

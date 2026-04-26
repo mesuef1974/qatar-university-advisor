@@ -59,11 +59,37 @@ interface WhatsAppMarkReadPayload {
   message_id: string;
 }
 
+// Sender action API: "read + show typing indicator until next message".
+// https://developers.facebook.com/docs/whatsapp/cloud-api/typing-indicators
+interface WhatsAppTypingPayload {
+  messaging_product: 'whatsapp';
+  status: 'read';
+  message_id: string;
+  typing_indicator: { type: 'text' };
+}
+
+interface WhatsAppImagePayload {
+  messaging_product: 'whatsapp';
+  to: string;
+  type: 'image';
+  image: { link: string; caption?: string };
+}
+
+interface WhatsAppDocumentPayload {
+  messaging_product: 'whatsapp';
+  to: string;
+  type: 'document';
+  document: { link: string; filename: string; caption?: string };
+}
+
 type WhatsAppPayload =
   | WhatsAppTextPayload
   | WhatsAppButtonPayload
   | WhatsAppListPayload
-  | WhatsAppMarkReadPayload;
+  | WhatsAppMarkReadPayload
+  | WhatsAppTypingPayload
+  | WhatsAppImagePayload
+  | WhatsAppDocumentPayload;
 
 // ──────────────────────────────────────────────────────────
 // Constants
@@ -81,15 +107,54 @@ function getCredentials(): { phoneId: string; token: string } {
   return { phoneId, token };
 }
 
+// Retry policy for transient failures from Meta Cloud API.
+// Don't retry 4xx (token expired, malformed payload, etc.) — only transient.
+const MAX_ATTEMPTS = 3;
+const BASE_DELAY_MS = 1000;
+
+function isRetryable(status: number): boolean {
+  return status >= 500 || status === 408 || status === 429;
+}
+
+function backoffDelay(attempt: number): number {
+  const exp = BASE_DELAY_MS * Math.pow(2, attempt - 1);
+  const jitter = Math.random() * 250;
+  return exp + jitter;
+}
+
+async function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function sendPayload(phoneId: string, token: string, payload: WhatsAppPayload): Promise<Response> {
-  return fetch(`${WHATSAPP_API}/${phoneId}/messages`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
+  let lastError: unknown = null;
+
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    try {
+      const res = await fetch(`${WHATSAPP_API}/${phoneId}/messages`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok || !isRetryable(res.status) || attempt === MAX_ATTEMPTS) {
+        return res;
+      }
+
+      console.warn(`[whatsapp] attempt ${attempt}/${MAX_ATTEMPTS} got ${res.status} — retrying`);
+      await sleep(backoffDelay(attempt));
+    } catch (err) {
+      lastError = err;
+      if (attempt === MAX_ATTEMPTS) throw err;
+      console.warn(`[whatsapp] attempt ${attempt}/${MAX_ATTEMPTS} threw — retrying`);
+      await sleep(backoffDelay(attempt));
+    }
+  }
+
+  throw lastError ?? new Error('whatsapp: exhausted retries');
 }
 
 // ──────────────────────────────────────────────────────────
@@ -235,6 +300,72 @@ async function markAsRead(messageId: string): Promise<void> {
 }
 
 /**
+ * Show "typing..." indicator. Marks the user's message as read and tells
+ * WhatsApp to keep a typing dot visible to the user until the next outbound
+ * message arrives (auto-cleared by Meta after ~25s if nothing follows).
+ *
+ * Use this immediately after receiving a webhook event, before doing any
+ * AI/DB work, so the user gets instant feedback that the bot is working.
+ */
+async function sendTypingIndicator(messageId: string): Promise<void> {
+  const { phoneId, token } = getCredentials();
+
+  const res = await sendPayload(phoneId, token, {
+    messaging_product: 'whatsapp',
+    status: 'read',
+    message_id: messageId,
+    typing_indicator: { type: 'text' },
+  });
+  if (!res.ok) {
+    // Non-critical: typing dots are nice-to-have. Older API versions reject
+    // the typing_indicator field — silently degrade to plain markAsRead.
+    console.warn(`[whatsapp] sendTypingIndicator failed for ${messageId}: ${res.status}`);
+  }
+}
+
+/**
+ * Send an image by public URL (e.g. university logo from CDN).
+ * Note: Meta downloads the URL synchronously — the host must respond < 5s.
+ */
+async function sendImageMessage(to: string, link: string, caption?: string): Promise<void> {
+  const { phoneId, token } = getCredentials();
+
+  const res = await sendPayload(phoneId, token, {
+    messaging_product: 'whatsapp',
+    to,
+    type: 'image',
+    image: { link, ...(caption ? { caption } : {}) },
+  });
+  if (!res.ok) {
+    const errBody = await res.text().catch(() => 'unknown error');
+    throw new Error(`WhatsApp API sendImage error ${res.status}: ${errBody}`);
+  }
+}
+
+/**
+ * Send a PDF/document by public URL (e.g. university catalogue).
+ */
+async function sendDocumentMessage(
+  to: string,
+  link: string,
+  filename: string,
+  caption?: string,
+): Promise<void> {
+  const { phoneId, token } = getCredentials();
+
+  const res = await sendPayload(phoneId, token, {
+    messaging_product: 'whatsapp',
+    to,
+    type: 'document',
+    document: { link, filename, ...(caption ? { caption } : {}) },
+  });
+  if (!res.ok) {
+    const errBody = await res.text().catch(() => 'unknown error');
+    throw new Error(`WhatsApp API sendDocument error ${res.status}: ${errBody}`);
+  }
+}
+
+/**
  * Convert markdown formatting to WhatsApp formatting
  * **bold** -> *bold*
  * Remove markdown table pipes for cleaner display
@@ -277,6 +408,9 @@ export {
   sendButtonMessage,
   sendListMessage,
   sendResponseWithSuggestions,
+  sendImageMessage,
+  sendDocumentMessage,
+  sendTypingIndicator,
   markAsRead,
   formatForWhatsApp,
 };

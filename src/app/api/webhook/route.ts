@@ -7,7 +7,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { processMessage } from "@lib/findResponse";
-import { sendResponseWithSuggestions, markAsRead } from "@lib/whatsapp";
+import { sendResponseWithSuggestions, markAsRead, sendTypingIndicator } from "@lib/whatsapp";
 import { isRateLimited } from "@lib/rate-limiter-upstash";
 import { Redis } from "@upstash/redis";
 
@@ -180,8 +180,12 @@ export async function POST(request: NextRequest) {
       `Message from ${maskPhone(from)}: ${userText.slice(0, 100)}`
     );
 
+    // Show typing indicator immediately (replaces markAsRead — typing
+    // implicitly marks as read too) so the user sees instant feedback while
+    // we run AI/DB work. Falls back to markAsRead silently on older API
+    // versions that reject the typing_indicator field.
     const [, response] = await Promise.all([
-      markAsRead(message.id),
+      sendTypingIndicator(message.id),
       processMessage(userText, from),
     ]);
 

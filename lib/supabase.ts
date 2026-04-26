@@ -61,6 +61,44 @@ export interface FavoriteRow {
   added_at: string;
 }
 
+/** Migration 006 — extra fields on universities (all nullable until ETL fills them) */
+export interface UniversityEnrichmentRow {
+  application_deadline: string | null;
+  application_open_date: string | null;
+  apply_url: string | null;
+  logo_url: string | null;
+  qs_world_rank: number | null;
+  qs_arab_rank: number | null;
+  student_count: number | null;
+  language_requirements: Record<string, unknown> | null;
+  last_verified_at: string | null;
+  verified_by: string | null;
+}
+
+/** Migration 006 — program_career_paths join table */
+export interface ProgramCareerPathRow {
+  id: number;
+  program_id: number;
+  career_id: number;
+  fit_score: number;
+  rationale_ar: string | null;
+  curated_by: string | null;
+  curated_at: string;
+}
+
+/** Migration 006 — knowledge_versions audit log */
+export interface KnowledgeVersionRow {
+  id: number;
+  table_name: string;
+  row_pk: string;
+  snapshot: Record<string, unknown>;
+  change_type: 'insert' | 'update' | 'delete';
+  source: string | null;
+  changed_by: string | null;
+  changed_at: string;
+  notes: string | null;
+}
+
 /** Query count tuple */
 export interface QueryCount {
   key: string;

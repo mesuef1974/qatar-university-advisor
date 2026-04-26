@@ -11,6 +11,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:eval": "node tests/golden/run-eval.js",
     "ci": "npm run type-check && npm run lint && npm run test"
   },
   "dependencies": {
