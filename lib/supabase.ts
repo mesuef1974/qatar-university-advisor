@@ -384,15 +384,22 @@ async function getConversationHistory(
 // ──────────────────────────────────────────────────────────
 
 /**
- * Log a user query for analytics
+ * Log a user query for analytics.
+ *
+ * PII is scrubbed before persistence per PDPPL Articles 5 (data minimization)
+ * and 15 (security measures). Closes F-4 from PLATFORM_AUDIT_PoC_2026-04-26.
  */
 async function logQuery(query: string, matchedKey: string | null, source: string = 'whatsapp'): Promise<void> {
   if (!supabase) return;
 
+  // Lazy import to keep the module graph thin for non-Node consumers.
+  const { scrubPII } = await import('./sanitizer');
+  const safeQuery = scrubPII(query);
+
   try {
     await supabase
       .from('analytics')
-      .insert({ query, matched_key: matchedKey, source });
+      .insert({ query: safeQuery, matched_key: matchedKey, source });
   } catch {
     // Silent fail
   }

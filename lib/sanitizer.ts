@@ -127,3 +127,51 @@ export function getInjectionResponse(): InjectionResponse {
     suggestions: ['ما هي أفضل جامعة في قطر؟', 'ما هي شروط القبول؟', 'ما المنح المتاحة؟'],
   };
 }
+
+/**
+ * Scrub Personally Identifiable Information (PII) from a text string before
+ * persisting it to analytics or logs.
+ *
+ * Closes F-4 from PLATFORM_AUDIT_PoC_2026-04-26 (PDPPL Articles 5 + 15).
+ *
+ * Conservative pattern set tuned for the Qatar context:
+ *  - Qatar national ID (QID): 11 digits beginning with 2 or 3
+ *  - International phone: +974 followed by 8 digits (with optional separators)
+ *  - Local 8-digit phone (Qatar mobile/landline)
+ *  - Email addresses
+ *  - GPA-like decimals adjacent to "GPA" / "معدل"
+ *  - Standalone 9–15 digit runs (catches non-Qatar phones / passport numbers)
+ *
+ * Each match is replaced with a category token so analytics still gets the
+ * shape of the question without the identity.
+ */
+export function scrubPII(input: string): string {
+  if (!input || typeof input !== 'string') return '';
+  let out = input;
+
+  // Email
+  out = out.replace(
+    /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g,
+    '[EMAIL]'
+  );
+
+  // GPA / معدل decimals (e.g., "GPA 3.85" or "معدل 92.5")
+  out = out.replace(
+    /(?:GPA|gpa|معدل|المعدل)\s*[:=]?\s*\d{1,3}(?:[.,]\d+)?/g,
+    '[GPA]'
+  );
+
+  // Qatar national ID (QID) — 11 digits starting with 2 or 3
+  out = out.replace(/\b[23]\d{10}\b/g, '[QID]');
+
+  // International phone +974 followed by 8 digits, with optional separators
+  out = out.replace(/\+?974[\s-]?\d{4}[\s-]?\d{4}/g, '[PHONE]');
+
+  // Local 8-digit phone (Qatar mobile/landline)
+  out = out.replace(/\b\d{8}\b/g, '[PHONE]');
+
+  // Catch-all: 9–15 digit runs (passport, foreign phone, etc.)
+  out = out.replace(/\b\d{9,15}\b/g, '[NUM]');
+
+  return out;
+}
