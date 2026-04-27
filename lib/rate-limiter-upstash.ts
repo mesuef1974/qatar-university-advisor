@@ -53,9 +53,21 @@ function getWebhookLimiter(): Ratelimit | null {
 /**
  * Check whether `identifier` (typically an IP address) exceeds the rate limit.
  *
- * @param type       - 'chat' (30 req/min) or 'webhook' (60 req/min)
+ * @param type       - 'chat' (30 req/min, fail-open on Upstash error)
+ *                   - 'webhook' (60 req/min, fail-CLOSED on Upstash error)
  * @param identifier - unique key per caller, e.g., the client IP
  * @returns `true` if the caller is rate-limited and should receive a 429
+ *
+ * Closes F-2 from PLATFORM_AUDIT_PoC_2026-04-26 (hybrid behavior per security
+ * advisor recommendation in GATE2_ADVISORY).
+ *
+ * Hybrid rationale:
+ * - 'chat' (web UX-critical) → fail-open: Upstash outage should not visibly
+ *   break the user-facing chat. Cost amplification window is small because
+ *   Gemini calls themselves are cheap on the chat path.
+ * - 'webhook' (cost-critical, no human in front of UX) → fail-CLOSED: a
+ *   webhook flood during Upstash outage is exactly the abuse vector we want
+ *   to stop. WhatsApp will retry on 429 transparently.
  */
 export async function isRateLimited(
   type: LimiterType,
@@ -63,16 +75,31 @@ export async function isRateLimited(
 ): Promise<boolean> {
   const limiter = type === 'chat' ? getChatLimiter() : getWebhookLimiter();
 
-  // No Upstash configured → fall through (not limited)
+  // No Upstash configured → fall through (not limited).
+  // This is a deliberate dev-experience decision: local dev without Upstash
+  // is a documented baseline, not a hostile environment.
   if (!limiter) return false;
 
   try {
     const { success } = await limiter.limit(identifier);
     return !success;
-  } catch {
-    // If Upstash is temporarily unreachable, fail open to avoid blocking
-    // legitimate traffic. Log to aid debugging.
-    logger.warn('[rate-limiter] Upstash check failed — failing open', { type, identifier });
-    return false;
+  } catch (err) {
+    if (type === 'chat') {
+      // Chat path: fail-open. UX-critical for legitimate web users.
+      logger.warn('[rate-limiter] chat: Upstash failed — failing OPEN', {
+        type,
+        identifier,
+        error: err instanceof Error ? err.message : String(err),
+      });
+      return false;
+    }
+    // Webhook path: fail-CLOSED. WhatsApp retries 429 transparently;
+    // we'd rather drop traffic than amplify cost during an Upstash outage.
+    logger.error('[rate-limiter] webhook: Upstash failed — failing CLOSED (rate-limited)', {
+      type,
+      identifier,
+      error: err instanceof Error ? err.message : String(err),
+    });
+    return true;
   }
 }
