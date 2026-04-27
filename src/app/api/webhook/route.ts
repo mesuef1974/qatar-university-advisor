@@ -8,6 +8,11 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { processMessage } from "@lib/findResponse";
 import { sendResponseWithSuggestions, markAsRead, sendTypingIndicator } from "@lib/whatsapp";
+import {
+  hasUserConsented,
+  recordConsent,
+  getConsentBanner,
+} from "@lib/consent-handler";
 import { isRateLimited } from "@lib/rate-limiter-upstash";
 import { Redis } from "@upstash/redis";
 
@@ -179,6 +184,47 @@ export async function POST(request: NextRequest) {
     console.log(
       `Message from ${maskPhone(from)}: ${userText.slice(0, 100)}`
     );
+
+    // ── PDPPL Article 7 consent gate (closes F-3 from PLATFORM_AUDIT_PoC) ──
+    // No data processing for users who have not given explicit informed consent.
+    const consented = await hasUserConsented(from);
+    if (!consented) {
+      const normalized = userText.trim().toLowerCase();
+      const accept = ["أوافق", "اوافق", "موافق", "نعم", "yes", "agree", "i agree"];
+      const decline = ["لا أوافق", "لا اوافق", "ارفض", "أرفض", "no", "decline", "i decline"];
+
+      if (accept.some((a) => normalized === a.toLowerCase() || normalized.startsWith(a.toLowerCase()))) {
+        const result = await recordConsent(from);
+        if (result.success) {
+          await sendResponseWithSuggestions(
+            from,
+            "✅ شكراً، تم تسجيل موافقتك بنجاح وفق PDPPL.\n\nالآن يمكنك سؤالي عن الجامعات، التخصصات، أو شروط القبول.",
+            ["جميع الجامعات", "الرواتب والوظائف", "الكليات العسكرية"]
+          );
+        } else {
+          await sendResponseWithSuggestions(
+            from,
+            "تعذر تسجيل موافقتك حالياً. يرجى المحاولة لاحقاً أو التواصل على dpo@azkia.qa",
+            ["أوافق", "لا أوافق"]
+          );
+        }
+        return new NextResponse("OK", { status: 200 });
+      }
+
+      if (decline.some((d) => normalized === d.toLowerCase() || normalized.startsWith(d.toLowerCase()))) {
+        await sendResponseWithSuggestions(
+          from,
+          "تم تسجيل رفضك. لن تتم معالجة بياناتك.\nإذا غيّرت رأيك لاحقاً، أرسل 'أوافق'.",
+          []
+        );
+        return new NextResponse("OK", { status: 200 });
+      }
+
+      // First message (or unrecognized reply) → show consent banner.
+      const banner = getConsentBanner();
+      await sendResponseWithSuggestions(from, banner.text, banner.suggestions);
+      return new NextResponse("OK", { status: 200 });
+    }
 
     // Show typing indicator immediately (replaces markAsRead — typing
     // implicitly marks as read too) so the user sees instant feedback while

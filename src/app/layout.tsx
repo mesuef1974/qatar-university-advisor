@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Tajawal } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ConsentModal } from "@/components/ConsentModal";
 import "./globals.css";
 
 const tajawal = Tajawal({
@@ -63,6 +64,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <ConsentModal />
         </ThemeProvider>
       </body>
     </html>
