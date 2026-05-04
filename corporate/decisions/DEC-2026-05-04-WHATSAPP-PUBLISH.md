@@ -23,16 +23,61 @@ related_files:
 classification: confidential
 advisory_input:
   - advisor_id: advisor_pdppl_qatar
-    invoked_via: PENDING (CEO سيستشيره قبل توقيع DEC)
-    consulted_at: PENDING
+    invoked_via: azkia-pdppl-reviewer (read-only audit, opus)
+    consulted_at: 2026-05-04T00:00:00Z
+    reference: skills/pdppl-compliance/SKILL.md + references/pdppl-articles.md
+    applicable_law: Qatar PDPPL Law 13/2016
+    verdict: PENDING_CONDITIONS
+    overall_status: GAP (محتمل CRITICAL إن لم تُغلَق الشروط قبل 2026-05-18)
     feedback: |
-      PENDING — مطلوب verdict على:
-      1) كفاية DPO appointment letter draft.
-      2) محتوى NCSA notification + توقيت إرساله (متأخّر 3 أيام عن deadline 2026-05-01).
-      3) شكل DPA المطلوب من Meta (Standard Contractual Clauses أم نموذج خاص).
-      4) هل النشر قبل توقيع DPA يُعدّ مخالفة Article 17 PDPPL؟
-    recommendation: PENDING
-    conditions: []
+      Verdict: PENDING_CONDITIONS — 5 ملاحظات + 7 شروط:
+
+      تصحيح ترقيم المواد (مهم لكل مراسلة رسمية):
+      - Cross-border transfer = Article 19 (وليس 18)
+      - Breach notification 72h = Article 18 (وليس 19)
+      - Explicit consent = Article 4(1) (وليس 7 — Article 7 = sensitive data)
+      - DPO obligation = Article 16 (Article 23 = criminal sanctions)
+
+      1) Action Plan timing:
+         - DPO Day 0 ✅ + NCSA Day 1 ✅ (مع justification للتأخير 3 أيام)
+         - DPA Meta Day 6-10 ⚠ HIGH RISK: النشر قبل counter-signature يُعدّ
+           مخالفة Article 19. الموافقة الصريحة (Article 19 §3) interim
+           safeguard إذا لم يُكتمل DPA قبل D+12.
+
+      2) Kill Criteria reactive — يحتاج preventive bullet:
+         "إخفاق إكمال DPO/NCSA/DPA قبل 2026-05-16 = NoGo تلقائي."
+
+      3) Cross-border (Article 19): 5 معالجين خارج قطر بدون SCC موقَّعة
+         (Meta IE، Vercel/Google/Supabase/Upstash US). يجب توثيق R8 في
+         § Risks.
+
+      4) Consent flow (Article 4(1)): البنية موجودة (consent-handler.ts،
+         migration 002، PrivacyConsent). يحتاج Engineering test report
+         يُثبت: timing + withdrawal + per-purpose granularity.
+
+      5) Children (Article 8): minors (< 18) معالجة محتملة في موسم القبول.
+         قرار صريح مطلوب: age-gate أو Terms ≥ 18.
+
+      حقوق صاحب البيانات:
+         - Erasure (Article 13): "إلغاء" ✅
+         - Access (Article 11): GAP — لا endpoint
+         - Correction (Article 12): GAP
+
+      DPIA (Article 16): إلزامي قبل Live (AI profiling + cross-border
+         + minors = high-risk).
+    recommendation: PENDING_CONDITIONS
+    conditions:
+      - C1 (HIGH): NCSA notification يذكر justification للتأخير 3 أيام + DPA Meta ETA.
+      - C2 (HIGH): إضافة Article 19 row في § Risks (R8) + interim consent plan.
+      - C3 (HIGH): Kill Criteria proactive (إخفاق الإنجاز = NoGo بلا انتظار إنذار).
+      - C4 (HIGH): test report من Engineering يُثبت consent timing + withdrawal + per-purpose.
+      - C5 (HIGH): قرار صريح حول minors (age-gate أو ≥18).
+      - C6 (HIGH): DSR endpoints (Access Article 11 + Correction Article 12) قبل Live.
+      - C7 (CRITICAL): DPIA draft قبل CEO sign-off — AI profiling + cross-border + minors = high-risk.
+    next_review: عند استيفاء C1-C7 → re-review قبل CEO sign-off.
+    related_documents:
+      - corporate/legal/DPO-APPOINTMENT-LETTER-2026-05-04.md
+      - corporate/legal/NCSA-NOTIFICATION-2026-05-04.md
   - advisor_id: advisor_qatar_corporate_law
     invoked_via: PENDING
     consulted_at: PENDING
