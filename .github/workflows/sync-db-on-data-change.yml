@@ -33,7 +33,7 @@ jobs:
           wc -l supabase/migrations/*etl_auto_sync.sql
 
       - name: Commit migration if changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: 'chore(etl): auto-sync DB migration from data/ change'
           file_pattern: 'supabase/migrations/*_etl_auto_sync.sql'
